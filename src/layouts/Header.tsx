@@ -7,7 +7,7 @@ const Header = (): JSX.Element => {
 
 const StHeader = styled.div`
   width: 100%;
-  height: 147px;
+  height: 123px;
   border: 1px solid;
   position: sticky;
   z-index: 10;
