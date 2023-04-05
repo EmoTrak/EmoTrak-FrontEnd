@@ -5,3 +5,8 @@ export type date = {
   day?: number;
   week?: number;
 };
+
+export type sidebarProps = {
+  side: boolean;
+  img: string;
+};

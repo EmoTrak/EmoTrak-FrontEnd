@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { date } from '../../../data/type/d1';
 import styled from 'styled-components';
-import Flex from '../../../components/Flex';
 import Sidebar from './Sidebar';
+import Flex from '../../../components/Flex';
 
 const Calendar = (): JSX.Element => {
   const date = new Date();
@@ -104,7 +104,7 @@ const Calendar = (): JSX.Element => {
   };
 
   return (
-    <Container>
+    <Flex row>
       <CalendarBox>
         <button onClick={prevMonth}>이전달</button>
         <h1>
@@ -119,18 +119,13 @@ const Calendar = (): JSX.Element => {
         </DiaryDay>
       </CalendarBox>
       {side && <Sidebar side={side} />}
-    </Container>
+    </Flex>
   );
 };
-
-const Container = styled.div`
-  display: flex;
-`;
 
 const CalendarBox = styled.div`
   width: 60vw;
   border: 1px solid;
-  /* height: 70vw; */
   margin-left: auto;
   margin-right: auto;
 `;

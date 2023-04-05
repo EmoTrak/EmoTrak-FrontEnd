@@ -1,25 +1,16 @@
 import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
+import testImg from '../../../assets/emoticon/테스트용.png';
+import { sidebarProps } from '../../../data/type/d1';
 
-type Props = {
-  side: boolean;
-};
-const Sidebar = ({ side }: Props): JSX.Element => {
+const Sidebar = ({ side }: Partial<sidebarProps>): JSX.Element => {
   return (
-    <>
-      <Container side={side}>
-        <ContentBox>
-          <Emoticon>😤</Emoticon>
-          <Content>
-            skldfjsldkfjasdfjshdflkskldfjsldkfjasdfjshdflksajhfdlskjhfsldkjhsalskdjhlskldfjsldkfjasdfjshdflksajhfdlskjhfsldkjhsalskdjhlskldfjsldkfjasdfjshdflksajhfdlskjhfsldkjhsalskdjhlskldfjsldkfjasdfjshdflksajhfdlskjhfsldkjhsalskdjhlsajhfdlskjhfsldkjhsalskdjhl
-          </Content>
-        </ContentBox>
-        <ContentBox>
-          <Emoticon>😀</Emoticon>
-          <Content>z</Content>
-        </ContentBox>
-      </Container>
-    </>
+    <Container side={side}>
+      <ContentBox>
+        <Emoticon img={testImg} />
+        <Content>여기에 내용이 들어갑니다</Content>
+      </ContentBox>
+    </Container>
   );
 };
 const BoxFade = keyframes`
@@ -40,18 +31,16 @@ const Container = styled.div`
   flex-direction: column;
   gap: 6vw;
   position: relative;
-  /* transition: all 1s ease-out; */
-  ${({ side }: Props) =>
+  ${({ side }: Partial<sidebarProps>) =>
     side &&
     css`
       animation: ${BoxFade} 0.5s ease;
-    `}/* right: 0%; */
+    `}
 `;
 
 const ContentBox = styled.div`
   height: 22vw;
   box-sizing: border-box;
-  border: 1px solid;
   display: flex;
   justify-content: space-between;
 `;
@@ -59,7 +48,8 @@ const ContentBox = styled.div`
 const Emoticon = styled.div`
   width: 3vw;
   height: 3vw;
-  font-size: 3vw;
+  background: ${({ img }: Partial<sidebarProps>) => `url(${img})`};
+  background-size: contain;
 `;
 
 const Content = styled.div`
@@ -70,11 +60,6 @@ const Content = styled.div`
   width: 80%;
   height: 90%;
   overflow: hidden;
-  /* white-space: nowrap; */
-  /* text-overflow: ellipsis; */
   word-break: break-all;
-  /* display: -webkit-box; */
-  /* -webkit-box-orient: vertical; */
-  /* -webkit-line-clamp: 8; */
 `;
 export default Sidebar;
