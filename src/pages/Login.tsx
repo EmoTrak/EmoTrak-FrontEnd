@@ -1,25 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import LoginForm from "../features/login/components/LoginForm";
 import Tutorial from "../features/login/components/Tutorial";
 import styled from "styled-components";
+import { getCookie } from "../utils/cookies";
+import { useNavigate } from "react-router-dom";
+import Flex from "../components/Flex";
 
 const Login = (): JSX.Element => {
+  const navigate = useNavigate();
+  const token = getCookie("token");
+  useEffect(() => {
+    if (token) {
+      navigate("/");
+    }
+  }, []);
+
   return (
     <StLoginPageWrapper>
-      <Row>
+      <Flex row>
         <Tutorial />
         <LoginForm />
-      </Row>
+      </Flex>
     </StLoginPageWrapper>
   );
 };
 
 export default Login;
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
 
 const StLoginPageWrapper = styled.div`
   width: 100%;
