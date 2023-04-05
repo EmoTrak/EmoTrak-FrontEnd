@@ -5,6 +5,14 @@ export type LoginInfo = {
   password: string;
 };
 
+export type SignInfo = LoginInfo & { nickname: string };
+
+export type Validation = {
+  email: boolean;
+  nickname: boolean;
+  password: boolean;
+};
+
 export type CookieOption = {
   path: string;
   maxAge?: number;
