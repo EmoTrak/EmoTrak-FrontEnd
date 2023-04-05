@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 type Props = {
   children?: React.ReactNode[];
@@ -15,7 +15,7 @@ const Flex = ({ children, ...restProps }: Props) => {
 
 const StyledStack = styled.div<Props>`
   display: flex;
-  flex-direction: ${({ row }) => (row ? "row" : "column")};
+  flex-direction: ${({ row }) => (row ? 'row' : 'column')};
   gap: ${({ gap }) => `${gap}px`};
   justify-content: ${({ jc }) => `${jc}`};
   align-items: ${({ ai }) => `${ai}`};
