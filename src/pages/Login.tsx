@@ -27,7 +27,7 @@ const Login = (): JSX.Element => {
 
 export default Login;
 
-const StLoginPageWrapper = styled.div`
+export const StLoginPageWrapper = styled.div`
   width: 100%;
   height: 78vh;
   margin: 0 auto;

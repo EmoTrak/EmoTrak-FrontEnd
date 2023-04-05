@@ -1,59 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { LoginInfo } from "../../../data/type/d3";
 import { useNavigate } from "react-router-dom";
 import { SIGN_UP_PAGE } from "../../../data/routes/urls";
 import styled from "styled-components";
 import Flex from "../../../components/Flex";
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-import { setCookie } from "../../../utils/cookies";
+import { useLogin } from "../hooks/useLogin";
 
 const LoginForm = () => {
   const navigate = useNavigate();
 
-  const [loginInfo, setLoginInfo] = useState<LoginInfo>({
-    email: "",
-    password: "",
-  });
-
-  const changeInputHandler = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    const { name, value } = event.target;
-    setLoginInfo({ ...loginInfo, [name]: value });
-  };
-  const mutation = useMutation(
-    async (item: LoginInfo) => {
-      const data = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/users/login`,
-        item
-      );
-      return data;
-    },
-    {
-      onSuccess(data) {
-        const info = data.headers.authorization;
-        const token = info.split(" ")[1];
-        setCookie("token", token, { path: "/", maxAge: 3540 });
-        navigate("/");
-      },
-      onError(err) {
-        alert("아이디와 비밀번호를 확인해주세요 !");
-        setLoginInfo({ email: "", password: "" });
-      },
-    }
-  );
-
-  const submitFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    mutation.mutate(loginInfo);
-  };
+  const { loginInfo, submitFormHandler, changeInputHandler } = useLogin();
 
   return (
     <StFormWrapper>
-      <form action="" onSubmit={submitFormHandler}>
+      <form onSubmit={submitFormHandler}>
         <Flex gap={10}>
-          <label htmlFor="">
+          <label>
             id
             <input
               type="text"
@@ -62,7 +22,7 @@ const LoginForm = () => {
               onChange={changeInputHandler}
             />
           </label>
-          <label htmlFor="">
+          <label>
             password
             <input
               type="password"
@@ -84,7 +44,7 @@ const LoginForm = () => {
 
 export default LoginForm;
 
-const StFormWrapper = styled.div`
+export const StFormWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 50%;
