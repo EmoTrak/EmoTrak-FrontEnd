@@ -2,14 +2,8 @@ import ApexCharts from "react-apexcharts";
 import React from "react";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
-import { keys } from "../../../data/queryKeys/keys";
-import instance from "../../../lib/api";
 
 function PieChart() {
-  const { data } = useQuery([keys.GET_CHART], async () => {
-    const { data } = await instance.get("/graph");
-    return data;
-  });
 
   return (
     <Wrapper>
