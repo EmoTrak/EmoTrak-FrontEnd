@@ -28,13 +28,13 @@ const LoginForm = () => {
         `${process.env.REACT_APP_SERVER_URL}/users/login`,
         item
       );
-      const info = data.headers.authorization;
-      const token = info.split(" ")[1];
-      setCookie("token", token, { path: "/", maxAge: 3540 });
       return data;
     },
     {
       onSuccess(data) {
+        const info = data.headers.authorization;
+        const token = info.split(" ")[1];
+        setCookie("token", token, { path: "/", maxAge: 3540 });
         navigate("/");
       },
       onError(err) {
