@@ -17,3 +17,8 @@ export type CookieOption = {
   path: string;
   maxAge?: number;
 };
+
+export type Coordinate = {
+  x: number;
+  y: number;
+};
