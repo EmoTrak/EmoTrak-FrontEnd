@@ -20,8 +20,8 @@ export const getEmotionIcon = (emotion: EmotionTypes): string | undefined => {
     ["EMOTION_2", `${Emotion_2}`],
     ["EMOTION_3", `${Emotion_3}`],
     ["EMOTION_4", `${Emotion_4}`],
-    ["EMOTION_3", `${Emotion_5}`],
-    ["EMOTION_4", `${Emotion_6}`],
+    ["EMOTION_5", `${Emotion_5}`],
+    ["EMOTION_6", `${Emotion_6}`],
   ]);
 
   return emotionIcons.get(emotion);
