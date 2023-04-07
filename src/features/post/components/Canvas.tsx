@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Flex from "../../../components/Flex";
 import styled from "styled-components";
-import Eyedropper from "./Eyedropper";
 import Palette from "./Palette";
+import { usePen } from "../hooks/usePen";
+import { useEraser } from "../hooks/useEraser";
 
 type CanvasProps = {
   width: number;
@@ -16,13 +17,6 @@ type Coordinate = {
 
 const Canvas = ({ width, height }: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  //   const contextRef = useRef(null);
-
-  // 상태 관리
-  const [mousePosition, setMousePosition] =
-    useState<Coordinate | undefined>(undefined);
-  const [isPainting, setIsPainting] = useState<boolean>(false);
-  const [isErasing, setIsErasing] = useState<boolean>(false);
 
   // 그림판 모드, 색깔 상태 관리
   const [mode, setMode] = useState<string>("pen");
@@ -42,64 +36,17 @@ const Canvas = ({ width, height }: CanvasProps) => {
     };
   };
 
-  // canvas에 선긋는 함수
-  const drawLine = (
-    originalMousePosition: Coordinate,
-    newMousePosition: Coordinate,
-    color: string
-  ) => {
-    if (!canvasRef.current) {
-      return;
-    }
-    const canvas: HTMLCanvasElement = canvasRef.current;
-    const context = canvas.getContext("2d");
-
-    if (context) {
-      context.strokeStyle = `${color}`;
-      context.lineJoin = "round";
-      context.lineWidth = 5;
-
-      context.beginPath();
-      context.moveTo(originalMousePosition.x, originalMousePosition.y);
-      context.lineTo(newMousePosition.x, newMousePosition.y);
-      context.closePath();
-
-      context.stroke();
-    }
-  };
-
-  const startPaint = useCallback(
-    (event: React.MouseEvent<HTMLCanvasElement>) => {
-      const coordinates = getCoordinates(event);
-      if (coordinates) {
-        setIsPainting(true);
-        setIsErasing(false);
-        setMousePosition(coordinates);
-      }
-    },
-    []
+  const { startPaint, paint, exitPaint } = usePen(
+    canvasRef,
+    getCoordinates,
+    selectedColor
   );
 
-  const paint = useCallback(
-    (event: React.MouseEvent<HTMLCanvasElement>) => {
-      event.preventDefault(); // prevent drag
-      event.stopPropagation(); // prevent drag
-
-      if (isPainting) {
-        const newMousePosition = getCoordinates(event);
-        if (mousePosition && newMousePosition) {
-          drawLine(mousePosition, newMousePosition, selectedColor);
-          setMousePosition(newMousePosition);
-        }
-      }
-    },
-    [isPainting, mousePosition]
+  const { startErase, erase, exitErase } = useEraser(
+    canvasRef,
+    getCoordinates,
+    selectedColor
   );
-
-  const exitPaint = useCallback(() => {
-    setIsPainting(false);
-    setIsErasing(false);
-  }, []);
 
   // 캔버스 비우기
   const clearCanvas = () => {
@@ -124,63 +71,6 @@ const Canvas = ({ width, height }: CanvasProps) => {
     setSelectedColor(color);
     setMode("pen");
   };
-
-  // 지우개 함수
-  const eraseLine = (
-    originalMousePosition: Coordinate,
-    newMousePosition: Coordinate
-  ) => {
-    if (!canvasRef.current) {
-      return;
-    }
-    const canvas: HTMLCanvasElement = canvasRef.current;
-    const context = canvas.getContext("2d");
-
-    if (context) {
-      context.beginPath();
-      context.moveTo(originalMousePosition.x, originalMousePosition.y);
-      context.clearRect(
-        originalMousePosition.x - 15,
-        originalMousePosition.y - 15,
-        30,
-        30
-      );
-      context.closePath();
-    }
-  };
-
-  const startErase = useCallback(
-    (event: React.MouseEvent<HTMLCanvasElement>) => {
-      const coordinates = getCoordinates(event);
-      if (coordinates) {
-        setIsErasing(true);
-        setIsPainting(false);
-        setMousePosition(coordinates);
-      }
-    },
-    []
-  );
-
-  const erase = useCallback(
-    (event: React.MouseEvent<HTMLCanvasElement>) => {
-      event.preventDefault(); // prevent drag
-      event.stopPropagation(); // prevent drag
-
-      if (isErasing) {
-        const newMousePosition = getCoordinates(event);
-        if (mousePosition && newMousePosition) {
-          eraseLine(mousePosition, newMousePosition);
-          setMousePosition(newMousePosition);
-        }
-      }
-    },
-    [isErasing, mousePosition]
-  );
-
-  const exitErase = useCallback(() => {
-    setIsErasing(false);
-    setIsPainting(false);
-  }, []);
 
   const saveImageHandler = () => {
     const canvas = canvasRef.current;
@@ -236,49 +126,9 @@ const Canvas = ({ width, height }: CanvasProps) => {
     }
   };
 
-  // addEventListener를 사용한 마우스이벤트 처리
-  // useEffect(() => {
-  //   if (!canvasRef.current) {
-  //     return;
-  //   }
-  //   const canvas: HTMLCanvasElement = canvasRef.current;
-  //   if (mode === "pen") {
-  //     canvas.addEventListener("mousedown", startPaint);
-  //     canvas.addEventListener("mousemove", paint);
-  //     canvas.addEventListener("mouseup", exitPaint);
-  //     canvas.addEventListener("mouseleave", exitPaint);
-  //   }
-
-  //   if (mode === "eraser") {
-  //     canvas.addEventListener("mousedown", startErase);
-  //     canvas.addEventListener("mousemove", erase);
-  //     canvas.addEventListener("mouseup", exitErase);
-  //     canvas.addEventListener("mouseleave", exitErase);
-  //   }
-
-  //   return () => {
-  //     if (mode === "pen") {
-  //       canvas.removeEventListener("mousedown", startPaint);
-  //       canvas.removeEventListener("mousemove", paint);
-  //       canvas.removeEventListener("mouseup", exitPaint);
-  //       canvas.removeEventListener("mouseleave", exitPaint);
-  //     }
-  //     if (mode === "eraser") {
-  //       canvas.removeEventListener("mousedown", startErase);
-  //       canvas.removeEventListener("mousemove", erase);
-  //       canvas.removeEventListener("mouseup", exitErase);
-  //       canvas.removeEventListener("mouseleave", exitErase);
-  //     }
-  //   };
-  // }, [startPaint, paint, exitPaint, startErase, erase, exitErase]);
-
   return (
     <StCanvasWrapper>
       <Flex jc="center" ai="center">
-        {/* <Eyedropper
-          selectedColor={selectedColor}
-          onColorSelect={selectColorHandler}
-        /> */}
         <Flex row>
           <ul>도구 선택</ul>
           <li>
@@ -318,8 +168,6 @@ Canvas.defaultProps = {
 export default Canvas;
 
 export const StCanvasWrapper = styled.div`
-  /* display: flex;
-  flex-direction: column; */
   width: 50%;
   height: 100%;
   border: 1px solid;
