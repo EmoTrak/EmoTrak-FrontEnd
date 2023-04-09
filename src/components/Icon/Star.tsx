@@ -2,13 +2,13 @@ import React from "react";
 import { ReactComponent as StarIcon } from "../../assets/star.svg";
 import styled from "styled-components";
 
-interface Props {
+type Props = {
   size?: string;
   value?: number;
   fill?: string;
   stroke?: string;
   onClick(): void;
-}
+};
 
 const Star = ({ size, onClick, value, fill, stroke }: Props) => {
   return (
