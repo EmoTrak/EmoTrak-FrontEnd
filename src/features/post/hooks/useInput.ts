@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { InputValue } from "../../../pages/DrawingPost";
 
-type InputProps = {
-  initialValue: InputValue;
-  //   id?: number | null;
-};
+// type InputProps = {
+//   initialValue: InputValue;
+//   //   id?: number | null;
+// };
 
 export const useInput = (initialValue: InputValue) => {
   const [inputValue, setInputValue] = useState<InputValue>(initialValue);
@@ -41,6 +41,7 @@ export const useInput = (initialValue: InputValue) => {
     onCheckHandler,
     clickEmojiHandler,
     inputValue,
+    setInputValue,
     scoreStarHandler,
   };
 };
