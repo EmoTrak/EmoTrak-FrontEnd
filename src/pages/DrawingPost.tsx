@@ -62,8 +62,6 @@ const DrawingPost = (): JSX.Element => {
     scoreStarHandler(index);
   };
 
-  console.log(inputValue);
-
   return (
     <>
       <form>
@@ -100,6 +98,7 @@ const DrawingPost = (): JSX.Element => {
                   onClick={() => clickStarHandler(score)}
                 />
               ))}
+              <span>{inputValue.star === 0 ? null : inputValue.star}</span>
             </div>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <label>
