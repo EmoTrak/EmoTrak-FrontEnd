@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { BooleanType, PropsType, open, setOpen } from '../data/type/d1';
+import { BooleanType, PropsType } from '../data/type/d1';
 import styled from 'styled-components';
 
 const defaultValue = {
@@ -34,5 +34,16 @@ const Content = styled.div`
 `;
 
 export const ModalClose = () => {
-  return <div>✖️</div>;
+  const { setOpen } = useContext(Context);
+
+  return <CloseBtn onClick={() => setOpen(false)}>✖️</CloseBtn>;
 };
+
+const CloseBtn = styled.button`
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border: 0;
+  background-color: transparent;
+  font-size: 25px;
+`;

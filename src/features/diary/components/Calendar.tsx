@@ -7,8 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { keys } from '../../../data/queryKeys/keys';
 import user from '../../../lib/api/user';
 import { date } from '../../../data/type/d1';
-import { ModalContent, Modalroot } from '../../../components/Modal';
-import ClickModalPost from './ClickModalPost';
+import CalendarEmo from './CalendarEmo';
 
 const Calendar = (): JSX.Element => {
   const today: date = {
@@ -37,10 +36,9 @@ const Calendar = (): JSX.Element => {
   const [side, setSide] = useState(false);
 
   //해당 요일의 값 가져오는 함수
-  const dateSelect = (e: React.MouseEvent<HTMLButtonElement>): void => {
+  const clickDayBtn = (day: number | undefined): void => {
     setSide(true);
-    const btn = e.target as HTMLButtonElement;
-    setDiaryDay({ ...diaryDay, date: Number(btn.value) });
+    setDiaryDay({ ...diaryDay, date: day });
   };
 
   // 날짜 변환 함수
@@ -52,7 +50,6 @@ const Calendar = (): JSX.Element => {
       day: new Date(select.year, select.month - 1, i + 1).getDay(),
     })
   );
-  // console.log(arr);
 
   const prevMonth = (): void => {
     select.month === 1
@@ -71,17 +68,17 @@ const Calendar = (): JSX.Element => {
   };
 
   const { data, isLoading } = useQuery({
-    queryKey: [keys.GET_DIARY],
+    queryKey: [keys.GET_DIARY, select],
     queryFn: async () => {
       const data = await user.get('/daily', { params: select });
       return data.data.data;
     },
   });
-  console.log(data);
 
   if (isLoading) {
     return <>로딩중입니다</>;
   }
+
   return (
     <Flex row>
       <CalendarBox>
@@ -103,9 +100,10 @@ const Calendar = (): JSX.Element => {
           {new Array(firstDay).fill(null).map((e, i) => (
             <Day key={i}></Day>
           ))}
-          {date.map((e) => (
-            <Day key={e.date} value={e.date} onClick={dateSelect}>
-              {e.date}
+          {date.map((item) => (
+            <Day key={item.date} onClick={() => clickDayBtn(item.date)}>
+              {item.date}
+              <CalendarEmo data={data} item={item} today={today} />
             </Day>
           ))}
         </DiaryDay>
@@ -126,7 +124,6 @@ const DiaryDay = styled.div`
   display: flex;
   flex-wrap: wrap;
   height: 40vw;
-  background-color: aliceblue;
 `;
 const TotalWeek = styled.div`
   min-width: calc(100% / 7);
@@ -139,30 +136,9 @@ const TotalWeek = styled.div`
 const Day = styled.button`
   min-width: calc(100% / 7);
   display: flex;
-  justify-content: center;
   box-sizing: border-box;
-`;
-const Sunday = styled.button`
-  color: red;
-  min-width: calc(100% / 7);
-  display: flex;
-  justify-content: center;
-  box-sizing: border-box;
-`;
-const Saturday = styled.button`
-  color: blue;
-  min-width: calc(100% / 7);
-  display: flex;
-  justify-content: center;
-  box-sizing: border-box;
-`;
-
-const Today = styled.button`
-  color: #fc1efc;
-  min-width: calc(100% / 7);
-  display: flex;
-  justify-content: center;
-  box-sizing: border-box;
+  border: 0;
+  background-color: transparent;
 `;
 
 export default Calendar;
