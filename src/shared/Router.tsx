@@ -13,26 +13,31 @@ import Edit from "../pages/Edit";
 import Admin from "../pages/Admin";
 import AdminUser from "../features/Admin/AdminUser";
 import AdminPost from "../features/Admin/AdminPost";
+import Layout from "../layouts/Layout";
+import Members from "../pages/Members";
 
 const Router = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/image-post/:date" element={<ImagePost />} />
-        <Route path="/draw-post/:date" element={<DrawingPost />} />
-        <Route path="/detail/:id" element={<Detail />} />
-        <Route path="/edit/:id" element={<Edit />} />
-        <Route path="/chart" element={<Chart />} />
-        <Route path="/community" element={<Community />} />
-        <Route path="/community/:id" element={<CommunityDetail />} />
-        <Route path="/oauth/kakao" element={<RedirectKakao />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/adminpost" element={<AdminPost />} />
-        <Route path="/adminuser" element={<AdminUser />} />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/image-post/:date" element={<ImagePost />} />
+          <Route path="/draw-post/:date" element={<DrawingPost />} />
+          <Route path="/detail/:id" element={<Detail />} />
+          <Route path="/edit/:id" element={<Edit />} />
+          <Route path="/chart" element={<Chart />} />
+          <Route path="/community" element={<Community />} />
+          <Route path="/community/:id" element={<CommunityDetail />} />
+          <Route path="/members" element={<Members />} />
+          <Route path="/oauth/kakao" element={<RedirectKakao />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/adminpost" element={<AdminPost />} />
+          <Route path="/adminuser" element={<AdminUser />} />
+        </Routes>
+      </Layout>
     </BrowserRouter>
   );
 };
