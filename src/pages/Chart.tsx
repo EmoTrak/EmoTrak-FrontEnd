@@ -14,12 +14,9 @@ const Chart = (): JSX.Element => {
   const { data, isError, isLoading } = useQuery({
     queryKey: [keys.GET_CHART, { year }],
     queryFn: async () => {
-      const { data } = await user.get(
-        `${process.env.REACT_APP_SERVER_URL}/graph/`,
-        {
-          params: { year },
-        }
-      );
+      const { data } = await user.get("/graph/", {
+        params: { year },
+      });
       return data;
     },
     onSuccess: () => {
