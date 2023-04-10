@@ -5,19 +5,18 @@ import styled from "styled-components";
 type Props = {
   size?: string;
   value?: number;
-  fill?: string;
-  stroke?: string;
+  color?: string;
   onClick(): void;
 };
 
-const Star = ({ size, onClick, value, fill, stroke }: Props) => {
+const Star = ({ size, onClick, value, color }: Props) => {
   return (
     <StStarButton type="button" value={value} onClick={onClick}>
       <StarIcon
         height={size}
         width={size}
-        fill={`${fill}`}
-        stroke={`${stroke}`}
+        fill={`${color}`}
+        stroke={`${color}`}
       />
     </StStarButton>
   );

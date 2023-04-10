@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import Flex from "../../../components/Flex";
 import styled from "styled-components";
 import Palette from "./Palette";
 import { usePen } from "../hooks/usePen";
 import { useEraser } from "../hooks/useEraser";
+import { ContentProps } from "./Contents";
 
 type CanvasProps = {
   width: number;
@@ -15,8 +16,11 @@ type Coordinate = {
   y: number;
 };
 
-const Canvas = ({ width, height }: CanvasProps) => {
+const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvas = canvasRef.current;
+
+  // const [image, setImage] = useState<Blob>();
 
   // 그림판 모드, 색깔 상태 관리
   const [mode, setMode] = useState<string>("pen");
@@ -42,11 +46,7 @@ const Canvas = ({ width, height }: CanvasProps) => {
     selectedColor
   );
 
-  const { startErase, erase, exitErase } = useEraser(
-    canvasRef,
-    getCoordinates,
-    selectedColor
-  );
+  const { startErase, erase, exitErase } = useEraser(canvasRef, getCoordinates);
 
   // 캔버스 비우기
   const clearCanvas = () => {
@@ -72,22 +72,32 @@ const Canvas = ({ width, height }: CanvasProps) => {
     setMode("pen");
   };
 
-  const saveImageHandler = () => {
-    const canvas = canvasRef.current;
-    if (canvas) {
-      // // canvas를 JPEG 데이터 URL로 변환
-      // const dataURL = canvas.toDataURL("image/jpeg", 0.8); // 'image/jpeg' 포맷, 품질 0.8
-      // // 데이터 URL을 Blob 객체로 변환
-      // const byteString = atob(dataURL.split(",")[1]);
-      // const mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0];
-      // const ab = new ArrayBuffer(byteString.length);
-      // const ia = new Uint8Array(ab);
-      // for (let i = 0; i < byteString.length; i++) {
-      //   ia[i] = byteString.charCodeAt(i);
-      // }
-      // const blob = new Blob([ab], { type: mimeString });
-    }
-  };
+  // const picture = canvas?.toBlob(
+  //   (blob) => {
+  //     if (blob) {
+  //       console.log("blob =", blob);
+  //       // setImage(blob);
+  //     }
+  //   }
+  //   // ,
+  //   // "image/jpeg",
+  //   // 0.95
+  // );
+
+  const savePictureHandler = useCallback(() => {
+    canvas?.toBlob((blob) => {
+      if (blob) {
+        console.log("blob =", blob);
+        // setPicture(blob);
+        // setImage(blob);
+      }
+    });
+  }, []);
+
+  // console.log("picture =", picture);
+  // console.log("savePicture =", savePictureHandler);
+
+  // console.log("image", image);
 
   const mouseDownHandler = (
     event: React.MouseEvent<HTMLCanvasElement>
@@ -129,20 +139,6 @@ const Canvas = ({ width, height }: CanvasProps) => {
   return (
     <StCanvasWrapper>
       <Flex jc="center" ai="center">
-        <Flex row>
-          <ul>도구 선택</ul>
-          <li>
-            <Palette
-              selectedColor={selectedColor}
-              onColorSelect={selectColorHandler}
-            />
-          </li>
-          <li>
-            <button value="eraser" onClick={(e) => switchModeHandler(e)}>
-              지우개
-            </button>
-          </li>
-        </Flex>
         <canvas
           ref={canvasRef}
           height={height}
@@ -152,9 +148,32 @@ const Canvas = ({ width, height }: CanvasProps) => {
           onMouseMove={mouseMoveHandler}
           onMouseUp={mouseUpHandler}
           onMouseLeave={mouseLeaveHandler}
+          // on={savePictureHanlder}
         ></canvas>
-        <button onClick={clearCanvas}>다시 그리기</button>
-        여기가 그림판
+        <button type="button" onClick={clearCanvas}>
+          다시 그리기
+        </button>
+        <button type="button" onClick={savePictureHandler}>
+          그리기 완료
+        </button>
+      </Flex>
+      <Flex row>
+        <ul>도구 선택</ul>
+        <li>
+          <Palette
+            selectedColor={selectedColor}
+            onColorSelect={selectColorHandler}
+          />
+        </li>
+        <li>
+          <button
+            type="button"
+            value="eraser"
+            onClick={(e) => switchModeHandler(e)}
+          >
+            지우개
+          </button>
+        </li>
       </Flex>
     </StCanvasWrapper>
   );

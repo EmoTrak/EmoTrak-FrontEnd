@@ -9,14 +9,14 @@ const Palette = ({ selectedColor, onColorSelect }: any) => {
   //   };
   // 컬러 팔레트에 사용할 색상 배열
   const colorPalette = [
-    "#fed400e2", // 빨강
-    "#f67269", // 초록
-    "#d67dcc", // 파랑
-    "#787bca", // 노랑
-    "#5dc0ed", // 분홍
-    "#3ac66d",
-    "#000000", // 시안
-    "white",
+    "#fed400e2", // 노랑
+    "#f67269", // 빨강
+    "#d67dcc", // 분홍
+    "#787bca", // 보라
+    "#5dc0ed", // 파랑
+    "#3ac66d", // 초록
+    "#000000", // 검정
+    "white", // 흰색
   ];
 
   return (

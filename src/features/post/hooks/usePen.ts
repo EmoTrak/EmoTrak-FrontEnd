@@ -1,12 +1,20 @@
 import { useCallback, useState } from "react";
 import { Coordinate } from "../../../data/type/d3";
 
-export const useEraser = (ref: any, action: any, color: any) => {
-  const [isErasing, setIsErasing] = useState<boolean>(false);
+export const usePen = (
+  ref: React.RefObject<HTMLCanvasElement>,
+  action: Function,
+  color: string
+) => {
+  const [isPainting, setIsPainting] = useState<boolean>(false);
   const [mousePosition, setMousePosition] =
     useState<Coordinate | undefined>(undefined);
   // canvas에 선긋는 함수
-  const eraseLine = (originalMousePosition: Coordinate) => {
+  const drawLine = (
+    originalMousePosition: Coordinate,
+    newMousePosition: Coordinate,
+    color: string
+  ) => {
     if (!ref.current) {
       return;
     }
@@ -14,50 +22,51 @@ export const useEraser = (ref: any, action: any, color: any) => {
     const context = canvas.getContext("2d");
 
     if (context) {
+      context.strokeStyle = `${color}`;
+      context.lineJoin = "round";
+      context.lineWidth = 5;
+
       context.beginPath();
       context.moveTo(originalMousePosition.x, originalMousePosition.y);
-      context.clearRect(
-        originalMousePosition.x - 15,
-        originalMousePosition.y - 15,
-        30,
-        30
-      );
+      context.lineTo(newMousePosition.x, newMousePosition.y);
       context.closePath();
+
+      context.stroke();
     }
   };
 
-  const startErase = useCallback(
+  const startPaint = useCallback(
     (event: React.MouseEvent<HTMLCanvasElement>) => {
       const coordinates = action(event);
       if (coordinates) {
-        // setIsPainting(true);
-        setIsErasing(true);
+        setIsPainting(true);
+        // setIsErasing(false);
         setMousePosition(coordinates);
       }
     },
     []
   );
 
-  const erase = useCallback(
+  const paint = useCallback(
     (event: React.MouseEvent<HTMLCanvasElement>) => {
       event.preventDefault(); // prevent drag
       event.stopPropagation(); // prevent drag
 
-      if (isErasing) {
+      if (isPainting) {
         const newMousePosition = action(event);
         if (mousePosition && newMousePosition) {
-          eraseLine(mousePosition);
+          drawLine(mousePosition, newMousePosition, color);
           setMousePosition(newMousePosition);
         }
       }
     },
-    [isErasing, mousePosition]
+    [isPainting, mousePosition]
   );
 
-  const exitErase = useCallback(() => {
-    // setIsPainting(false);
-    setIsErasing(false);
+  const exitPaint = useCallback(() => {
+    setIsPainting(false);
+    // setIsErasing(false);
   }, []);
 
-  return { startErase, erase, exitErase };
+  return { startPaint, paint, exitPaint };
 };
