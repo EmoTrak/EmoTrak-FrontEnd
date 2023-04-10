@@ -8,6 +8,7 @@ import Signup from "../pages/Signup";
 import Community from "../pages/Community";
 import CommunityDetail from "../pages/CommunityDetail";
 import Chart from "../pages/Chart";
+import RedirectKakao from "../pages/RedirectKakao";
 
 const Router = () => {
   return (
@@ -22,6 +23,7 @@ const Router = () => {
         <Route path="/chart" element={<Chart />} />
         <Route path="/community" element={<Community />} />
         <Route path="/community/:id" element={<CommunityDetail />} />
+        <Route path="/oauth/kakao" element={<RedirectKakao />} />
       </Routes>
     </BrowserRouter>
   );
