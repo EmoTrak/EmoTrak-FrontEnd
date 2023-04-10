@@ -26,13 +26,13 @@ export const ModalContent = ({ children }: PropsType) => {
 
 const Content = styled.div`
   background-color: #ffffff;
-  width: 40vw;
-  height: 40vw;
   position: fixed;
   top: 30%;
   border-radius: 30px;
   left: 30%;
-  padding: 5%;
   box-sizing: border-box;
-  border: 4px solid;
 `;
+
+export const ModalClose = () => {
+  return <div>✖️</div>;
+};

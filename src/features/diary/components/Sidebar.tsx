@@ -5,6 +5,7 @@ import { SidebarProps } from '../../../data/type/d1';
 import EmotionIcons from '../../../components/Icon/EmoticonIcons';
 import { useNavigate } from 'react-router-dom';
 import { DETAIL_PAGE } from '../../../data/routes/urls';
+import ClickModalPost from './ClickModalPost';
 const Sidebar = ({
   side,
   setSide,
@@ -40,7 +41,12 @@ const Sidebar = ({
         ))}
         {Number(detailData?.length) < 2 && (
           <ContentBox>
-            <Imoticon></Imoticon>
+            <Imoticon>
+              <EmotionIcons height="100%" width="100%" emotionTypes={'EMOTION_7'} />
+            </Imoticon>
+            <PostContent>
+              <ClickModalPost>+</ClickModalPost>
+            </PostContent>
           </ContentBox>
         )}
       </Container>
@@ -126,4 +132,17 @@ const Imoticon = styled.div`
   height: 5vw;
   width: 5vw;
 `;
+
+const PostContent = styled.div`
+  background-color: white;
+  border-radius: 20px;
+  width: 70%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4vw;
+  cursor: pointer;
+`;
+
 export default Sidebar;
