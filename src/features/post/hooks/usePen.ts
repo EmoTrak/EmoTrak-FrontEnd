@@ -35,6 +35,66 @@ export const usePen = (
     }
   };
 
+  const startTouch = useCallback(
+    (event: React.TouchEvent<HTMLCanvasElement>) => {
+      event.preventDefault();
+      if (!ref.current) {
+        return;
+      }
+      // setIsPainting(true);
+      const canvas: HTMLCanvasElement = ref.current;
+      let touch = event.touches[0];
+      let mouseEvent = new MouseEvent("mousedown", {
+        clientX: touch.clientX,
+        clientY: touch.clientY,
+      });
+      canvas.dispatchEvent(mouseEvent);
+    },
+    []
+  );
+
+  const moveTouch = useCallback(
+    (event: React.TouchEvent<HTMLCanvasElement>) => {
+      event.preventDefault();
+      event.stopPropagation(); // prevent drag
+
+      if (!ref.current) {
+        return;
+      }
+      const canvas: HTMLCanvasElement = ref.current;
+      let touch = event.touches[0];
+      let mouseEvent = new MouseEvent("mousemove", {
+        clientX: touch.clientX,
+        clientY: touch.clientY,
+      });
+      canvas.dispatchEvent(mouseEvent);
+    },
+    []
+  );
+
+  const endTouch = useCallback((event: React.TouchEvent<HTMLCanvasElement>) => {
+    // setIsPainting(false);
+    event.preventDefault();
+    event.stopPropagation(); // prevent drag
+
+    if (!ref.current) {
+      return;
+    }
+    const canvas: HTMLCanvasElement = ref.current;
+    let touch = event.touches[0];
+    let mouseUpEvent = new MouseEvent("mouseup", {
+      clientX: touch.clientX,
+      clientY: touch.clientY,
+    });
+    let mouseLeaveEvent = new MouseEvent("mouseleave", {
+      clientX: touch.clientX,
+      clientY: touch.clientY,
+    });
+    canvas.dispatchEvent(mouseUpEvent);
+    canvas.dispatchEvent(mouseLeaveEvent);
+    // setIsErasing(false);
+  }, []);
+
   const startPaint = useCallback(
     (event: React.MouseEvent<HTMLCanvasElement>) => {
       const coordinates = action(event);
@@ -68,5 +128,5 @@ export const usePen = (
     // setIsErasing(false);
   }, []);
 
-  return { startPaint, paint, exitPaint };
+  return { startPaint, paint, exitPaint, endTouch, startTouch, moveTouch };
 };

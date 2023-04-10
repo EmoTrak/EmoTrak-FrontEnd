@@ -25,17 +25,20 @@ export type InputValue = {
 
 const DrawingPost = (): JSX.Element => {
   const params = useParams();
+  const year: number | undefined = Number(params.date?.split("-")[0]);
+  const month: number | undefined = Number(params.date?.split("-")[1]);
+  const day: number | undefined = Number(params.date?.split("-")[2]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [validPicture, setValidPicture] = useState<boolean>(false);
+  const [validStar, setValidStar] = useState<boolean>(false);
+  const [validEmoji, setValidEmoji] = useState<boolean>(false);
+
   const canvas = canvasRef.current;
 
-  // const date = params.date.split("-")
-  // const year = date[0]
-  // const month = date[1]
-  // const day = date[2]
   const newItem: InputValue = {
-    year: 0,
-    month: 0,
-    day: 0,
+    year,
+    month,
+    day,
     emoId: 0,
     star: 0,
     detail: "",
@@ -52,7 +55,7 @@ const DrawingPost = (): JSX.Element => {
 
   const { submitDiaryHandler, savePictureHandler } = usePost({
     inputValue,
-    canvas,
+    canvasRef,
   });
 
   // 그림판 모드, 색깔 상태 관리
@@ -73,11 +76,8 @@ const DrawingPost = (): JSX.Element => {
     };
   };
 
-  const { startPaint, paint, exitPaint } = usePen(
-    canvasRef,
-    getCoordinates,
-    selectedColor
-  );
+  const { startPaint, paint, exitPaint, moveTouch, startTouch, endTouch } =
+    usePen(canvasRef, getCoordinates, selectedColor);
 
   const { startErase, erase, exitErase } = useEraser(canvasRef, getCoordinates);
 
@@ -103,6 +103,11 @@ const DrawingPost = (): JSX.Element => {
   const selectColorHandler = (color: string): void => {
     setSelectedColor(color);
     setMode("pen");
+  };
+
+  const savePicture = () => {
+    setValidPicture(true);
+    savePictureHandler();
   };
 
   // const savePictureHandler = useCallback(() => {
@@ -170,26 +175,50 @@ const DrawingPost = (): JSX.Element => {
     scoreStarHandler(index);
   };
 
+  const submitFormHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    if (validPicture && validEmoji && validStar) {
+      submitDiaryHandler(event);
+    } else {
+      event.preventDefault();
+      alert("내용을 모두 입력해주세요!");
+    }
+  };
+
+  const changeStarHandler = (score: number) => {
+    clickStarHandler(score);
+    setValidStar(true);
+  };
+
+  const changeEmojiHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    clickEmojiHandler(event);
+    setValidEmoji(true);
+  };
+
   return (
     <>
-      <form onSubmit={submitDiaryHandler}>
+      <form onSubmit={submitFormHandler}>
         <Flex row gap={10}>
           <StCanvasWrapper>
             <Flex jc="center" ai="center">
-              <canvas
-                ref={canvasRef}
-                height={700}
-                width={700}
-                style={{ backgroundColor: "#f4f2ee" }}
-                onMouseDown={mouseDownHandler}
-                onMouseMove={mouseMoveHandler}
-                onMouseUp={mouseUpHandler}
-                onMouseLeave={mouseLeaveHandler}
-              ></canvas>
+              <div style={{ backgroundColor: "#f4f2ee" }}>
+                <canvas
+                  ref={canvasRef}
+                  height={700}
+                  width={700}
+                  onMouseDown={mouseDownHandler}
+                  onMouseMove={mouseMoveHandler}
+                  onMouseUp={mouseUpHandler}
+                  onMouseLeave={mouseLeaveHandler}
+                  onTouchStart={startTouch}
+                  onTouchMove={moveTouch}
+                  onTouchEnd={endTouch}
+                ></canvas>
+              </div>
+
               <button type="button" onClick={clearCanvas}>
                 다시 그리기
               </button>
-              <button type="button" onClick={savePictureHandler}>
+              <button type="button" onClick={savePicture}>
                 그리기 완료
               </button>
             </Flex>
@@ -230,7 +259,7 @@ const DrawingPost = (): JSX.Element => {
                       name="emoId"
                       type="button"
                       value={item}
-                      onClick={clickEmojiHandler}
+                      onClick={changeEmojiHandler}
                     >
                       <EmotionIcons
                         height="50"
@@ -248,7 +277,7 @@ const DrawingPost = (): JSX.Element => {
                   key={score}
                   size="30"
                   color={clicked[score - 1] ? "#FFDC82" : "#E5DFD3"}
-                  onClick={() => clickStarHandler(score)}
+                  onClick={() => changeStarHandler(score)}
                 />
               ))}
               <span>{inputValue.star === 0 ? null : inputValue.star}</span>
@@ -262,6 +291,7 @@ const DrawingPost = (): JSX.Element => {
                 내용
                 <textarea
                   name="detail"
+                  required
                   cols={30}
                   rows={10}
                   onChange={onChangeHandler}
@@ -278,15 +308,15 @@ const DrawingPost = (): JSX.Element => {
 
 export default DrawingPost;
 
-const StList = styled.li`
+export const StList = styled.li`
   list-style-type: none;
 `;
 
-const StUnorderLi = styled.ul`
+export const StUnorderLi = styled.ul`
   gap: 20px;
 `;
 
-const StEmoButton = styled.button`
+export const StEmoButton = styled.button`
   width: 55px;
   height: 55px;
   border: 1px solid transparent;
