@@ -29,9 +29,16 @@ export const useLogin = () => {
     },
     {
       onSuccess(data) {
+        console.log("data", data);
+
         const info = data.headers.authorization;
         const token = info.split(" ")[1];
         setCookie("token", token, { path: "/", maxAge: 3540 });
+        setCookie("nickname", data.headers.nickname, {
+          path: "/",
+          maxAge: 3540,
+        });
+        // setCookie("nickname")
         navigate("/");
       },
       onError(err) {
