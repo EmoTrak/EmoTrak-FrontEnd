@@ -7,12 +7,12 @@ import EmotionIcons from "../components/Icon/EmoticonIcons";
 import Flex from "../components/Flex";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
 import { getCookie, removeCookie } from "../utils/cookies";
-import { DETAIL_PAGE, LOGIN_PAGE } from "../data/routes/urls";
+import { DETAIL_PAGE, EDIT_PAGE, LOGIN_PAGE } from "../data/routes/urls";
 import { useDelete } from "../features/detail/hooks/useDelete";
 // import Star from "../components/Icon/Star";
 import styled from "styled-components";
 
-type DetailType = {
+export type DetailType = {
   id: number;
   day: number;
   emoId: number;
@@ -59,11 +59,6 @@ const Detail = (): JSX.Element => {
     (item: DetailType) => item.id === dailyId
   )[0];
 
-  console.log("현재 페이지 아이디", targetItem?.id);
-  console.log("딸려온 정보 아이디", otherItem?.id);
-
-  console.log("contents", contents);
-
   // const viewOtherItemHandler = () => {
   //   setItems((pre) => !pre);
   // };
@@ -90,7 +85,6 @@ const Detail = (): JSX.Element => {
           )}
         </StCanvasWrapper>
         <StCanvasWrapper>
-          {targetItem?.id}
           <Flex>
             <div>
               {contents?.length < 2 || dailyId <= otherItem?.id ? (
@@ -126,7 +120,11 @@ const Detail = (): JSX.Element => {
             </Flex>
             <Flex row>{targetItem?.detail}</Flex>
             <div>
-              <button>수정</button>
+              <button
+                onClick={() => navigate(`${EDIT_PAGE}/${targetItem?.id}`)}
+              >
+                수정
+              </button>
               <button onClick={() => deletePostHandler(targetItem?.id)}>
                 삭제
               </button>
