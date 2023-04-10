@@ -13,7 +13,7 @@ interface DataDetail {
   detail: string;
 }
 
-export type SidebarProps = {
+export type DayProps = {
   side: boolean;
   setSide: React.Dispatch<React.SetStateAction<boolean>>;
   data: {
@@ -22,6 +22,9 @@ export type SidebarProps = {
     contents: DataDetail[];
   };
   diaryDay: Partial<date>;
+  item: Partial<date>;
+  today: date;
+  children: React.ReactNode;
 };
 
 export type KeyType = {
@@ -30,6 +33,7 @@ export type KeyType = {
 
 export type PropsType = {
   children: React.ReactNode;
+  diaryDay?: Partial<date>;
 };
 
 export type BooleanType = {

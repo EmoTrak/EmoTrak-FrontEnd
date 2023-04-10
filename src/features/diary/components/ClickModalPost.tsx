@@ -1,17 +1,43 @@
 import React from 'react';
-import { ModalContent, ModalTrigger, Modalroot } from '../../../components/Modal';
+import {
+  ModalClose,
+  ModalContent,
+  ModalTrigger,
+  Modalroot,
+} from '../../../components/Modal';
 import { PropsType } from '../../../data/type/d1';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { DRAW_POST_PAGE, IMAGE_POST_PAGE } from '../../../data/routes/urls';
 
-const ClickModalPost = ({ children }: PropsType) => {
+const ClickModalPost = ({ children, diaryDay }: PropsType) => {
+  const navigate = useNavigate();
+
   return (
     <Modalroot>
       <ModalTrigger>{children}</ModalTrigger>
       <ModalContent>
         <PostContent>
-          <Text>오늘의 감정을 기록해주세요!</Text>
-          <ClickBtn>그림으로 기록할래요!</ClickBtn>
-          <ClickBtn>사진으로 기록할래요!</ClickBtn>
+          <ModalClose />
+          <Text>나의 감정을 기록해주세요!</Text>
+          <ClickBtn
+            onClick={() =>
+              navigate(
+                `${DRAW_POST_PAGE}/${diaryDay?.year}-${diaryDay?.month}-${diaryDay?.date}`
+              )
+            }
+          >
+            그림으로 기록할래요!
+          </ClickBtn>
+          <ClickBtn
+            onClick={() =>
+              navigate(
+                `${IMAGE_POST_PAGE}/${diaryDay?.year}-${diaryDay?.month}-${diaryDay?.date}`
+              )
+            }
+          >
+            사진으로 기록할래요!
+          </ClickBtn>
         </PostContent>
       </ModalContent>
     </Modalroot>

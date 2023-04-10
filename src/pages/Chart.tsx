@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import BarChart from "../features/chart/components/BarChart";
-import PieChart from "../features/chart/components/PieChart";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { keys } from "../data/queryKeys/keys";
-import user from "../lib/api/user";
-import Flex from "../components/Flex";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import BarChart from '../features/chart/components/BarChart';
+import PieChart from '../features/chart/components/PieChart';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { keys } from '../data/queryKeys/keys';
+import user from '../lib/api/user';
+import Flex from '../components/Flex';
 
 const Chart = (): JSX.Element => {
   const queryClient = useQueryClient();
@@ -14,7 +14,7 @@ const Chart = (): JSX.Element => {
   const { data, isError, isLoading } = useQuery({
     queryKey: [keys.GET_CHART, { year }],
     queryFn: async () => {
-      const { data } = await user.get("/graph/", {
+      const { data } = await user.get('/graph/', {
         params: { year },
       });
       return data;

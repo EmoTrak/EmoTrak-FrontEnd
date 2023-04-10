@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { EmotionTypes, getEmotionIcon } from "./getEmoticonIcon";
+import { FC } from 'react';
+import { getEmotionIcon } from './getEmoticonIcon';
 
 interface IProps {
   emotionTypes: string;
@@ -8,14 +8,7 @@ interface IProps {
 }
 
 const EmotionIcons: FC<IProps> = ({ emotionTypes, height, width }) => {
-  return (
-    <img
-      height={height}
-      width={width}
-      src={getEmotionIcon(emotionTypes)}
-      alt=""
-    />
-  );
+  return <img height={height} width={width} src={getEmotionIcon(emotionTypes)} alt="" />;
 };
 
 export default EmotionIcons;
