@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
-import { date } from '../../../data/type/d1';
+
 import styled from 'styled-components';
 import Sidebar from './Sidebar';
 import Flex from '../../../components/Flex';
+import { useQuery } from '@tanstack/react-query';
+import { keys } from '../../../data/queryKeys/keys';
+import user from '../../../lib/api/user';
+import { date } from '../../../data/type/d1';
+import { ModalContent, Modalroot } from '../../../components/Modal';
+import ClickModalPost from './ClickModalPost';
 
 const Calendar = (): JSX.Element => {
-  const date = new Date();
   const today: date = {
-    year: date.getFullYear(),
-    month: date.getMonth() + 1,
-    day: date.getDate(),
-    week: date.getDay(),
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1,
+    date: new Date().getDate(),
+    day: new Date().getDay(),
   };
   const weeks: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -19,12 +24,14 @@ const Calendar = (): JSX.Element => {
     year: today.year,
     month: today.month,
   });
-  const dateCount: number = new Date(select.year, select.month, 0).getDate();
+
+  const lastDate: number = new Date(select.year, select.month, 0).getDate();
+  const firstDay: number = new Date(select.year, select.month - 1, 1).getDay();
 
   const [diaryDay, setDiaryDay] = useState<date>({
     year: select.year,
     month: select.month,
-    day: today.day,
+    date: today.date,
   });
 
   const [side, setSide] = useState(false);
@@ -33,69 +40,29 @@ const Calendar = (): JSX.Element => {
   const dateSelect = (e: React.MouseEvent<HTMLButtonElement>): void => {
     setSide(true);
     const btn = e.target as HTMLButtonElement;
-    setDiaryDay({ ...diaryDay, day: Number(btn.value) });
-  };
-
-  //요일 반환 함수
-  const returnWeek = (): JSX.Element[] => {
-    const weekArr: JSX.Element[] = [];
-    weeks.map((v: string): void => {
-      console.log(v);
-      weekArr.push(<TotalWeek key={v}>{v}</TotalWeek>);
-    });
-    return weekArr;
+    setDiaryDay({ ...diaryDay, date: Number(btn.value) });
   };
 
   // 날짜 변환 함수
-  const returnDay = (): JSX.Element[] => {
-    const dayArr: JSX.Element[] = [];
-    const days: number = new Date(select.year, select.month - 1, 1).getDay();
-
-    for (const nowDay of weeks) {
-      if (weeks[days] === nowDay) {
-        for (let i = 1; i <= dateCount; i++) {
-          const day: number = new Date(select.year, select.month - 1, i).getDay();
-          today.year === select.year && today.month === select.month && today.day === i
-            ? dayArr.push(
-                <Today value={i} key={`today-${i}`} onClick={dateSelect}>
-                  {i}
-                </Today>
-              )
-            : day === 0
-            ? dayArr.push(
-                <Sunday value={i} key={`sunday-${i}`} onClick={dateSelect}>
-                  {i}
-                </Sunday>
-              )
-            : day === 6
-            ? dayArr.push(
-                <Saturday value={i} key={`saturday-${i}`} onClick={dateSelect}>
-                  {i}
-                </Saturday>
-              )
-            : dayArr.push(
-                <Day value={i} key={`day-${i}`} onClick={dateSelect}>
-                  {i}
-                </Day>
-              );
-        }
-        break;
-      } else {
-        dayArr.push(<Day key={nowDay}></Day>);
-      }
-    }
-    return dayArr;
-  };
+  const date = new Array(lastDate).fill(null).map(
+    (e, i): date => ({
+      year: select.year,
+      month: select.month,
+      date: i + 1,
+      day: new Date(select.year, select.month - 1, i + 1).getDay(),
+    })
+  );
+  // console.log(arr);
 
   const prevMonth = (): void => {
     select.month === 1
-      ? setSelectMonth({ ...select, month: 12, year: select.year - 1 })
+      ? setSelectMonth({ month: 12, year: select.year - 1 })
       : setSelectMonth({ ...select, month: select.month - 1 });
   };
 
   const nextMonth = (): void => {
     select.month === 12
-      ? setSelectMonth({ ...select, month: 1, year: select.year + 1 })
+      ? setSelectMonth({ month: 1, year: select.year + 1 })
       : setSelectMonth({ ...select, month: select.month + 1 });
   };
 
@@ -103,6 +70,18 @@ const Calendar = (): JSX.Element => {
     setSelectMonth({ year: today.year, month: today.month });
   };
 
+  const { data, isLoading } = useQuery({
+    queryKey: [keys.GET_DIARY],
+    queryFn: async () => {
+      const data = await user.get('/daily', { params: select });
+      return data.data.data;
+    },
+  });
+  console.log(data);
+
+  if (isLoading) {
+    return <>로딩중입니다</>;
+  }
   return (
     <Flex row>
       <CalendarBox>
@@ -113,12 +92,25 @@ const Calendar = (): JSX.Element => {
         <button onClick={nextMonth}>다음달</button>
         <button onClick={thisMonth}>이번달</button>
 
+        <TotalWeek>
+          {weeks.map(
+            (v: string): JSX.Element => (
+              <TotalWeek key={v}>{v}</TotalWeek>
+            )
+          )}
+        </TotalWeek>
         <DiaryDay>
-          {returnWeek()}
-          {returnDay()}
+          {new Array(firstDay).fill(null).map((e, i) => (
+            <Day key={i}></Day>
+          ))}
+          {date.map((e) => (
+            <Day key={e.date} value={e.date} onClick={dateSelect}>
+              {e.date}
+            </Day>
+          ))}
         </DiaryDay>
       </CalendarBox>
-      {side && <Sidebar side={side} />}
+      {side && <Sidebar side={side} setSide={setSide} data={data} diaryDay={diaryDay} />}
     </Flex>
   );
 };
@@ -133,13 +125,11 @@ const CalendarBox = styled.div`
 const DiaryDay = styled.div`
   display: flex;
   flex-wrap: wrap;
-  height: 50vw;
+  height: 40vw;
   background-color: aliceblue;
-  border: 1px solid;
 `;
 const TotalWeek = styled.div`
   min-width: calc(100% / 7);
-  height: 5vw;
   border: 1px solid;
   box-sizing: border-box;
   display: flex;
@@ -174,4 +164,5 @@ const Today = styled.button`
   justify-content: center;
   box-sizing: border-box;
 `;
+
 export default Calendar;
