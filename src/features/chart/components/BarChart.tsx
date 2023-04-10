@@ -1,42 +1,47 @@
 import React from "react";
 import ApexCharts from "react-apexcharts";
+import styled from "styled-components";
 
-function BarChart() {
+function BarChart({ data }: any) {
+  const colors = [
+    "#8889C2",
+    "#C78EC0",
+    "#FEEC96",
+    "#F89790",
+    "#73C7EE",
+    "#85C99E",
+  ];
   return (
-    <div>
+    <Wrapper>
       <ApexCharts
-        width="760px"
-        type="line"
+        width="600px"
+        height="500px"
+        type="bar"
         series={[
           {
-            name: "Desktops",
-            data: [10, 41, 35, 51, 49, 62, 69, 91, 148, 100, 200, 150],
+            data: data?.data.slice(18, 24).map((item: { count: number }) => {
+              return item.count;
+            }),
           },
         ]}
         options={{
           chart: {
             height: 350,
-            type: "line",
             toolbar: { show: false },
-
             zoom: {
               enabled: false,
             },
             stacked: true,
           },
-          colors: ["#00BAEC"],
-
-          markers: {
-            size: 5,
-            colors: "#2b00ec",
-          },
           stroke: {
             curve: "straight",
           },
+          colors: colors,
           title: {
-            // 제목입력하기
-            align: "left",
+            text: "EmoTrak BarChart",
+            align: "center",
           },
+
           grid: {
             row: {
               colors: ["#f3f3f3", "transparent"],
@@ -44,28 +49,21 @@ function BarChart() {
             },
           },
           xaxis: {
-            categories: [
-              "Jan",
-              "Feb",
-              "Mar",
-              "Apr",
-              "May",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Oct",
-              "Nov",
-              "Dec",
-            ],
+            categories: ["제목", "제목", "제목", "제목", "제목", "제목"],
           },
           yaxis: {
             show: false,
           },
         }}
       />
-    </div>
+    </Wrapper>
   );
 }
 
 export default BarChart;
+
+const Wrapper = styled.div`
+  margin-top: 100px;
+  box-shadow: 10px 5px 5px #eee;
+  border-radius: 25px;
+`;
