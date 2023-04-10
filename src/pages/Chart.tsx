@@ -2,72 +2,70 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import BarChart from "../features/chart/components/BarChart";
 import PieChart from "../features/chart/components/PieChart";
-
-const Wrapper = styled.div`
-  position: relative;
-  margin-top: 15px;
-`;
-
-const CheckBoxWrapper = styled.div`
-  position: relative;
-  margin-top: 10px;
-`;
-
-const CheckBoxLabel = styled.label`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 42px;
-  height: 26px;
-  border-radius: 15px;
-  background: #bebebe;
-  margin-top: 10px;
-  cursor: pointer;
-  &::after {
-    content: "";
-    display: block;
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    margin: 3px;
-    background: #ffffff;
-    box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
-    transition: 0.2s;
-  }
-`;
-
-const CheckBox = styled.input`
-  opacity: 0;
-  z-index: 1;
-  border-radius: 15px;
-  width: 42px;
-  height: 26px;
-  &:checked + ${CheckBoxLabel} {
-    background: #4fbe79;
-    &::after {
-      content: "";
-      display: block;
-      border-radius: 50%;
-      width: 18px;
-      height: 18px;
-      margin-left: 21px;
-      transition: 0.2s;
-    }
-  }
-`;
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { keys } from "../data/queryKeys/keys";
+import user from "../lib/api/user";
+import Flex from "../components/Flex";
 
 const Chart = (): JSX.Element => {
-  const [isActive, setIsActive] = useState(false);
-  const toggleChart = () => setIsActive((prev) => !prev);
+  const queryClient = useQueryClient();
+  let date = new Date();
+  const [year, setYear] = useState(date.getFullYear());
+  const { data, isError, isLoading } = useQuery({
+    queryKey: [keys.GET_CHART, { year }],
+    queryFn: async () => {
+      const { data } = await user.get("/graph/", {
+        params: { year },
+      });
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [keys.GET_CHART] });
+    },
+    refetchOnWindowFocus: false,
+    refetchInterval: 5000,
+  });
+  console.log(data);
+  if (isLoading) return <div>로딩중..</div>;
+  if (isError) return <div>에러..</div>;
   return (
-    <Wrapper>
-      <CheckBoxWrapper>
-        <CheckBox onClick={toggleChart} id="checkbox" type="checkbox" />
+    <>
+      <Flex jc="center" ai="center">
+        <StMonth>
+          <option value="1">Jan</option>
+          <option value="2">Feb</option>
+          <option value="3">Mar</option>
+          <option value="4">April</option>
+          <option value="5">May</option>
+          <option value="6">Jun</option>
+          <option value="7">Jul</option>
+          <option value="8">Aug</option>
+          <option value="9">Sep</option>
+          <option value="10">Oct</option>
+          <option value="11">Nov</option>
+          <option value="12">Dec</option>
+        </StMonth>
+        {/* <CheckBoxWrapper>
+        <CheckBox onClick={toggleChart} type="checkbox" />
         <CheckBoxLabel htmlFor="checkbox" />
-      </CheckBoxWrapper>
-      {isActive ? <PieChart /> : <BarChart />}
-    </Wrapper>
+      </CheckBoxWrapper> */}
+        <Flex row>
+          <PieChart data={data} />
+          <BarChart data={data} />
+        </Flex>
+      </Flex>
+    </>
   );
 };
 
 export default Chart;
+
+const StMonth = styled.select`
+  display: flex;
+  text-align: center;
+  width: 200px;
+  height: 30px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 1px solid #9b9b9b;
+`;

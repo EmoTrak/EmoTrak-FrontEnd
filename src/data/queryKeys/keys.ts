@@ -3,4 +3,5 @@ export const keys = {
   GET_DIARY: "getDiary",
   GET_CHART: "getChart",
   GET_BOARD: "getBoard",
+  GET_DETAIL: "getDetail",
 };

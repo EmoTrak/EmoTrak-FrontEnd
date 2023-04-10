@@ -2,7 +2,7 @@ import { FC } from "react";
 import { EmotionTypes, getEmotionIcon } from "./getEmoticonIcon";
 
 interface IProps {
-  emotionTypes: EmotionTypes;
+  emotionTypes: string;
   height: string;
   width: string;
 }

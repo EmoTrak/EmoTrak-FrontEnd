@@ -1,19 +1,26 @@
 import ApexCharts from "react-apexcharts";
 import React from "react";
 import styled from "styled-components";
-import { useQuery } from "@tanstack/react-query";
 
-function PieChart() {
+function PieChart({ data }: any): JSX.Element {
 
   return (
     <Wrapper>
       <ApexCharts
-        width="760px"
+        width="600px"
         height="500px"
         type="pie"
-        series={[44, 55, 13, 43, 22, 50]}
+        series={[
+          {
+            data: data?.data
+              .slice(18, 24)
+              .map((item: { percentage: number }) => {
+                return Math.round(item.percentage);
+              }),
+          },
+        ]}
         options={{
-          labels: ["하이", "바이", "이거", "저거", "요거", "고거"],
+          labels: ["슬픔", "행복", "이거", "저거", "요거", "고거"],
           colors: [
             "#8889C2",
             "#C78EC0",
@@ -22,8 +29,19 @@ function PieChart() {
             "#73C7EE",
             "#85C99E",
           ],
+          title: {
+            // 제목입력하기
+            text: "EmoTrak PieChart",
+            align: "center",
+            style: {
+              fontSize: "14px",
+              fontWeight: "bold",
+              fontFamily: undefined,
+              color: "#263238",
+            },
+          },
           chart: {
-            background: "transparent",
+            background: "transparent,",
             toolbar: { show: false },
             zoom: { autoScaleYaxis: true },
           },
@@ -35,4 +53,8 @@ function PieChart() {
 
 export default PieChart;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  margin-top: 100px;
+  box-shadow: 10px 5px 5px #eee;
+  border-radius: 25px;
+`;

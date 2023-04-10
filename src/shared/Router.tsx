@@ -8,6 +8,8 @@ import Signup from "../pages/Signup";
 import Community from "../pages/Community";
 import CommunityDetail from "../pages/CommunityDetail";
 import Chart from "../pages/Chart";
+import RedirectKakao from "../pages/RedirectKakao";
+import Edit from "../pages/Edit";
 
 const Router = () => {
   return (
@@ -16,12 +18,14 @@ const Router = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/image-post" element={<ImagePost />} />
-        <Route path="/draw-post" element={<DrawingPost />} />
+        <Route path="/image-post/:date" element={<ImagePost />} />
+        <Route path="/draw-post/:date" element={<DrawingPost />} />
         <Route path="/detail/:id" element={<Detail />} />
+        <Route path="/edit/:id" element={<Edit />} />
         <Route path="/chart" element={<Chart />} />
         <Route path="/community" element={<Community />} />
         <Route path="/community/:id" element={<CommunityDetail />} />
+        <Route path="/oauth/kakao" element={<RedirectKakao />} />
       </Routes>
     </BrowserRouter>
   );

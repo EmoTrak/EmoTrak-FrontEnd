@@ -14,7 +14,7 @@ export type EmotionTypes =
   | "EMOTION_6";
 // import svg 를 여기서 다 가져옴
 
-export const getEmotionIcon = (emotion: EmotionTypes): string | undefined => {
+export const getEmotionIcon = (emotion: string): string | undefined => {
   const emotionIcons = new Map([
     ["EMOTION_1", `${Emotion_1}`],
     ["EMOTION_2", `${Emotion_2}`],
