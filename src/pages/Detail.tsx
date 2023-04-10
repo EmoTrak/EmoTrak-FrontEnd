@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
 import Flex from "../components/Flex";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
-import { getCookie } from "../utils/cookies";
+import { getCookie, removeCookie } from "../utils/cookies";
 import { DETAIL_PAGE, LOGIN_PAGE } from "../data/routes/urls";
 import { useDelete } from "../features/detail/hooks/useDelete";
 // import Star from "../components/Icon/Star";
@@ -25,20 +25,23 @@ const Detail = (): JSX.Element => {
   const params = useParams();
   const dailyId: number = Number(params.id);
   const navigate = useNavigate();
+  const token = getCookie("token");
   useEffect(() => {
-    const token = getCookie("token");
     if (!token || token === "undefined") {
-      alert("로그인이 필요합니다 !");
-      navigate(`${LOGIN_PAGE}`);
+      if (token) {
+        removeCookie("token");
+        alert("로그인이 필요합니다 !");
+        navigate(`${LOGIN_PAGE}`);
+      }
     }
     getDetail();
-  }, []);
+  }, [token]);
 
   const { deletePost } = useDelete();
 
   const getDetail = useCallback(() => {
     return user.get(`daily/${dailyId}`);
-  }, []);
+  }, [dailyId]);
 
   const { data, isLoading, isError } = useQuery(
     [`${keys.GET_DETAIL}`],
