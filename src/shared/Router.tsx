@@ -10,6 +10,9 @@ import CommunityDetail from "../pages/CommunityDetail";
 import Chart from "../pages/Chart";
 import RedirectKakao from "../pages/RedirectKakao";
 import Edit from "../pages/Edit";
+import Admin from "../pages/Admin";
+import AdminUser from "../features/Admin/AdminUser";
+import AdminPost from "../features/Admin/AdminPost";
 
 const Router = () => {
   return (
@@ -26,6 +29,9 @@ const Router = () => {
         <Route path="/community" element={<Community />} />
         <Route path="/community/:id" element={<CommunityDetail />} />
         <Route path="/oauth/kakao" element={<RedirectKakao />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/adminpost" element={<AdminPost />} />
+        <Route path="/adminuser" element={<AdminUser />} />
       </Routes>
     </BrowserRouter>
   );
