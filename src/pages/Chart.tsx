@@ -29,7 +29,7 @@ const Chart = (): JSX.Element => {
   if (isLoading) return <div>로딩중..</div>;
   if (isError) return <div>에러..</div>;
   return (
-    <>
+    <StWrapper>
       <Flex jc="center" ai="center">
         <StMonth>
           <option value="1">Jan</option>
@@ -54,7 +54,7 @@ const Chart = (): JSX.Element => {
           <BarChart data={data} />
         </Flex>
       </Flex>
-    </>
+    </StWrapper>
   );
 };
 
@@ -68,4 +68,8 @@ const StMonth = styled.select`
   margin-top: 10px;
   border-radius: 5px;
   border: 1px solid #9b9b9b;
+`;
+
+const StWrapper = styled.div`
+  height: 100vh;
 `;
