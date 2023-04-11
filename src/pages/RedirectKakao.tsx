@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { cookies } from "../utils/cookies";
+import { setCookie } from "../utils/cookies";
 import guest from "../lib/api/guest";
+import { useMutation } from "@tanstack/react-query";
 
 const RedirectKakao = () => {
   const navigate = useNavigate();
@@ -9,27 +10,28 @@ const RedirectKakao = () => {
     "code"
   );
 
-  const authKakaoCode = async (code: string | null) => {
-    const response = await guest.get(`/kakao/callback?code=${code}`);
-    const info = response.headers.authorization.split(" ");
-    const token = info[1];
-    // console.log("responses", response);
-
-    cookies.set("token", token, {
-      path: "/",
-      maxAge: 3540,
-    });
-    cookies.set("nickname", response.headers.nickname, {
-      path: "/",
-      maxAge: 3540,
-    });
-  };
+  const authKakaoCode = useMutation(
+    async (code: string | null) => {
+      const data = await await guest.get(`/kakao/callback?code=${code}`);
+      return data;
+    },
+    {
+      onSuccess(data) {
+        const info = data.headers.authorization.split(" ");
+        const token = info[1];
+        setCookie("token", token, { path: "/", maxAge: 3540 });
+        setCookie("nickname", data.headers.nickname, {
+          path: "/",
+          maxAge: 3540,
+        });
+        navigate("/");
+      },
+      onError(err) {},
+    }
+  );
 
   useEffect(() => {
-    authKakaoCode(code);
-    alert("로그인 되었습니다.");
-    navigate("/");
-    return () => {};
+    authKakaoCode.mutate(code);
   }, []);
 
   return <div>RedirectKakao</div>;
