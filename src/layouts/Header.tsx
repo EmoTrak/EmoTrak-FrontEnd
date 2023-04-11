@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Logo from "../assets/이모트랙 로고.svg";
+import Logo from "../assets/EmoTrakLogo.svg";
 import { useNavigate } from "react-router-dom";
 import { getCookie, removeCookie } from "../utils/cookies";
 import Flex from "../components/Flex";
