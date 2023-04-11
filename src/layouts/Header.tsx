@@ -23,12 +23,6 @@ const Header = (): JSX.Element => {
     navigate(`${LOGIN_PAGE}`);
   };
 
-  useEffect(() => {
-    if (getCookie("token")) {
-      navigate("/");
-    }
-  }, [token]);
-
   return (
     <StHeader>
       <Flex row jc="space-between">
