@@ -19,6 +19,7 @@ const LoginForm = () => {
               type="text"
               name="email"
               value={loginInfo.email}
+              maxLength={25}
               onChange={changeInputHandler}
             />
           </label>
@@ -28,6 +29,7 @@ const LoginForm = () => {
               type="password"
               name="password"
               value={loginInfo.password}
+              maxLength={15}
               onChange={changeInputHandler}
             />
           </label>

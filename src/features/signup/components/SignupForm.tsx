@@ -86,6 +86,7 @@ const SignupForm = () => {
               type="text"
               name="email"
               value={signInfo.email}
+              maxLength={25}
               onChange={(e) => changeInputHandler(e)}
             />
             <button
@@ -108,6 +109,7 @@ const SignupForm = () => {
               type="text"
               name="nickname"
               value={signInfo.nickname}
+              maxLength={8}
               onChange={(e) => changeInputHandler(e)}
             />
             <button
@@ -130,6 +132,7 @@ const SignupForm = () => {
               type="password"
               name="password"
               value={signInfo.password}
+              maxLength={15}
               onChange={(e) => changeInputHandler(e)}
             />
           </label>
@@ -138,6 +141,7 @@ const SignupForm = () => {
             <input
               type="password"
               value={checkPassword}
+              maxLength={15}
               onChange={(e) => checkPasswordChangeHandler(e)}
             />
             {checkPassword ? (
