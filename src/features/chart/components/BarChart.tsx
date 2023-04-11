@@ -1,30 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ApexCharts from "react-apexcharts";
 import styled from "styled-components";
 
-interface PropsData {
-  month?: number;
-  graph?: Graph[];
-  content: string | number;
-  data: Data[];
+export interface PropsData {
+  month: string;
+  graphData: graphDataType[];
 }
-interface Data {
+
+export interface graphDataType {
   month: number;
   graph: Graph[];
 }
-interface Graph {
-  id?: number;
-  count?: number;
-  percentage?: number;
+
+export interface Graph {
+  id: number;
+  count: number;
+  percentage: number;
 }
-const BarChart = ({ data, content }: any): JSX.Element => {
-  const BarData = data?.data
-    .filter((item: any) => item.month === Number(content))
-    .map((item: any) => {
-      return item?.graph.map((item: any) => {
-        return item.count;
-      });
-    });
+
+const BarChart = ({ graphData, month }: PropsData): JSX.Element => {
+  const [barCountArr, setBarCountArr] = useState<number[]>([]);
+
+  useEffect(() => {
+    const matchedData = graphData.find((item) => item.month === Number(month));
+    if (matchedData) {
+      const test = matchedData.graph.map((item) => item.count);
+      setBarCountArr(test);
+    }
+  }, []);
+
   return (
     <Wrapper>
       <ApexCharts
@@ -34,7 +38,7 @@ const BarChart = ({ data, content }: any): JSX.Element => {
         series={[
           {
             name: "count",
-            data: BarData.flat(),
+            data: barCountArr,
           },
         ]}
         options={{

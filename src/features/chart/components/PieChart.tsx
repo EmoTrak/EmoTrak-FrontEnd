@@ -1,15 +1,18 @@
 import ApexCharts from "react-apexcharts";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { PropsData } from "./BarChart";
 
-function PieChart({ data, content }: any): JSX.Element {
-  const PieData = data?.data
-    .filter((item: any) => item.month === Number(content))
-    .map((item: any) => {
-      return item?.graph.map((item: any) => {
-        return item.percentage;
-      });
-    });
+function PieChart({ graphData, month }: PropsData): JSX.Element {
+  const [barCountArr, setBarCountArr] = useState<number[]>([]);
+
+  useEffect(() => {
+    const matchedData = graphData.find((item) => item.month === Number(month));
+    if (matchedData) {
+      const test = matchedData.graph.map((item) => item.percentage);
+      setBarCountArr(test);
+    }
+  }, []);
 
   return (
     <Wrapper>
@@ -17,7 +20,7 @@ function PieChart({ data, content }: any): JSX.Element {
         width="600px"
         height="500px"
         type="pie"
-        series={PieData.flat()}
+        series={barCountArr}
         options={{
           labels: ["Fun", "Smile", "Calm", "Sad", "Angry", "Cry"],
           colors: [
