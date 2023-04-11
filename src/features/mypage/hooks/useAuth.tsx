@@ -1,28 +1,49 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import user from "../../../lib/api/user";
+import { useCallback, useState } from "react";
+import { keys } from "../../../data/queryKeys/keys";
 
-type AuthProps = {
-  action: React.Dispatch<React.SetStateAction<boolean>>;
-};
+interface MyInfo {
+  email: string;
+  nickname: string;
+  hasSocial: boolean;
+}
 
-export const useAuth = (
-  action: React.Dispatch<React.SetStateAction<boolean>>
-) => {
-  const authorization = useMutation(
-    async (item: string | undefined) => {
-      const data = await user.post(`/users/mypage`, item);
-      return data;
+export const useAuth = () => {
+  const [userInfo, setUserInfo] = useState<MyInfo>({
+    email: "",
+    nickname: "",
+    hasSocial: false,
+  });
+
+  const getUserInfo = useCallback(async () => {
+    const data = await user.post(`/users/mypage`);
+    return data;
+  }, []);
+
+  const { data, isLoading } = useQuery([`${keys.GET_USER}`], getUserInfo, {
+    onSuccess() {
+      const info = data?.data;
+      setUserInfo(info);
     },
-    {
-      onSuccess(data) {
-        action(true);
-      },
-      onError(error) {
-        alert("비밀번호를 확인해주세요");
-        action(false);
-      },
-    }
-  );
+  });
+  // const authorization = useMutation(
+  //   async (item: string | undefined) => {
+  //     const data = await user.post(`/users/mypage`, item);
+  //     return data;
+  //   },
+  //   {
+  //     onSuccess(data) {
+  //       const info: MyInfo = data.data;
+  //       setUserInfo(info);
+  //       action(true);
+  //     },
+  //     onError(error) {
+  //       alert("비밀번호를 확인해주세요");
+  //       action(false);
+  //     },
+  //   }
+  // );
 
-  return { authorization };
+  return { data, userInfo, isLoading };
 };
