@@ -21,12 +21,12 @@ function PieChart({ data, content }: any): JSX.Element {
         options={{
           labels: ["Fun", "Smile", "Calm", "Sad", "Angry", "Cry"],
           colors: [
-            "#8889C2",
-            "#C78EC0",
-            "#FEEC96",
-            "#F89790",
             "#73C7EE",
+            "#FEEC96",
             "#85C99E",
+            "#8889C2",
+            "#F89790",
+            "#C78EC0",
           ],
           title: {
             text: "EmoTrak PieChart",

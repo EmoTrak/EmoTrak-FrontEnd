@@ -47,12 +47,12 @@ const BarChart = ({ data, content }: any): JSX.Element => {
             stacked: true,
           },
           colors: [
-            "#8889C2",
-            "#C78EC0",
-            "#FEEC96",
-            "#F89790",
             "#73C7EE",
+            "#FEEC96",
             "#85C99E",
+            "#8889C2",
+            "#F89790",
+            "#C78EC0",
           ],
           plotOptions: {
             bar: {
