@@ -17,10 +17,8 @@ const Login = (): JSX.Element => {
 
   return (
     <StLoginPageWrapper>
-      <Flex row>
-        <Tutorial />
-        <LoginForm />
-      </Flex>
+      <Tutorial />
+      <LoginForm />
     </StLoginPageWrapper>
   );
 };
@@ -29,8 +27,8 @@ export default Login;
 
 export const StLoginPageWrapper = styled.div`
   width: 100%;
-  height: 78vh;
+  /* height: 78vh; */
   margin: 0 auto;
-  display: flex;
+  /* display: flex; */
   justify-content: center;
 `;
