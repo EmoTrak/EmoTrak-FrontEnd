@@ -43,8 +43,4 @@ export type BooleanType = {
   setOpen: (open: boolean) => void;
 };
 
-export type open = boolean;
-export type setOpen = React.Dispatch<React.SetStateAction<boolean>>;
-// setOpen: () => void;
-
 export type ModalState = BooleanType[];
