@@ -10,7 +10,7 @@ import Flex from "../components/Flex";
 const Chart = (): JSX.Element => {
   let date = new Date();
   const [year, setYear] = useState<number>(date.getFullYear());
-  const [content, setContent] = useState<number | string>(0);
+  const [month, setMonth] = useState<string>("1");
 
   const { data, isError, isLoading } = useQuery({
     queryKey: [keys.GET_CHART, { year }],
@@ -18,22 +18,23 @@ const Chart = (): JSX.Element => {
       const { data } = await user.get("/graph/", {
         params: { year },
       });
-      return data;
+      return data.data;
     },
     refetchOnWindowFocus: false,
   });
+  console.log(data);
+  
   if (isLoading) return <div>로딩중..</div>;
   if (isError) return <div>에러..</div>;
-  console.log(data);
 
   const onChangeHandler = (e: ChangeEvent<HTMLSelectElement>): void => {
     const { value } = e.target as HTMLSelectElement;
-    setContent(value);
+    setMonth(value);
   };
   return (
     <StWrapper>
       <Flex jc="center" ai="center">
-        <StMonth defaultValue={content} onChange={onChangeHandler}>
+        <StMonth defaultValue={month} onChange={onChangeHandler}>
           <option>Select</option>
           <option value="1">Jan</option>
           <option value="2">Feb</option>
@@ -48,9 +49,9 @@ const Chart = (): JSX.Element => {
           <option value="11">Nov</option>
           <option value="12">Dec</option>
         </StMonth>
-        <Flex row>
-          <PieChart data={data} content={content} />
-          <BarChart data={data} content={content} />
+        <Flex row gap={50}>
+          <PieChart graphData={data} month={month} />
+          <BarChart graphData={data} month={month} />
         </Flex>
       </Flex>
     </StWrapper>
@@ -73,3 +74,4 @@ const StWrapper = styled.div`
   margin-top: 50px;
   height: 80vh;
 `;
+
