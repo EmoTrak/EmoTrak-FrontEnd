@@ -1,39 +1,68 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Logo from "../assets/이모트랙 로고.svg";
 import { useNavigate } from "react-router-dom";
-import { cookies } from "../utils/cookies";
+import { getCookie, removeCookie } from "../utils/cookies";
 import Flex from "../components/Flex";
+import {
+  CHART_PAGE,
+  COMMUNITY_PAGE,
+  LOGIN_PAGE,
+  MY_PAGE,
+} from "../data/routes/urls";
 
 const Header = (): JSX.Element => {
-  const nav = useNavigate();
-  const token = cookies.get("token");
-  console.log(token);
+  const navigate = useNavigate();
+
+  const token = getCookie("token");
+  const nickname = getCookie("nickname");
+
+  const logoutUserHandler = () => {
+    removeCookie("token", { path: "/" });
+    removeCookie("nickname", { path: "/" });
+    navigate(`${LOGIN_PAGE}`);
+  };
+
+  useEffect(() => {
+    if (getCookie("token")) {
+      navigate("/");
+    }
+  }, [token]);
 
   return (
     <StHeader>
       <Flex row jc="space-between">
-        <EmoTrakLogo>
+        <EmoTrakLogo onClick={() => navigate("/")}>
           <img src={Logo} alt="로고" />
         </EmoTrakLogo>
         {token ? (
           <NavWrapper>
             <Flex row gap={10}>
-              <PageButton onClick={() => nav("/community")}>
+              <PageButton>{`${nickname}`}님 안녕하세요</PageButton>
+              <PageButton onClick={() => navigate(`${MY_PAGE}`)}>
+                마이페이지
+              </PageButton>
+              <PageButton onClick={() => navigate(`${COMMUNITY_PAGE}`)}>
                 공유 페이지
               </PageButton>
-              <PageButton onClick={() => nav("/chart")}>차트 페이지</PageButton>
-              <PageButton onClick={() => nav("/login")}>로그아웃</PageButton>
+              <PageButton onClick={() => navigate(`${CHART_PAGE}`)}>
+                차트 페이지
+              </PageButton>
+              <PageButton onClick={logoutUserHandler}>로그아웃</PageButton>
             </Flex>
           </NavWrapper>
         ) : (
           <NavWrapper>
             <Flex row gap={10}>
-              <PageButton onClick={() => nav("/community")}>
+              <PageButton onClick={() => navigate(`${COMMUNITY_PAGE}`)}>
                 공유 페이지
               </PageButton>
-              <PageButton onClick={() => nav("/chart")}>차트 페이지</PageButton>
-              <PageButton onClick={() => nav("/login")}>로그인</PageButton>
+              <PageButton onClick={() => navigate(`${CHART_PAGE}`)}>
+                차트 페이지
+              </PageButton>
+              <PageButton onClick={() => navigate(`${LOGIN_PAGE}`)}>
+                로그인
+              </PageButton>
             </Flex>
           </NavWrapper>
         )}
@@ -44,9 +73,9 @@ const Header = (): JSX.Element => {
 
 export default Header;
 
-
 const EmoTrakLogo = styled.div`
   margin-left: 50px;
+  cursor: pointer;
 `;
 
 const StHeader = styled.div`
@@ -71,8 +100,7 @@ const PageButton = styled.button`
     margin-right: 50px;
   }
 `;
-const NavWrapper =styled.div`
+const NavWrapper = styled.div`
   display: flex;
   justify-content: center;
-  
-`
+`;
