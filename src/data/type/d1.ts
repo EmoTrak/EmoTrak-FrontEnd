@@ -1,4 +1,7 @@
 // 지현
+interface id {
+  id: number;
+}
 export interface date {
   year: number;
   month: number;
@@ -6,8 +9,7 @@ export interface date {
   day?: number;
 }
 
-interface DataDetail {
-  id: number;
+interface DataDetail extends id {
   day: number;
   emoId: number;
   detail: string;
@@ -44,3 +46,7 @@ export interface BooleanType {
 }
 
 export type ModalState = BooleanType[];
+
+export interface Image extends id {
+  imgUrl: string;
+}
