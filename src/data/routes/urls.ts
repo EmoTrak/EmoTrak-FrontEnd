@@ -6,7 +6,7 @@ export const IMAGE_POST_PAGE = "/image-post";
 export const DRAW_POST_PAGE = "/draw-post";
 export const COMMUNITY_PAGE = "/community";
 export const EDIT_PAGE = "/edit";
-
+export const MY_PAGE = "/mypage";
 // 카카오 소셜로그인 관련
 export const KAKAO_REST_API_KEY = "07f88dbc408f08bcd7e1bd0b2ca3c993";
 export const KAKAO_REDIRECT_URI = "http://localhost:3000/oauth/kakao";
