@@ -2,15 +2,29 @@ import React from "react";
 import ApexCharts from "react-apexcharts";
 import styled from "styled-components";
 
-function BarChart({ data }: any) {
-  const colors = [
-    "#8889C2",
-    "#C78EC0",
-    "#FEEC96",
-    "#F89790",
-    "#73C7EE",
-    "#85C99E",
-  ];
+interface PropsData {
+  month?: number;
+  graph?: Graph[];
+  content: string | number;
+  data: Data[];
+}
+interface Data {
+  month: number;
+  graph: Graph[];
+}
+interface Graph {
+  id?: number;
+  count?: number;
+  percentage?: number;
+}
+const BarChart = ({ data, content }: any): JSX.Element => {
+  const BarData = data?.data
+    .filter((item: any) => item.month === Number(content))
+    .map((item: any) => {
+      return item?.graph.map((item: any) => {
+        return item.count;
+      });
+    });
   return (
     <Wrapper>
       <ApexCharts
@@ -19,9 +33,8 @@ function BarChart({ data }: any) {
         type="bar"
         series={[
           {
-            data: data?.data.slice(18, 24).map((item: { count: number }) => {
-              return item.count;
-            }),
+            name: "count",
+            data: BarData.flat(),
           },
         ]}
         options={{
@@ -33,10 +46,20 @@ function BarChart({ data }: any) {
             },
             stacked: true,
           },
-          stroke: {
-            curve: "straight",
+          colors: [
+            "#8889C2",
+            "#C78EC0",
+            "#FEEC96",
+            "#F89790",
+            "#73C7EE",
+            "#85C99E",
+          ],
+          plotOptions: {
+            bar: {
+              columnWidth: "50%",
+              distributed: true,
+            },
           },
-          colors: colors,
           title: {
             text: "EmoTrak BarChart",
             align: "center",
@@ -49,7 +72,11 @@ function BarChart({ data }: any) {
             },
           },
           xaxis: {
-            categories: ["제목", "제목", "제목", "제목", "제목", "제목"],
+            categories: ["Fun", "Smile", "Calm", "Sad", "Angry", "Cry"],
+
+            labels: {
+              show: true,
+            },
           },
           yaxis: {
             show: false,
@@ -58,7 +85,7 @@ function BarChart({ data }: any) {
       />
     </Wrapper>
   );
-}
+};
 
 export default BarChart;
 

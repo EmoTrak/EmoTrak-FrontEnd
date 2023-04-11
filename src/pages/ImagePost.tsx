@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "../features/imagepost/components/Image";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
 import { InputValue, StEmoButton, StList, StUnorderLi } from "./DrawingPost";
@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import { usePost } from "../features/post/hooks/usePost";
 import styled from "styled-components";
 import { usePreview } from "../features/post/hooks/usePreview";
+import Flex from "../components/Flex";
 
 const ImagePost = (): JSX.Element => {
   const params = useParams();
@@ -36,9 +37,10 @@ const ImagePost = (): JSX.Element => {
     scoreStarHandler,
   } = useInput(newItem);
 
-  const { submitDiaryHandler, fileInputHandler, photo } = usePost({
-    inputValue,
-  });
+  const { submitDiaryHandler, fileInputHandler, fileDropHandler, photo } =
+    usePost({
+      inputValue,
+    });
   const { preview, previewUrl } = usePreview();
 
   useEffect(() => {
@@ -60,6 +62,31 @@ const ImagePost = (): JSX.Element => {
     setClicked(clicked.map((_, i) => i <= index - 1));
     scoreStarHandler(index);
   };
+
+  // 드래그앤 드랍
+  // const [isDragging, setIsDragging] = useState<boolean>(false);
+  const dragRef = useRef<HTMLLabelElement | null>(null);
+
+  const dragOverHandler = useCallback((event: React.DragEvent): void => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (event.dataTransfer!.files) {
+      // setIsDragging(true);
+    }
+  }, []);
+
+  const dropHandler = useCallback(
+    (event: React.DragEvent<HTMLLabelElement>): void => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      fileDropHandler(event);
+      // setIsDragging(false);
+      setValidPhoto(true);
+    },
+    []
+  );
 
   const submitFormHandler = (event: React.FormEvent<HTMLFormElement>) => {
     if (validPhoto && validEmoji && validStar) {
@@ -92,73 +119,83 @@ const ImagePost = (): JSX.Element => {
   return (
     <>
       <form onSubmit={submitFormHandler}>
-        <StPhotoInputBox>
-          <StPhotoInput
-            type="file"
-            name="img"
-            accept="image/jpeg"
-            onChange={changeFileHandler}
-            required
-          />
-        </StPhotoInputBox>
+        <Flex row>
+          <div>
+            {validPhoto ? (
+              <StPhotoPreview url={`${previewUrl}`}>
+                <button type="button" onClick={deletePhotoHandler}>
+                  삭제
+                </button>
+              </StPhotoPreview>
+            ) : (
+              <StPhotoInputBox>
+                <label
+                  ref={dragRef}
+                  onDragOver={dragOverHandler}
+                  onDrop={dropHandler}
+                >
+                  <StPhotoInput
+                    type="file"
+                    accept="image/jpeg"
+                    onChange={changeFileHandler}
+                    required
+                  />
+                </label>
+              </StPhotoInputBox>
+            )}
+          </div>
 
-        {validPhoto ? (
-          <StPhotoPreview url={`${previewUrl}`}>
-            <button type="button" onClick={deletePhotoHandler}>
-              삭제
-            </button>
-          </StPhotoPreview>
-        ) : null}
-        <StCanvasWrapper>
-          <div>
-            <StUnorderLi style={{ display: "flex", flexDirection: "row" }}>
-              {emoIds.map((item: number) => (
-                <StList key={item}>
-                  <StEmoButton
-                    name="emoId"
-                    type="button"
-                    value={item}
-                    onClick={changeEmojiHandler}
-                  >
-                    <EmotionIcons
-                      height="50"
-                      width="50"
-                      emotionTypes={`EMOTION_${item}`}
-                    />
-                  </StEmoButton>
-                </StList>
+          <StCanvasWrapper>
+            <div>
+              <StUnorderLi style={{ display: "flex", flexDirection: "row" }}>
+                {emoIds.map((item: number) => (
+                  <StList key={item}>
+                    <StEmoButton
+                      name="emoId"
+                      type="button"
+                      value={item}
+                      onClick={changeEmojiHandler}
+                    >
+                      <EmotionIcons
+                        height="50"
+                        width="50"
+                        emotionTypes={`EMOTION_${item}`}
+                      />
+                    </StEmoButton>
+                  </StList>
+                ))}
+              </StUnorderLi>
+            </div>
+            <div>
+              {starArray.map((score) => (
+                <Star
+                  key={score}
+                  size="30"
+                  color={clicked[score - 1] ? "#FFDC82" : "#E5DFD3"}
+                  onClick={() => changeStarHandler(score)}
+                />
               ))}
-            </StUnorderLi>
-          </div>
-          <div>
-            {starArray.map((score) => (
-              <Star
-                key={score}
-                size="30"
-                color={clicked[score - 1] ? "#FFDC82" : "#E5DFD3"}
-                onClick={() => changeStarHandler(score)}
-              />
-            ))}
-            <span>{inputValue.star === 0 ? null : inputValue.star}</span>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <label>
-              공유여부
-              <input name="share" type="checkbox" onChange={onCheckHandler} />
-            </label>
-            <label>
-              내용
-              <textarea
-                name="detail"
-                cols={30}
-                rows={10}
-                required
-                onChange={onChangeHandler}
-              ></textarea>
-            </label>
-          </div>
-        </StCanvasWrapper>
-        <button type="submit">등록하기</button>
+              <span>{inputValue.star === 0 ? null : inputValue.star}</span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label>
+                공유여부
+                <input name="share" type="checkbox" onChange={onCheckHandler} />
+              </label>
+              <label>
+                내용
+                <textarea
+                  name="detail"
+                  cols={30}
+                  rows={10}
+                  required
+                  onChange={onChangeHandler}
+                ></textarea>
+              </label>
+            </div>
+            <button type="submit">등록하기</button>
+          </StCanvasWrapper>
+        </Flex>
       </form>
     </>
   );
@@ -167,8 +204,8 @@ const ImagePost = (): JSX.Element => {
 export default ImagePost;
 
 export const StPhotoInputBox = styled.li`
-  width: 202px;
-  height: 202px;
+  width: 50vw;
+  height: 70vh;
   position: relative;
   border: 1px solid rgb(230, 229, 239);
   background: rgb(250, 250, 253);
@@ -181,13 +218,15 @@ export const StPhotoInputBox = styled.li`
   margin-right: 1rem;
 
   ::before {
-    content: "";
+    content: "드래그 또는 파일을 선택하여 사진을 첨부해주세요";
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-    width: 2rem;
-    height: 2rem;
-    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj4KICAgIDxwYXRoIGZpbGw9IiNEQ0RCRTQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTI4LjQ3MSAzMkgzLjUzYy0uOTcxIDAtMS44OTQtLjQyMi0yLjUyOS0xLjE1N2wtLjAyNi0uMDNBNCA0IDAgMCAxIDAgMjguMTk4VjguNjA3QTQgNCAwIDAgMSAuOTc0IDUuOTlMMSA1Ljk2YTMuMzQzIDMuMzQzIDAgMCAxIDIuNTI5LTEuMTU2aDIuNTM0YTIgMiAwIDAgMCAxLjUzNy0uNzJMMTAuNC43MkEyIDIgMCAwIDEgMTEuOTM3IDBoOC4xMjZBMiAyIDAgMCAxIDIxLjYuNzJsMi44IDMuMzYzYTIgMiAwIDAgMCAxLjUzNy43MmgyLjUzNGMuOTcxIDAgMS44OTQuNDIzIDIuNTI5IDEuMTU3bC4wMjYuMDNBNCA0IDAgMCAxIDMyIDguNjA2djE5LjU5MWE0IDQgMCAwIDEtLjk3NCAyLjYxN2wtLjAyNi4wM0EzLjM0MyAzLjM0MyAwIDAgMSAyOC40NzEgMzJ6TTE2IDkuNmE4IDggMCAxIDEgMCAxNiA4IDggMCAwIDEgMC0xNnptMCAxMi44YzIuNjQ3IDAgNC44LTIuMTUzIDQuOC00LjhzLTIuMTUzLTQuOC00LjgtNC44YTQuODA1IDQuODA1IDAgMCAwLTQuOCA0LjhjMCAyLjY0NyAyLjE1MyA0LjggNC44IDQuOHoiLz4KPC9zdmc+Cg==);
+    width: 40vw;
+    height: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 1rem;
   }
 `;
@@ -208,8 +247,8 @@ export type StPreviewProps = {
 };
 
 export const StPhotoPreview = styled.div<StPreviewProps>`
-  width: 202px;
-  height: 202px;
+  width: 50vw;
+  height: 70vh;
   background-repeat: no-repeat;
   background-size: cover;
   ${({ url }) => {
