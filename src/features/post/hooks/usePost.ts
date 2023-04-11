@@ -37,6 +37,13 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
     setPhoto(imgBlob);
   };
 
+  // 이미지 파일 드래그앤드랍 업로드 함수
+  const fileDropHandler = async (event: React.DragEvent<HTMLLabelElement>) => {
+    const files = (event.dataTransfer.files as FileList)[0];
+    const imgBlob = new Blob([files], { type: "image/jpeg" });
+    setPhoto(imgBlob);
+  };
+
   const postDiary = useMutation(
     async (item: FormData) => {
       const data = await user.post("/daily", item);
@@ -61,8 +68,6 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
     if (picture) {
       formData.append("image", picture);
       formData.append("contents", dto);
-      console.log("formData/image", formData.get("image"));
-      console.log("formData/contents", formData.get("contents"));
 
       postDiary.mutate(formData);
     }
@@ -70,8 +75,6 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
     if (photo) {
       formData.append("image", photo);
       formData.append("contents", dto);
-      console.log("formData/image", formData.get("image"));
-      console.log("formData/contents", formData.get("contents"));
 
       postDiary.mutate(formData);
     }
@@ -81,6 +84,7 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
     submitDiaryHandler,
     savePictureHandler,
     fileInputHandler,
+    fileDropHandler,
     photo,
   };
 };
