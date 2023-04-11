@@ -12,7 +12,7 @@ const RedirectKakao = () => {
 
   const authKakaoCode = useMutation(
     async (code: string | null) => {
-      const data = await await guest.get(`/kakao/callback?code=${code}`);
+      const data = await guest.get(`/kakao/callback?code=${code}`);
       return data;
     },
     {
