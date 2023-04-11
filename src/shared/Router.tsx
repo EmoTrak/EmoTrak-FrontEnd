@@ -15,6 +15,7 @@ import AdminUser from "../features/Admin/AdminUser";
 import AdminPost from "../features/Admin/AdminPost";
 import Layout from "../layouts/Layout";
 import Members from "../pages/Members";
+import Mypage from "../pages/Mypage";
 
 const Router = () => {
   return (
@@ -24,6 +25,7 @@ const Router = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/mypage" element={<Mypage />} />
           <Route path="/image-post/:date" element={<ImagePost />} />
           <Route path="/draw-post/:date" element={<DrawingPost />} />
           <Route path="/detail/:id" element={<Detail />} />
