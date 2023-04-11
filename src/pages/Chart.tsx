@@ -1,37 +1,40 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import BarChart from '../features/chart/components/BarChart';
-import PieChart from '../features/chart/components/PieChart';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { keys } from '../data/queryKeys/keys';
-import user from '../lib/api/user';
-import Flex from '../components/Flex';
+import React, { ChangeEvent, useState } from "react";
+import styled from "styled-components";
+import BarChart from "../features/chart/components/BarChart";
+import PieChart from "../features/chart/components/PieChart";
+import { useQuery } from "@tanstack/react-query";
+import { keys } from "../data/queryKeys/keys";
+import user from "../lib/api/user";
+import Flex from "../components/Flex";
 
 const Chart = (): JSX.Element => {
-  const queryClient = useQueryClient();
   let date = new Date();
-  const [year, setYear] = useState(date.getFullYear());
+  const [year, setYear] = useState<number>(date.getFullYear());
+  const [content, setContent] = useState<number | string>(0);
+
   const { data, isError, isLoading } = useQuery({
     queryKey: [keys.GET_CHART, { year }],
     queryFn: async () => {
-      const { data } = await user.get('/graph/', {
+      const { data } = await user.get("/graph/", {
         params: { year },
       });
       return data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [keys.GET_CHART] });
-    },
     refetchOnWindowFocus: false,
-    refetchInterval: 5000,
   });
-  console.log(data);
   if (isLoading) return <div>로딩중..</div>;
   if (isError) return <div>에러..</div>;
+  console.log(data);
+
+  const onChangeHandler = (e: ChangeEvent<HTMLSelectElement>): void => {
+    const { value } = e.target as HTMLSelectElement;
+    setContent(value);
+  };
   return (
     <StWrapper>
       <Flex jc="center" ai="center">
-        <StMonth>
+        <StMonth defaultValue={content} onChange={onChangeHandler}>
+          <option>Select</option>
           <option value="1">Jan</option>
           <option value="2">Feb</option>
           <option value="3">Mar</option>
@@ -45,13 +48,9 @@ const Chart = (): JSX.Element => {
           <option value="11">Nov</option>
           <option value="12">Dec</option>
         </StMonth>
-        {/* <CheckBoxWrapper>
-        <CheckBox onClick={toggleChart} type="checkbox" />
-        <CheckBoxLabel htmlFor="checkbox" />
-      </CheckBoxWrapper> */}
         <Flex row>
-          <PieChart data={data} />
-          <BarChart data={data} />
+          <PieChart data={data} content={content} />
+          <BarChart data={data} content={content} />
         </Flex>
       </Flex>
     </StWrapper>
@@ -71,5 +70,6 @@ const StMonth = styled.select`
 `;
 
 const StWrapper = styled.div`
-  height: 100vh;
+  margin-top: 50px;
+  height: 80vh;
 `;

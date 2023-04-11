@@ -2,7 +2,14 @@ import ApexCharts from "react-apexcharts";
 import React from "react";
 import styled from "styled-components";
 
-function PieChart({ data }: any): JSX.Element {
+function PieChart({ data, content }: any): JSX.Element {
+  const PieData = data?.data
+    .filter((item: any) => item.month === Number(content))
+    .map((item: any) => {
+      return item?.graph.map((item: any) => {
+        return item.percentage;
+      });
+    });
 
   return (
     <Wrapper>
@@ -10,17 +17,9 @@ function PieChart({ data }: any): JSX.Element {
         width="600px"
         height="500px"
         type="pie"
-        series={[
-          {
-            data: data?.data
-              .slice(18, 24)
-              .map((item: { percentage: number }) => {
-                return Math.round(item.percentage);
-              }),
-          },
-        ]}
+        series={PieData.flat()}
         options={{
-          labels: ["슬픔", "행복", "이거", "저거", "요거", "고거"],
+          labels: ["Fun", "Smile", "Calm", "Sad", "Angry", "Cry"],
           colors: [
             "#8889C2",
             "#C78EC0",
@@ -30,9 +29,9 @@ function PieChart({ data }: any): JSX.Element {
             "#85C99E",
           ],
           title: {
-            // 제목입력하기
             text: "EmoTrak PieChart",
             align: "center",
+            margin: 30,
             style: {
               fontSize: "14px",
               fontWeight: "bold",
