@@ -136,7 +136,7 @@ const ImagePost = (): JSX.Element => {
                 >
                   <StPhotoInput
                     type="file"
-                    accept="image/jpeg"
+                    accept="image/jpeg image/png image/jpg image/gif"
                     onChange={changeFileHandler}
                     required
                   />

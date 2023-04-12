@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 
-const Palette = ({ selectedColor, onColorSelect }: any) => {
+interface PaletteProps {
+  selectedColor: string;
+  onColorSelect(color: string): void;
+  setSelectPen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Palette = ({
+  selectedColor,
+  onColorSelect,
+  setSelectPen,
+}: PaletteProps) => {
   //상태 관리
 
   //   // 색상 선택 핸들러
@@ -34,7 +44,10 @@ const Palette = ({ selectedColor, onColorSelect }: any) => {
               borderRadius: "50%",
               border: color === selectedColor ? "2px solid grey" : "none", // 선택된 색상에는 테두리있도록 표시
             }}
-            onClick={() => onColorSelect(color)}
+            onClick={() => {
+              onColorSelect(color);
+              setSelectPen(false);
+            }}
           />
         ))}
       </div>

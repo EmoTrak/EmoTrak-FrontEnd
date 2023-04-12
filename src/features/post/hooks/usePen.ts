@@ -1,10 +1,18 @@
 import { useCallback, useState } from "react";
 import { Coordinate } from "../../../data/type/d3";
 
+interface PenProps {
+  ref?: React.RefObject<HTMLCanvasElement>;
+  action?(): Function;
+  color?: string;
+  penSize?: number;
+}
+
 export const usePen = (
   ref: React.RefObject<HTMLCanvasElement>,
   action: Function,
-  color: string
+  color: string,
+  penSize: number
 ) => {
   const [isPainting, setIsPainting] = useState<boolean>(false);
   const [mousePosition, setMousePosition] =
@@ -24,7 +32,7 @@ export const usePen = (
     if (context) {
       context.strokeStyle = `${color}`;
       context.lineJoin = "round";
-      context.lineWidth = 5;
+      context.lineWidth = penSize;
 
       context.beginPath();
       context.moveTo(originalMousePosition.x, originalMousePosition.y);

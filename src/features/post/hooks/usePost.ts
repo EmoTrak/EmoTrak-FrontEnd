@@ -51,7 +51,8 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
     },
     {
       onSuccess(data) {
-        navigate("/");
+        const newItemId = data.data.data.id;
+        navigate(`/detail/${newItemId}`);
       },
       onError(err) {
         alert("입력한 내용을 확인해주세요!");
