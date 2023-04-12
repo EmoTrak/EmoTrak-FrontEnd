@@ -61,7 +61,7 @@ const DrawingPost = (): JSX.Element => {
 
   // 그림판 모드, 색깔 상태 관리
   const [mode, setMode] = useState<string>("pen");
-  const [selectedColor, setSelectedColor] = useState<string>("");
+  const [selectedColor, setSelectedColor] = useState<string>("#000000");
   const [selectPen, setSelectPen] = useState<boolean>(false);
   const [selectedSize, setSelectedSize] = useState<number>(5);
 
@@ -208,29 +208,20 @@ const DrawingPost = (): JSX.Element => {
       <form onSubmit={submitFormHandler}>
         <Flex row gap={10}>
           <StCanvasWrapper>
-            <Flex jc="center" ai="center">
-              <div style={{ backgroundColor: "#f4f2ee" }}>
-                <canvas
-                  ref={canvasRef}
-                  height={700}
-                  width={700}
-                  onMouseDown={mouseDownHandler}
-                  onMouseMove={mouseMoveHandler}
-                  onMouseUp={mouseUpHandler}
-                  onMouseLeave={mouseLeaveHandler}
-                  onTouchStart={startTouch}
-                  onTouchMove={moveTouch}
-                  onTouchEnd={endTouch}
-                ></canvas>
-              </div>
-
-              <button type="button" onClick={clearCanvas}>
-                다시 그리기
-              </button>
-              <button type="button" onClick={savePicture}>
-                그리기 완료
-              </button>
-            </Flex>
+            <div style={{ backgroundColor: "#f4f2ee" }}>
+              <canvas
+                ref={canvasRef}
+                height={700}
+                width={700}
+                onMouseDown={mouseDownHandler}
+                onMouseMove={mouseMoveHandler}
+                onMouseUp={mouseUpHandler}
+                onMouseLeave={mouseLeaveHandler}
+                onTouchStart={startTouch}
+                onTouchMove={moveTouch}
+                onTouchEnd={endTouch}
+              ></canvas>
+            </div>
             <Flex row>
               <ul>도구 선택</ul>
               <li>
@@ -268,6 +259,12 @@ const DrawingPost = (): JSX.Element => {
                   지우개
                 </button>
               </li>
+              <button type="button" onClick={clearCanvas}>
+                다시 그리기
+              </button>
+              <button type="button" onClick={savePicture}>
+                그리기 완료
+              </button>
             </Flex>
           </StCanvasWrapper>{" "}
           <StCanvasWrapper>
