@@ -73,6 +73,9 @@ const Detail = (): JSX.Element => {
     alert("권한이 없습니다!");
     navigate("/");
   }
+  if (isLoading) {
+    return <div>로딩중..</div>;
+  }
 
   return (
     <div>
