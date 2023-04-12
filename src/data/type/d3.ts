@@ -7,18 +7,18 @@ export type LoginInfo = {
 
 export type SignInfo = LoginInfo & { nickname: string };
 
-export type Validation = {
+export interface Validation {
   email: boolean;
   nickname: boolean;
   password: boolean;
-};
+}
 
-export type CookieOption = {
+export interface CookieOption {
   path: string;
   maxAge?: number;
-};
+}
 
-export type Coordinate = {
+export interface Coordinate {
   x: number;
   y: number;
-};
+}
