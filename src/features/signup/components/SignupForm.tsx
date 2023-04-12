@@ -124,7 +124,9 @@ const SignupForm = () => {
               ) : (
                 <span>중복확인이 필요합니다.</span>
               )
-            ) : null}
+            ) : (
+              <span></span>
+            )}
           </label>
           <label>
             비밀번호
@@ -135,6 +137,11 @@ const SignupForm = () => {
               maxLength={15}
               onChange={(e) => changeInputHandler(e)}
             />
+            {7 < Number(signInfo.password.length) ? null : (
+              <span>
+                비밀번호는 영소문자, 숫자를 포함하는 8~15자리이어야합니다.
+              </span>
+            )}
           </label>
           <label>
             비밀번호 확인
@@ -147,11 +154,7 @@ const SignupForm = () => {
             {checkPassword ? (
               checkPasswordHandler(checkPassword) ? (
                 <span>비밀번호가 일치합니다.</span>
-              ) : (
-                <span>
-                  비밀번호는 소문자, 숫자를 포함하는 8~15자리이어야합니다.
-                </span>
-              )
+              ) : null
             ) : null}
           </label>
           <button type="submit">가입하기</button>
