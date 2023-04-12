@@ -12,7 +12,7 @@ function PieChart({ graphData, month }: PropsData): JSX.Element {
       const test = matchedData.graph.map((item) => item.percentage);
       setBarCountArr(test);
     }
-  }, []);
+  }, [month]);
 
   return (
     <Wrapper>
