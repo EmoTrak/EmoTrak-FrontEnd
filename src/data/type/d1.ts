@@ -1,7 +1,8 @@
 // 지현
-interface id {
+export interface Idtype {
   id: number;
 }
+
 export interface date {
   year: number;
   month: number;
@@ -9,7 +10,7 @@ export interface date {
   day?: number;
 }
 
-interface DataDetail extends id {
+interface DataDetail extends Idtype {
   day: number;
   emoId: number;
   detail: string;
@@ -47,7 +48,7 @@ export interface BooleanType {
 
 export type ModalState = BooleanType[];
 
-export interface ImageType extends id {
+export interface ImageType extends Idtype {
   imgUrl: string;
 }
 
@@ -56,4 +57,25 @@ export interface SelectType {
   emo: string;
   size: number;
   sort: string;
+}
+
+export interface CommentType {
+  comment: string;
+}
+
+export interface CommentProps extends Idtype {
+  paramId: number;
+  commentData: commentData[];
+  index: number;
+  item: commentData;
+}
+
+interface commentData extends Idtype {
+  cmtLikesCnt: number;
+  comment: string;
+  createAt: string;
+  email: string;
+  hasAuth: boolean;
+  id: number;
+  nickname: string;
 }
