@@ -79,9 +79,13 @@ const Detail = (): JSX.Element => {
       <Flex row>
         <StCanvasWrapper>
           {targetItem?.imgUrl ? (
-            <img src={targetItem?.imgUrl} alt="" />
+            <StDetailImageBox>
+              <StDetailImage src={targetItem?.imgUrl} alt="" />
+            </StDetailImageBox>
           ) : (
-            <StDefaultImage>이미지가 필요합니다</StDefaultImage>
+            <StDetailImageBox>
+              <StDefaultImage>이미지가 필요합니다</StDefaultImage>
+            </StDetailImageBox>
           )}
         </StCanvasWrapper>
         <StCanvasWrapper>
@@ -142,4 +146,17 @@ const StDefaultImage = styled.div`
   width: 500px;
   height: 500px;
   border: 1px solid;
+`;
+
+const StDetailImage = styled.img`
+  width: 100%;
+  height: 100%;
+`;
+
+const StDetailImageBox = styled.div`
+  width: 50vw;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
