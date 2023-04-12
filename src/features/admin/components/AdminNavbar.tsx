@@ -2,13 +2,14 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Flex from "../../../components/Flex";
+import { ADMIN_COMMENT, ADMIN_POST } from "../../../data/routes/urls";
 
 const AdminNavbar = (): JSX.Element => {
   const nav = useNavigate();
   return (
     <Flex>
-      <AdminPostBtn onClick={() => nav("/adminpost")}>post</AdminPostBtn>
-      <AdminCommnetBtn onClick={() => nav("/admincomment")}>
+      <AdminPostBtn onClick={() => nav(`${ADMIN_POST}`)}>post</AdminPostBtn>
+      <AdminCommnetBtn onClick={() => nav(`${ADMIN_COMMENT}`)}>
         Comment
       </AdminCommnetBtn>
     </Flex>
