@@ -34,6 +34,11 @@ const RedirectKakao = () => {
   if (authKakaoCode.isLoading) {
     return <div>카카오 로그인중입니다...</div>;
   }
+
+  if (authKakaoCode.isError) {
+    navigate(-2);
+    return <div>에러</div>;
+  }
   return <div>RedirectKakao</div>;
 };
 
