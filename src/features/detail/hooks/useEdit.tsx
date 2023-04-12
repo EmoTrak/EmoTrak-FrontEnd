@@ -40,18 +40,23 @@ export const useEdit = ({ inputValue, dailyId }: PostInput) => {
     setPhoto(imgBlob);
   };
 
+  // 이미지 파일 드래그앤드랍 업로드 함수
+  const fileDropHandler = async (event: React.DragEvent<HTMLLabelElement>) => {
+    const files = (event.dataTransfer.files as FileList)[0];
+    const imgBlob = new Blob([files], { type: "image/jpeg" });
+    setPhoto(imgBlob);
+  };
+
   const editDiaryHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData();
     const dto = new Blob([JSON.stringify(inputValue)], {
       type: "application/json",
     });
-    if (photo) {
+    if (photo !== null) {
       event.preventDefault();
       formData.append("image", photo);
       formData.append("contents", dto);
-      console.log("formData/image", formData.get("image"));
-      console.log("formData/contents", formData.get("contents"));
       editDiary.mutate(formData);
     }
     if (photo === null) {
@@ -59,10 +64,11 @@ export const useEdit = ({ inputValue, dailyId }: PostInput) => {
       const formData = new FormData();
       const emptyImageBlob = new Blob([], { type: "image/jpeg" });
       formData.append("image", emptyImageBlob, "image");
+
       formData.append("dto", dto);
       editDiary.mutate(formData);
     }
   };
 
-  return { editDiaryHandler, fileInputHandler, photo };
+  return { editDiaryHandler, fileInputHandler, fileDropHandler, photo };
 };

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { InputValue, StEmoButton, StList, StUnorderLi } from "./DrawingPost";
 import user from "../lib/api/user";
@@ -23,13 +23,9 @@ const Edit = () => {
     return user.get(`daily/${dailyId}`);
   }, [dailyId]);
 
-  const { data, isLoading, isError, isSuccess } = useQuery(
-    [`${keys.GET_DETAIL}`],
-    getDetail,
-    {
-      retry: 0,
-    }
-  );
+  const { data, isLoading } = useQuery([`${keys.GET_DETAIL}`], getDetail, {
+    retry: 0,
+  });
   const { preview, previewUrl } = usePreview();
 
   const year = data?.data.data.year;
@@ -59,13 +55,41 @@ const Edit = () => {
     setInputValue,
   } = useInput(editItem);
 
-  const { editDiaryHandler, fileInputHandler, photo } = useEdit({
-    inputValue,
-    dailyId,
-  });
+  const { editDiaryHandler, fileInputHandler, fileDropHandler, photo } =
+    useEdit({
+      inputValue,
+      dailyId,
+    });
+
+  // 드래그앤 드랍
+  // const [isDragging, setIsDragging] = useState<boolean>(false);
+  const dragRef = useRef<HTMLLabelElement | null>(null);
+
+  const dragOverHandler = useCallback((event: React.DragEvent): void => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (event.dataTransfer!.files) {
+      // setIsDragging(true);
+    }
+  }, []);
+
+  const dropHandler = useCallback(
+    (event: React.DragEvent<HTMLLabelElement>): void => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      fileDropHandler(event);
+      // setIsDragging(false);
+      setValidPhoto(true);
+    },
+    []
+  );
 
   // 기존 이미지 state 설정
-  const [exPhoto, setExPhoto] = useState(targetItem?.imgUrl);
+  const [exPhoto, setExPhoto] = useState<string | undefined>(
+    targetItem?.imgUrl
+  );
 
   useEffect(() => {
     preview(photo);
@@ -101,8 +125,9 @@ const Edit = () => {
 
   const deleteExistingPhotoHandler = () => {
     setValidPhoto(false);
-    setExPhoto(null);
+    setExPhoto(undefined);
     fileInputHandler(null);
+    setInputValue({ ...inputValue, deleteImg: true });
   };
 
   const submitFormHandler = (event: React.FormEvent<HTMLFormElement>) => {
@@ -110,7 +135,7 @@ const Edit = () => {
       editDiaryHandler(event);
     } else {
       event.preventDefault();
-      alert("수정 내용을 확인해주세요 !");
+      alert("사진을 첨부해주세요 !");
     }
   };
   if (isLoading) {
@@ -120,29 +145,38 @@ const Edit = () => {
   return (
     <>
       <form onSubmit={submitFormHandler}>
-        <StPhotoInputBox>
-          <StPhotoInput
-            type="file"
-            name="img"
-            accept="image/jpeg"
-            onChange={changeFileHandler}
-          />
-        </StPhotoInputBox>
-        {exPhoto ? (
-          <StPhotoPreview url={`${targetItem?.imgUrl}`}>
-            <button type="button" onClick={deleteExistingPhotoHandler}>
-              삭제
-            </button>
-          </StPhotoPreview>
-        ) : (
-          <StPhotoPreview url={`${previewUrl}`}>
-            {validPhoto ? (
-              <button type="button" onClick={deletePhotoHandler}>
+        <div>
+          {exPhoto ? (
+            <StPhotoPreview url={`${targetItem?.imgUrl}`}>
+              <button type="button" onClick={deleteExistingPhotoHandler}>
                 삭제
               </button>
-            ) : null}
-          </StPhotoPreview>
-        )}
+            </StPhotoPreview>
+          ) : validPhoto ? (
+            <StPhotoPreview url={`${previewUrl}`}>
+              {validPhoto ? (
+                <button type="button" onClick={deletePhotoHandler}>
+                  삭제
+                </button>
+              ) : null}
+            </StPhotoPreview>
+          ) : (
+            <StPhotoInputBox>
+              <label
+                ref={dragRef}
+                onDragOver={dragOverHandler}
+                onDrop={dropHandler}
+              >
+                <StPhotoInput
+                  type="file"
+                  accept="image/jpeg image/png image/jpg image/gif"
+                  onChange={changeFileHandler}
+                  required
+                />
+              </label>
+            </StPhotoInputBox>
+          )}
+        </div>
         <StCanvasWrapper>
           <div>
             <StUnorderLi style={{ display: "flex", flexDirection: "row" }}>
