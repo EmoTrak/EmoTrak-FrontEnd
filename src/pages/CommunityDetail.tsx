@@ -1,41 +1,28 @@
-import React, { useState } from 'react';
-import Flex from '../components/Flex';
-import { useNavigate, useParams } from 'react-router-dom';
-import { EDIT_PAGE } from '../data/routes/urls';
-import { useDelete } from '../features/detail/hooks/useDelete';
-import { useQuery } from '@tanstack/react-query';
-import styled from 'styled-components';
-import EmotionIcons from '../components/Icon/EmoticonIcons';
-import user from '../lib/api/user';
-import { keys } from '../data/queryKeys/keys';
-import Comment from '../features/community/components/Comment';
-import { getCookie } from '../utils/cookies';
+import { useState } from "react";
+import Flex from "../components/Flex";
+import { useNavigate } from "react-router-dom";
+import { EDIT_PAGE } from "../data/routes/urls";
+import { useDelete } from "../features/detail/hooks/useDelete";
+import styled from "styled-components";
+import EmotionIcons from "../components/Icon/EmoticonIcons";
+import Comment from "../features/community/components/Comment";
+import { getCookie } from "../utils/cookies";
+import useAddCommunityDetail from "../features/community/hooks/useAddCommunityDetail";
 
 const CommunityDetail = (): JSX.Element => {
-  const param = useParams();
   const [page, setPage] = useState<number>(0);
-  const dailyId: number = Number(param.id);
   const navigate = useNavigate();
   const { deletePost } = useDelete();
-  const token = getCookie('token');
+  const token = getCookie("token");
 
-  const { data, isError } = useQuery({
-    queryKey: [keys.GET_BOARD, page],
-    queryFn: async () => {
-      const data = await user.get(`/boards/${dailyId}`, { params: page });
-      return data.data.data;
-    },
-  });
+  const { data, isError } = useAddCommunityDetail(page);
 
   const deletePostHandler = (id: number) => {
-    if (window.confirm('삭제하시겠습니까?')) {
+    if (window.confirm("삭제하시겠습니까?")) {
       deletePost.mutate(id);
     }
   };
 
-  // if (isLoading) {
-  //   <>로딩중..</>;
-  // }
   if (isError) {
     <>게시글을 불러올 수 없습니다</>;
   }
@@ -79,7 +66,6 @@ export default CommunityDetail;
 
 const StDefaultImage = styled.div`
   width: 50vw;
-  /* height: 500px; */
   border: 1px solid;
 `;
 

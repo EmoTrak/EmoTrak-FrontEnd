@@ -1,8 +1,8 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import user from '../../../lib/api/user';
-import { keys } from '../../../data/queryKeys/keys';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import user from "../../../lib/api/user";
+import { keys } from "../../../data/queryKeys/keys";
 
-const useDeleteComment = (id: number | undefined) => {
+const useDeleteComment = () => {
   const queryClient = useQueryClient();
 
   const { mutate: deleteComment } = useMutation({

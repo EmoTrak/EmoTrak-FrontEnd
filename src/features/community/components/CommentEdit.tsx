@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { CommentProps } from '../../../data/type/d1';
-import styled from 'styled-components';
-import useDeleteComment from '../hooks/useDeleteComment';
-import useUpdateComment from '../hooks/useUpdateComment';
+import React, { useState } from "react";
+import { CommentProps } from "../../../data/type/d1";
+import styled from "styled-components";
+import useDeleteComment from "../hooks/useDeleteComment";
+import useUpdateComment from "../hooks/useUpdateComment";
 
 const CommentEdit = ({ item }: Partial<CommentProps>) => {
   const [edit, setEdit] = useState<boolean>(false);
@@ -12,8 +12,8 @@ const CommentEdit = ({ item }: Partial<CommentProps>) => {
     setEditComment(e.target.value);
   };
 
-  const { updateComment } = useUpdateComment(item?.id, editComment);
-  const { deleteComment } = useDeleteComment(item?.id);
+  const { updateComment } = useUpdateComment(editComment);
+  const { deleteComment } = useDeleteComment();
 
   return (
     <CommentBox>
@@ -35,7 +35,7 @@ const CommentEdit = ({ item }: Partial<CommentProps>) => {
                 : setEdit((pre) => !pre)
             }
           >
-            {edit ? '수정완료' : '수정'}
+            {edit ? "수정완료" : "수정"}
           </button>
           <button onClick={() => deleteComment(item.id)}>삭제</button>
         </>

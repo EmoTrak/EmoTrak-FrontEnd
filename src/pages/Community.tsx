@@ -1,13 +1,13 @@
-import styled from 'styled-components';
-import EmotionIcons from '../components/Icon/EmoticonIcons';
-import Flex from '../components/Flex';
-import { BsCaretDownFill } from 'react-icons/bs';
-import useEmoSelect from '../features/community/hooks/useEmoSelect';
-import useInfinite from '../features/community/hooks/useInfinite';
-import { useEffect, useState } from 'react';
-import { ImageType, SelectType } from '../data/type/d1';
-import { useNavigate } from 'react-router-dom';
-import { COMMUNITY_PAGE } from '../data/routes/urls';
+import styled from "styled-components";
+import EmotionIcons from "../components/Icon/EmoticonIcons";
+import Flex from "../components/Flex";
+import { BsCaretDownFill } from "react-icons/bs";
+import useEmoSelect from "../features/community/hooks/useEmoSelect";
+import useInfinite from "../features/community/hooks/useInfinite";
+import { useEffect, useState } from "react";
+import { ImageType, SelectType } from "../data/type/d1";
+import { useNavigate } from "react-router-dom";
+import { COMMUNITY_PAGE } from "../data/routes/urls";
 
 const Community = (): JSX.Element => {
   const navigate = useNavigate();
@@ -15,9 +15,9 @@ const Community = (): JSX.Element => {
   const [postData, setPostData] = useState<ImageType[]>([]);
   const [select, setSelect] = useState<SelectType>({
     page: 1,
-    emo: '1,2,3,4,5,6',
+    emo: "1,2,3,4,5,6",
     size: 20,
-    sort: 'recent',
+    sort: "recent",
   });
 
   const [listOpen, setListOpen] = useState<boolean>(false);
@@ -38,9 +38,9 @@ const Community = (): JSX.Element => {
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', onScroll);
+    window.addEventListener("scroll", onScroll);
     return () => {
-      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener("scroll", onScroll);
     };
   }, [select]);
 
@@ -66,15 +66,15 @@ const Community = (): JSX.Element => {
       <SelectBar>
         <Flex>
           <SelectTitle onClick={(): void => setListOpen((pre: boolean): boolean => !pre)}>
-            {select.sort === 'recent' ? '최신순' : '인기순'}
+            {select.sort === "recent" ? "최신순" : "인기순"}
             <BsCaretDownFill />
           </SelectTitle>
           {listOpen && (
             <Sort>
-              <SortListBtn onClick={(): void => clickSelectHandler('recent')}>
+              <SortListBtn onClick={(): void => clickSelectHandler("recent")}>
                 최신순
               </SortListBtn>
-              <SortListBtn onClick={(): void => clickSelectHandler('popular')}>
+              <SortListBtn onClick={(): void => clickSelectHandler("popular")}>
                 인기순
               </SortListBtn>
             </Sort>
