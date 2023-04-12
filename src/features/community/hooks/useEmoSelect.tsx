@@ -10,7 +10,7 @@ const useEmoSelect = () => {
     false,
   ]);
   const [emoNum, setEmonum] = useState('1,2,3,4,5,6');
-  const newArr: any = [];
+  const newArr: number[] = [];
 
   const clickEmojiHandler = (num: number): void => {
     const value = emoSelect[num];

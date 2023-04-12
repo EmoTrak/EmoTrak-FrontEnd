@@ -1,21 +1,19 @@
 import styled from 'styled-components';
 import EmotionIcons from '../components/Icon/EmoticonIcons';
 import Flex from '../components/Flex';
-import { useState } from 'react';
 import { BsCaretDownFill } from 'react-icons/bs';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { keys } from '../data/queryKeys/keys';
-import user from '../lib/api/user';
 import useEmoSelect from '../features/community/hooks/useEmoSelect';
-import { Image } from '../data/type/d1';
+import useInfinite from '../features/community/hooks/useInfinite';
+import { useEffect, useState } from 'react';
+import { ImageType } from '../data/type/d1';
 
 const Community = (): JSX.Element => {
   const { clickEmojiHandler, emoNum } = useEmoSelect();
-
+  const [postData, setPostData] = useState([]);
   const [select, setSelect] = useState({
     page: 1,
     emo: '1,2,3,4,5,6',
-    size: 10,
+    size: 20,
     sort: 'recent',
   });
 
@@ -26,20 +24,37 @@ const Community = (): JSX.Element => {
     setListOpen((pre) => !pre);
   };
 
-  const { data, isLoading, isError } = useInfiniteQuery({
-    queryKey: [keys.GET_BOARD, select],
-    queryFn: async () => {
-      const data = await user.get(`/boards`, { params: select });
-      return data.data.data;
-    },
-    // getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
-  });
+  const { boardData, isLast, boardLoading, boardError, status } = useInfinite(select);
 
-  if (isLoading) {
+  const onScroll = () => {
+    if (isLast) {
+      setSelect({ ...select, page: select.page });
+    } else if (window.innerHeight + window.scrollY + 1 >= document.body.offsetHeight) {
+      setSelect({ ...select, page: select.page + 1 });
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, [select]);
+
+  useEffect(() => {
+    if (boardData) {
+      setPostData((prevPostData: never[] | ImageType[]): any => [
+        ...prevPostData,
+        ...boardData,
+      ]);
+    }
+  }, [boardData]);
+
+  if (boardLoading) {
     return <>로딩중</>;
   }
 
-  if (isError) {
+  if (boardError) {
     return <>에러</>;
   }
 
@@ -76,7 +91,7 @@ const Community = (): JSX.Element => {
         ))}
       </SelectBar>
       <ImageContainer>
-        {data.pages[0].map((item: Image, i: number) => (
+        {postData.map((item: ImageType, i: number) => (
           <ImageBox key={i}>
             <Image src={item.imgUrl} />
           </ImageBox>
@@ -88,7 +103,6 @@ const Community = (): JSX.Element => {
 
 const Container = styled.div`
   max-width: 90vw;
-  min-height: 1000px;
   margin-left: auto;
   margin-right: auto;
   border: 1px solid;
@@ -116,7 +130,7 @@ const ImageContainer = styled.div`
   display: grid;
   z-index: 1;
   gap: 2vw;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
 `;
 
 const SelectTitle = styled.div`

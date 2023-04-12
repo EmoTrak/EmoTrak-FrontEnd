@@ -47,6 +47,13 @@ export interface BooleanType {
 
 export type ModalState = BooleanType[];
 
-export interface Image extends id {
+export interface ImageType extends id {
   imgUrl: string;
+}
+
+export interface SelectType {
+  page: number;
+  emo: string;
+  size: number;
+  sort: string;
 }
