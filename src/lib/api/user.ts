@@ -15,7 +15,9 @@ user.interceptors.request.use(
   // 요청을 보내기 전 수행되는 함수
   function (config) {
     const token = getCookie('token');
-    config.headers['Authorization'] = `Bearer ${token}`;
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
     return config;
   }
 );
