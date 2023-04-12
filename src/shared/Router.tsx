@@ -11,11 +11,13 @@ import Chart from "../pages/Chart";
 import RedirectKakao from "../pages/RedirectKakao";
 import Edit from "../pages/Edit";
 import Admin from "../pages/Admin";
-import AdminUser from "../features/Admin/AdminUser";
-import AdminPost from "../features/Admin/AdminPost";
 import Layout from "../layouts/Layout";
 import Members from "../pages/Members";
 import Mypage from "../pages/Mypage";
+import AdminComment from "../features/admin/components/AdminComment";
+import AdminPost from "../features/admin/components/AdminPost";
+
+
 
 const Router = () => {
   return (
@@ -37,7 +39,7 @@ const Router = () => {
           <Route path="/oauth/kakao" element={<RedirectKakao />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/adminpost" element={<AdminPost />} />
-          <Route path="/adminuser" element={<AdminUser />} />
+          <Route path="/admincomment" element={<AdminComment />} />
         </Routes>
       </Layout>
     </BrowserRouter>
