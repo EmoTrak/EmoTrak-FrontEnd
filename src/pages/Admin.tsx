@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import AdminNavbar from "../features/Admin/AdminNavbar";
+import AdminNavbar from "../features/admin/components/AdminNavbar";
 
 const Admin = (): JSX.Element => {
   return (
