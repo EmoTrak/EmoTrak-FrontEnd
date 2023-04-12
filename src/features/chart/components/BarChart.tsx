@@ -27,7 +27,7 @@ const BarChart = ({ graphData, month }: PropsData): JSX.Element => {
       const test = matchedData.graph.map((item) => item.count);
       setBarCountArr(test);
     }
-  }, []);
+  }, [month]);
 
   return (
     <Wrapper>
