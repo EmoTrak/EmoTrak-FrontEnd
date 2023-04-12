@@ -32,11 +32,7 @@ export const useLogin = () => {
         const info = data.headers.authorization;
         const token = info.split(" ")[1];
         setCookie("token", token, { path: "/", maxAge: 3540 });
-        setCookie("nickname", data.headers.nickname, {
-          path: "/",
-          maxAge: 3540,
-        });
-        navigate("/");
+        navigate(-1);
       },
       onError(err) {
         alert("아이디와 비밀번호를 확인해주세요 !");
