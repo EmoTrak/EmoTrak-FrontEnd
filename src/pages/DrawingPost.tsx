@@ -11,6 +11,7 @@ import { usePen } from "../features/post/hooks/usePen";
 import { useEraser } from "../features/post/hooks/useEraser";
 import { Coordinate } from "../data/type/d3";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
+import PenTool from "../features/post/components/PenTool";
 
 export type InputValue = {
   year: number;
@@ -61,6 +62,8 @@ const DrawingPost = (): JSX.Element => {
   // 그림판 모드, 색깔 상태 관리
   const [mode, setMode] = useState<string>("pen");
   const [selectedColor, setSelectedColor] = useState<string>("");
+  const [selectPen, setSelectPen] = useState<boolean>(false);
+  const [selectedSize, setSelectedSize] = useState<number>(5);
 
   // 좌표 함수
   const getCoordinates = (
@@ -77,7 +80,7 @@ const DrawingPost = (): JSX.Element => {
   };
 
   const { startPaint, paint, exitPaint, moveTouch, startTouch, endTouch } =
-    usePen(canvasRef, getCoordinates, selectedColor);
+    usePen(canvasRef, getCoordinates, selectedColor, selectedSize);
 
   const { startErase, erase, exitErase } = useEraser(canvasRef, getCoordinates);
 
@@ -97,11 +100,17 @@ const DrawingPost = (): JSX.Element => {
     const button = event.target as HTMLButtonElement;
     const value = button.value;
     setMode(value);
+    setSelectPen((pre) => !pre);
   };
 
   // 색깔 변경 함수
   const selectColorHandler = (color: string): void => {
     setSelectedColor(color);
+    setMode("pen");
+  };
+
+  const selectPenSizeHandler = (size: number): void => {
+    setSelectedSize(size);
     setMode("pen");
   };
 
@@ -195,7 +204,7 @@ const DrawingPost = (): JSX.Element => {
   };
 
   return (
-    <>
+    <div style={{ height: "80vh" }}>
       <form onSubmit={submitFormHandler}>
         <Flex row gap={10}>
           <StCanvasWrapper>
@@ -225,6 +234,14 @@ const DrawingPost = (): JSX.Element => {
             <Flex row>
               <ul>도구 선택</ul>
               <li>
+                {selectPen ? (
+                  <PenTool
+                    color={selectedColor}
+                    selectedSize={selectedSize}
+                    onSizeSelect={selectPenSizeHandler}
+                    setSelectPen={setSelectPen}
+                  />
+                ) : null}
                 <button
                   type="button"
                   value="pen"
@@ -232,11 +249,14 @@ const DrawingPost = (): JSX.Element => {
                 >
                   펜
                 </button>
-                {mode === "pen" ? (
-                  <Palette
-                    selectedColor={selectedColor}
-                    onColorSelect={selectColorHandler}
-                  />
+                {selectPen ? (
+                  <>
+                    <Palette
+                      selectedColor={selectedColor}
+                      onColorSelect={selectColorHandler}
+                      setSelectPen={setSelectPen}
+                    />
+                  </>
                 ) : null}
               </li>
               <li>
@@ -302,7 +322,7 @@ const DrawingPost = (): JSX.Element => {
           <button type="submit">등록하기</button>
         </Flex>
       </form>
-    </>
+    </div>
   );
 };
 

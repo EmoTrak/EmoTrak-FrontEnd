@@ -25,6 +25,9 @@ const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
   // 그림판 모드, 색깔 상태 관리
   const [mode, setMode] = useState<string>("pen");
   const [selectedColor, setSelectedColor] = useState<string>("");
+  const [selectedSize, setSelectedSize] = useState<number>(5);
+
+  const [selectPen, setSelectPen] = useState<boolean>(false);
 
   // 좌표 함수
   const getCoordinates = (
@@ -43,7 +46,8 @@ const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
   const { startPaint, paint, exitPaint } = usePen(
     canvasRef,
     getCoordinates,
-    selectedColor
+    selectedColor,
+    selectedSize
   );
 
   const { startErase, erase, exitErase } = useEraser(canvasRef, getCoordinates);
@@ -163,6 +167,7 @@ const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
           <Palette
             selectedColor={selectedColor}
             onColorSelect={selectColorHandler}
+            setSelectPen={setSelectPen}
           />
         </li>
         <li>
