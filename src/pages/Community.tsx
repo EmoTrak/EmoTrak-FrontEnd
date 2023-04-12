@@ -6,8 +6,11 @@ import useEmoSelect from '../features/community/hooks/useEmoSelect';
 import useInfinite from '../features/community/hooks/useInfinite';
 import { useEffect, useState } from 'react';
 import { ImageType, SelectType } from '../data/type/d1';
+import { useNavigate } from 'react-router-dom';
+import { COMMUNITY_PAGE } from '../data/routes/urls';
 
 const Community = (): JSX.Element => {
+  const navigate = useNavigate();
   const { clickEmojiHandler, emoNum } = useEmoSelect();
   const [postData, setPostData] = useState<ImageType[]>([]);
   const [select, setSelect] = useState<SelectType>({
@@ -92,7 +95,7 @@ const Community = (): JSX.Element => {
       </SelectBar>
       <ImageContainer>
         {postData.map((item: ImageType, i: number) => (
-          <ImageBox key={i}>
+          <ImageBox key={i} onClick={() => navigate(`${COMMUNITY_PAGE}/${item.id}`)}>
             <Image src={item.imgUrl} />
           </ImageBox>
         ))}
@@ -176,5 +179,6 @@ const ImageBox = styled.div`
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  cursor: pointer;
 `;
 export default Community;
