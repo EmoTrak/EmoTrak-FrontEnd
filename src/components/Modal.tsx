@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState } from 'react';
-import { BooleanType, PropsType } from '../data/type/d1';
-import styled from 'styled-components';
+import React, { createContext, useContext, useState } from "react";
+import { BooleanType, PropsType } from "../data/type/d1";
+import styled from "styled-components";
 
 const defaultValue = {
   open: false,
@@ -19,6 +19,19 @@ export const ModalTrigger = ({ children }: PropsType) => {
   return <div onClick={() => setOpen(true)}>{children}</div>;
 };
 
+export const ModalBackground = () => {
+  const { open } = useContext(Context);
+  return <>{open && <Background />}</>;
+};
+
+const Background = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+`;
+
 export const ModalContent = ({ children }: PropsType) => {
   const { open } = useContext(Context);
   return <>{open && <Content>{children}</Content>}</>;
@@ -33,17 +46,15 @@ const Content = styled.div`
   box-sizing: border-box;
 `;
 
-export const ModalClose = () => {
+export const ModalClose = ({ children }: PropsType) => {
   const { setOpen } = useContext(Context);
 
-  return <CloseBtn onClick={() => setOpen(false)}>✖️</CloseBtn>;
+  return <CloseBtn onClick={() => setOpen(false)}>{children}</CloseBtn>;
 };
 
 const CloseBtn = styled.button`
-  position: absolute;
-  top: 5px;
-  right: 5px;
   border: 0;
   background-color: transparent;
+  cursor: pointer;
   font-size: 25px;
 `;

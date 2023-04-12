@@ -34,9 +34,11 @@ export interface KeyType {
   [key: string]: string;
 }
 
-export interface PropsType {
-  children: React.ReactNode;
+export interface PropsType extends ChildrenType {
   diaryDay?: Partial<date>;
+}
+export interface ChildrenType {
+  children: React.ReactNode;
 }
 
 export interface BooleanType {
@@ -70,7 +72,7 @@ export interface CommentProps extends Idtype {
   item: commentData;
 }
 
-interface commentData extends Idtype {
+export interface commentData extends Idtype {
   cmtLikesCnt: number;
   comment: string;
   createAt: string;
@@ -78,4 +80,5 @@ interface commentData extends Idtype {
   hasAuth: boolean;
   id: number;
   nickname: string;
+  hasLike: boolean;
 }

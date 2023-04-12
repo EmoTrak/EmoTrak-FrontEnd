@@ -1,41 +1,56 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { CommentProps } from "../../../data/type/d1";
 import styled from "styled-components";
-import { CommentType, CommentProps } from "../../../data/type/d1";
-import CommentEdit from "./CommentEdit";
-import useAddComment from "../hooks/useAddComment";
+import useDeleteComment from "../hooks/useDeleteComment";
+import useUpdateComment from "../hooks/useUpdateComment";
+import LikePost from "./LikePost";
 
-const Comment = ({ id, commentData }: Partial<CommentProps>) => {
-  const [input, setInput] = useState<CommentType>({
-    comment: "",
-  });
+const Comment = ({ item }: Partial<CommentProps>) => {
+  const [edit, setEdit] = useState<boolean>(false);
+  const [editComment, setEditComment] = useState<string | undefined>(item?.comment);
+
   const changeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput({ ...input, comment: e.target.value });
+    setEditComment(e.target.value);
   };
 
-  const { addComment } = useAddComment(id);
-
-  const submitCommentHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    addComment(input);
-    setInput({ ...input, comment: "" });
-  };
+  const { updateComment } = useUpdateComment(editComment);
+  const { deleteComment } = useDeleteComment();
 
   return (
-    <CommentContainer>
-      <form onSubmit={submitCommentHandler}>
-        댓글작성
-        <input type="text" value={input.comment} onChange={changeInputHandler} />
-        <button type="submit">댓글작성</button>
-      </form>
-      {commentData?.map((item, i) => (
-        <CommentEdit item={item} key={i} />
-      ))}
-    </CommentContainer>
+    <CommentBox>
+      {edit ? (
+        <input type="text" value={editComment} onChange={changeInputHandler} />
+      ) : (
+        <>
+          <div>닉네임 : {item?.nickname}</div>
+          <div>댓글 : {item?.comment}</div>
+          <LikePost
+            hasLike={item?.hasLike}
+            id={item?.id}
+            count={item?.cmtLikesCnt}
+            uri="comments/likes"
+          />
+        </>
+      )}
+      {item?.hasAuth && (
+        <>
+          <button
+            onClick={() =>
+              edit
+                ? updateComment(item.id, { onSuccess: () => setEdit((pre) => !pre) })
+                : setEdit((pre) => !pre)
+            }
+          >
+            {edit ? "수정완료" : "수정"}
+          </button>
+          <button onClick={() => deleteComment(item.id)}>삭제</button>
+        </>
+      )}
+    </CommentBox>
   );
 };
 
-const CommentContainer = styled.div`
-  width: 100%;
+const CommentBox = styled.div`
+  border-top: 1px solid;
 `;
-
 export default Comment;

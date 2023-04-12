@@ -6,9 +6,9 @@ import { useState } from "react";
 import { keys } from "../../../data/queryKeys/keys";
 
 interface LikePost {
-  hasLike: boolean;
-  id: number;
-  count: number;
+  hasLike: boolean | undefined;
+  id: number | undefined;
+  count: number | undefined;
   uri: string;
 }
 
@@ -19,7 +19,7 @@ const LikePost = ({ hasLike, id, count, uri }: LikePost) => {
     count: count,
   });
   const { mutate: likeMutate, data: likedata } = useMutation({
-    mutationFn: async (id: number) => {
+    mutationFn: async (id: number | undefined) => {
       const data = await user.post(`/boards/${uri}/${id}`);
       return console.log(data);
     },

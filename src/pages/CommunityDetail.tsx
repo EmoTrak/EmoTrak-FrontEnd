@@ -5,10 +5,13 @@ import { EDIT_PAGE } from "../data/routes/urls";
 import { useDelete } from "../features/detail/hooks/useDelete";
 import styled from "styled-components";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
-import Comment from "../features/community/components/Comment";
+import Comment from "../features/community/components/CreateComment";
 import { getCookie } from "../utils/cookies";
 import useAddCommunityDetail from "../features/community/hooks/useAddCommunityDetail";
 import LikePost from "../features/community/components/LikePost";
+import CommentEdit from "../features/community/components/Comment";
+import { commentData } from "../data/type/d1";
+import Report from "../features/community/components/Report";
 
 const CommunityDetail = (): JSX.Element => {
   const [page, setPage] = useState<number>(0);
@@ -52,6 +55,7 @@ const CommunityDetail = (): JSX.Element => {
               width="50"
               emotionTypes={`EMOTION_${data?.emoId}`}
             />
+            <div>닉네임 :{data?.nickname}</div>
           </Flex>
           <Flex row>내 감정점수 {data?.star}</Flex>
           <Flex row>{data?.detail}</Flex>
@@ -63,7 +67,17 @@ const CommunityDetail = (): JSX.Element => {
           )}
         </Flex>
 
-        {token && <Comment id={data?.id} commentData={data?.comments} />}
+        {token && (
+          <>
+            <Comment id={data?.id} />
+            <Report>
+              <button>신고하기</button>
+            </Report>
+          </>
+        )}
+        {data?.comments.map((item: commentData, i: number) => (
+          <CommentEdit item={item} key={i} />
+        ))}
       </StCanvasWrapper2>
     </Flex>
   );
