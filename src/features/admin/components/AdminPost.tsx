@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import user from "../../../lib/api/user";
@@ -14,7 +14,7 @@ interface IAdminData {
   nickname: string;
   email: string;
   count: number;
-  reson: string;
+  reason: string;
 }
 
 const AdminPost = (): JSX.Element => {
@@ -27,9 +27,19 @@ const AdminPost = (): JSX.Element => {
     },
     refetchOnWindowFocus: false,
   });
-
-  const onDeleteHandler = () => {};
-
+  console.log(data);
+  
+  // /boards/restrict/:boardId
+  const { mutate } = useMutation({
+    mutationFn: async (payload: number) => {
+      console.log(payload);
+      const { data } = await user.patch(`/boards/restrict/${payload}`);
+      return data;
+    },
+    onSuccess: () => {
+      alert("삭제완료");
+    },
+  });
   return (
     <Wrapper>
       <BackBtn onClick={() => nav(`${ADMIN}`)}>
@@ -51,16 +61,20 @@ const AdminPost = (): JSX.Element => {
             </thead>
 
             <StTbody>
-              {data?.map((item: any, i: number) => {
+              {data?.map((item: IAdminData, i: number) => {
                 return (
-                  <tr key={i} style={{ margin: "10px" }}>
+                  <tr key={i}>
                     <td>{item.id}</td>
                     <td>{item.nickname}</td>
                     <td>{item.email}</td>
                     <td>{item.count}</td>
                     <td>{item.reason}</td>
                     <td>
-                      <button onClick={onDeleteHandler}>
+                      <button
+                        onClick={() => {
+                          mutate(item.id);
+                        }}
+                      >
                         <TbShareOff />
                       </button>
                     </td>
