@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { InputValue } from "../../../pages/DrawingPost";
-import { useMutation } from "@tanstack/react-query";
+import {
+  useMutation,
+  QueryClient,
+  useQueryClient,
+} from "@tanstack/react-query";
 import user from "../../../lib/api/user";
 import { useNavigate } from "react-router-dom";
 import { DETAIL_PAGE } from "../../../data/routes/urls";
+import { keys } from "../../../data/queryKeys/keys";
 
 type PostInput = {
   inputValue?: InputValue;
@@ -13,18 +18,18 @@ type PostInput = {
 export const useEdit = ({ inputValue, dailyId }: PostInput) => {
   const navigate = useNavigate();
   const [photo, setPhoto] = useState<Blob | null>(null);
-
+  const queryClient = useQueryClient();
   const editDiary = useMutation(
     async (item: FormData) => {
-      const data = await user.patch(`/daily/${dailyId}`, item);
-      return dailyId;
+      await user.patch(`/daily/${dailyId}`, item);
+      queryClient.invalidateQueries([`${keys.GET_DETAIL}`]);
     },
     {
-      onSuccess(data) {
+      onSuccess() {
         alert("수정되었습니다");
-        navigate(`${DETAIL_PAGE}/${data}`);
+        navigate(-1);
       },
-      onError(err) {
+      onError() {
         alert("입력한 내용을 확인해주세요!");
       },
     }
@@ -54,13 +59,11 @@ export const useEdit = ({ inputValue, dailyId }: PostInput) => {
       type: "application/json",
     });
     if (photo !== null) {
-      event.preventDefault();
       formData.append("image", photo);
       formData.append("contents", dto);
       editDiary.mutate(formData);
     }
     if (photo === null) {
-      event.preventDefault();
       const formData = new FormData();
       const emptyImageBlob = new Blob([], { type: "image/jpeg" });
       formData.append("image", emptyImageBlob, "image");
