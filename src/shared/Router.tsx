@@ -16,8 +16,7 @@ import Members from "../pages/Members";
 import Mypage from "../pages/Mypage";
 import AdminComment from "../features/admin/components/AdminComment";
 import AdminPost from "../features/admin/components/AdminPost";
-
-
+import RedirectNaver from "../pages/RedirectNaver";
 
 const Router = () => {
   return (
@@ -37,6 +36,7 @@ const Router = () => {
           <Route path="/community/:id" element={<CommunityDetail />} />
           <Route path="/members" element={<Members />} />
           <Route path="/oauth/kakao" element={<RedirectKakao />} />
+          <Route path="/oauth/naver" element={<RedirectNaver />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/adminpost" element={<AdminPost />} />
           <Route path="/admincomment" element={<AdminComment />} />

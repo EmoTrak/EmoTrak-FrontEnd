@@ -1,5 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import { KAKAO_AUTH_URL, SIGN_UP_PAGE } from "../../../data/routes/urls";
+import {
+  KAKAO_AUTH_URL,
+  NAVER_AUTH_URL,
+  SIGN_UP_PAGE,
+} from "../../../data/routes/urls";
 import styled from "styled-components";
 import Flex from "../../../components/Flex";
 import { useLogin } from "../hooks/useLogin";
@@ -47,6 +51,14 @@ const LoginForm = () => {
         }}
       >
         카카오 로그인
+      </button>
+      <button
+        type="button"
+        onClick={() => {
+          window.location.href = NAVER_AUTH_URL;
+        }}
+      >
+        네이버 로그인
       </button>
     </StFormWrapper>
   );
