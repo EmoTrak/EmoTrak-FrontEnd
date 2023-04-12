@@ -199,4 +199,5 @@ export const StCanvasWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  overflow: scroll;
 `;
