@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { getCookie, removeCookie } from "../utils/cookies";
 import Flex from "../components/Flex";
 import {
+  ADMIN,
   CHART_PAGE,
   COMMUNITY_PAGE,
   LOGIN_PAGE,
@@ -15,7 +16,6 @@ const Header = (): JSX.Element => {
   const navigate = useNavigate();
 
   const token = getCookie("token");
-  const nickname = getCookie("nickname");
 
   const logoutUserHandler = () => {
     removeCookie("token", { path: "/" });
@@ -23,16 +23,42 @@ const Header = (): JSX.Element => {
     navigate(`${LOGIN_PAGE}`);
   };
 
+  let payloadJson;
+  let payload;
+  const [headerB64, payloadB64, signatureB64] = (token || "").split(".");
+  if (typeof atob !== undefined && payloadB64) {
+    payloadJson = atob(payloadB64);
+  }
+  if (payloadJson !== undefined) {
+    payload = JSON.parse(payloadJson);
+  }
   return (
     <StHeader>
       <Flex row jc="space-between">
         <EmoTrakLogo onClick={() => navigate("/")}>
           <img src={Logo} alt="로고" />
         </EmoTrakLogo>
-        {token ? (
+        {payload?.auth === 'ADMIN' ? (
           <NavWrapper>
             <Flex row gap={10}>
-              <PageButton>{`${nickname}`}님 안녕하세요</PageButton>
+              <PageButton onClick={() => navigate(`${ADMIN}`)}>
+                관리자페이지
+              </PageButton>
+              <PageButton onClick={() => navigate(`${MY_PAGE}`)}>
+                마이페이지
+              </PageButton>
+              <PageButton onClick={() => navigate(`${COMMUNITY_PAGE}`)}>
+                공유 페이지
+              </PageButton>
+              <PageButton onClick={() => navigate(`${CHART_PAGE}`)}>
+                차트 페이지
+              </PageButton>
+              <PageButton onClick={logoutUserHandler}>로그아웃</PageButton>
+            </Flex>
+          </NavWrapper>
+        ):token ? (
+          <NavWrapper>
+            <Flex row gap={10}>
               <PageButton onClick={() => navigate(`${MY_PAGE}`)}>
                 마이페이지
               </PageButton>
@@ -50,9 +76,6 @@ const Header = (): JSX.Element => {
             <Flex row gap={10}>
               <PageButton onClick={() => navigate(`${COMMUNITY_PAGE}`)}>
                 공유 페이지
-              </PageButton>
-              <PageButton onClick={() => navigate(`${CHART_PAGE}`)}>
-                차트 페이지
               </PageButton>
               <PageButton onClick={() => navigate(`${LOGIN_PAGE}`)}>
                 로그인

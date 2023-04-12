@@ -7,6 +7,7 @@ import Flex from "../../../components/Flex";
 import styled from "styled-components";
 import { BiArrowBack } from "react-icons/bi";
 import { TbShareOff } from "react-icons/tb";
+import { ADMIN } from "../../../data/routes/urls";
 
 interface IAdminData {
   id: number;
@@ -31,7 +32,7 @@ const AdminPost = (): JSX.Element => {
 
   return (
     <Wrapper>
-      <BackBtn onClick={() => nav("/admin")}>
+      <BackBtn onClick={() => nav(`${ADMIN}`)}>
         <BiArrowBack />
       </BackBtn>
       <Flex>

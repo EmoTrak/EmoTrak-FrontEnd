@@ -7,6 +7,7 @@ import Flex from "../../../components/Flex";
 import styled from "styled-components";
 import { BiArrowBack } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { ADMIN } from "../../../data/routes/urls";
 
 interface IAdminData {
   id: number;
@@ -31,7 +32,7 @@ const AdminComment = (): JSX.Element => {
 
   return (
     <Wrapper>
-      <BackBtn onClick={() => nav("/admin")}>
+      <BackBtn onClick={() => nav(`${ADMIN}`)}>
         <BiArrowBack />
       </BackBtn>
       <Flex>
