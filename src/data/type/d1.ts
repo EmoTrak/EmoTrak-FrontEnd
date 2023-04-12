@@ -1,19 +1,21 @@
 // 지현
-export type date = {
+interface id {
+  id: number;
+}
+export interface date {
   year: number;
   month: number;
   date?: number;
   day?: number;
-};
+}
 
-interface DataDetail {
-  id: number;
+interface DataDetail extends id {
   day: number;
   emoId: number;
   detail: string;
 }
 
-export type DayProps = {
+export interface DayProps {
   side: boolean;
   setSide: React.Dispatch<React.SetStateAction<boolean>>;
   data: {
@@ -25,22 +27,33 @@ export type DayProps = {
   item: Partial<date>;
   today: date;
   children: React.ReactNode;
-};
+}
 
-export type KeyType = {
+export interface KeyType {
   [key: string]: string;
-};
+}
 
-export type PropsType = {
+export interface PropsType {
   children: React.ReactNode;
   diaryDay?: Partial<date>;
-};
+}
 
-export type BooleanType = {
+export interface BooleanType {
   open: boolean;
   // setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   // setOpen: (open: boolean) => boolean;
   setOpen: (open: boolean) => void;
-};
+}
 
 export type ModalState = BooleanType[];
+
+export interface ImageType extends id {
+  imgUrl: string;
+}
+
+export interface SelectType {
+  page: number;
+  emo: string;
+  size: number;
+  sort: string;
+}
