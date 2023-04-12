@@ -8,6 +8,7 @@ import EmotionIcons from "../components/Icon/EmoticonIcons";
 import Comment from "../features/community/components/Comment";
 import { getCookie } from "../utils/cookies";
 import useAddCommunityDetail from "../features/community/hooks/useAddCommunityDetail";
+import LikePost from "../features/community/components/LikePost";
 
 const CommunityDetail = (): JSX.Element => {
   const [page, setPage] = useState<number>(0);
@@ -26,7 +27,7 @@ const CommunityDetail = (): JSX.Element => {
   if (isError) {
     <>게시글을 불러올 수 없습니다</>;
   }
-
+  console.log(data);
   return (
     <Flex row>
       <StCanvasWrapper>
@@ -38,6 +39,12 @@ const CommunityDetail = (): JSX.Element => {
       </StCanvasWrapper>
       <StCanvasWrapper2>
         <Flex>
+          <LikePost
+            hasLike={data?.hasLike}
+            id={data?.id}
+            count={data?.boardLikesCnt}
+            uri="likes"
+          />
           <Flex row>
             이모티콘
             <EmotionIcons
