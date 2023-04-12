@@ -67,8 +67,7 @@ export const useEdit = ({ inputValue, dailyId }: PostInput) => {
       const formData = new FormData();
       const emptyImageBlob = new Blob([], { type: "image/jpeg" });
       formData.append("image", emptyImageBlob, "image");
-
-      formData.append("dto", dto);
+      formData.append("contents", dto);
       editDiary.mutate(formData);
     }
   };
