@@ -5,12 +5,12 @@ import { BsCaretDownFill } from 'react-icons/bs';
 import useEmoSelect from '../features/community/hooks/useEmoSelect';
 import useInfinite from '../features/community/hooks/useInfinite';
 import { useEffect, useState } from 'react';
-import { ImageType } from '../data/type/d1';
+import { ImageType, SelectType } from '../data/type/d1';
 
 const Community = (): JSX.Element => {
   const { clickEmojiHandler, emoNum } = useEmoSelect();
-  const [postData, setPostData] = useState([]);
-  const [select, setSelect] = useState({
+  const [postData, setPostData] = useState<ImageType[]>([]);
+  const [select, setSelect] = useState<SelectType>({
     page: 1,
     emo: '1,2,3,4,5,6',
     size: 20,
@@ -21,10 +21,10 @@ const Community = (): JSX.Element => {
 
   const clickSelectHandler = (sel: string): void => {
     setSelect({ ...select, sort: sel });
-    setListOpen((pre) => !pre);
+    setListOpen((pre: boolean): boolean => !pre);
   };
 
-  const { boardData, isLast, boardLoading, boardError, status } = useInfinite(select);
+  const { boardData, isLast, boardLoading, boardError } = useInfinite(select);
 
   const onScroll = () => {
     if (isLast) {
@@ -43,7 +43,7 @@ const Community = (): JSX.Element => {
 
   useEffect(() => {
     if (boardData) {
-      setPostData((prevPostData: never[] | ImageType[]): any => [
+      setPostData((prevPostData: never[] | ImageType[]): never[] | ImageType[] => [
         ...prevPostData,
         ...boardData,
       ]);
@@ -62,7 +62,7 @@ const Community = (): JSX.Element => {
     <Container>
       <SelectBar>
         <Flex>
-          <SelectTitle onClick={(): void => setListOpen((pre) => !pre)}>
+          <SelectTitle onClick={(): void => setListOpen((pre: boolean): boolean => !pre)}>
             {select.sort === 'recent' ? '최신순' : '인기순'}
             <BsCaretDownFill />
           </SelectTitle>

@@ -4,7 +4,7 @@ import { keys } from '../../../data/queryKeys/keys';
 import { SelectType } from '../../../data/type/d1';
 
 const useInfinite = (select: SelectType) => {
-  const { data, isLoading, isError, status, refetch } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: [keys.GET_BOARD, select],
     queryFn: async () => {
       const data = await user.get(`/boards`, { params: select });
@@ -18,8 +18,6 @@ const useInfinite = (select: SelectType) => {
     isLast: data?.isLast,
     boardLoading: isLoading,
     boardError: isError,
-    status,
-    refetch,
   };
 };
 
