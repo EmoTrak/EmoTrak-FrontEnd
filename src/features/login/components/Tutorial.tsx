@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as StarIcon } from "../../../assets/star.svg";
 import { ReactComponent as BrandIcon } from "../../../assets/EmoTrakLogo.svg";
+import { ReactComponent as IconLeft } from "../../../assets/logo/IconLeft.svg";
+import { ReactComponent as IconMain } from "../../../assets/logo/IconMain.svg";
+import { ReactComponent as IconRight } from "../../../assets/logo/IconRight.svg";
+import { ReactComponent as IconText } from "../../../assets/logo/IconText.svg";
 
 interface PositionProps {
   position: number;
@@ -23,20 +27,20 @@ const Tutorial = () => {
   return (
     <StTutorialWrapper>
       <StTutorialDiv>
-        {/* <StTutorialTitleContentDiv position={position}>
-          <StTitle>EmoTrak</StTitle>
-        </StTutorialTitleContentDiv> */}
+        <StTutorialTitleContentDiv position={position}>
+          <IconText />
+        </StTutorialTitleContentDiv>
       </StTutorialDiv>
       <StTutorialDiv>
         <StTutorialMovingLogoContentDiv>
           <StIconImageLeft position={position}>
-            <StarIcon width={400} height={400} fill="yellow" />
+            <IconLeft width={400} height={400} />
           </StIconImageLeft>
           <StIconImageMain>
-            <StarIcon width={500} height={500} fill="yellow" />
+            <IconMain width={500} height={500} />
           </StIconImageMain>
           <StIconImageRight position={position}>
-            <StarIcon width={400} height={400} fill="yellow" />
+            <IconRight width={400} height={400} />
           </StIconImageRight>
         </StTutorialMovingLogoContentDiv>
       </StTutorialDiv>
@@ -86,10 +90,10 @@ const StTutorialDiv = styled.div`
   z-index: 2;
 `;
 const StTutorialTitleContentDiv = styled.div<PositionProps>`
-  width: 1000px;
+  width: 100%;
   margin: 0 auto;
   display: flex;
-  height: 400px;
+  height: 30vh;
   justify-content: center;
   align-items: center;
   /* position-y: ${({ position }) => `${position / 2}`};s */
@@ -99,7 +103,7 @@ const StTutorialMovingLogoContentDiv = styled.div`
   width: 100%;
   margin: 0 auto;
   display: flex;
-  height: 70vh;
+  height: 60vh;
   justify-content: center;
   align-items: center;
 `;
@@ -108,7 +112,7 @@ const StTutorialLogoContentDiv = styled.div<PositionProps>`
   width: 100%;
   margin: 0 auto;
   display: flex;
-  max-height: 10vh;
+  max-height: 20vh;
   left: 5%;
   justify-content: center;
   align-items: center;
