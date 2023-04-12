@@ -22,16 +22,12 @@ const RedirectKakao = () => {
       const info = data.headers.authorization.split(" ");
       const token = info[1];
       setCookie("token", token, { path: "/", maxAge: 3540 });
-      setCookie("nickname", data.headers.nickname, {
-        path: "/",
-        maxAge: 3540,
-      });
     },
   });
 
   useEffect(() => {
     if (token) {
-      navigate("/");
+      navigate(-2);
     }
   }, [token]);
 
