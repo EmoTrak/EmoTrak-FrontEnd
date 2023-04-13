@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import BarChart from "../features/chart/components/BarChart";
 import PieChart from "../features/chart/components/PieChart";
@@ -7,6 +7,8 @@ import { keys } from "../data/queryKeys/keys";
 import user from "../lib/api/user";
 import Flex from "../components/Flex";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
+import { cookies } from "../utils/cookies";
+import { useNavigate } from "react-router-dom";
 
 interface IOption {
   value: string;
@@ -14,7 +16,10 @@ interface IOption {
 }
 
 const Chart = (): JSX.Element => {
+  const nav = useNavigate();
+
   let date = new Date();
+  const token = cookies.get("token");
   const [year] = useState<number>(date.getFullYear());
   const [month, setMonth] = useState<string | number>(date.getMonth() + 1);
 
@@ -28,6 +33,14 @@ const Chart = (): JSX.Element => {
     },
     refetchOnWindowFocus: false,
   });
+  
+  useEffect(() => {
+    if (!token) {
+      alert("로그인을 해주세요!");
+      nav("/");
+    }
+    
+  }, []);
 
   if (isLoading) return <div>로딩중..</div>;
   if (isError) return <div>에러..</div>;
@@ -50,6 +63,7 @@ const Chart = (): JSX.Element => {
     { value: "11", month: "Nov" },
     { value: "12", month: "Dec" },
   ];
+
   const emoIds: number[] = [1, 2, 3, 4, 5, 6];
 
   return (
