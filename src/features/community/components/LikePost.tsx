@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import user from "../../../lib/api/user";
 import styled from "styled-components";
 import { useState } from "react";
-import { keys } from "../../../data/queryKeys/keys";
 
 interface LikePost {
   hasLike: boolean | undefined;
@@ -34,7 +33,10 @@ const LikePost = ({ hasLike, id, count, uri }: LikePost) => {
         <>
           <LikeTrue
             onClick={() =>
-              likeMutate(id, { onSuccess: () => setLike({ hasLike: false, count: 0 }) })
+              likeMutate(id, {
+                onSuccess: () => setLike({ hasLike: false, count: 0 }),
+                onError: () => alert("로그인 해주세요"),
+              })
             }
           >
             <RiHeart3Fill />
@@ -45,7 +47,10 @@ const LikePost = ({ hasLike, id, count, uri }: LikePost) => {
         <>
           <LikeFalse
             onClick={() =>
-              likeMutate(id, { onSuccess: () => setLike({ hasLike: true, count: 0 }) })
+              likeMutate(id, {
+                onSuccess: () => setLike({ hasLike: true, count: 0 }),
+                onError: () => alert("로그인 해주세요"),
+              })
             }
           >
             <RiHeart3Line />

@@ -1,6 +1,6 @@
 // 지현
 export interface Idtype {
-  id: number;
+  id?: number;
 }
 
 export interface date {
@@ -81,4 +81,8 @@ export interface commentData extends Idtype {
   id: number;
   nickname: string;
   hasLike: boolean;
+}
+
+export interface UriType {
+  uri: string;
 }

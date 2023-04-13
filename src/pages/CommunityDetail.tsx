@@ -5,13 +5,13 @@ import { EDIT_PAGE } from "../data/routes/urls";
 import { useDelete } from "../features/detail/hooks/useDelete";
 import styled from "styled-components";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
-import Comment from "../features/community/components/CreateComment";
 import { getCookie } from "../utils/cookies";
 import useAddCommunityDetail from "../features/community/hooks/useAddCommunityDetail";
 import LikePost from "../features/community/components/LikePost";
-import CommentEdit from "../features/community/components/Comment";
+import Comment from "../features/community/components/Comment";
 import { commentData } from "../data/type/d1";
 import Report from "../features/community/components/Report";
+import CreateComment from "../features/community/components/CreateComment";
 
 const CommunityDetail = (): JSX.Element => {
   const [page, setPage] = useState<number>(0);
@@ -69,14 +69,14 @@ const CommunityDetail = (): JSX.Element => {
 
         {token && (
           <>
-            <Comment id={data?.id} />
-            <Report>
+            <CreateComment id={data?.id} />
+            <Report id={data?.id} uri="report">
               <button>신고하기</button>
             </Report>
           </>
         )}
         {data?.comments.map((item: commentData, i: number) => (
-          <CommentEdit item={item} key={i} />
+          <Comment item={item} key={i} />
         ))}
       </StCanvasWrapper2>
     </Flex>

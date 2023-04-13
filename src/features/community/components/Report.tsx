@@ -1,10 +1,28 @@
-import React from "react";
-import { ChildrenType } from "../../../data/type/d1";
+import React, { useState } from "react";
+import { ChildrenType, Idtype, UriType } from "../../../data/type/d1";
 import * as UI from "../../../components/Modal";
 import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
+import { useMutation } from "@tanstack/react-query";
+import user from "../../../lib/api/user";
 
-const Report = ({ children }: ChildrenType) => {
+const Report = ({ children, id, uri }: ChildrenType & Idtype & UriType) => {
+  const [reason, setReason] = useState("");
+
+  const changeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setReason(e.target.value);
+  };
+
+  const submitFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    mutate();
+  };
+
+  const { mutate } = useMutation({
+    mutationFn: async () => {
+      await user.post(`/boards/${uri}/${id}`, { reason });
+    },
+  });
   return (
     <UI.Modalroot>
       <UI.ModalBackground />
@@ -17,9 +35,10 @@ const Report = ({ children }: ChildrenType) => {
             </UI.ModalClose>
           </CloseBtn>
           <Text>신고하기</Text>
-          <label>
-            이유 : <input type="text" />
-          </label>
+          <form onSubmit={submitFormHandler}>
+            이유 : <input type="text" value={reason} onChange={changeInputHandler} />
+            <button type="submit">신고</button>
+          </form>
         </Container>
       </UI.ModalContent>
     </UI.Modalroot>

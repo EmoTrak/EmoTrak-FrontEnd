@@ -4,6 +4,7 @@ import styled from "styled-components";
 import useDeleteComment from "../hooks/useDeleteComment";
 import useUpdateComment from "../hooks/useUpdateComment";
 import LikePost from "./LikePost";
+import Report from "./Report";
 
 const Comment = ({ item }: Partial<CommentProps>) => {
   const [edit, setEdit] = useState<boolean>(false);
@@ -30,6 +31,9 @@ const Comment = ({ item }: Partial<CommentProps>) => {
             count={item?.cmtLikesCnt}
             uri="comments/likes"
           />
+          <Report id={item?.id} uri="comments/report">
+            <button>신고하기</button>
+          </Report>
         </>
       )}
       {item?.hasAuth && (
