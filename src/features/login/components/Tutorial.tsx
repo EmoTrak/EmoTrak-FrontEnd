@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { ReactComponent as StarIcon } from "../../../assets/star.svg";
-import { ReactComponent as BrandIcon } from "../../../assets/EmoTrakLogo.svg";
-import { ReactComponent as IconLeft } from "../../../assets/logo/IconLeft.svg";
-import { ReactComponent as IconMain } from "../../../assets/logo/IconMain.svg";
-import { ReactComponent as IconRight } from "../../../assets/logo/IconRight.svg";
-import { ReactComponent as IconText } from "../../../assets/logo/IconText.svg";
+import { ReactComponent as IconLeft } from "../../../assets/tutorial/IconLeft.svg";
+import { ReactComponent as IconMain } from "../../../assets/tutorial/IconMain.svg";
+import { ReactComponent as IconRight } from "../../../assets/tutorial/IconRight.svg";
+import { ReactComponent as IconText } from "../../../assets/tutorial/IconText.svg";
 
 interface PositionProps {
   position: number;
@@ -46,7 +44,7 @@ const Tutorial = () => {
       </StTutorialDiv>
       <StTutorialDiv>
         <StTutorialLogoContentDiv position={position}>
-          <BrandIcon width={400} height={400} />
+          {/* <BrandIcon width={400} height={400} /> */}
         </StTutorialLogoContentDiv>
       </StTutorialDiv>
       <StTutorialDiv>

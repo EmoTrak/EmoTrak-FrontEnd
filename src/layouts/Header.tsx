@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Logo from "../assets/EmoTrakLogo.svg";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +10,7 @@ import {
   LOGIN_PAGE,
   MY_PAGE,
 } from "../data/routes/urls";
+import EmoTrak from "../assets/logo/EmoTrakLogo.png";
 
 const Header = (): JSX.Element => {
   const navigate = useNavigate();
@@ -20,7 +20,6 @@ const Header = (): JSX.Element => {
   const logoutUserHandler = () => {
     removeCookie("token", { path: "/" });
     removeCookie("nickname", { path: "/" });
-    navigate(`${LOGIN_PAGE}`);
   };
 
   let payloadJson;
@@ -36,17 +35,13 @@ const Header = (): JSX.Element => {
     <StHeader>
       <Flex row jc="space-between">
         <EmoTrakLogo onClick={() => navigate("/")}>
-          <img src={Logo} alt="로고" />
+          <LogoImg src={EmoTrak} alt="로고" />
         </EmoTrakLogo>
-        {payload?.auth === 'ADMIN' ? (
+        {payload?.auth === "ADMIN" ? (
           <NavWrapper>
             <Flex row gap={10}>
-              <PageButton onClick={() => navigate(`${ADMIN}`)}>
-                관리자페이지
-              </PageButton>
-              <PageButton onClick={() => navigate(`${MY_PAGE}`)}>
-                마이페이지
-              </PageButton>
+              <PageButton onClick={() => navigate(`${ADMIN}`)}>관리자페이지</PageButton>
+              <PageButton onClick={() => navigate(`${MY_PAGE}`)}>마이페이지</PageButton>
               <PageButton onClick={() => navigate(`${COMMUNITY_PAGE}`)}>
                 공유 페이지
               </PageButton>
@@ -56,12 +51,10 @@ const Header = (): JSX.Element => {
               <PageButton onClick={logoutUserHandler}>로그아웃</PageButton>
             </Flex>
           </NavWrapper>
-        ):token ? (
+        ) : token ? (
           <NavWrapper>
             <Flex row gap={10}>
-              <PageButton onClick={() => navigate(`${MY_PAGE}`)}>
-                마이페이지
-              </PageButton>
+              <PageButton onClick={() => navigate(`${MY_PAGE}`)}>마이페이지</PageButton>
               <PageButton onClick={() => navigate(`${COMMUNITY_PAGE}`)}>
                 공유 페이지
               </PageButton>
@@ -77,9 +70,7 @@ const Header = (): JSX.Element => {
               <PageButton onClick={() => navigate(`${COMMUNITY_PAGE}`)}>
                 공유 페이지
               </PageButton>
-              <PageButton onClick={() => navigate(`${LOGIN_PAGE}`)}>
-                로그인
-              </PageButton>
+              <PageButton onClick={() => navigate(`${LOGIN_PAGE}`)}>로그인</PageButton>
             </Flex>
           </NavWrapper>
         )}
@@ -95,17 +86,17 @@ const EmoTrakLogo = styled.div`
   cursor: pointer;
 `;
 
-const StHeader = styled.div`
+const StHeader = styled.header`
   width: 100%;
-  height: 100px;
-  padding: 5px;
+  padding: 10px;
   border: none;
-  position: sticky;
+  position: fixed;
   box-shadow: 5px 5px 5px #e8e6e2;
   z-index: 10;
   top: 0px;
   left: 0px;
   background-color: white;
+  font-family: inherit;
 `;
 
 const PageButton = styled.button`
@@ -113,6 +104,9 @@ const PageButton = styled.button`
   border: none;
   cursor: pointer;
   margin: 20px;
+  font-family: "KyoboHand";
+  letter-spacing: 0.5px;
+  font-size: 18px;
   &:last-child {
     margin-right: 50px;
   }
@@ -120,4 +114,8 @@ const PageButton = styled.button`
 const NavWrapper = styled.div`
   display: flex;
   justify-content: center;
+`;
+
+const LogoImg = styled.img`
+  width: 90px;
 `;

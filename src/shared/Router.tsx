@@ -17,6 +17,7 @@ import Mypage from "../pages/Mypage";
 import AdminComment from "../features/admin/components/AdminComment";
 import AdminPost from "../features/admin/components/AdminPost";
 import RedirectNaver from "../pages/RedirectNaver";
+import GlobalStyle from "../components/GlobalStyle";
 
 const Router = () => {
   return (
