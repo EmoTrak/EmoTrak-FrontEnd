@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import styled from 'styled-components';
-import Sidebar from './Sidebar';
-import Flex from '../../../components/Flex';
-import { useQuery } from '@tanstack/react-query';
-import { keys } from '../../../data/queryKeys/keys';
-import user from '../../../lib/api/user';
-import { date } from '../../../data/type/d1';
-import CalendarEmo from './CalendarEmo';
+import styled from "styled-components";
+import Sidebar from "./Sidebar";
+import Flex from "../../../components/Flex";
+import { useQuery } from "@tanstack/react-query";
+import { keys } from "../../../data/queryKeys/keys";
+import user from "../../../lib/api/user";
+import { date } from "../../../data/type/d1";
+import CalendarEmo from "./CalendarEmo";
 
 const Calendar = (): JSX.Element => {
   const today: date = {
@@ -16,7 +16,7 @@ const Calendar = (): JSX.Element => {
     date: new Date().getDate(),
     day: new Date().getDay(),
   };
-  const weeks: string[] = ['일', '월', '화', '수', '목', '금', '토'];
+  const weeks: string[] = ["일", "월", "화", "수", "목", "금", "토"];
 
   // 날짜 선택
   const [select, setSelectMonth] = useState<date>({
@@ -36,7 +36,7 @@ const Calendar = (): JSX.Element => {
   const [side, setSide] = useState(false);
 
   //해당 요일의 값 가져오는 함수
-  const clickDayBtn = (day: number | undefined): void => {
+  const clickDayBtn = (day: number): void => {
     setSide(true);
     setDiaryDay({ ...diaryDay, date: day });
   };
@@ -70,14 +70,10 @@ const Calendar = (): JSX.Element => {
   const { data, isLoading } = useQuery({
     queryKey: [keys.GET_DIARY, select],
     queryFn: async () => {
-      const data = await user.get('/daily', { params: select });
+      const data = await user.get("/daily", { params: select });
       return data.data.data;
     },
   });
-
-  if (isLoading) {
-    return <>로딩중입니다</>;
-  }
 
   return (
     <Flex row>
@@ -100,12 +96,29 @@ const Calendar = (): JSX.Element => {
           {new Array(firstDay).fill(null).map((e, i) => (
             <Day key={i}></Day>
           ))}
-          {date.map((item) => (
-            <Day key={item.date} onClick={() => clickDayBtn(item.date)}>
-              {item.date}
-              <CalendarEmo data={data} item={item} today={today} />
-            </Day>
-          ))}
+          {date.map((item) =>
+            // 이번달
+            item.year === today.year &&
+            item.month === today.month &&
+            Number(item.date) <= Number(today.date) ? (
+              <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                {item.date}
+                <CalendarEmo data={data} item={item} today={today} />
+              </Day>
+            ) : item.year === today.year &&
+              item.month === today.month &&
+              Number(item.date) > Number(today.date) ? (
+              <Day key={item.date}>{item.date}</Day>
+            ) : item.year <= today.year && item.month <= today.month ? (
+              // 이전달
+              <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                {item.date}
+                <CalendarEmo data={data} item={item} today={today} />
+              </Day>
+            ) : (
+              <Day key={item.date}>{item.date}</Day>
+            )
+          )}
         </DiaryDay>
       </CalendarBox>
       {side && <Sidebar side={side} setSide={setSide} data={data} diaryDay={diaryDay} />}

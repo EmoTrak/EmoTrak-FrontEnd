@@ -6,12 +6,12 @@ import { useDelete } from "../features/detail/hooks/useDelete";
 import styled from "styled-components";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
 import { getCookie } from "../utils/cookies";
-import useAddCommunityDetail from "../features/community/hooks/useAddCommunityDetail";
-import Comment from "../features/community/components/Comment";
 import { commentData } from "../data/type/d1";
-import Report from "../features/community/components/Report";
-import CreateComment from "../features/community/components/CreateComment";
 import LikePost from "../features/community/components/LikePost";
+import CreateComment from "../features/community/components/CreateComment";
+import Report from "../features/community/components/Report";
+import Comment from "../features/community/components/Comment";
+import useAddCommunityDetail from "../features/community/hooks/useAddCommunityDetail";
 
 const CommunityDetail = (): JSX.Element => {
   const [page, setPage] = useState<number>(0);
