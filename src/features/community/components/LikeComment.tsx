@@ -3,6 +3,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import user from "../../../lib/api/user";
 import styled from "styled-components";
 import { useState } from "react";
+import { getCookie } from "../../../utils/cookies";
+import { useNavigate } from "react-router-dom";
+import { LOGIN_PAGE } from "../../../data/routes/urls";
 
 interface LikeType {
   isLike: boolean | undefined;
@@ -11,7 +14,8 @@ interface LikeType {
 }
 
 const LikeComment = ({ isLike: hasLike, id, count }: LikeType) => {
-  const queryClient = useQueryClient();
+  const token = getCookie("token");
+  const navigate = useNavigate();
   const [like, setLike] = useState<Partial<LikeType>>({
     isLike: hasLike,
     count: count,
@@ -22,30 +26,34 @@ const LikeComment = ({ isLike: hasLike, id, count }: LikeType) => {
       const data = await user.post(`/boards/comments/likes/${id}`);
       return data.data;
     },
-    // onMutate: () => {
-    //   if (like.isLike)
-    //     return setLike({ ...like, isLike: false, count: Number(like.count) - 1 });
-    //   else {
-    //     return setLike({ ...like, isLike: true, count: Number(like.count) + 1 });
-    //   }
-    // },
     onSuccess: (likedata) =>
       setLike({
         ...like,
         isLike: likedata?.data.hasLike,
         count: likedata?.data.likesCount,
       }),
-    onError: (error) => console.log(error),
   });
 
   return (
     <>
       {like.isLike ? (
-        <LikeTrue onClick={() => likeMutate()}>
+        <LikeTrue
+          onClick={() =>
+            token
+              ? likeMutate()
+              : window.confirm("로그인 후 이용가능합니다") && navigate(LOGIN_PAGE)
+          }
+        >
           <RiHeart3Fill />
         </LikeTrue>
       ) : (
-        <LikeFalse onClick={() => likeMutate()}>
+        <LikeFalse
+          onClick={() =>
+            token
+              ? likeMutate()
+              : window.confirm("로그인 후 이용가능합니다") && navigate(LOGIN_PAGE)
+          }
+        >
           <RiHeart3Line />
         </LikeFalse>
       )}

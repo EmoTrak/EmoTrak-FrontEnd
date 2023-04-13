@@ -17,7 +17,6 @@ const Comment = ({ item }: Partial<CommentProps>) => {
   const { updateComment } = useUpdateComment(editComment);
   const { deleteComment } = useDeleteComment();
 
-  console.log("댓글", item?.likesCnt);
   return (
     <CommentBox>
       {edit ? (
