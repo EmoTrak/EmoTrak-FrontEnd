@@ -7,11 +7,11 @@ import styled from "styled-components";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
 import { getCookie } from "../utils/cookies";
 import useAddCommunityDetail from "../features/community/hooks/useAddCommunityDetail";
-import LikePost from "../features/community/components/LikePost";
 import Comment from "../features/community/components/Comment";
 import { commentData } from "../data/type/d1";
 import Report from "../features/community/components/Report";
 import CreateComment from "../features/community/components/CreateComment";
+import LikePost from "../features/community/components/LikePost";
 
 const CommunityDetail = (): JSX.Element => {
   const [page, setPage] = useState<number>(0);
@@ -19,7 +19,7 @@ const CommunityDetail = (): JSX.Element => {
   const { deletePost } = useDelete();
   const token = getCookie("token");
 
-  const { data, isError } = useAddCommunityDetail(page);
+  const { data, isError, isLoading, status } = useAddCommunityDetail(page);
 
   const deletePostHandler = (id: number) => {
     if (window.confirm("삭제하시겠습니까?")) {
@@ -27,10 +27,13 @@ const CommunityDetail = (): JSX.Element => {
     }
   };
 
+  if (isLoading) {
+    <>로딩중</>;
+  }
   if (isError) {
     <>게시글을 불러올 수 없습니다</>;
   }
-  console.log(data);
+
   return (
     <Flex row>
       <StCanvasWrapper>
@@ -42,12 +45,9 @@ const CommunityDetail = (): JSX.Element => {
       </StCanvasWrapper>
       <StCanvasWrapper2>
         <Flex>
-          <LikePost
-            hasLike={data?.hasLike}
-            id={data?.id}
-            count={data?.boardLikesCnt}
-            uri="likes"
-          />
+          {status === "success" && (
+            <LikePost isLike={data.hasLike} id={data.id} count={data.likesCnt} />
+          )}
           <Flex row>
             이모티콘
             <EmotionIcons

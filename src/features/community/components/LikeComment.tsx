@@ -10,24 +10,25 @@ interface LikeType {
   count: number | undefined;
 }
 
-const LikePost = ({ isLike, id, count }: LikeType) => {
+const LikeComment = ({ isLike: hasLike, id, count }: LikeType) => {
+  const queryClient = useQueryClient();
   const [like, setLike] = useState<Partial<LikeType>>({
-    isLike: isLike,
+    isLike: hasLike,
     count: count,
   });
 
   const { mutate: likeMutate, data: likedata } = useMutation({
     mutationFn: async () => {
-      const data = await user.post(`/boards/likes/${id}`);
+      const data = await user.post(`/boards/comments/likes/${id}`);
       return data.data;
     },
-    onMutate: () => {
-      if (like.isLike)
-        return setLike({ ...like, isLike: false, count: Number(like.count) - 1 });
-      else {
-        return setLike({ ...like, isLike: true, count: Number(like.count) + 1 });
-      }
-    },
+    // onMutate: () => {
+    //   if (like.isLike)
+    //     return setLike({ ...like, isLike: false, count: Number(like.count) - 1 });
+    //   else {
+    //     return setLike({ ...like, isLike: true, count: Number(like.count) + 1 });
+    //   }
+    // },
     onSuccess: (likedata) =>
       setLike({
         ...like,
@@ -36,8 +37,6 @@ const LikePost = ({ isLike, id, count }: LikeType) => {
       }),
     onError: (error) => console.log(error),
   });
-  // console.log("like", like);
-  console.log("count", typeof count);
 
   return (
     <>
@@ -72,4 +71,4 @@ const LikeFalse = styled.div`
 const LikeCount = styled.div`
   //
 `;
-export default LikePost;
+export default LikeComment;

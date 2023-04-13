@@ -3,7 +3,7 @@ import { CommentProps } from "../../../data/type/d1";
 import styled from "styled-components";
 import useDeleteComment from "../hooks/useDeleteComment";
 import useUpdateComment from "../hooks/useUpdateComment";
-import LikePost from "./LikePost";
+import LikeComment from "./LikeComment";
 import Report from "./Report";
 
 const Comment = ({ item }: Partial<CommentProps>) => {
@@ -17,6 +17,7 @@ const Comment = ({ item }: Partial<CommentProps>) => {
   const { updateComment } = useUpdateComment(editComment);
   const { deleteComment } = useDeleteComment();
 
+  console.log("댓글", item?.likesCnt);
   return (
     <CommentBox>
       {edit ? (
@@ -25,12 +26,7 @@ const Comment = ({ item }: Partial<CommentProps>) => {
         <>
           <div>닉네임 : {item?.nickname}</div>
           <div>댓글 : {item?.comment}</div>
-          <LikePost
-            hasLike={item?.hasLike}
-            id={item?.id}
-            count={item?.cmtLikesCnt}
-            uri="comments/likes"
-          />
+          <LikeComment isLike={item?.hasLike} id={item?.id} count={item?.likesCnt} />
           <Report id={item?.id} uri="comments/report">
             <button>신고하기</button>
           </Report>
