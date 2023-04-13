@@ -7,6 +7,7 @@ import EmotionIcons from "../components/Icon/EmoticonIcons";
 import { getCookie } from "../utils/cookies";
 import { useNavigate } from "react-router-dom";
 import useChartData from "../features/chart/hooks/useChartData";
+import { PropsData, graphDataType } from "../data/type/d2";
 
 interface IOption {
   value: string;
