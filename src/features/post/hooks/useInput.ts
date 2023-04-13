@@ -25,14 +25,16 @@ export const useInput = (initialValue: InputValue) => {
     });
   };
 
-  const clickEmojiHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const clickEmojiHandler = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): void => {
     // currentTarget으로 버튼의 value 가져오기. if target -> img 값이 가져와짐
     const button = event.currentTarget as HTMLButtonElement;
     const emoId = Number(button.value);
     setInputValue({ ...inputValue, emoId: emoId });
   };
 
-  const scoreStarHandler = (score: number) => {
+  const scoreStarHandler = (score: number): void => {
     setInputValue({ ...inputValue, star: score });
   };
 

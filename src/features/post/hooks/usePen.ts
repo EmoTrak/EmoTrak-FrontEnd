@@ -17,6 +17,7 @@ export const usePen = (
   const [isPainting, setIsPainting] = useState<boolean>(false);
   const [mousePosition, setMousePosition] =
     useState<Coordinate | undefined>(undefined);
+
   // canvas에 선긋는 함수
   const drawLine = (
     originalMousePosition: Coordinate,
@@ -104,7 +105,7 @@ export const usePen = (
   }, []);
 
   const startPaint = useCallback(
-    (event: React.MouseEvent<HTMLCanvasElement>) => {
+    (event: React.MouseEvent<HTMLCanvasElement>): void => {
       const coordinates = action(event);
       if (coordinates) {
         setIsPainting(true);
@@ -116,7 +117,7 @@ export const usePen = (
   );
 
   const paint = useCallback(
-    (event: React.MouseEvent<HTMLCanvasElement>) => {
+    (event: React.MouseEvent<HTMLCanvasElement>): void => {
       event.preventDefault(); // prevent drag
       event.stopPropagation(); // prevent drag
 
@@ -131,7 +132,7 @@ export const usePen = (
     [isPainting, mousePosition]
   );
 
-  const exitPaint = useCallback(() => {
+  const exitPaint = useCallback((): void => {
     setIsPainting(false);
     // setIsErasing(false);
   }, []);

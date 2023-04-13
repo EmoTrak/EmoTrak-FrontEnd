@@ -25,16 +25,21 @@ export type InputValue = {
 };
 
 const DrawingPost = (): JSX.Element => {
+  // 날짜
   const params = useParams();
   const year: number | undefined = Number(params.date?.split("-")[0]);
   const month: number | undefined = Number(params.date?.split("-")[1]);
   const day: number | undefined = Number(params.date?.split("-")[2]);
+
+  // 캔버스 상태
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // 글작성 조건 상태
   const [validPicture, setValidPicture] = useState<boolean>(false);
   const [validStar, setValidStar] = useState<boolean>(false);
   const [validEmoji, setValidEmoji] = useState<boolean>(false);
 
-  const canvas = canvasRef.current;
+  // const canvas = canvasRef.current;
 
   const newItem: InputValue = {
     year,
@@ -119,16 +124,6 @@ const DrawingPost = (): JSX.Element => {
     savePictureHandler();
   };
 
-  // const savePictureHandler = useCallback(() => {
-  //   canvas?.toBlob((blob) => {
-  //     if (blob) {
-  //       console.log("blob =", blob);
-  //       // setPicture(blob);
-  //       // setImage(blob);
-  //     }
-  //   });
-  // }, []);
-
   // useEffect + AddEventListener 대체 함수
   const mouseDownHandler = (
     event: React.MouseEvent<HTMLCanvasElement>
@@ -184,15 +179,6 @@ const DrawingPost = (): JSX.Element => {
     scoreStarHandler(index);
   };
 
-  const submitFormHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    if (validPicture && validEmoji && validStar) {
-      submitDiaryHandler(event);
-    } else {
-      event.preventDefault();
-      alert("내용을 모두 입력해주세요!");
-    }
-  };
-
   const changeStarHandler = (score: number) => {
     clickStarHandler(score);
     setValidStar(true);
@@ -201,6 +187,16 @@ const DrawingPost = (): JSX.Element => {
   const changeEmojiHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     clickEmojiHandler(event);
     setValidEmoji(true);
+  };
+
+  // 글작성 함수
+  const submitFormHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    if (validPicture && validEmoji && validStar) {
+      submitDiaryHandler(event);
+    } else {
+      event.preventDefault();
+      alert("내용을 모두 입력해주세요!");
+    }
   };
 
   return (

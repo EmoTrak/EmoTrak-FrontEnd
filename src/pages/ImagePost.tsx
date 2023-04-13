@@ -12,10 +12,13 @@ import { usePreview } from "../features/post/hooks/usePreview";
 import Flex from "../components/Flex";
 
 const ImagePost = (): JSX.Element => {
+  // 날짜
   const params = useParams();
   const year: number | undefined = Number(params.date?.split("-")[0]);
   const month: number | undefined = Number(params.date?.split("-")[1]);
   const day: number | undefined = Number(params.date?.split("-")[2]);
+
+  // 글작성 조건 상태
   const [validPhoto, setValidPhoto] = useState<boolean>(false);
   const [validStar, setValidStar] = useState<boolean>(false);
   const [validEmoji, setValidEmoji] = useState<boolean>(false);
@@ -46,8 +49,9 @@ const ImagePost = (): JSX.Element => {
   useEffect(() => {
     preview(photo);
   }, [photo]);
+
   // 감정 선택
-  const emoIds: number[] = [1, 2, 3, 4, 5, 6];
+  // const emoIds: number[] = [1, 2, 3, 4, 5, 6];
 
   // 별점
   const [clicked, setClicked] = useState<boolean[]>([
@@ -57,7 +61,7 @@ const ImagePost = (): JSX.Element => {
     false,
     false,
   ]);
-  const starArray: number[] = [1, 2, 3, 4, 5];
+  // const starArray: number[] = [1, 2, 3, 4, 5];
   const clickStarHandler = (index: number): void => {
     setClicked(clicked.map((_, i) => i <= index - 1));
     scoreStarHandler(index);
@@ -88,7 +92,7 @@ const ImagePost = (): JSX.Element => {
     []
   );
 
-  const submitFormHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitFormHandler = (event: React.FormEvent<HTMLFormElement>): void => {
     if (validPhoto && validEmoji && validStar) {
       submitDiaryHandler(event);
     } else {
@@ -97,22 +101,26 @@ const ImagePost = (): JSX.Element => {
     }
   };
 
-  const changeFileHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const changeFileHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     setValidPhoto(true);
     fileInputHandler(event);
   };
 
-  const changeStarHandler = (score: number) => {
+  const changeStarHandler = (score: number): void => {
     clickStarHandler(score);
     setValidStar(true);
   };
 
-  const changeEmojiHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const changeEmojiHandler = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): void => {
     clickEmojiHandler(event);
     setValidEmoji(true);
   };
 
-  const deletePhotoHandler = () => {
+  const deletePhotoHandler = (): void => {
     setValidPhoto(false);
   };
 
@@ -148,7 +156,7 @@ const ImagePost = (): JSX.Element => {
           <StCanvasWrapper>
             <div>
               <StUnorderLi style={{ display: "flex", flexDirection: "row" }}>
-                {emoIds.map((item: number) => (
+                {[1, 2, 3, 4, 5, 6].map((item: number) => (
                   <StList key={item}>
                     <StEmoButton
                       name="emoId"
@@ -167,7 +175,7 @@ const ImagePost = (): JSX.Element => {
               </StUnorderLi>
             </div>
             <div>
-              {starArray.map((score) => (
+              {[1, 2, 3, 4, 5].map((score) => (
                 <Star
                   key={score}
                   size="30"
