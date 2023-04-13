@@ -5,6 +5,10 @@ import { PropsData } from "../../../data/type/d2";
 
 const BarChart = ({ graphData, month }: PropsData): JSX.Element => {
   const [barCountArr, setBarCountArr] = useState<number[]>([]);
+  const newBarCount = barCountArr.reduce((sum: number, cur: number) => {
+    return sum + cur;
+  }, 0);
+
   useEffect(() => {
     const matchedData = graphData.find((item) => item.month === Number(month));
     if (matchedData) {
@@ -15,62 +19,66 @@ const BarChart = ({ graphData, month }: PropsData): JSX.Element => {
 
   return (
     <Wrapper>
-      <ApexCharts
-        width="600px"
-        height="500px"
-        type="bar"
-        series={[
-          {
-            name: "count",
-            data: barCountArr,
-          },
-        ]}
-        options={{
-          chart: {
-            height: 350,
-            toolbar: { show: false },
-            zoom: {
-              enabled: false,
+      {newBarCount > 0 ? (
+        <ApexCharts
+          width="600px"
+          height="500px"
+          type="bar"
+          series={[
+            {
+              name: "count",
+              data: barCountArr,
             },
-            stacked: true,
-          },
-          colors: [
-            "#73C7EE",
-            "#FEEC96",
-            "#85C99E",
-            "#8889C2",
-            "#F89790",
-            "#C78EC0",
-          ],
-          plotOptions: {
-            bar: {
-              columnWidth: "50%",
-              distributed: true,
+          ]}
+          options={{
+            chart: {
+              height: 350,
+              toolbar: { show: false },
+              zoom: {
+                enabled: false,
+              },
+              stacked: true,
             },
-          },
-          title: {
-            text: "EmoTrak BarChart",
-            align: "center",
-          },
+            colors: [
+              "#73C7EE",
+              "#FEEC96",
+              "#85C99E",
+              "#8889C2",
+              "#F89790",
+              "#C78EC0",
+            ],
+            plotOptions: {
+              bar: {
+                columnWidth: "50%",
+                distributed: true,
+              },
+            },
+            title: {
+              text: "EmoTrak BarChart",
+              align: "center",
+            },
 
-          grid: {
-            row: {
-              colors: ["#f3f3f3", "transparent"],
-              opacity: 0.5,
+            grid: {
+              row: {
+                colors: ["#f3f3f3", "transparent"],
+                opacity: 0.5,
+              },
             },
-          },
-          xaxis: {
-            categories: ["Fun", "Smile", "Calm", "Sad", "Angry", "Cry"],
+            xaxis: {
+              categories: ["Fun", "Smile", "Calm", "Sad", "Angry", "Cry"],
 
-            labels: {
-              show: true,
+              labels: {
+                show: true,
+              },
             },
-          },
-          yaxis: {
-            show: false,
-          },
-        }}
-      />
+            yaxis: {
+              show: false,
+            },
+          }}
+        />
+      ) : (
+        <h2>데이터가없습니다!</h2>
+      )}
     </Wrapper>
   );
 };
@@ -78,6 +86,9 @@ const BarChart = ({ graphData, month }: PropsData): JSX.Element => {
 export default BarChart;
 
 const Wrapper = styled.div`
+  height: 500px;
+  width: 600px;
+  text-align: center;
   margin-top: 50px;
   box-shadow: 10px 5px 5px #eee;
   border-radius: 25px;

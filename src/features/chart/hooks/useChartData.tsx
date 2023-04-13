@@ -4,8 +4,6 @@ import { keys } from "../../../data/queryKeys/keys";
 import user from "../../../lib/api/user";
 
 function useChartData(year: number) {
-
-
   const { data, isError, isLoading } = useQuery({
     queryKey: [keys.GET_CHART, { year }],
     queryFn: async () => {
