@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import BarChart from "../features/chart/components/BarChart";
 import PieChart from "../features/chart/components/PieChart";
-import { useQuery } from "@tanstack/react-query";
-import { keys } from "../data/queryKeys/keys";
-import user from "../lib/api/user";
 import Flex from "../components/Flex";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
-import { cookies } from "../utils/cookies";
+import { getCookie } from "../utils/cookies";
 import { useNavigate } from "react-router-dom";
+import useChartData from "../features/chart/hooks/useChartData";
 
 interface IOption {
   value: string;
@@ -17,30 +15,18 @@ interface IOption {
 
 const Chart = (): JSX.Element => {
   const nav = useNavigate();
-
   let date = new Date();
-  const token = cookies.get("token");
   const [year] = useState<number>(date.getFullYear());
   const [month, setMonth] = useState<string | number>(date.getMonth() + 1);
 
-  const { data, isError, isLoading } = useQuery({
-    queryKey: [keys.GET_CHART, { year }],
-    queryFn: async () => {
-      const { data } = await user.get("/graph/", {
-        params: { year },
-      });
-      return data.data;
-    },
-    refetchOnWindowFocus: false,
-  });
-  
+  const { chartData, isLoading, isError } = useChartData(year);
+
   useEffect(() => {
-    if (!token) {
+    if (!getCookie("token")) {
       alert("로그인을 해주세요!");
       nav("/");
     }
-    
-  }, []);
+  }, [nav]);
 
   if (isLoading) return <div>로딩중..</div>;
   if (isError) return <div>에러..</div>;
@@ -48,7 +34,6 @@ const Chart = (): JSX.Element => {
   function handleOptionClick(optionValue: string) {
     setMonth(optionValue);
   }
-  console.log(month);
   const options: IOption[] = [
     { value: "1", month: "Jan" },
     { value: "2", month: "Feb" },
@@ -84,8 +69,8 @@ const Chart = (): JSX.Element => {
         </StMonth>
         <h1>{month}월 나의 감정은?</h1>
         <Flex row gap={50}>
-          <PieChart graphData={data} month={month} />
-          <BarChart graphData={data} month={month} />
+          <PieChart graphData={chartData} month={month} />
+          <BarChart graphData={chartData} month={month} />
           <StEmoList>
             {emoIds.map((item) => (
               <div key={item}>

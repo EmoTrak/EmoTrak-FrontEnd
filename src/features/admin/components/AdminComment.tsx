@@ -1,16 +1,13 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import user from "../../../lib/api/user";
-import { keys } from "../../../data/queryKeys/keys";
 import Flex from "../../../components/Flex";
 import styled from "styled-components";
 import { BiArrowBack } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { ADMIN } from "../../../data/routes/urls";
 import { getCookie } from "../../../utils/cookies";
-
 import { IAdminData, IPayload } from "../../../data/type/d2";
+import useAdminComment from "../hooks/useAdminComment";
 
 const AdminComment = (): JSX.Element => {
   const nav = useNavigate();
@@ -29,26 +26,8 @@ const AdminComment = (): JSX.Element => {
       alert("권한이 없습니다!");
       nav("/");
     }
-  }, []);
-  const { data } = useQuery({
-    queryKey: [keys.GET_ADMIN],
-    queryFn: async () => {
-      const { data } = await user.get("/admin/comments");
-      return data.data;
-    },
-    refetchOnWindowFocus: false,
-  });
-
-  const { mutate } = useMutation({
-    mutationFn: async (payload: number) => {
-      console.log(payload);
-      const { data } = await user.delete(`/boards/comments/${payload}`);
-      return data;
-    },
-    onSuccess: () => {
-      alert("삭제완료");
-    },
-  });
+  }, [payload, nav]);
+  const { adminCommentData, adminCommentDelete } = useAdminComment();
 
   return (
     <Wrapper>
@@ -71,7 +50,7 @@ const AdminComment = (): JSX.Element => {
             </thead>
 
             <StTbody>
-              {data?.map((item: IAdminData, i: number) => {
+              {adminCommentData?.map((item: IAdminData, i: number) => {
                 return (
                   <tr key={i}>
                     <td>{item.id}</td>
@@ -82,7 +61,7 @@ const AdminComment = (): JSX.Element => {
                     <td>
                       <button
                         onClick={() => {
-                          mutate(item.id);
+                          adminCommentDelete(item.id);
                         }}
                       >
                         <RiDeleteBin6Line />
