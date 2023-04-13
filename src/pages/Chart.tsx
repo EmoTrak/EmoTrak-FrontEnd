@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import BarChart from "../features/chart/components/BarChart";
 import PieChart from "../features/chart/components/PieChart";
@@ -6,11 +6,17 @@ import { useQuery } from "@tanstack/react-query";
 import { keys } from "../data/queryKeys/keys";
 import user from "../lib/api/user";
 import Flex from "../components/Flex";
+import EmotionIcons from "../components/Icon/EmoticonIcons";
+
+interface IOption {
+  value: string;
+  month: string;
+}
 
 const Chart = (): JSX.Element => {
   let date = new Date();
-  const [year, setYear] = useState<number>(date.getFullYear());
-  const [month, setMonth] = useState<string>("1");
+  const [year] = useState<number>(date.getFullYear());
+  const [month, setMonth] = useState<string | number>(date.getMonth() + 1);
 
   const { data, isError, isLoading } = useQuery({
     queryKey: [keys.GET_CHART, { year }],
@@ -22,36 +28,61 @@ const Chart = (): JSX.Element => {
     },
     refetchOnWindowFocus: false,
   });
-  console.log(data);
-  
+
   if (isLoading) return <div>로딩중..</div>;
   if (isError) return <div>에러..</div>;
 
-  const onChangeHandler = (e: ChangeEvent<HTMLSelectElement>): void => {
-    const { value } = e.target as HTMLSelectElement;
-    setMonth(value);
-  };
+  function handleOptionClick(optionValue: string) {
+    setMonth(optionValue);
+  }
+  console.log(month);
+  const options: IOption[] = [
+    { value: "1", month: "Jan" },
+    { value: "2", month: "Feb" },
+    { value: "3", month: "Mar" },
+    { value: "4", month: "April" },
+    { value: "5", month: "May" },
+    { value: "6", month: "Jun" },
+    { value: "7", month: "Jul" },
+    { value: "8", month: "Aug" },
+    { value: "9", month: "Sep" },
+    { value: "10", month: "Oct" },
+    { value: "11", month: "Nov" },
+    { value: "12", month: "Dec" },
+  ];
+  const emoIds: number[] = [1, 2, 3, 4, 5, 6];
+
   return (
     <StWrapper>
       <Flex jc="center" ai="center">
-        <StMonth defaultValue={month} onChange={onChangeHandler}>
-          <option>Select</option>
-          <option value="1">Jan</option>
-          <option value="2">Feb</option>
-          <option value="3">Mar</option>
-          <option value="4">April</option>
-          <option value="5">May</option>
-          <option value="6">Jun</option>
-          <option value="7">Jul</option>
-          <option value="8">Aug</option>
-          <option value="9">Sep</option>
-          <option value="10">Oct</option>
-          <option value="11">Nov</option>
-          <option value="12">Dec</option>
+        <StMonth>
+          {options.map((item) => (
+            <button
+              style={{ margin: "10px" }}
+              key={item.value}
+              value={item.value}
+              type="button"
+              onClick={() => handleOptionClick(item.value)}
+            >
+              {item.month}
+            </button>
+          ))}
         </StMonth>
+        <h1>{month}월 나의 감정은?</h1>
         <Flex row gap={50}>
           <PieChart graphData={data} month={month} />
           <BarChart graphData={data} month={month} />
+          <StEmoList>
+            {emoIds.map((item) => (
+              <div key={item}>
+                <EmotionIcons
+                  height="50"
+                  width="50"
+                  emotionTypes={`EMOTION_${item}`}
+                />
+              </div>
+            ))}
+          </StEmoList>
         </Flex>
       </Flex>
     </StWrapper>
@@ -60,14 +91,24 @@ const Chart = (): JSX.Element => {
 
 export default Chart;
 
-const StMonth = styled.select`
+const StMonth = styled.form`
   display: flex;
   text-align: center;
-  width: 200px;
-  height: 30px;
   margin-top: 10px;
   border-radius: 5px;
-  border: 1px solid #9b9b9b;
+  max-width: 100vw;
+
+  button {
+    background-color: #e5dfd3;
+    cursor: pointer;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    height: 50px;
+    width: 200px;
+    &:hover {
+      background-color: #eee;
+    }
+  }
 `;
 
 const StWrapper = styled.div`
@@ -75,3 +116,9 @@ const StWrapper = styled.div`
   height: 80vh;
 `;
 
+const StEmoList = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+`;
