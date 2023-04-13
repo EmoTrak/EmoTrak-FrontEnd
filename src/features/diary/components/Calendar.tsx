@@ -8,6 +8,7 @@ import { keys } from "../../../data/queryKeys/keys";
 import user from "../../../lib/api/user";
 import { date } from "../../../data/type/d1";
 import CalendarEmo from "./CalendarEmo";
+import MiniCalendar from "./MiniCalendar";
 
 const Calendar = (): JSX.Element => {
   const today: date = {
@@ -76,7 +77,11 @@ const Calendar = (): JSX.Element => {
   });
 
   return (
-    <Flex row>
+    <Container>
+      <div>
+        <MiniCalendar year={select.year} month={select.month - 1} />
+        <MiniCalendar year={select.year} month={select.month + 1} />
+      </div>
       <CalendarBox>
         <button onClick={prevMonth}>이전달</button>
         <h1>
@@ -122,13 +127,16 @@ const Calendar = (): JSX.Element => {
         </DiaryDay>
       </CalendarBox>
       {side && <Sidebar side={side} setSide={setSide} data={data} diaryDay={diaryDay} />}
-    </Flex>
+    </Container>
   );
 };
 
+const Container = styled.div`
+  display: flex;
+  background-color: white;
+`;
 const CalendarBox = styled.div`
-  width: 60vw;
-  border: 1px solid;
+  width: 50vw;
   margin-left: auto;
   margin-right: auto;
 `;
@@ -140,8 +148,6 @@ const DiaryDay = styled.div`
 `;
 const TotalWeek = styled.div`
   min-width: calc(100% / 7);
-  border: 1px solid;
-  box-sizing: border-box;
   display: flex;
   justify-content: center;
 `;
@@ -149,9 +155,9 @@ const TotalWeek = styled.div`
 const Day = styled.button`
   min-width: calc(100% / 7);
   display: flex;
-  box-sizing: border-box;
   border: 0;
   background-color: transparent;
+  font-family: "KyoboHand";
 `;
 
 export default Calendar;
