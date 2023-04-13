@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import user from "../../../lib/api/user";
 import { keys } from "../../../data/queryKeys/keys";
@@ -8,17 +8,28 @@ import styled from "styled-components";
 import { BiArrowBack } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { ADMIN } from "../../../data/routes/urls";
+import { getCookie } from "../../../utils/cookies";
 
-interface IAdminData {
-  id: number;
-  nickname: string;
-  email: string;
-  count: number;
-  reason: string;
-}
+import { IAdminData, IPayload } from "../../../data/type/d2";
 
 const AdminComment = (): JSX.Element => {
   const nav = useNavigate();
+  const token = getCookie("token");
+  let payloadJson;
+  let payload!: IPayload;
+  const [headerB64, payloadB64, signatureB64] = (token || "").split(".");
+  if (typeof atob !== undefined && payloadB64) {
+    payloadJson = atob(payloadB64);
+  }
+  if (payloadJson !== undefined) {
+    payload = JSON.parse(payloadJson);
+  }
+  useEffect(() => {
+    if (payload?.auth === undefined || payload?.auth !== "ADMIN") {
+      alert("권한이 없습니다!");
+      nav("/");
+    }
+  }, []);
   const { data } = useQuery({
     queryKey: [keys.GET_ADMIN],
     queryFn: async () => {
@@ -27,7 +38,6 @@ const AdminComment = (): JSX.Element => {
     },
     refetchOnWindowFocus: false,
   });
-  console.log(data);
 
   const { mutate } = useMutation({
     mutationFn: async (payload: number) => {

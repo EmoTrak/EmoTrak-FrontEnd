@@ -1,7 +1,7 @@
 import ApexCharts from "react-apexcharts";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { PropsData } from "./BarChart";
+import { PropsData } from "../../../data/type/d2";
 
 function PieChart({ graphData, month }: PropsData): JSX.Element {
   const [barCountArr, setBarCountArr] = useState<number[]>([]);
@@ -12,7 +12,7 @@ function PieChart({ graphData, month }: PropsData): JSX.Element {
       const test = matchedData.graph.map((item) => item.percentage);
       setBarCountArr(test);
     }
-    
+
   }, [graphData, month]);
 
   return (
