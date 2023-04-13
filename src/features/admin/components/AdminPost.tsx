@@ -1,16 +1,13 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import user from "../../../lib/api/user";
-import { keys } from "../../../data/queryKeys/keys";
 import Flex from "../../../components/Flex";
 import styled from "styled-components";
 import { BiArrowBack } from "react-icons/bi";
 import { TbShareOff } from "react-icons/tb";
 import { ADMIN } from "../../../data/routes/urls";
 import { getCookie } from "../../../utils/cookies";
-
 import { IAdminData, IPayload } from "../../../data/type/d2";
+import useAdminPost from "../hooks/useAdminPost";
 
 const AdminPost = (): JSX.Element => {
   const nav = useNavigate();
@@ -29,29 +26,10 @@ const AdminPost = (): JSX.Element => {
       alert("권한이 없습니다!");
       nav("/");
     }
-  }, []);
+  }, [payload, nav]);
 
-  const { data } = useQuery({
-    queryKey: [keys.GET_ADMIN],
-    queryFn: async () => {
-      const { data } = await user.get("/admin/boards");
-      return data.data;
-    },
-    refetchOnWindowFocus: false,
-  });
-  console.log(data);
+  const { adminPostData, adminDeleteData } = useAdminPost();
 
-  // /boards/restrict/:boardId
-  const { mutate } = useMutation({
-    mutationFn: async (payload: number) => {
-      console.log(payload);
-      const { data } = await user.patch(`/boards/restrict/${payload}`);
-      return data;
-    },
-    onSuccess: () => {
-      alert("삭제완료");
-    },
-  });
   return (
     <Wrapper>
       <BackBtn onClick={() => nav(`${ADMIN}`)}>
@@ -73,7 +51,7 @@ const AdminPost = (): JSX.Element => {
             </thead>
 
             <StTbody>
-              {data?.map((item: IAdminData, i: number) => {
+              {adminPostData?.map((item: IAdminData, i: number) => {
                 return (
                   <tr key={i}>
                     <td>{item.id}</td>
@@ -84,7 +62,7 @@ const AdminPost = (): JSX.Element => {
                     <td>
                       <button
                         onClick={() => {
-                          mutate(item.id);
+                          adminDeleteData(item.id);
                         }}
                       >
                         <TbShareOff />

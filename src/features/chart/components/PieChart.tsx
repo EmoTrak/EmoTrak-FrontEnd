@@ -5,14 +5,12 @@ import { PropsData } from "../../../data/type/d2";
 
 function PieChart({ graphData, month }: PropsData): JSX.Element {
   const [barCountArr, setBarCountArr] = useState<number[]>([]);
-
   useEffect(() => {
     const matchedData = graphData.find((item) => item.month === Number(month));
     if (matchedData) {
       const test = matchedData.graph.map((item) => item.percentage);
       setBarCountArr(test);
     }
-
   }, [graphData, month]);
 
   return (

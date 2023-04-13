@@ -3,11 +3,8 @@ import ApexCharts from "react-apexcharts";
 import styled from "styled-components";
 import { PropsData } from "../../../data/type/d2";
 
-
-
 const BarChart = ({ graphData, month }: PropsData): JSX.Element => {
   const [barCountArr, setBarCountArr] = useState<number[]>([]);
-
   useEffect(() => {
     const matchedData = graphData.find((item) => item.month === Number(month));
     if (matchedData) {
