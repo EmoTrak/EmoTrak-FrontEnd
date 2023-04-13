@@ -1,24 +1,32 @@
-import React from 'react';
+import React from "react";
 import {
+  ModalBackground,
   ModalClose,
   ModalContent,
   ModalTrigger,
   Modalroot,
-} from '../../../components/Modal';
-import { PropsType } from '../../../data/type/d1';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { DRAW_POST_PAGE, IMAGE_POST_PAGE } from '../../../data/routes/urls';
+} from "../../../components/Modal";
+import { PropsType } from "../../../data/type/d1";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { DRAW_POST_PAGE, IMAGE_POST_PAGE } from "../../../data/routes/urls";
+import { IoMdClose } from "react-icons/io";
 
 const ClickModalPost = ({ children, diaryDay }: PropsType) => {
   const navigate = useNavigate();
 
   return (
     <Modalroot>
+      <ModalBackground />
       <ModalTrigger>{children}</ModalTrigger>
       <ModalContent>
         <PostContent>
-          <ModalClose />
+          <CloseBtn>
+            <ModalClose>
+              <IoMdClose />
+            </ModalClose>
+          </CloseBtn>
+
           <Text>나의 감정을 기록해주세요!</Text>
           <ClickBtn
             onClick={() =>
@@ -72,5 +80,11 @@ const ClickBtn = styled.div`
   padding: 10% 15%;
   margin: 2%;
   cursor: pointer;
+`;
+
+const CloseBtn = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 5px;
 `;
 export default ClickModalPost;

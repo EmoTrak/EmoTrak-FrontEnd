@@ -7,7 +7,7 @@ const useAddCommunityDetail = (page: number) => {
   const param = useParams();
   const dailyId: number = Number(param.id);
 
-  const { data, isError } = useQuery({
+  const { data, isError, isLoading, status } = useQuery({
     queryKey: [keys.GET_BOARD, page],
     queryFn: async () => {
       const data = await user.get(`/boards/${dailyId}`, { params: page });
@@ -15,7 +15,7 @@ const useAddCommunityDetail = (page: number) => {
     },
   });
 
-  return { data, isError };
+  return { data, isError, isLoading, status };
 };
 
 export default useAddCommunityDetail;

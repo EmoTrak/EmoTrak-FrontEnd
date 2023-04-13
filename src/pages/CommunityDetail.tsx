@@ -5,9 +5,13 @@ import { EDIT_PAGE } from "../data/routes/urls";
 import { useDelete } from "../features/detail/hooks/useDelete";
 import styled from "styled-components";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
-import Comment from "../features/community/components/Comment";
 import { getCookie } from "../utils/cookies";
 import useAddCommunityDetail from "../features/community/hooks/useAddCommunityDetail";
+import Comment from "../features/community/components/Comment";
+import { commentData } from "../data/type/d1";
+import Report from "../features/community/components/Report";
+import CreateComment from "../features/community/components/CreateComment";
+import LikePost from "../features/community/components/LikePost";
 
 const CommunityDetail = (): JSX.Element => {
   const [page, setPage] = useState<number>(0);
@@ -15,7 +19,7 @@ const CommunityDetail = (): JSX.Element => {
   const { deletePost } = useDelete();
   const token = getCookie("token");
 
-  const { data, isError } = useAddCommunityDetail(page);
+  const { data, isError, isLoading, status } = useAddCommunityDetail(page);
 
   const deletePostHandler = (id: number) => {
     if (window.confirm("삭제하시겠습니까?")) {
@@ -23,6 +27,9 @@ const CommunityDetail = (): JSX.Element => {
     }
   };
 
+  if (isLoading) {
+    <>로딩중</>;
+  }
   if (isError) {
     <>게시글을 불러올 수 없습니다</>;
   }
@@ -38,6 +45,9 @@ const CommunityDetail = (): JSX.Element => {
       </StCanvasWrapper>
       <StCanvasWrapper2>
         <Flex>
+          {status === "success" && (
+            <LikePost isLike={data.hasLike} id={data.id} count={data.likesCnt} />
+          )}
           <Flex row>
             이모티콘
             <EmotionIcons
@@ -45,6 +55,7 @@ const CommunityDetail = (): JSX.Element => {
               width="50"
               emotionTypes={`EMOTION_${data?.emoId}`}
             />
+            <div>닉네임 :{data?.nickname}</div>
           </Flex>
           <Flex row>내 감정점수 {data?.star}</Flex>
           <Flex row>{data?.detail}</Flex>
@@ -56,7 +67,17 @@ const CommunityDetail = (): JSX.Element => {
           )}
         </Flex>
 
-        {token && <Comment id={data?.id} commentData={data?.comments} />}
+        {token && (
+          <>
+            <CreateComment id={data?.id} />
+            <Report id={data?.id} uri="report">
+              <button>신고하기</button>
+            </Report>
+          </>
+        )}
+        {data?.comments.map((item: commentData, i: number) => (
+          <Comment item={item} key={i} />
+        ))}
       </StCanvasWrapper2>
     </Flex>
   );
