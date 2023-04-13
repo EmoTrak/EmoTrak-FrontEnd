@@ -17,29 +17,23 @@ const Calendar = (): JSX.Element => {
     date: new Date().getDate(),
     day: new Date().getDay(),
   };
-  const weeks: string[] = ["일", "월", "화", "수", "목", "금", "토"];
 
   // 날짜 선택
   const [select, setSelect] = useState<date>({
     year: today.year,
     month: today.month,
+    date: today.date,
   });
 
   const lastDate: number = new Date(select.year, select.month, 0).getDate();
   const firstDay: number = new Date(select.year, select.month - 1, 1).getDay();
-
-  const [diaryDay, setDiaryDay] = useState<date>({
-    year: select.year,
-    month: select.month,
-    date: today.date,
-  });
 
   const [side, setSide] = useState(false);
 
   //해당 요일의 값 가져오는 함수
   const clickDayBtn = (day: number): void => {
     setSide(true);
-    setDiaryDay({ ...diaryDay, date: day });
+    setSelect({ ...select, date: day });
   };
 
   // 날짜 변환 함수
@@ -89,13 +83,14 @@ const Calendar = (): JSX.Element => {
         </h1>
         <button onClick={nextMonth}>다음달</button>
         <button onClick={thisMonth}>이번달</button>
-
         <TotalWeek>
-          {weeks.map(
-            (v: string): JSX.Element => (
-              <TotalWeek key={v}>{v}</TotalWeek>
-            )
-          )}
+          <Day>일</Day>
+          <Day>월</Day>
+          <Day>화</Day>
+          <Day>수</Day>
+          <Day>목</Day>
+          <Day>금</Day>
+          <Day>토</Day>
         </TotalWeek>
         <DiaryDay>
           {new Array(firstDay).fill(null).map((e, i) => (
@@ -126,7 +121,7 @@ const Calendar = (): JSX.Element => {
           )}
         </DiaryDay>
       </CalendarBox>
-      {side && <Sidebar side={side} setSide={setSide} data={data} diaryDay={diaryDay} />}
+      {side && <Sidebar side={side} setSide={setSide} data={data} diaryDay={select} />}
     </Container>
   );
 };
@@ -159,5 +154,19 @@ const Day = styled.button`
   background-color: transparent;
   font-family: "KyoboHand";
 `;
+const Sunday = styled.button`
+  min-width: calc(100% / 7);
+  border: 0;
+  background-color: transparent;
+  font-family: "KyoboHand";
+  color: red;
+`;
 
+const Saturday = styled.button`
+  min-width: calc(100% / 7);
+  border: 0;
+  background-color: transparent;
+  font-family: "KyoboHand";
+  color: blue;
+`;
 export default Calendar;
