@@ -4,6 +4,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     background: #F4F2EE;
     font-family: 'KyoboHand';
+    letter-spacing: 1px;
   }
   @font-face {
     font-family: 'KyoboHand';

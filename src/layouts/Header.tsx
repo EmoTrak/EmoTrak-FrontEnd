@@ -10,6 +10,7 @@ import {
   LOGIN_PAGE,
   MY_PAGE,
 } from "../data/routes/urls";
+import EmoTrak from "../assets/logo/EmoTrakLogo.png";
 
 const Header = (): JSX.Element => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const Header = (): JSX.Element => {
     <StHeader>
       <Flex row jc="space-between">
         <EmoTrakLogo onClick={() => navigate("/")}>
-          <img src={Logo} alt="로고" />
+          <LogoImg src={EmoTrak} alt="로고" />
         </EmoTrakLogo>
         {payload?.auth === "ADMIN" ? (
           <NavWrapper>
@@ -85,10 +86,9 @@ const EmoTrakLogo = styled.div`
   cursor: pointer;
 `;
 
-const StHeader = styled.div`
+const StHeader = styled.header`
   width: 100%;
-  height: 100px;
-  padding: 5px;
+  padding: 10px;
   border: none;
   position: fixed;
   box-shadow: 5px 5px 5px #e8e6e2;
@@ -104,6 +104,9 @@ const PageButton = styled.button`
   border: none;
   cursor: pointer;
   margin: 20px;
+  font-family: "KyoboHand";
+  letter-spacing: 0.5px;
+  font-size: 18px;
   &:last-child {
     margin-right: 50px;
   }
@@ -111,4 +114,8 @@ const PageButton = styled.button`
 const NavWrapper = styled.div`
   display: flex;
   justify-content: center;
+`;
+
+const LogoImg = styled.img`
+  width: 90px;
 `;

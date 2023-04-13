@@ -160,6 +160,7 @@ const SortListBtn = styled.button`
   background-color: transparent;
   padding: 0.5vw;
   cursor: pointer;
+  font-family: "KyoboHand";
   &:hover {
     background-color: lightgray;
   }

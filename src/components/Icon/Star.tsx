@@ -1,5 +1,5 @@
 import React from "react";
-import { ReactComponent as StarIcon } from "../../assets/star.svg";
+import { ReactComponent as StarIcon } from "../../assets/emoticon/star.svg";
 import styled from "styled-components";
 
 type Props = {
@@ -12,12 +12,7 @@ type Props = {
 const Star = ({ size, onClick, value, color }: Props) => {
   return (
     <StStarButton type="button" value={value} onClick={onClick}>
-      <StarIcon
-        height={size}
-        width={size}
-        fill={`${color}`}
-        stroke={`${color}`}
-      />
+      <StarIcon height={size} width={size} fill={`${color}`} stroke={`${color}`} />
     </StStarButton>
   );
 };

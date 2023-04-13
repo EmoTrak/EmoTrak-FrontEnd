@@ -17,7 +17,7 @@ const Footer = (): JSX.Element => {
 
 export default Footer;
 
-const SSFooter = styled.div`
+const SSFooter = styled.footer`
   width: 100%;
   height: 90px;
   padding: 5px;
@@ -32,5 +32,6 @@ const SSFooter = styled.div`
 const AboutPage = styled.button`
   border: none;
   background-color: transparent;
+  font-family: "KyoboHand";
   cursor: pointer;
 `;
