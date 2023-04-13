@@ -3,7 +3,7 @@ import ApexCharts from "react-apexcharts";
 import styled from "styled-components";
 
 export interface PropsData {
-  month: string;
+  month: number |string;
   graphData: graphDataType[];
 }
 
@@ -27,7 +27,7 @@ const BarChart = ({ graphData, month }: PropsData): JSX.Element => {
       const test = matchedData.graph.map((item) => item.count);
       setBarCountArr(test);
     }
-  }, [month]);
+  }, [graphData, month]);
 
   return (
     <Wrapper>
@@ -94,7 +94,7 @@ const BarChart = ({ graphData, month }: PropsData): JSX.Element => {
 export default BarChart;
 
 const Wrapper = styled.div`
-  margin-top: 100px;
+  margin-top: 50px;
   box-shadow: 10px 5px 5px #eee;
   border-radius: 25px;
 `;
