@@ -9,7 +9,7 @@ export const useEraser = (
   const [mousePosition, setMousePosition] =
     useState<Coordinate | undefined>(undefined);
   // canvas에 선긋는 함수
-  const eraseLine = (originalMousePosition: Coordinate) => {
+  const eraseLine = (originalMousePosition: Coordinate): void => {
     if (!ref.current) {
       return;
     }
@@ -30,7 +30,7 @@ export const useEraser = (
   };
 
   const startErase = useCallback(
-    (event: React.MouseEvent<HTMLCanvasElement>) => {
+    (event: React.MouseEvent<HTMLCanvasElement>): void => {
       const coordinates = action(event);
       if (coordinates) {
         // setIsPainting(true);
@@ -42,7 +42,7 @@ export const useEraser = (
   );
 
   const erase = useCallback(
-    (event: React.MouseEvent<HTMLCanvasElement>) => {
+    (event: React.MouseEvent<HTMLCanvasElement>): void => {
       event.preventDefault(); // prevent drag
       event.stopPropagation(); // prevent drag
 
@@ -57,7 +57,7 @@ export const useEraser = (
     [isErasing, mousePosition]
   );
 
-  const exitErase = useCallback(() => {
+  const exitErase = useCallback((): void => {
     // setIsPainting(false);
     setIsErasing(false);
   }, []);

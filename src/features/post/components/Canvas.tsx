@@ -20,8 +20,6 @@ const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvas = canvasRef.current;
 
-  // const [image, setImage] = useState<Blob>();
-
   // 그림판 모드, 색깔 상태 관리
   const [mode, setMode] = useState<string>("pen");
   const [selectedColor, setSelectedColor] = useState<string>("");
@@ -76,18 +74,6 @@ const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
     setMode("pen");
   };
 
-  // const picture = canvas?.toBlob(
-  //   (blob) => {
-  //     if (blob) {
-  //       console.log("blob =", blob);
-  //       // setImage(blob);
-  //     }
-  //   }
-  //   // ,
-  //   // "image/jpeg",
-  //   // 0.95
-  // );
-
   const savePictureHandler = useCallback(() => {
     canvas?.toBlob((blob) => {
       if (blob) {
@@ -97,11 +83,6 @@ const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
       }
     });
   }, []);
-
-  // console.log("picture =", picture);
-  // console.log("savePicture =", savePictureHandler);
-
-  // console.log("image", image);
 
   const mouseDownHandler = (
     event: React.MouseEvent<HTMLCanvasElement>
