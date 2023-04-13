@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import styled from "styled-components";
 import Sidebar from "./Sidebar";
@@ -20,7 +20,7 @@ const Calendar = (): JSX.Element => {
   const weeks: string[] = ["일", "월", "화", "수", "목", "금", "토"];
 
   // 날짜 선택
-  const [select, setSelectMonth] = useState<date>({
+  const [select, setSelect] = useState<date>({
     year: today.year,
     month: today.month,
   });
@@ -54,18 +54,18 @@ const Calendar = (): JSX.Element => {
 
   const prevMonth = (): void => {
     select.month === 1
-      ? setSelectMonth({ month: 12, year: select.year - 1 })
-      : setSelectMonth({ ...select, month: select.month - 1 });
+      ? setSelect({ month: 12, year: select.year - 1 })
+      : setSelect({ ...select, month: select.month - 1 });
   };
 
   const nextMonth = (): void => {
     select.month === 12
-      ? setSelectMonth({ month: 1, year: select.year + 1 })
-      : setSelectMonth({ ...select, month: select.month + 1 });
+      ? setSelect({ month: 1, year: select.year + 1 })
+      : setSelect({ ...select, month: select.month + 1 });
   };
 
   const thisMonth = (): void => {
-    setSelectMonth({ year: today.year, month: today.month });
+    setSelect({ year: today.year, month: today.month });
   };
 
   const { data, isLoading } = useQuery({

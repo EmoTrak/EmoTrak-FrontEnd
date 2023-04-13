@@ -1,29 +1,29 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { date } from "../../../data/type/d1";
 
 const MiniCalendar = ({ year, month }: date) => {
-  // 날짜 선택
-  const select: date = {
-    year: year,
-    month: month,
-  };
+  if (month === 13) {
+    month = 1;
+  } else if (month === 0) {
+    month = 12;
+  }
 
-  const lastDate: number = new Date(select.year, select.month, 0).getDate();
-  const firstDay: number = new Date(select.year, select.month - 1, 1).getDay();
+  const lastDate: number = new Date(year, month, 0).getDate();
+  const firstDay: number = new Date(year, month - 1, 1).getDay();
 
   // 날짜 변환 함수
   const date = new Array(lastDate).fill(null).map(
     (e, i): date => ({
-      year: select.year,
-      month: select.month,
+      year: year,
+      month: month,
       date: i + 1,
-      day: new Date(select.year, select.month - 1, i + 1).getDay(),
+      day: new Date(year, month - 1, i + 1).getDay(),
     })
   );
   return (
     <CalendarBox>
-      <div>{select.month}월</div>
+      <div>{month}월</div>
 
       <div>
         <Sunday>일</Sunday>
@@ -32,7 +32,7 @@ const MiniCalendar = ({ year, month }: date) => {
         <Day>수</Day>
         <Day>목</Day>
         <Day>금</Day>
-        <Day>토</Day>
+        <Saturday>토</Saturday>
       </div>
       <DiaryDay>
         {new Array(firstDay).fill(null).map((e, i) => (
@@ -41,6 +41,8 @@ const MiniCalendar = ({ year, month }: date) => {
         {date.map((item) =>
           item.day === 0 ? (
             <Sunday key={item.date}>{item.date}</Sunday>
+          ) : item.day === 6 ? (
+            <Saturday key={item.date}>{item.date}</Saturday>
           ) : (
             <Day key={item.date}>{item.date}</Day>
           )
@@ -74,6 +76,14 @@ const Sunday = styled.button`
   background-color: transparent;
   font-family: "KyoboHand";
   color: red;
+`;
+
+const Saturday = styled.button`
+  min-width: calc(100% / 7);
+  border: 0;
+  background-color: transparent;
+  font-family: "KyoboHand";
+  color: blue;
 `;
 
 export default MiniCalendar;
