@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import BarChart from "../features/chart/components/BarChart";
 import PieChart from "../features/chart/components/PieChart";
@@ -7,19 +7,24 @@ import EmotionIcons from "../components/Icon/EmoticonIcons";
 import { getCookie } from "../utils/cookies";
 import { useNavigate } from "react-router-dom";
 import useChartData from "../features/chart/hooks/useChartData";
-import { PropsData, graphDataType } from "../data/type/d2";
-
-interface IOption {
-  value: string;
-  month: string;
-}
+import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import useChartFn from "../features/chart/hooks/useChartFn";
 
 const Chart = (): JSX.Element => {
   const nav = useNavigate();
-  let date = new Date();
-  const [year] = useState<number>(date.getFullYear());
-  const [month, setMonth] = useState<string | number>(date.getMonth() + 1);
-
+  const {
+    month,
+    firstIndex,
+    isShow,
+    ClickOption,
+    onMonthClick,
+    onPrevClick,
+    onNextClick,
+    onModalLayoutClick,
+    year,
+    options,
+    setIsShow,
+  } = useChartFn();
   const { chartData, isLoading, isError } = useChartData(year);
 
   useEffect(() => {
@@ -32,42 +37,52 @@ const Chart = (): JSX.Element => {
   if (isLoading) return <div>로딩중..</div>;
   if (isError) return <div>에러..</div>;
 
-  function handleOptionClick(optionValue: string) {
-    setMonth(optionValue);
-  }
-  const options: IOption[] = [
-    { value: "1", month: "Jan" },
-    { value: "2", month: "Feb" },
-    { value: "3", month: "Mar" },
-    { value: "4", month: "April" },
-    { value: "5", month: "May" },
-    { value: "6", month: "Jun" },
-    { value: "7", month: "Jul" },
-    { value: "8", month: "Aug" },
-    { value: "9", month: "Sep" },
-    { value: "10", month: "Oct" },
-    { value: "11", month: "Nov" },
-    { value: "12", month: "Dec" },
-  ];
-
   const emoIds: number[] = [1, 2, 3, 4, 5, 6];
 
   return (
-    <StWrapper>
+    <StWrapper onClick={onModalLayoutClick}>
       <Flex jc="center" ai="center">
-        <StMonth>
-          {options.map((item) => (
-            <button
-              style={{ margin: "10px" }}
-              key={item.value}
-              value={item.value}
-              type="button"
-              onClick={() => handleOptionClick(item.value)}
-            >
-              {item.month}
-            </button>
-          ))}
-        </StMonth>
+        <Flex row>
+          <SliderBtn type="button" onClick={onPrevClick}>
+            <AiOutlineLeft />
+          </SliderBtn>
+          <StMonth>
+            {options.slice(firstIndex, firstIndex + 3).map((item) => (
+              <button
+                style={{ margin: "10px" }}
+                key={item.value}
+                value={item.value}
+                type="button"
+                onClick={() => ClickOption(item.value)}
+              >
+                {item.month}
+              </button>
+            ))}
+          </StMonth>
+          <SliderBtn type="button" onClick={onNextClick}>
+            <AiOutlineRight />
+          </SliderBtn>
+        </Flex>
+        <Flex>
+          <SelectMonth onClick={() => setIsShow((prev) => !prev)}>
+            월선택
+          </SelectMonth>
+          {isShow && (
+            <div>
+              <MonthList>
+                {options.map((item) => (
+                  <MonthListBtn
+                    key={item.value}
+                    value={item.value}
+                    onClick={(e) => onMonthClick(e)}
+                  >
+                    {item.month}
+                  </MonthListBtn>
+                ))}
+              </MonthList>
+            </div>
+          )}
+        </Flex>
         <h1>{month}월 나의 감정은?</h1>
         <Flex row gap={50}>
           <PieChart graphData={chartData} month={month} />
@@ -97,14 +112,14 @@ const StMonth = styled.form`
   margin-top: 10px;
   border-radius: 5px;
   max-width: 100vw;
-
+  transition: 0.5s;
   button {
     background-color: #e5dfd3;
     cursor: pointer;
     border: 1px solid #eee;
     border-radius: 10px;
-    height: 50px;
-    width: 200px;
+    height: 5vh;
+    width: 18vw;
     &:hover {
       background-color: #eee;
     }
@@ -113,7 +128,7 @@ const StMonth = styled.form`
 
 const StWrapper = styled.div`
   margin-top: 50px;
-  height: 80vh;
+  height: 100vh;
 `;
 
 const StEmoList = styled.div`
@@ -121,4 +136,46 @@ const StEmoList = styled.div`
   justify-content: center;
   flex-direction: column;
   gap: 20px;
+`;
+
+const SliderBtn = styled.button`
+  border: none;
+  background-color: transparent;
+  margin-top: 20px;
+  height: 5vh;
+  cursor: pointer;
+  &:hover {
+    scale: 1.2;
+  }
+`;
+const SelectMonth = styled.div`
+  width: 10vw;
+  text-align: center;
+  cursor: pointer;
+  background-color: #e5dfd3;
+  border-radius: 5px;
+`;
+
+const MonthList = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid;
+  border-radius: 1vw;
+  z-index: 5;
+  width: 10vw;
+  position: absolute;
+`;
+
+const MonthListBtn = styled.button`
+  border: 0;
+  background-color: transparent;
+  padding: 0.5vw;
+  cursor: pointer;
+  font-family: "KyoboHand";
+  &:hover {
+    border-radius: 1vw;
+
+    background-color: #eee;
+  }
 `;
