@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
 import { useMutation } from "@tanstack/react-query";
 import user from "../../../lib/api/user";
+import { AxiosError } from "axios";
+import * as Sub from "../../../components/subModal";
 
 const Report = ({ children, id, uri }: ChildrenType & Idtype & UriType) => {
   const [reason, setReason] = useState("");
@@ -13,16 +15,20 @@ const Report = ({ children, id, uri }: ChildrenType & Idtype & UriType) => {
     setReason(e.target.value);
   };
 
-  const submitFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    mutate();
-  };
-
-  const { mutate } = useMutation({
-    mutationFn: async () => {
-      await user.post(`/boards/${uri}/${id}`, { reason });
+  const { data, mutate, status, reset } = useMutation({
+    mutationFn: async (id: number | undefined) => {
+      const data = await user.post(`/boards/${uri}/${id}`, { reason });
+      return data;
+    },
+    onSuccess: () => {
+      setReason("");
+    },
+    onError: (error: AxiosError<Object>) => {
+      error?.response?.status === 409 && alert("이미 신고된 게시물입니다");
+      return error;
     },
   });
+
   return (
     <UI.Modalroot>
       <UI.ModalBackground />
@@ -34,16 +40,58 @@ const Report = ({ children, id, uri }: ChildrenType & Idtype & UriType) => {
               <IoMdClose />
             </UI.ModalClose>
           </CloseBtn>
-          <Text>신고하기</Text>
-          <form onSubmit={submitFormHandler}>
-            이유 : <input type="text" value={reason} onChange={changeInputHandler} />
-            <button type="submit">신고</button>
-          </form>
+          <Sub.SubModalroot>
+            <Text>신고하기</Text>
+            <form
+              onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+                e.preventDefault();
+              }}
+            >
+              이유 : <input type="text" value={reason} onChange={changeInputHandler} />
+              <Sub.SubModalTrigger>
+                <button type="submit">신고</button>
+              </Sub.SubModalTrigger>
+              <Sub.SubModalContent>
+                <Container>
+                  {status === "idle" ? (
+                    <>
+                      <Text>정말 신고하시겠습니까?</Text>
+                      <button
+                        onClick={() => {
+                          mutate(id);
+                        }}
+                      >
+                        제출
+                      </button>
+                      <UI.ModalTrigger>
+                        <button>취소</button>
+                      </UI.ModalTrigger>
+                    </>
+                  ) : status === "success" ? (
+                    <>
+                      <Text>신고되었습니다</Text>
+                      <UI.ModalTrigger>
+                        <button onClick={reset}>완료</button>
+                      </UI.ModalTrigger>
+                    </>
+                  ) : (
+                    <>
+                      <Text>신고 실패하였습니다</Text>
+                      <UI.ModalTrigger>
+                        <button onClick={reset}>완료</button>
+                      </UI.ModalTrigger>
+                    </>
+                  )}
+                </Container>
+              </Sub.SubModalContent>
+            </form>
+          </Sub.SubModalroot>
         </Container>
       </UI.ModalContent>
     </UI.Modalroot>
   );
 };
+
 const Container = styled.div`
   width: 300px;
   color: #a18585;
@@ -58,6 +106,7 @@ const Container = styled.div`
   box-shadow: 1px 1px 10px 5px #e2e2e2;
   padding: 10% 2%;
   cursor: auto;
+  height: 170px;
 `;
 
 const Text = styled.div`
