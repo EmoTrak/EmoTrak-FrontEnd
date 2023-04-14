@@ -39,11 +39,13 @@ const Edit = () => {
     year,
     month,
     day: targetItem?.day,
+    draw: targetItem?.draw,
     emoId: targetItem?.emoId,
     star: targetItem?.star,
     detail: targetItem?.detail,
     deleteImg: false,
     share: targetItem?.share,
+    restrict: targetItem?.restrict,
   };
 
   const {

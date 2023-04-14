@@ -1,6 +1,6 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Flex from "../components/Flex";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { usePost } from "../features/post/hooks/usePost";
 import { useInput } from "../features/post/hooks/useInput";
 import styled from "styled-components";
@@ -12,8 +12,11 @@ import { useEraser } from "../features/post/hooks/useEraser";
 import { Coordinate } from "../data/type/d3";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
 import PenTool from "../features/post/components/PenTool";
+import { getCookie } from "../utils/cookies";
+import { LOGIN_PAGE } from "../data/routes/urls";
 
 export type InputValue = {
+  draw: boolean;
   year: number;
   month: number;
   day: number;
@@ -22,9 +25,13 @@ export type InputValue = {
   detail: string;
   deleteImg: boolean;
   share: boolean;
+  restrict: boolean;
 };
 
 const DrawingPost = (): JSX.Element => {
+  const token = getCookie("token");
+  const navigate = useNavigate();
+
   // 날짜
   const params = useParams();
   const year: number | undefined = Number(params.date?.split("-")[0]);
@@ -45,11 +52,13 @@ const DrawingPost = (): JSX.Element => {
     year,
     month,
     day,
+    draw: true,
     emoId: 0,
     star: 0,
     detail: "",
     deleteImg: false,
     share: false,
+    restrict: false,
   };
   const {
     onChangeHandler,
@@ -104,8 +113,12 @@ const DrawingPost = (): JSX.Element => {
   ): void => {
     const button = event.target as HTMLButtonElement;
     const value = button.value;
-    setMode(value);
-    setSelectPen((pre) => !pre);
+    if (value === "eraser") {
+      setMode(value);
+    } else {
+      setMode(value);
+      setSelectPen((pre) => !pre);
+    }
   };
 
   // 색깔 변경 함수
@@ -190,14 +203,48 @@ const DrawingPost = (): JSX.Element => {
   };
 
   // 글작성 함수
-  const submitFormHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    if (validPicture && validEmoji && validStar) {
+  const submitFormHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    // setValidPicture(true);
+    // if (validPicture === false) {
+    //   alert("그리기 완료 버튼을 눌러주세요!");
+    // }
+    if (validEmoji === false || validStar === false) {
+      alert("글 내용을 모두 입력해주세요.");
+    }
+    if (validEmoji && validStar) {
+      // await savePictureHandler();
       submitDiaryHandler(event);
-    } else {
-      event.preventDefault();
-      alert("내용을 모두 입력해주세요!");
     }
   };
+
+  useEffect(() => {
+    if (!token) {
+      navigate(`${LOGIN_PAGE}`);
+    }
+    const preventGoBack = () => {
+      if (window.confirm("페이지를 나가시겠습니까?")) {
+        navigate(-1);
+      } else {
+        window.history.pushState(null, "", window.location.href);
+      }
+    };
+
+    // 새로고침 막기 변수
+    const preventClose = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = ""; // chrome에서는 설정이 필요해서 넣은 코드
+    };
+
+    window.history.pushState(null, "", window.location.href);
+    window.addEventListener("popstate", preventGoBack);
+    window.addEventListener("beforeunload", preventClose);
+    return () => {
+      window.removeEventListener("popstate", preventGoBack);
+      window.removeEventListener("beforeunload", preventClose);
+    };
+  }, [token]);
 
   return (
     <div style={{ height: "80vh" }}>
@@ -258,9 +305,6 @@ const DrawingPost = (): JSX.Element => {
               <button type="button" onClick={clearCanvas}>
                 다시 그리기
               </button>
-              <button type="button" onClick={savePicture}>
-                그리기 완료
-              </button>
             </Flex>
           </StCanvasWrapper>{" "}
           <StCanvasWrapper>
@@ -307,12 +351,19 @@ const DrawingPost = (): JSX.Element => {
                   required
                   cols={30}
                   rows={10}
+                  maxLength={1500}
                   onChange={onChangeHandler}
                 ></textarea>
               </label>
             </div>
           </StCanvasWrapper>
-          <button type="submit">등록하기</button>
+          {validPicture ? (
+            <button type="submit">등록하기</button>
+          ) : (
+            <button type="button" onClick={savePicture}>
+              계속하기
+            </button>
+          )}
         </Flex>
       </form>
     </div>

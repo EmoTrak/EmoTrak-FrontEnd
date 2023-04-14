@@ -6,6 +6,7 @@ interface PenProps {
   action?(): Function;
   color?: string;
   penSize?: number;
+  // setValidPicture: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const usePen = (
@@ -13,6 +14,7 @@ export const usePen = (
   action: Function,
   color: string,
   penSize: number
+  // setValidPicture: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   const [isPainting, setIsPainting] = useState<boolean>(false);
   const [mousePosition, setMousePosition] =
@@ -41,6 +43,7 @@ export const usePen = (
       context.closePath();
 
       context.stroke();
+      // setValidPicture(false);
     }
   };
 
