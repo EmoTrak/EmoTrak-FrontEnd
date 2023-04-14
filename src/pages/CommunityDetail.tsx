@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Flex from "../components/Flex";
 import { useNavigate } from "react-router-dom";
 import { EDIT_PAGE } from "../data/routes/urls";
@@ -14,6 +14,7 @@ import Comment from "../features/community/components/Comment";
 import useAddCommunityDetail from "../features/community/hooks/useAddCommunityDetail";
 import { useQueryClient } from "@tanstack/react-query";
 import { keys } from "../data/queryKeys/keys";
+import { scrollOnTop } from "../utils/scollOnTop";
 
 const CommunityDetail = (): JSX.Element => {
   const queryClient = useQueryClient();
@@ -31,11 +32,12 @@ const CommunityDetail = (): JSX.Element => {
     }
   };
 
+  useEffect(() => {
+    scrollOnTop();
+  }, []);
+
   if (isLoading) {
     <>로딩중</>;
-  }
-  if (isError) {
-    <>게시글을 불러올 수 없습니다</>;
   }
 
   return (
@@ -98,9 +100,6 @@ export default CommunityDetail;
 const Container = styled.div`
   display: flex;
   margin-top: 120px;
-  ::-webkit-scrollbar {
-    display: none;
-  }
 `;
 
 const StDefaultImage = styled.div`

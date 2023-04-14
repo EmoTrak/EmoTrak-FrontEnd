@@ -200,5 +200,6 @@ const ScrollOntop = styled.button`
   font-size: 20px;
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 export default Boards;
