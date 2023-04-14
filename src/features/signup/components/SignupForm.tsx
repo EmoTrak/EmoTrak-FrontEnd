@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Flex from "../../../components/Flex";
 import { SignInfo } from "../../../data/type/d3";
 import { useEmailValidation } from "../hooks/useEmailValidation";
@@ -6,8 +6,14 @@ import { useNicknameValidation } from "../hooks/useNicknameValidation";
 import { usePasswordCheck } from "../hooks/usePasswordCheck";
 import { useSignup } from "../hooks/useSignup";
 import { StFormWrapper } from "../../login/components/LoginForm";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { LOGIN_PAGE, SIGN_UP_PAGE } from "../../../data/routes/urls";
+import { getCookie } from "../../../utils/cookies";
 
 const SignupForm = () => {
+  const navigate = useNavigate();
+  const token = getCookie("token");
   const [signInfo, setSignInfo] = useState<SignInfo>({
     email: "",
     nickname: "",
@@ -34,6 +40,14 @@ const SignupForm = () => {
   ): void => {
     const { name, value } = event.target;
     setSignInfo({ ...signInfo, [name]: value });
+    if (name === "nickname") {
+      setNicknameValidation(false);
+      setSignInfo({ ...signInfo, [name]: value });
+    }
+    if (name === "email") {
+      setEmailValidation(false);
+      setSignInfo({ ...signInfo, [name]: value });
+    }
   };
 
   const checkPasswordChangeHandler = (
@@ -75,6 +89,32 @@ const SignupForm = () => {
       alert("입력한 내용을 확인해주세요 !");
     }
   };
+  useEffect(() => {
+    if (token) {
+      navigate(`${LOGIN_PAGE}`);
+    }
+    const preventGoBack = () => {
+      if (window.confirm("페이지를 나가시겠습니까?")) {
+        navigate(-1);
+      } else {
+        window.history.pushState(null, "", window.location.href);
+      }
+    };
+
+    // 새로고침 막기 변수
+    const preventClose = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = ""; // chrome에서는 설정이 필요해서 넣은 코드
+    };
+
+    window.history.pushState(null, "", window.location.href);
+    window.addEventListener("popstate", preventGoBack);
+    window.addEventListener("beforeunload", preventClose);
+    return () => {
+      window.removeEventListener("popstate", preventGoBack);
+      window.removeEventListener("beforeunload", preventClose);
+    };
+  }, [token]);
 
   return (
     <StFormWrapper>
@@ -92,6 +132,7 @@ const SignupForm = () => {
             <button
               type="button"
               onClick={() => checkEmailHandler(signInfo.email)}
+              disabled={emailValidation}
             >
               중복확인
             </button>
@@ -99,9 +140,11 @@ const SignupForm = () => {
               emailValidation ? (
                 <span>사용할 수 있는 아이디입니다.</span>
               ) : (
-                <span>중복확인이 필요합니다.</span>
+                <StWarningMessage>중복확인이 필요합니다.</StWarningMessage>
               )
-            ) : null}
+            ) : (
+              <StWarningMessage>이메일 형식으로 입력해주세요.</StWarningMessage>
+            )}
           </label>
           <label>
             닉네임
@@ -115,6 +158,7 @@ const SignupForm = () => {
             <button
               type="button"
               onClick={() => checkNicknameHandler(signInfo.nickname)}
+              disabled={nicknameValidation}
             >
               중복확인
             </button>
@@ -122,7 +166,7 @@ const SignupForm = () => {
               nicknameValidation ? (
                 <span>사용할 수 있는 닉네임입니다.</span>
               ) : (
-                <span>중복확인이 필요합니다.</span>
+                <StWarningMessage>중복확인이 필요합니다.</StWarningMessage>
               )
             ) : (
               <span></span>
@@ -138,9 +182,9 @@ const SignupForm = () => {
               onChange={(e) => changeInputHandler(e)}
             />
             {7 < Number(signInfo.password.length) ? null : (
-              <span>
+              <StWarningMessage>
                 비밀번호는 영소문자, 숫자를 포함하는 8~15자리이어야합니다.
-              </span>
+              </StWarningMessage>
             )}
           </label>
           <label>
@@ -154,7 +198,11 @@ const SignupForm = () => {
             {checkPassword ? (
               checkPasswordHandler(checkPassword) ? (
                 <span>비밀번호가 일치합니다.</span>
-              ) : null
+              ) : (
+                <StWarningMessage>
+                  비밀번호가 일치하지 않습니다.
+                </StWarningMessage>
+              )
             ) : null}
           </label>
           <button type="submit">가입하기</button>
@@ -165,3 +213,7 @@ const SignupForm = () => {
 };
 
 export default SignupForm;
+
+const StWarningMessage = styled.span`
+  color: red;
+`;
