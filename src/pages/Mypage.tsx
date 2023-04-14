@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../features/mypage/hooks/useAuth";
 import { usePasswordCheck } from "../features/signup/hooks/usePasswordCheck";
 import { useNicknameValidation } from "../features/signup/hooks/useNicknameValidation";
@@ -13,16 +13,23 @@ type InfoType = {
 };
 
 const Mypage = () => {
-  const { data, isLoading, userInfo } = useAuth();
+  const { isLoading, userInfo } = useAuth();
+
   const [info, setInfo] = useState<InfoType>({
-    email: userInfo.email,
-    nickname: userInfo.nickname,
+    email: userInfo?.email,
+    nickname: userInfo?.nickname,
     password: "",
     rePassword: "",
   });
+  console.log("userInfo =", userInfo);
+  console.log("info =", info);
 
-  const { checkNickname, validNickname, setNicknameValidation } =
-    useNicknameValidation();
+  const {
+    checkNickname,
+    validNickname,
+    setNicknameValidation,
+    nicknameValidation,
+  } = useNicknameValidation();
   const { validPassword, checkPasswordHandler } = usePasswordCheck(
     info.password
   );
@@ -45,11 +52,26 @@ const Mypage = () => {
     setInfo({ ...info, [name]: value });
   };
 
+  useEffect(() => {
+    if (userInfo) {
+      setInfo({
+        email: userInfo?.email,
+        nickname: userInfo?.nickname,
+        password: "",
+        rePassword: "",
+      });
+    }
+  }, [userInfo]);
+
+  if (isLoading) {
+    return <div>로딩중..</div>;
+  }
+
   return (
     <>
       <div>
         <label>
-          이메일 <input type="text" value={info.email} disabled />
+          이메일 <input type="text" name="email" value={info.email} disabled />
         </label>
         <label>
           닉네임
@@ -63,7 +85,10 @@ const Mypage = () => {
         <button onClick={() => checkNicknameHandler(info.nickname)}>
           닉네임 중복확인
         </button>
-        <button onClick={() => changeNickname.mutate(info.nickname)}>
+        <button
+          disabled={!nicknameValidation}
+          onClick={() => changeNickname.mutate(info.nickname)}
+        >
           닉네임 변경
         </button>
         <label>
@@ -73,6 +98,7 @@ const Mypage = () => {
             type="password"
             value={info.password}
             onChange={changeInputHandler}
+            disabled={userInfo?.hasSocial}
           />
         </label>
         {validPassword(info.password) ? null : (
@@ -85,6 +111,7 @@ const Mypage = () => {
             type="password"
             value={info.rePassword}
             onChange={changeInputHandler}
+            disabled={userInfo?.hasSocial}
           />
         </label>
         {info.password ? (
@@ -94,7 +121,14 @@ const Mypage = () => {
             <span>비밀번호가 일치하지 않습니다.</span>
           )
         ) : null}
-        <button onClick={() => changePassword.mutate(info.password)}>
+        <button
+          disabled={
+            info.password === "" ||
+            validPassword(info.password) === false ||
+            checkPasswordHandler(info.rePassword) === false
+          }
+          onClick={() => changePassword.mutate(info.password)}
+        >
           비밀번호 변경
         </button>
       </div>
