@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { IOption } from "../../../data/type/d2";
 
 const useChartFn = () => {
@@ -20,17 +20,17 @@ const useChartFn = () => {
   let date = new Date();
   const [year] = useState<number>(date.getFullYear());
   const [month, setMonth] = useState<string | number>(date.getMonth() + 1);
+  const [isShow, setIsShow] = useState<boolean>(false);
+
   const [firstIndex, setFirstIndex] = useState<number>(date.getMonth() - 1);
-  const [isShow, setIsShow] = useState(false);
 
   const ClickOption = (optionValue: string) => {
     setMonth(optionValue);
   };
-  const onMonthClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const button: HTMLButtonElement = e.currentTarget;
-    setMonth(button.value);
+  const ToggleHandler = () => {
     setIsShow((prev) => !prev);
   };
+
   const onPrevClick = () => {
     setFirstIndex((prevIndex) =>
       prevIndex === 0 ? options.length - 3 : prevIndex - 1
@@ -42,23 +42,29 @@ const useChartFn = () => {
       prevIndex === options.length - 3 ? 0 : prevIndex + 1
     );
   };
-  const onModalLayoutClick = () => {
-    if (isShow) {
-      setIsShow((prev) => !prev);
-    }
+  // const onModalLayoutClick = (isShow: boolean) => {
+  //   if (isShow) {
+  //     setIsShow((prev) => !prev);
+  //   }
+  // };
+  const onMonthClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const button: HTMLButtonElement = e.currentTarget;
+    setMonth(button.value);
+    setIsShow((prev) => !prev);
   };
   return {
     month,
     firstIndex,
     isShow,
+    ToggleHandler,
+    setMonth,
     ClickOption,
-    onMonthClick,
     onPrevClick,
     onNextClick,
-    onModalLayoutClick,
+    onMonthClick,
+    setIsShow,
     year,
     options,
-    setIsShow,
   };
 };
 

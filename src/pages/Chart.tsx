@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import BarChart from "../features/chart/components/BarChart";
 import PieChart from "../features/chart/components/PieChart";
@@ -8,22 +8,24 @@ import { getCookie } from "../utils/cookies";
 import { useNavigate } from "react-router-dom";
 import useChartData from "../features/chart/hooks/useChartData";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { IOption } from "../data/type/d2";
 import useChartFn from "../features/chart/hooks/useChartFn";
 
 const Chart = (): JSX.Element => {
   const nav = useNavigate();
+
   const {
     month,
     firstIndex,
     isShow,
+
     ClickOption,
     onMonthClick,
     onPrevClick,
     onNextClick,
-    onModalLayoutClick,
+    ToggleHandler,
     year,
     options,
-    setIsShow,
   } = useChartFn();
   const { chartData, isLoading, isError } = useChartData(year);
 
@@ -40,7 +42,7 @@ const Chart = (): JSX.Element => {
   const emoIds: number[] = [1, 2, 3, 4, 5, 6];
 
   return (
-    <StWrapper onClick={onModalLayoutClick}>
+    <StWrapper>
       <Flex jc="center" ai="center">
         <Flex row>
           <SliderBtn type="button" onClick={onPrevClick}>
@@ -64,17 +66,16 @@ const Chart = (): JSX.Element => {
           </SliderBtn>
         </Flex>
         <Flex>
-          <SelectMonth onClick={() => setIsShow((prev) => !prev)}>
-            월선택
-          </SelectMonth>
+          <SelectMonth onClick={ToggleHandler}>월선택</SelectMonth>
           {isShow && (
             <div>
+              <BackGround onClick={ToggleHandler} />
               <MonthList>
                 {options.map((item) => (
                   <MonthListBtn
                     key={item.value}
                     value={item.value}
-                    onClick={(e) => onMonthClick(e)}
+                    onClick={onMonthClick}
                   >
                     {item.month}
                   </MonthListBtn>
@@ -130,7 +131,13 @@ const StWrapper = styled.div`
   margin-top: 50px;
   height: 100vh;
 `;
-
+const BackGround = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+`;
 const StEmoList = styled.div`
   display: flex;
   justify-content: center;
