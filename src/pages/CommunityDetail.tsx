@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Flex from "../components/Flex";
 import { useNavigate } from "react-router-dom";
-import { EDIT_PAGE } from "../data/routes/urls";
 import { useDelete } from "../features/detail/hooks/useDelete";
 import styled from "styled-components";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
@@ -15,13 +14,15 @@ import useAddCommunityDetail from "../features/community/hooks/useAddCommunityDe
 import { useQueryClient } from "@tanstack/react-query";
 import { keys } from "../data/queryKeys/keys";
 import { scrollOnTop } from "../utils/scollOnTop";
+import PostDate from "../features/community/components/PostDate";
+import { DRAW_EDIT_PAGE, IMAGE_EDIT_PAGE } from "../data/routes/urls";
 
 const CommunityDetail = (): JSX.Element => {
   const queryClient = useQueryClient();
-  const [page, setPage] = useState<number>(1);
   const navigate = useNavigate();
-  const { deletePost } = useDelete();
   const token = getCookie("token");
+  const [page, setPage] = useState<number>(1);
+  const { deletePost } = useDelete();
   const { data, isLoading, status } = useAddCommunityDetail(page);
 
   const deletePostHandler = (id: number) => {
@@ -64,10 +65,19 @@ const CommunityDetail = (): JSX.Element => {
             <div>닉네임 :{data?.nickname}</div>
           </Flex>
           <Flex row>내 감정점수 {data?.star}</Flex>
+          {status === "success" && <PostDate date={data.date} />}
           <Flex row>{data?.detail}</Flex>
           {data?.hasAuth && (
             <div>
-              <button onClick={() => navigate(`${EDIT_PAGE}/${data?.id}`)}>수정</button>
+              {data?.draw ? (
+                <button onClick={() => navigate(`${DRAW_EDIT_PAGE}/${data?.id}`)}>
+                  수정
+                </button>
+              ) : (
+                <button onClick={() => navigate(`${IMAGE_EDIT_PAGE}/${data?.id}`)}>
+                  수정
+                </button>
+              )}
               <button onClick={() => deletePostHandler(data?.id)}>삭제</button>
             </div>
           )}
