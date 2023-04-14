@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const defaultValue = {
   open: false,
-  setOpen: (open: boolean) => {},
+  setOpen: () => {},
 };
 
 const Context = createContext<BooleanType>(defaultValue);
@@ -18,7 +18,7 @@ export const Modalroot = ({ children }: PropsType) => {
 
 export const ModalTrigger = ({ children }: PropsType) => {
   const { setOpen } = useContext(Context);
-  return <div onClick={() => setOpen(true)}>{children}</div>;
+  return <div onClick={() => setOpen((pre) => !pre)}>{children}</div>;
 };
 
 export const ModalBackground = () => {
@@ -51,7 +51,7 @@ const Content = styled.div`
 export const ModalClose = ({ children }: PropsType) => {
   const { setOpen } = useContext(Context);
 
-  return <CloseBtn onClick={() => setOpen(false)}>{children}</CloseBtn>;
+  return <CloseBtn onClick={() => setOpen((pre) => !pre)}>{children}</CloseBtn>;
 };
 
 const CloseBtn = styled.button`

@@ -1,7 +1,7 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { CommentType } from '../../../data/type/d1';
-import user from '../../../lib/api/user';
-import { keys } from '../../../data/queryKeys/keys';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CommentType } from "../../../data/type/d1";
+import user from "../../../lib/api/user";
+import { keys } from "../../../data/queryKeys/keys";
 
 const useAddComment = (id: number | undefined) => {
   const queryClient = useQueryClient();
@@ -12,9 +12,6 @@ const useAddComment = (id: number | undefined) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries([keys.GET_BOARD]);
-    },
-    onError: (error) => {
-      console.log(error);
     },
   });
 

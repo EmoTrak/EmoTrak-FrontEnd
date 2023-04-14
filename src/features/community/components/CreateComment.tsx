@@ -20,7 +20,7 @@ const CreateComment = ({ id }: Idtype) => {
 
   return (
     <form onSubmit={submitCommentHandler}>
-      댓글작성
+      댓글작성 :
       <input type="text" value={input.comment} onChange={changeInputHandler} />
       <button type="submit">댓글작성</button>
     </form>

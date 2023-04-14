@@ -43,9 +43,7 @@ export interface ChildrenType {
 
 export interface BooleanType {
   open: boolean;
-  // setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-  // setOpen: (open: boolean) => boolean;
-  setOpen: (open: boolean) => void;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export type ModalState = BooleanType[];
@@ -72,7 +70,7 @@ export interface CommentProps extends Idtype {
   item: commentData;
 }
 
-export interface commentData extends Idtype {
+export interface commentData {
   likesCnt: number;
   comment: string;
   createAt: string;
