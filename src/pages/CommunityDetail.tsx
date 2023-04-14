@@ -12,18 +12,22 @@ import CreateComment from "../features/community/components/CreateComment";
 import Report from "../features/community/components/Report";
 import Comment from "../features/community/components/Comment";
 import useAddCommunityDetail from "../features/community/hooks/useAddCommunityDetail";
+import { useQueryClient } from "@tanstack/react-query";
+import { keys } from "../data/queryKeys/keys";
 
 const CommunityDetail = (): JSX.Element => {
+  const queryClient = useQueryClient();
   const [page, setPage] = useState<number>(0);
   const navigate = useNavigate();
   const { deletePost } = useDelete();
   const token = getCookie("token");
-
   const { data, isError, isLoading, status } = useAddCommunityDetail(page);
 
   const deletePostHandler = (id: number) => {
     if (window.confirm("삭제하시겠습니까?")) {
-      deletePost.mutate(id);
+      deletePost.mutate(id, {
+        onSuccess: () => queryClient.resetQueries({ queryKey: [keys.GET_BOARD] }),
+      });
     }
   };
 
@@ -35,15 +39,15 @@ const CommunityDetail = (): JSX.Element => {
   }
 
   return (
-    <Flex row>
+    <Container>
       <StCanvasWrapper>
         {data?.imgUrl ? (
-          <Img src={data?.imgUrl} alt="" />
+          <Img src={data?.imgUrl} />
         ) : (
           <StDefaultImage>이미지가 필요합니다</StDefaultImage>
         )}
       </StCanvasWrapper>
-      <StCanvasWrapper2>
+      <StPostDetailWrapper>
         <Flex>
           {status === "success" && (
             <LikePost isLike={data.hasLike} id={data.id} count={data.likesCnt} />
@@ -78,12 +82,21 @@ const CommunityDetail = (): JSX.Element => {
         {data?.comments.map((item: commentData, i: number) => (
           <Comment item={item} key={i} />
         ))}
-      </StCanvasWrapper2>
-    </Flex>
+        <button onClick={() => setPage((pre) => pre + 1)}>다음</button>
+      </StPostDetailWrapper>
+    </Container>
   );
 };
 
 export default CommunityDetail;
+
+const Container = styled.div`
+  display: flex;
+  margin-top: 120px;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
 
 const StDefaultImage = styled.div`
   width: 50vw;
@@ -92,8 +105,7 @@ const StDefaultImage = styled.div`
 
 const StCanvasWrapper = styled.div`
   width: 50%;
-  height: 70vh;
-  border: 1px solid;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -101,18 +113,23 @@ const StCanvasWrapper = styled.div`
   position: relative;
 `;
 
-const StCanvasWrapper2 = styled.div`
+const StPostDetailWrapper = styled.div`
   width: 50%;
-  height: 70vh;
+  height: 100%;
+  max-height: 90vh;
   border: 1px solid;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: flex-start;
-  overflow-y: auto;
   position: relative;
+  overflow: scroll;
+  ::-webkit-scrollbar-thumb {
+    background-color: red;
+  }
 `;
 const Img = styled.img`
   width: 40vw;
-  position: absolute;
+  /* position: fixed; */
+  /* top: 20%; */
+  /* left: 5vw; */
 `;

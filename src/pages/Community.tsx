@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { ImageType, SelectType } from "../data/type/d1";
 import { useNavigate } from "react-router-dom";
 import { COMMUNITY_PAGE } from "../data/routes/urls";
+import { FiChevronsUp } from "react-icons/fi";
 
 const Community = (): JSX.Element => {
   const navigate = useNavigate();
@@ -100,6 +101,9 @@ const Community = (): JSX.Element => {
           </ImageBox>
         ))}
       </ImageContainer>
+      <ScrollOntop onClick={() => window.scrollTo(0, 0)}>
+        <FiChevronsUp />
+      </ScrollOntop>
     </Container>
   );
 };
@@ -181,5 +185,19 @@ const ImageBox = styled.div`
   align-items: center;
   overflow: hidden;
   cursor: pointer;
+`;
+
+const ScrollOntop = styled.button`
+  position: fixed;
+  bottom: 50px;
+  right: 10%;
+  background-color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  border: 0.5px solid;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
 `;
 export default Community;
