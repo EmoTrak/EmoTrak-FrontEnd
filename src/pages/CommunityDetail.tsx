@@ -17,7 +17,7 @@ import { keys } from "../data/queryKeys/keys";
 
 const CommunityDetail = (): JSX.Element => {
   const queryClient = useQueryClient();
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
   const navigate = useNavigate();
   const { deletePost } = useDelete();
   const token = getCookie("token");
@@ -82,7 +82,12 @@ const CommunityDetail = (): JSX.Element => {
         {data?.comments.map((item: commentData, i: number) => (
           <Comment item={item} key={i} />
         ))}
-        <button onClick={() => setPage((pre) => pre + 1)}>다음</button>
+        {page !== 1 && (
+          <button onClick={() => setPage((pre) => pre - 1)}>{page - 1}</button>
+        )}
+        <button onClick={() => setPage((pre) => pre + 1)} disabled={data?.lastPage}>
+          {data?.lastPage ? page : page + 1}
+        </button>
       </StPostDetailWrapper>
     </Container>
   );

@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 const useAddCommunityDetail = (page: number) => {
   const param = useParams();
   const dailyId: number = Number(param.id);
-  console.log(page);
   const { data, isError, isLoading, status } = useQuery({
     queryKey: [keys.GET_BOARD, page],
     queryFn: async () => {
