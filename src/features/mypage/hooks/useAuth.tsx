@@ -16,17 +16,26 @@ export const useAuth = () => {
     hasSocial: false,
   });
 
-  const getUserInfo = useCallback(async () => {
-    const data = await user.post(`/users/mypage`);
-    return data;
-  }, []);
+  // const getUserInfo = useCallback(async () => {
+  //   const data = await user.get(`/users/mypage`);
+  //   return data;
+  // }, []);
 
-  const { data, isLoading } = useQuery([`${keys.GET_USER}`], getUserInfo, {
-    onSuccess() {
-      const info = data?.data;
-      setUserInfo(info);
+  const { data, isLoading } = useQuery(
+    [`${keys.GET_USER}`],
+    async () => {
+      const data = await user.get(`/users/mypage`);
+      return data;
     },
-  });
+    {
+      onSuccess(data) {
+        const queryInfo = data?.data.data;
+        console.log("queryInfo =", queryInfo);
+
+        setUserInfo(queryInfo);
+      },
+    }
+  );
   // const authorization = useMutation(
   //   async (item: string | undefined) => {
   //     const data = await user.post(`/users/mypage`, item);
