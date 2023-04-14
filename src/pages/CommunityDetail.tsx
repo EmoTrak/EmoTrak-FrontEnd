@@ -15,13 +15,14 @@ import useAddCommunityDetail from "../features/community/hooks/useAddCommunityDe
 import { useQueryClient } from "@tanstack/react-query";
 import { keys } from "../data/queryKeys/keys";
 import { scrollOnTop } from "../utils/scollOnTop";
+import PostDate from "../features/community/components/PostDate";
 
 const CommunityDetail = (): JSX.Element => {
   const queryClient = useQueryClient();
-  const [page, setPage] = useState<number>(1);
   const navigate = useNavigate();
-  const { deletePost } = useDelete();
   const token = getCookie("token");
+  const [page, setPage] = useState<number>(1);
+  const { deletePost } = useDelete();
   const { data, isLoading, status } = useAddCommunityDetail(page);
 
   const deletePostHandler = (id: number) => {
@@ -64,6 +65,7 @@ const CommunityDetail = (): JSX.Element => {
             <div>닉네임 :{data?.nickname}</div>
           </Flex>
           <Flex row>내 감정점수 {data?.star}</Flex>
+          {status === "success" && <PostDate date={data.date} />}
           <Flex row>{data?.detail}</Flex>
           {data?.hasAuth && (
             <div>

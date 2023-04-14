@@ -10,6 +10,9 @@ export interface date {
   day?: number;
 }
 
+export interface PostDateType {
+  date: string;
+}
 interface DataDetail extends Idtype {
   day: number;
   emoId: number;
