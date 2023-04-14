@@ -1,11 +1,10 @@
 import { RiHeart3Fill, RiHeart3Line } from "react-icons/ri";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import user from "../../../lib/api/user";
 import styled from "styled-components";
 import { useState } from "react";
 import { getCookie } from "../../../utils/cookies";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_PAGE } from "../../../data/routes/urls";
+import useLikeComment from "../hooks/useLikeComment";
 
 interface LikeType {
   isLike: boolean | undefined;
@@ -21,18 +20,7 @@ const LikeComment = ({ isLike: hasLike, id, count }: LikeType) => {
     count: count,
   });
 
-  const { mutate: likeMutate, data: likedata } = useMutation({
-    mutationFn: async () => {
-      const data = await user.post(`/boards/comments/likes/${id}`);
-      return data.data;
-    },
-    onSuccess: (likedata) =>
-      setLike({
-        ...like,
-        isLike: likedata?.data.hasLike,
-        count: likedata?.data.likesCount,
-      }),
-  });
+  const { likeMutate } = useLikeComment(setLike);
 
   return (
     <>
@@ -40,7 +28,7 @@ const LikeComment = ({ isLike: hasLike, id, count }: LikeType) => {
         <LikeTrue
           onClick={() =>
             token
-              ? likeMutate()
+              ? likeMutate(id)
               : window.confirm("로그인 후 이용가능합니다") && navigate(LOGIN_PAGE)
           }
         >
@@ -50,7 +38,7 @@ const LikeComment = ({ isLike: hasLike, id, count }: LikeType) => {
         <LikeFalse
           onClick={() =>
             token
-              ? likeMutate()
+              ? likeMutate(id)
               : window.confirm("로그인 후 이용가능합니다") && navigate(LOGIN_PAGE)
           }
         >

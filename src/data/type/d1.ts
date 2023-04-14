@@ -70,7 +70,7 @@ export interface CommentProps extends Idtype {
   item: commentData;
 }
 
-export interface commentData extends Idtype {
+export interface commentData {
   likesCnt: number;
   comment: string;
   createAt: string;

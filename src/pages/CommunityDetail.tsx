@@ -22,7 +22,7 @@ const CommunityDetail = (): JSX.Element => {
   const navigate = useNavigate();
   const { deletePost } = useDelete();
   const token = getCookie("token");
-  const { data, isError, isLoading, status } = useAddCommunityDetail(page);
+  const { data, isLoading, status } = useAddCommunityDetail(page);
 
   const deletePostHandler = (id: number) => {
     if (window.confirm("삭제하시겠습니까?")) {
@@ -81,9 +81,10 @@ const CommunityDetail = (): JSX.Element => {
             </Report>
           </>
         )}
-        {data?.comments.map((item: commentData, i: number) => (
-          <Comment item={item} key={i} />
-        ))}
+        {status === "success" &&
+          data.comments.map((item: commentData, i: number) => (
+            <Comment item={item} key={i} />
+          ))}
         {page !== 1 && (
           <button onClick={() => setPage((pre) => pre - 1)}>{page - 1}</button>
         )}
