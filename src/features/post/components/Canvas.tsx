@@ -20,6 +20,11 @@ const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvas = canvasRef.current;
 
+  // 글작성 조건 상태
+  const [validPicture, setValidPicture] = useState<boolean>(false);
+  const [validStar, setValidStar] = useState<boolean>(false);
+  const [validEmoji, setValidEmoji] = useState<boolean>(false);
+
   // 그림판 모드, 색깔 상태 관리
   const [mode, setMode] = useState<string>("pen");
   const [selectedColor, setSelectedColor] = useState<string>("");
@@ -46,6 +51,7 @@ const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
     getCoordinates,
     selectedColor,
     selectedSize
+    // setValidPicture
   );
 
   const { startErase, erase, exitErase } = useEraser(canvasRef, getCoordinates);

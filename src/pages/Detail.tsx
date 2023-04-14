@@ -7,10 +7,16 @@ import EmotionIcons from "../components/Icon/EmoticonIcons";
 import Flex from "../components/Flex";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
 import { getCookie, removeCookie } from "../utils/cookies";
-import { DETAIL_PAGE, EDIT_PAGE, LOGIN_PAGE } from "../data/routes/urls";
+import {
+  DETAIL_PAGE,
+  DRAW_EDIT_PAGE,
+  IMAGE_EDIT_PAGE,
+  LOGIN_PAGE,
+} from "../data/routes/urls";
 import { useDelete } from "../features/detail/hooks/useDelete";
 // import Star from "../components/Icon/Star";
 import styled from "styled-components";
+import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 
 export type DetailType = {
   id: number;
@@ -19,6 +25,9 @@ export type DetailType = {
   star: number;
   detail: string;
   imgUrl: string | null;
+  restrict: boolean;
+  share: boolean;
+  draw: boolean;
 };
 
 const Detail = (): JSX.Element => {
@@ -59,18 +68,17 @@ const Detail = (): JSX.Element => {
     (item: DetailType) => item.id === dailyId
   )[0];
 
-  // const viewOtherItemHandler = () => {
-  //   setItems((pre) => !pre);
-  // };
-
-  const deletePostHandler = (id: number) => {
-    if (window.confirm("삭제하시겠습니까?")) {
-      deletePost.mutate(id);
+  const navigateEditHandler = () => {
+    if (targetItem?.draw) {
+      navigate(`${DRAW_EDIT_PAGE}/${targetItem?.id}`);
+    }
+    if (!targetItem?.draw) {
+      navigate(`${IMAGE_EDIT_PAGE}/${targetItem?.id}`);
     }
   };
 
   if (isError) {
-    alert("권한이 없습니다!");
+    alert("삭제된 게시물입니다!");
     navigate("/");
   }
   if (isLoading) {
@@ -125,16 +133,18 @@ const Detail = (): JSX.Element => {
               내 감정점수
               {targetItem?.star}
             </Flex>
+            <Flex row>
+              공유여부
+              {targetItem?.share ? "shared" : "private"}
+            </Flex>
             <Flex row>{targetItem?.detail}</Flex>
             <div>
-              <button
-                onClick={() => navigate(`${EDIT_PAGE}/${targetItem?.id}`)}
-              >
-                수정
-              </button>
-              <button onClick={() => deletePostHandler(targetItem?.id)}>
-                삭제
-              </button>
+              <button onClick={navigateEditHandler}>수정</button>
+              <div>
+                <DeleteConfirmModal itemId={targetItem?.id}>
+                  삭제
+                </DeleteConfirmModal>
+              </div>
             </div>
           </Flex>
         </StCanvasWrapper>

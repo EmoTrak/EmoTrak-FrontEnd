@@ -7,12 +7,11 @@ import { LOGIN_PAGE } from "../../../data/routes/urls";
 export const useSignup = () => {
   const navigate = useNavigate();
   const signup = useMutation(
-    async (item: SignInfo) => {
-      const data = await axios.post(
+    async (item: SignInfo): Promise<void> => {
+      await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/users/signup`,
         item
       );
-      return data;
     },
     {
       onSuccess() {

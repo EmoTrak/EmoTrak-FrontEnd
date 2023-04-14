@@ -77,7 +77,7 @@ const BarChart = ({ graphData, month }: PropsData): JSX.Element => {
           }}
         />
       ) : (
-        <h2>데이터가없습니다!</h2>
+        <h2>데이터가 없습니다!</h2>
       )}
     </Wrapper>
   );
@@ -92,4 +92,7 @@ const Wrapper = styled.div`
   margin-top: 50px;
   box-shadow: 10px 5px 5px #eee;
   border-radius: 25px;
+  h2 {
+    letter-spacing: 5px;
+  }
 `;
