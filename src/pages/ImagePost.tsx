@@ -26,7 +26,7 @@ const ImagePost = (): JSX.Element => {
   const [validPhoto, setValidPhoto] = useState<boolean>(false);
   const [validStar, setValidStar] = useState<boolean>(false);
   const [validEmoji, setValidEmoji] = useState<boolean>(false);
-  const newItem: InputValue = {
+  const editItem: InputValue = {
     year,
     month,
     day,
@@ -36,6 +36,7 @@ const ImagePost = (): JSX.Element => {
     detail: "",
     deleteImg: false,
     share: false,
+    restrict: false,
   };
   const {
     onChangeHandler,
@@ -43,7 +44,7 @@ const ImagePost = (): JSX.Element => {
     clickEmojiHandler,
     inputValue,
     scoreStarHandler,
-  } = useInput(newItem);
+  } = useInput(editItem);
 
   const { submitDiaryHandler, fileInputHandler, fileDropHandler, photo } =
     usePost({
@@ -217,7 +218,12 @@ const ImagePost = (): JSX.Element => {
             <div style={{ display: "flex", flexDirection: "column" }}>
               <label>
                 공유여부
-                <input name="share" type="checkbox" onChange={onCheckHandler} />
+                <input
+                  name="share"
+                  type="checkbox"
+                  disabled={editItem?.restrict}
+                  onChange={onCheckHandler}
+                />
               </label>
               <label>
                 내용

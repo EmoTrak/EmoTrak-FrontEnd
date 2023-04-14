@@ -45,6 +45,7 @@ const Edit = () => {
     detail: targetItem?.detail,
     deleteImg: false,
     share: targetItem?.share,
+    restrict: targetItem?.restrict,
   };
 
   const {
@@ -217,6 +218,7 @@ const Edit = () => {
                 name="share"
                 type="checkbox"
                 checked={inputValue.share === true}
+                disabled={editItem?.restrict}
                 onChange={onCheckHandler}
               />
             </label>

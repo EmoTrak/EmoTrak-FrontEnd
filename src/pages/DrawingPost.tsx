@@ -25,6 +25,7 @@ export type InputValue = {
   detail: string;
   deleteImg: boolean;
   share: boolean;
+  restrict: boolean;
 };
 
 const DrawingPost = (): JSX.Element => {
@@ -57,6 +58,7 @@ const DrawingPost = (): JSX.Element => {
     detail: "",
     deleteImg: false,
     share: false,
+    restrict: false,
   };
   const {
     onChangeHandler,
