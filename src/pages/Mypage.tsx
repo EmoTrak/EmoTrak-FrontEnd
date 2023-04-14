@@ -4,6 +4,7 @@ import { usePasswordCheck } from "../features/signup/hooks/usePasswordCheck";
 import { useNicknameValidation } from "../features/signup/hooks/useNicknameValidation";
 import { useChangePassword } from "../features/mypage/hooks/useChangePassword";
 import { useChangeNickname } from "../features/mypage/hooks/useChangeNickname";
+import { useWithdrawal } from "../features/mypage/hooks/useWithdrawal";
 
 type InfoType = {
   email: string;
@@ -14,6 +15,7 @@ type InfoType = {
 
 const Mypage = () => {
   const { isLoading, userInfo } = useAuth();
+  const { withdraw } = useWithdrawal();
 
   const [info, setInfo] = useState<InfoType>({
     email: userInfo?.email,
@@ -50,6 +52,10 @@ const Mypage = () => {
   const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setInfo({ ...info, [name]: value });
+  };
+
+  const withdrawUserHandler = () => {
+    withdraw.mutate();
   };
 
   useEffect(() => {
@@ -131,6 +137,7 @@ const Mypage = () => {
         >
           비밀번호 변경
         </button>
+        <button onClick={withdrawUserHandler}>회원탈퇴</button>
       </div>
     </>
   );
