@@ -9,6 +9,7 @@ import { ImageType, SelectType } from "../data/type/d1";
 import { useNavigate } from "react-router-dom";
 import { COMMUNITY_PAGE } from "../data/routes/urls";
 import { FiChevronsUp } from "react-icons/fi";
+import { scrollOnTop } from "../utils/scollOnTop";
 
 const Community = (): JSX.Element => {
   const navigate = useNavigate();
@@ -53,6 +54,10 @@ const Community = (): JSX.Element => {
       ]);
     }
   }, [boardData]);
+
+  useEffect(() => {
+    scrollOnTop();
+  }, []);
 
   if (boardLoading) {
     return <>로딩중</>;
@@ -101,7 +106,7 @@ const Community = (): JSX.Element => {
           </ImageBox>
         ))}
       </ImageContainer>
-      <ScrollOntop onClick={() => window.scrollTo(0, 0)}>
+      <ScrollOntop onClick={scrollOnTop}>
         <FiChevronsUp />
       </ScrollOntop>
     </Container>
