@@ -45,6 +45,7 @@ const Edit = () => {
     detail: targetItem?.detail,
     deleteImg: false,
     share: targetItem?.share,
+    restrict: targetItem?.restrict,
   };
 
   const {
