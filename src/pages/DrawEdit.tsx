@@ -39,6 +39,7 @@ const Edit = () => {
     year,
     month,
     day: targetItem?.day,
+    draw: targetItem?.draw,
     emoId: targetItem?.emoId,
     star: targetItem?.star,
     detail: targetItem?.detail,

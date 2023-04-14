@@ -5,13 +5,17 @@ import { InputValue, StEmoButton, StList, StUnorderLi } from "./DrawingPost";
 import Star from "../components/Icon/Star";
 import { useInput } from "../features/post/hooks/useInput";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { usePost } from "../features/post/hooks/usePost";
 import styled from "styled-components";
 import { usePreview } from "../features/post/hooks/usePreview";
 import Flex from "../components/Flex";
+import { getCookie } from "../utils/cookies";
+import { LOGIN_PAGE } from "../data/routes/urls";
 
 const ImagePost = (): JSX.Element => {
+  const token = getCookie("token");
+  const navigate = useNavigate();
   // 날짜
   const params = useParams();
   const year: number | undefined = Number(params.date?.split("-")[0]);
@@ -26,6 +30,7 @@ const ImagePost = (): JSX.Element => {
     year,
     month,
     day,
+    draw: false,
     emoId: 0,
     star: 0,
     detail: "",
@@ -45,10 +50,6 @@ const ImagePost = (): JSX.Element => {
       inputValue,
     });
   const { preview, previewUrl } = usePreview();
-
-  useEffect(() => {
-    preview(photo);
-  }, [photo]);
 
   // 감정 선택
   // const emoIds: number[] = [1, 2, 3, 4, 5, 6];
@@ -124,6 +125,34 @@ const ImagePost = (): JSX.Element => {
     setValidPhoto(false);
   };
 
+  useEffect(() => {
+    preview(photo);
+    if (!token) {
+      navigate(`${LOGIN_PAGE}`);
+    }
+    const preventGoBack = () => {
+      if (window.confirm("페이지를 나가시겠습니까?")) {
+        navigate(-1);
+      } else {
+        window.history.pushState(null, "", window.location.href);
+      }
+    };
+
+    // 새로고침 막기 변수
+    const preventClose = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = ""; // chrome에서는 설정이 필요해서 넣은 코드
+    };
+
+    window.history.pushState(null, "", window.location.href);
+    window.addEventListener("popstate", preventGoBack);
+    window.addEventListener("beforeunload", preventClose);
+    return () => {
+      window.removeEventListener("popstate", preventGoBack);
+      window.removeEventListener("beforeunload", preventClose);
+    };
+  }, [token, photo]);
+
   return (
     <>
       <form onSubmit={submitFormHandler}>
@@ -197,6 +226,7 @@ const ImagePost = (): JSX.Element => {
                   cols={30}
                   rows={10}
                   required
+                  maxLength={1500}
                   onChange={onChangeHandler}
                 ></textarea>
               </label>

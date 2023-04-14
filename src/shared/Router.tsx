@@ -9,7 +9,8 @@ import Community from "../pages/Community";
 import CommunityDetail from "../pages/CommunityDetail";
 import Chart from "../pages/Chart";
 import RedirectKakao from "../pages/RedirectKakao";
-import Edit from "../pages/Edit";
+import ImageEdit from "../pages/ImageEdit";
+import DrawEdit from "../pages/DrawEdit";
 import Admin from "../pages/Admin";
 import Layout from "../layouts/Layout";
 import Members from "../pages/Members";
@@ -31,7 +32,8 @@ const Router = () => {
           <Route path="/image-post/:date" element={<ImagePost />} />
           <Route path="/draw-post/:date" element={<DrawingPost />} />
           <Route path="/detail/:id" element={<Detail />} />
-          <Route path="/edit/:id" element={<Edit />} />
+          <Route path="/image-edit/:id" element={<ImageEdit />} />
+          <Route path="/draw-edit/:id" element={<DrawEdit />} />
           <Route path="/chart" element={<Chart />} />
           <Route path="/community" element={<Community />} />
           <Route path="/community/:id" element={<CommunityDetail />} />
