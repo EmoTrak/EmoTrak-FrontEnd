@@ -16,6 +16,7 @@ import {
 import { useDelete } from "../features/detail/hooks/useDelete";
 // import Star from "../components/Icon/Star";
 import styled from "styled-components";
+import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 
 export type DetailType = {
   id: number;
@@ -67,16 +68,6 @@ const Detail = (): JSX.Element => {
     (item: DetailType) => item.id === dailyId
   )[0];
 
-  // const viewOtherItemHandler = () => {
-  //   setItems((pre) => !pre);
-  // };
-
-  const deletePostHandler = (id: number) => {
-    if (window.confirm("삭제하시겠습니까?")) {
-      deletePost.mutate(id);
-    }
-  };
-
   const navigateEditHandler = () => {
     if (targetItem?.draw) {
       navigate(`${DRAW_EDIT_PAGE}/${targetItem?.id}`);
@@ -87,7 +78,7 @@ const Detail = (): JSX.Element => {
   };
 
   if (isError) {
-    alert("권한이 없습니다!");
+    alert("삭제된 게시물입니다!");
     navigate("/");
   }
   if (isLoading) {
@@ -142,12 +133,18 @@ const Detail = (): JSX.Element => {
               내 감정점수
               {targetItem?.star}
             </Flex>
+            <Flex row>
+              공유여부
+              {targetItem?.share ? "shared" : "private"}
+            </Flex>
             <Flex row>{targetItem?.detail}</Flex>
             <div>
               <button onClick={navigateEditHandler}>수정</button>
-              <button onClick={() => deletePostHandler(targetItem?.id)}>
-                삭제
-              </button>
+              <div>
+                <DeleteConfirmModal itemId={targetItem?.id}>
+                  삭제
+                </DeleteConfirmModal>
+              </div>
             </div>
           </Flex>
         </StCanvasWrapper>
