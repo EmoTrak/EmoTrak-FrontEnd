@@ -27,8 +27,6 @@ const PostDate = ({ date }: PostDateType) => {
   const minuteDiff = today.minute - post.postMinute;
   const secondDiff = today.second - post.postSecond;
 
-  console.log(date);
-
   const NowDate = () => {
     if (yearDiff > 0) {
       return <>{yearDiff}년 전</>;
