@@ -8,6 +8,7 @@ import { ADMIN } from "../../../data/routes/urls";
 import { getCookie } from "../../../utils/cookies";
 import { IAdminData, IPayload } from "../../../data/type/d2";
 import useAdminComment from "../hooks/useAdminComment";
+import useAdminPost from "../hooks/useAdminPost";
 
 const AdminComment = (): JSX.Element => {
   const nav = useNavigate();
@@ -28,6 +29,7 @@ const AdminComment = (): JSX.Element => {
     }
   }, [payload, nav]);
   const { adminCommentData, adminCommentDelete } = useAdminComment();
+  const { onReportDelete } = useAdminPost();
 
   return (
     <Wrapper>
@@ -36,43 +38,48 @@ const AdminComment = (): JSX.Element => {
       </BackBtn>
       <Flex>
         <H1>신고 댓글</H1>
-        <div>
-          <StTable>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>NickName</th>
-                <th>E-Mail</th>
-                <th>Count</th>
-                <th>Reason</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
+        <StTable>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>NickName</th>
+              <th>E-Mail</th>
+              <th>Count</th>
+              <th>Reason</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
 
-            <StTbody>
-              {adminCommentData?.map((item: IAdminData, i: number) => {
-                return (
-                  <tr key={i}>
-                    <td>{item.id}</td>
-                    <td>{item.nickname}</td>
-                    <td>{item.email}</td>
-                    <td>{item.count}</td>
-                    <td>{item.reason}</td>
-                    <td>
-                      <button
-                        onClick={() => {
-                          adminCommentDelete(item.id);
-                        }}
-                      >
-                        <RiDeleteBin6Line />
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </StTbody>
-          </StTable>
-        </div>
+          <StTbody>
+            {adminCommentData?.map((item: IAdminData, i: number) => {
+              return (
+                <tr key={i}>
+                  <td>{item.id}</td>
+                  <td>{item.nickname}</td>
+                  <td>{item.email}</td>
+                  <td>{item.count}</td>
+                  <td>{item.reason}</td>
+                  <td>
+                    <button
+                      onClick={() => {
+                        adminCommentDelete(item.id);
+                      }}
+                    >
+                      <RiDeleteBin6Line />
+                    </button>
+                    <button
+                      onClick={() => {
+                        onReportDelete(item.reportId);
+                      }}
+                    >
+                      신고삭제
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </StTbody>
+        </StTable>
       </Flex>
     </Wrapper>
   );

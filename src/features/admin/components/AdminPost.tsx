@@ -4,7 +4,7 @@ import Flex from "../../../components/Flex";
 import styled from "styled-components";
 import { BiArrowBack } from "react-icons/bi";
 import { TbShareOff } from "react-icons/tb";
-import { ADMIN } from "../../../data/routes/urls";
+import { ADMIN, COMMUNITY_PAGE } from "../../../data/routes/urls";
 import { getCookie } from "../../../utils/cookies";
 import { IAdminData, IPayload } from "../../../data/type/d2";
 import useAdminPost from "../hooks/useAdminPost";
@@ -28,7 +28,7 @@ const AdminPost = (): JSX.Element => {
     }
   }, [payload, nav]);
 
-  const { adminPostData, adminDeleteData } = useAdminPost();
+  const { adminPostData, adminDeleteData, onReportDelete } = useAdminPost();
 
   return (
     <Wrapper>
@@ -66,6 +66,18 @@ const AdminPost = (): JSX.Element => {
                         }}
                       >
                         <TbShareOff />
+                      </button>
+                      <button
+                        onClick={() => {
+                          onReportDelete(item.reportId);
+                        }}
+                      >
+                        신고삭제
+                      </button>
+                      <button
+                        onClick={() => nav(`${COMMUNITY_PAGE}/${item.id}`)}
+                      >
+                        페이지이동
                       </button>
                     </td>
                   </tr>

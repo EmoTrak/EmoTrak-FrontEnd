@@ -15,6 +15,7 @@ export interface Graph {
 }
 
 export interface IAdminData {
+  reportId: number;
   id: number;
   nickname: string;
   email: string;
