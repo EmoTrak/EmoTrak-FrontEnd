@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import user from "../../../lib/api/user";
-import { AxiosError } from "axios";
 import * as Sub from "../../../components/subModal";
 import { keys } from "../../../data/queryKeys/keys";
 

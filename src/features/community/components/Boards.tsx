@@ -85,11 +85,11 @@ const Boards = (): JSX.Element => {
 
         {new Array(6).fill(null).map((e, i) => (
           <StEmoButton
+            key={i}
             onClick={() => {
               clickEmojiHandler(i);
               setSelect({ ...select, emo: emoNum });
             }}
-            key={i}
           >
             <EmotionIcons height="100%" width="100%" emotionTypes={`EMOTION_${i + 1}`} />
           </StEmoButton>
