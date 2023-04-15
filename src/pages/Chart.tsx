@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import useChartData from "../features/chart/hooks/useChartData";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import useChartFn from "../features/chart/hooks/useChartFn";
+import { scrollOnTop } from "../utils/scollOnTop";
 
 const Chart = (): JSX.Element => {
   const nav = useNavigate();
@@ -31,6 +32,8 @@ const Chart = (): JSX.Element => {
     if (!getCookie("token")) {
       alert("로그인을 해주세요!");
       nav("/");
+    } else {
+      scrollOnTop();
     }
   }, [nav]);
 
