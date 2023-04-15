@@ -3,10 +3,11 @@ import { ChildrenType, Idtype, UriType } from "../../../data/type/d1";
 import * as UI from "../../../components/Modal";
 import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import user from "../../../lib/api/user";
 import { AxiosError } from "axios";
 import * as Sub from "../../../components/subModal";
+import { keys } from "../../../data/queryKeys/keys";
 
 const Report = ({ children, id, uri }: ChildrenType & Idtype & UriType) => {
   const [reason, setReason] = useState("");
@@ -14,18 +15,15 @@ const Report = ({ children, id, uri }: ChildrenType & Idtype & UriType) => {
   const changeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setReason(e.target.value);
   };
-
-  const { data, mutate, status, reset } = useMutation({
+  const queryClient = useQueryClient();
+  const { mutate, status, reset } = useMutation({
     mutationFn: async (id: number | undefined) => {
       const data = await user.post(`/boards/${uri}/${id}`, { reason });
       return data;
     },
     onSuccess: () => {
       setReason("");
-    },
-    onError: (error: AxiosError<Object>) => {
-      error?.response?.status === 409 && alert("이미 신고된 게시물입니다");
-      return error;
+      queryClient.invalidateQueries([keys.GET_BOARD]);
     },
   });
 
@@ -56,13 +54,7 @@ const Report = ({ children, id, uri }: ChildrenType & Idtype & UriType) => {
                   {status === "idle" ? (
                     <>
                       <Text>정말 신고하시겠습니까?</Text>
-                      <button
-                        onClick={() => {
-                          mutate(id);
-                        }}
-                      >
-                        제출
-                      </button>
+                      <button onClick={() => mutate(id)}>제출</button>
                       <UI.ModalTrigger>
                         <button>취소</button>
                       </UI.ModalTrigger>

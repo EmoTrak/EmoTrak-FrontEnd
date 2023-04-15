@@ -86,9 +86,11 @@ const CommunityDetail = (): JSX.Element => {
         {token && (
           <>
             <CreateComment id={data?.id} />
-            <Report id={data?.id} uri="report">
-              <button>신고하기</button>
-            </Report>
+            {!data?.hasReport && !data?.hasAuth && (
+              <Report id={data?.id} uri="report">
+                <button>신고하기</button>
+              </Report>
+            )}
           </>
         )}
         {status === "success" &&
