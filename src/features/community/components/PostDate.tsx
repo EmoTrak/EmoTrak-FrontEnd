@@ -1,5 +1,5 @@
 import React from "react";
-import { PostDateType, date } from "../../../data/type/d1";
+import { PostDateType } from "../../../data/type/d1";
 
 const PostDate = ({ date }: PostDateType) => {
   const today: any = {

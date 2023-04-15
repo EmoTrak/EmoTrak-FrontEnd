@@ -15,14 +15,13 @@ const Boards = (): JSX.Element => {
   const navigate = useNavigate();
   const { clickEmojiHandler, emoNum } = useEmoSelect();
   const [postData, setPostData] = useState<ImageType[]>([]);
+  const [listOpen, setListOpen] = useState<boolean>(false);
   const [select, setSelect] = useState<SelectType>({
     page: 1,
     emo: "1,2,3,4,5,6",
     size: 20,
     sort: "recent",
   });
-
-  const [listOpen, setListOpen] = useState<boolean>(false);
 
   const clickSelectHandler = (sel: string): void => {
     setSelect({ ...select, sort: sel });
@@ -44,7 +43,7 @@ const Boards = (): JSX.Element => {
     return () => {
       window.removeEventListener("scroll", onScroll);
     };
-  }, [select]);
+  }, []);
 
   useEffect(() => {
     if (boardData) {
@@ -54,6 +53,10 @@ const Boards = (): JSX.Element => {
       ]);
     }
   }, [boardData]);
+
+  useEffect(() => {
+    setSelect({ ...select, emo: emoNum });
+  }, [emoNum]);
 
   if (boardLoading) {
     return <>로딩중</>;
@@ -85,11 +88,11 @@ const Boards = (): JSX.Element => {
 
         {new Array(6).fill(null).map((e, i) => (
           <StEmoButton
+            key={i}
             onClick={() => {
               clickEmojiHandler(i);
-              setSelect({ ...select, emo: emoNum });
+              setPostData([]);
             }}
-            key={i}
           >
             <EmotionIcons height="100%" width="100%" emotionTypes={`EMOTION_${i + 1}`} />
           </StEmoButton>

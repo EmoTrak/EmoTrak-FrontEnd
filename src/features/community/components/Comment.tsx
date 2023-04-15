@@ -5,6 +5,7 @@ import useDeleteComment from "../hooks/useDeleteComment";
 import useUpdateComment from "../hooks/useUpdateComment";
 import LikeComment from "./LikeComment";
 import Report from "./Report";
+import PostDate from "./PostDate";
 
 const Comment = ({ item }: Partial<CommentProps>) => {
   const [edit, setEdit] = useState<boolean>(false);
@@ -45,6 +46,7 @@ const Comment = ({ item }: Partial<CommentProps>) => {
           <button onClick={() => deleteComment(item.id)}>삭제</button>
         </>
       )}
+      {typeof item?.createdAt === "string" && <PostDate date={item.createdAt} />}
     </CommentBox>
   );
 };

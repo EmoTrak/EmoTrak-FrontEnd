@@ -76,7 +76,7 @@ export interface CommentProps extends Idtype {
 export interface commentData {
   likesCnt: number;
   comment: string;
-  createAt: string;
+  createdAt: string;
   email: string;
   hasAuth: boolean;
   id: number;
