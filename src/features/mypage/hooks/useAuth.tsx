@@ -30,7 +30,6 @@ export const useAuth = () => {
     {
       onSuccess(data) {
         const queryInfo = data?.data.data;
-        console.log("queryInfo =", queryInfo);
 
         setUserInfo(queryInfo);
       },

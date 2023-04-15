@@ -36,9 +36,6 @@ const Contents = ({ newItem }: ContentProps) => {
     scoreStarHandler(index);
   };
 
-  //   console.log("newItem = ", newItem);
-  //   console.log("contents - inputvalue", inputValue);
-
   return (
     <>
       <StCanvasWrapper>
