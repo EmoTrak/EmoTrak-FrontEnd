@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { InputValue, StEmoButton, StList, StUnorderLi } from "./DrawingPost";
 import user from "../lib/api/user";
 import { keys } from "../data/queryKeys/keys";
@@ -13,15 +13,34 @@ import EmotionIcons from "../components/Icon/EmoticonIcons";
 import Star from "../components/Icon/Star";
 import { StPhotoInput, StPhotoInputBox, StPhotoPreview } from "./ImagePost";
 import { usePreview } from "../features/post/hooks/usePreview";
+import { getCookie, removeCookie } from "../utils/cookies";
+import { LOGIN_PAGE } from "../data/routes/urls";
 
-const Edit = () => {
+const ImageEdit = () => {
   const params = useParams();
   const dailyId = Number(params.id);
+  const navigate = useNavigate();
+  const token = getCookie("token");
 
   const [validPhoto, setValidPhoto] = useState<boolean>(true);
   const getDetail = useCallback(() => {
     return user.get(`daily/${dailyId}`);
   }, [dailyId]);
+
+  useEffect(() => {
+    if (!token || token === "undefined") {
+      if (token) {
+        removeCookie("token");
+        alert("로그인이 필요합니다 !");
+        navigate(`${LOGIN_PAGE}`);
+      }
+    }
+    getDetail();
+    const newClicked = clicked.map((_, index) =>
+      index < targetItem.star ? true : false
+    );
+    setClicked(newClicked);
+  }, [token]);
 
   const { data, isLoading } = useQuery([`${keys.GET_DETAIL}`], getDetail, {
     retry: 0,
@@ -39,7 +58,7 @@ const Edit = () => {
     year,
     month,
     day: targetItem?.day,
-    draw: targetItem?.draw,
+    draw: false,
     emoId: targetItem?.emoId,
     star: targetItem?.star,
     detail: targetItem?.detail,
@@ -101,7 +120,13 @@ const Edit = () => {
   const emoIds: number[] = [1, 2, 3, 4, 5, 6];
 
   // 별점
-  const clicked = [false, false, false, false, false];
+  const [clicked, setClicked] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
   const starArray: number[] = [1, 2, 3, 4, 5];
   const itemStar = clicked.map((item, i) =>
     i < targetItem?.star ? true : false
@@ -240,4 +265,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default ImageEdit;

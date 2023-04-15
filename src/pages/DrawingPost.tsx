@@ -342,12 +342,18 @@ const DrawingPost = (): JSX.Element => {
             <div style={{ display: "flex", flexDirection: "column" }}>
               <label>
                 공유여부
-                <input name="share" type="checkbox" onChange={onCheckHandler} />
+                <input
+                  name="share"
+                  type="checkbox"
+                  checked={inputValue?.share}
+                  onChange={onCheckHandler}
+                />
               </label>
               <label>
                 내용
                 <textarea
                   name="detail"
+                  value={inputValue?.detail}
                   required
                   cols={30}
                   rows={10}

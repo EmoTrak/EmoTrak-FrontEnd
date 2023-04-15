@@ -60,6 +60,8 @@ const Detail = (): JSX.Element => {
     }
   );
 
+  console.log("data", data);
+
   const contents = data?.data.data.contents;
   const otherItem = contents?.filter(
     (item: DetailType) => item.id !== dailyId
@@ -68,11 +70,13 @@ const Detail = (): JSX.Element => {
     (item: DetailType) => item.id === dailyId
   )[0];
 
+  console.log("targetItem", targetItem);
+
   const navigateEditHandler = () => {
-    if (targetItem?.draw) {
+    if (targetItem?.draw === true) {
       navigate(`${DRAW_EDIT_PAGE}/${targetItem?.id}`);
     }
-    if (!targetItem?.draw) {
+    if (targetItem?.draw === false) {
       navigate(`${IMAGE_EDIT_PAGE}/${targetItem?.id}`);
     }
   };

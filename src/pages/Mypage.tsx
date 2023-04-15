@@ -23,8 +23,6 @@ const Mypage = () => {
     password: "",
     rePassword: "",
   });
-  console.log("userInfo =", userInfo);
-  console.log("info =", info);
 
   const {
     checkNickname,
