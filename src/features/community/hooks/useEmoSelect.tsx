@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 const useEmoSelect = () => {
   const [emoSelect, setEmoSelect] = useState<boolean[]>([
@@ -9,7 +9,7 @@ const useEmoSelect = () => {
     false,
     false,
   ]);
-  const [emoNum, setEmonum] = useState('1,2,3,4,5,6');
+  const [emoNum, setEmonum] = useState("1,2,3,4,5,6");
   const newArr: number[] = [];
 
   const clickEmojiHandler = (num: number): void => {
@@ -18,13 +18,12 @@ const useEmoSelect = () => {
     newlist.splice(num, 1, !value);
     setEmoSelect(newlist);
     newlist.map((e, index) => e && newArr.push(index + 1));
-    setEmonum(newArr.join(','));
+    setEmonum(newArr.join(","));
   };
 
   if (!emoNum) {
-    setEmonum('1,2,3,4,5,6');
+    setEmonum("1,2,3,4,5,6");
   }
-
   return { clickEmojiHandler, emoNum };
 };
 
