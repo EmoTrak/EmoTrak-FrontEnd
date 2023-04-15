@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import BarChart from "../features/chart/components/BarChart";
 import PieChart from "../features/chart/components/PieChart";
@@ -8,7 +8,6 @@ import { getCookie } from "../utils/cookies";
 import { useNavigate } from "react-router-dom";
 import useChartData from "../features/chart/hooks/useChartData";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import { IOption } from "../data/type/d2";
 import useChartFn from "../features/chart/hooks/useChartFn";
 
 const Chart = (): JSX.Element => {
@@ -18,7 +17,6 @@ const Chart = (): JSX.Element => {
     month,
     firstIndex,
     isShow,
-
     ClickOption,
     onMonthClick,
     onPrevClick,

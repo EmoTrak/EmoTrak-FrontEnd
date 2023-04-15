@@ -54,7 +54,7 @@ const AdminComment = (): JSX.Element => {
             {adminCommentData?.map((item: IAdminData, i: number) => {
               return (
                 <tr key={i}>
-                  <td>{item.id}</td>
+                  <td>{i+1}</td>
                   <td>{item.nickname}</td>
                   <td>{item.email}</td>
                   <td>{item.count}</td>
