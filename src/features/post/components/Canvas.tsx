@@ -83,7 +83,6 @@ const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
   const savePictureHandler = useCallback(() => {
     canvas?.toBlob((blob) => {
       if (blob) {
-        console.log("blob =", blob);
         // setPicture(blob);
         // setImage(blob);
       }

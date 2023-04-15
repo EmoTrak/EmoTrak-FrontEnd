@@ -174,7 +174,6 @@ const DrawEdit = (): JSX.Element => {
     setValidPicture(true);
     savePictureHandler();
     setInputValue({ ...inputValue, deleteImg: true });
-    console.log("로그는 찍어 보셨나요");
   };
 
   // useEffect + AddEventListener 대체 함수
