@@ -28,7 +28,7 @@ const AdminPost = (): JSX.Element => {
     }
   }, [payload, nav]);
 
-  const { adminPostData, adminDeleteData } = useAdminPost();
+  const { adminPostData, adminDeleteData, onReportDelete } = useAdminPost();
 
   return (
     <Wrapper>
@@ -62,10 +62,17 @@ const AdminPost = (): JSX.Element => {
                     <td>
                       <button
                         onClick={() => {
-                          adminDeleteData(item.id);
+                          adminDeleteData(item.reportId);
                         }}
                       >
                         <TbShareOff />
+                      </button>
+                      <button
+                        onClick={() => {
+                          onReportDelete(item.reportId);
+                        }}
+                      >
+                        신고삭제
                       </button>
                     </td>
                   </tr>

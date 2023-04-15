@@ -1,9 +1,10 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import React from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { keys } from "../../../data/queryKeys/keys";
 import user from "../../../lib/api/user";
 
 const useAdminComment = () => {
+  const queryClient = useQueryClient();
+
   const { data } = useQuery({
     queryKey: [keys.GET_ADMIN],
     queryFn: async () => {
@@ -21,10 +22,14 @@ const useAdminComment = () => {
     },
     onSuccess: () => {
       alert("삭제완료");
+      queryClient.invalidateQueries({ queryKey: [keys.GET_ADMIN] });
     },
   });
 
-  return { adminCommentData: data, adminCommentDelete: mutate };
+  return {
+    adminCommentData: data,
+    adminCommentDelete: mutate,
+  };
 };
 
 export default useAdminComment;
