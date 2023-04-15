@@ -13,10 +13,12 @@ import { keys } from "../../../data/queryKeys/keys";
 type PostInput = {
   inputValue?: InputValue;
   dailyId?: number | undefined;
+  canvasRef?: React.RefObject<HTMLCanvasElement> | null;
 };
 
-export const useEdit = ({ inputValue, dailyId }: PostInput) => {
+export const useEdit = ({ inputValue, dailyId, canvasRef }: PostInput) => {
   const navigate = useNavigate();
+  const [picture, setPicture] = useState<Blob | null>(null);
   const [photo, setPhoto] = useState<Blob | null>(null);
   const queryClient = useQueryClient();
   const editDiary = useMutation(
@@ -34,6 +36,21 @@ export const useEdit = ({ inputValue, dailyId }: PostInput) => {
       },
     }
   );
+
+  const savePictureHandler = (): void => {
+    const canvas = canvasRef?.current;
+    // const dataURL = canvas?.toDataURL();
+    // setPicture(dataURL);
+    canvas?.toBlob(
+      (blob) => {
+        if (blob) {
+          setPicture(blob);
+        }
+      },
+      "image/png",
+      0.95
+    );
+  };
 
   // 이미지 파일 업로드 함수
   const fileInputHandler = async (
@@ -58,6 +75,13 @@ export const useEdit = ({ inputValue, dailyId }: PostInput) => {
     const dto = new Blob([JSON.stringify(inputValue)], {
       type: "application/json",
     });
+    if (picture) {
+      formData.append("image", picture);
+      formData.append("contents", dto);
+
+      editDiary.mutate(formData);
+    }
+
     if (photo !== null) {
       formData.append("image", photo);
       formData.append("contents", dto);
@@ -72,5 +96,11 @@ export const useEdit = ({ inputValue, dailyId }: PostInput) => {
     }
   };
 
-  return { editDiaryHandler, fileInputHandler, fileDropHandler, photo };
+  return {
+    editDiaryHandler,
+    savePictureHandler,
+    fileInputHandler,
+    fileDropHandler,
+    photo,
+  };
 };
