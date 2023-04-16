@@ -16,12 +16,10 @@ const Chart = (): JSX.Element => {
 
   const {
     month,
-    firstIndex,
     isShow,
-    ClickOption,
     onMonthClick,
-    onPrevClick,
-    onNextClick,
+    prevMonth,
+    nextMonth,
     ToggleHandler,
     year,
     options,
@@ -41,35 +39,23 @@ const Chart = (): JSX.Element => {
   if (isError) return <div>에러..</div>;
 
   const emoIds: number[] = [1, 2, 3, 4, 5, 6];
+  console.log(month);
 
   return (
     <StWrapper>
       <Flex jc="center" ai="center">
-        <Flex row>
-          <SliderBtn type="button" onClick={onPrevClick}>
-            <AiOutlineLeft />
-          </SliderBtn>
-          <StMonth>
-            {options.slice(firstIndex, firstIndex + 3).map((item) => (
-              <button
-                style={{ margin: "10px" }}
-                key={item.value}
-                value={item.value}
-                type="button"
-                onClick={() => ClickOption(item.value)}
-              >
-                {item.month}
-              </button>
-            ))}
-          </StMonth>
-          <SliderBtn type="button" onClick={onNextClick}>
-            <AiOutlineRight />
-          </SliderBtn>
-        </Flex>
         <Flex>
-          <SelectMonth onClick={ToggleHandler}>월선택</SelectMonth>
+          <SelectMonthWrap>
+            <SliderBtn onClick={prevMonth}>
+              <AiOutlineLeft />
+            </SliderBtn>
+            <SelectMonth onClick={ToggleHandler}>{month}월</SelectMonth>
+            <SliderBtn onClick={nextMonth}>
+              <AiOutlineRight />
+            </SliderBtn>
+          </SelectMonthWrap>
           {isShow && (
-            <div>
+            <div style={{ position: "relative" }}>
               <BackGround onClick={ToggleHandler} />
               <MonthList>
                 {options.map((item) => (
@@ -108,23 +94,16 @@ const Chart = (): JSX.Element => {
 
 export default Chart;
 
-const StMonth = styled.form`
+const SelectMonthWrap = styled.div`
   display: flex;
-  text-align: center;
-  margin-top: 10px;
-  border-radius: 5px;
-  max-width: 100vw;
-  transition: 0.5s;
-  button {
-    background-color: #e5dfd3;
-    cursor: pointer;
-    border: 1px solid #eee;
-    border-radius: 10px;
-    height: 5vh;
-    width: 18vw;
-    &:hover {
-      background-color: #eee;
-    }
+`;
+const SliderBtn = styled.button`
+  border: none;
+  background-color: transparent;
+  height: 5vh;
+  cursor: pointer;
+  &:hover {
+    scale: 1.2;
   }
 `;
 
@@ -146,19 +125,13 @@ const StEmoList = styled.div`
   gap: 20px;
 `;
 
-const SliderBtn = styled.button`
-  border: none;
-  background-color: transparent;
-  margin-top: 20px;
-  height: 5vh;
-  cursor: pointer;
-  &:hover {
-    scale: 1.2;
-  }
-`;
 const SelectMonth = styled.div`
   width: 10vw;
+  height: 5vh;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   background-color: #e5dfd3;
   border-radius: 5px;
@@ -166,18 +139,22 @@ const SelectMonth = styled.div`
 
 const MonthList = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   background-color: white;
-  border: 1px solid;
+  border: 1px solid #eee;
   border-radius: 1vw;
   z-index: 5;
-  width: 10vw;
+  width: 17vw;
   position: absolute;
+  margin-top: 5px;
+  left: -28px;
 `;
 
 const MonthListBtn = styled.button`
   border: 0;
   background-color: transparent;
+  width: 4vw;
+  height: 10vh;
   padding: 0.5vw;
   cursor: pointer;
   font-family: "KyoboHand";
