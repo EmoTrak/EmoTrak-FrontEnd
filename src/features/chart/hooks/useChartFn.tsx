@@ -31,16 +31,15 @@ const useChartFn = () => {
     setIsShow((prev) => !prev);
   };
 
-  const onPrevClick = () => {
-    setFirstIndex((prevIndex) =>
-      prevIndex === 0 ? options.length - 3 : prevIndex - 1
-    );
+  const prevMonth = () => {
+    if (Number(month) > 1) {
+      return setMonth(Number(month) - 1);
+    }
   };
-
-  const onNextClick = () => {
-    setFirstIndex((prevIndex) =>
-      prevIndex === options.length - 3 ? 0 : prevIndex + 1
-    );
+  const nextMonth = () => {
+    if (Number(month) < 12) {
+      return setMonth(Number(month) + 1);
+    }
   };
   // const onModalLayoutClick = (isShow: boolean) => {
   //   if (isShow) {
@@ -59,8 +58,8 @@ const useChartFn = () => {
     ToggleHandler,
     setMonth,
     ClickOption,
-    onPrevClick,
-    onNextClick,
+    prevMonth,
+    nextMonth,
     onMonthClick,
     setIsShow,
     year,
