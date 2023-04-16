@@ -1,28 +1,23 @@
 import { useState } from "react";
 
 const useEmoSelect = () => {
-  const [emoSelect, setEmoSelect] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
-  const [emoNum, setEmonum] = useState("1,2,3,4,5,6");
-  const newArr: number[] = [];
+  const [emoSelect, setEmoSelect] = useState<boolean[]>(Array(6).fill(false));
+  const [emoNum, setEmoNum] = useState("1,2,3,4,5,6");
 
   const clickEmojiHandler = (num: number): void => {
-    const value = emoSelect[num];
-    const newlist = [...emoSelect];
-    newlist.splice(num, 1, !value);
-    setEmoSelect(newlist);
-    newlist.map((e, index) => e && newArr.push(index + 1));
-    setEmonum(newArr.join(","));
+    const newEmoSelect = [...emoSelect];
+    newEmoSelect[num] = !newEmoSelect[num];
+    setEmoSelect(newEmoSelect);
+
+    const newEmoNum = newEmoSelect
+      .map((selected, index) => (selected ? index + 1 : null))
+      .filter((x) => x !== null)
+      .join(",");
+    setEmoNum(newEmoNum);
   };
 
   if (!emoNum) {
-    setEmonum("1,2,3,4,5,6");
+    setEmoNum("1,2,3,4,5,6");
   }
   return { clickEmojiHandler, emoNum };
 };
