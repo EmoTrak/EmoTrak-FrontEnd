@@ -56,7 +56,7 @@ export interface ImageType extends Idtype {
 }
 
 export interface SelectType {
-  page: number;
+  // page: number;
   emo: string;
   size: number;
   sort: string;

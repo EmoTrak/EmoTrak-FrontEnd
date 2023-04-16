@@ -18,7 +18,6 @@ const useAddCommunityDetail = (page: number) => {
       error?.response?.status === 404 && alert("삭제된 페이지입니다");
       navigate(-1);
     },
-    // refetchOnMount: "always",
   });
 
   return { data, isLoading, status, remove };

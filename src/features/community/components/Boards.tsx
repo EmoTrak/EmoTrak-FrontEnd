@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { FiChevronsUp } from "react-icons/fi";
 import { scrollOnTop } from "../../../utils/scollOnTop";
 import { ImageType, SelectType } from "../../../data/type/d1";
-import Flex from "../../../components/Flex";
 import { COMMUNITY_PAGE } from "../../../data/routes/urls";
 import useEmoSelect from "../hooks/useEmoSelect";
 import useInfinite from "../hooks/useInfinite";
@@ -14,11 +13,10 @@ import EmotionIcons from "../../../components/Icon/EmoticonIcons";
 const Boards = (): JSX.Element => {
   const navigate = useNavigate();
   const { clickEmojiHandler, emoNum } = useEmoSelect();
-  const [postData, setPostData] = useState<ImageType[]>([]);
   const [listOpen, setListOpen] = useState<boolean>(false);
+  const [postData, setPostData] = useState<ImageType[]>([]);
   const [select, setSelect] = useState<SelectType>({
-    page: 1,
-    emo: "2,3,4,5,6,1",
+    emo: "1,2,3,4,5,6",
     size: 20,
     sort: "recent",
   });
@@ -28,40 +26,37 @@ const Boards = (): JSX.Element => {
     setListOpen((pre: boolean): boolean => !pre);
   };
 
-  const { boardData, isLast, boardLoading, boardError } = useInfinite(select);
+  const { data, fetchNextPage, hasNextPage, boardError } = useInfinite(select);
 
   const onScroll = () => {
-    if (isLast) {
-      return;
-    } else if (window.innerHeight + window.scrollY + 1 >= document.body.offsetHeight) {
-      setSelect({ ...select, page: select.page + 1 });
+    const { scrollTop, offsetHeight } = document.documentElement;
+    if (hasNextPage && window.innerHeight + scrollTop + 1 >= offsetHeight) {
+      fetchNextPage({ cancelRefetch: false });
     }
   };
+
+  useEffect(() => {
+    if (data) {
+      const newData = data.pages.reduce(
+        (arr: never[] | ImageType[], cur) => [...arr, ...cur.data],
+        []
+      );
+      setPostData(newData);
+    }
+  }, [data]);
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
     return () => {
       window.removeEventListener("scroll", onScroll);
     };
-  }, []);
+  }, [hasNextPage]);
 
   useEffect(() => {
-    if (boardData) {
-      setPostData((prevPostData: never[] | ImageType[]): never[] | ImageType[] => [
-        ...prevPostData,
-        ...boardData,
-      ]);
+    if (emoNum) {
+      setSelect({ ...select, emo: emoNum });
     }
-  }, [boardData]);
-
-  useEffect(() => {
-    setPostData([]);
-    setSelect({ ...select, emo: emoNum });
   }, [emoNum]);
-
-  if (boardLoading) {
-    return <>로딩중</>;
-  }
 
   if (boardError) {
     return <>에러</>;
@@ -91,6 +86,7 @@ const Boards = (): JSX.Element => {
               key={i}
               onClick={() => {
                 clickEmojiHandler(i);
+                setPostData([]);
               }}
             >
               <EmotionIcons
@@ -117,9 +113,8 @@ const Boards = (): JSX.Element => {
 };
 
 const Container = styled.div`
-  max-width: 1500px;
-  margin-left: auto;
-  margin-right: auto;
+  /* height: 1000px; */
+  /* overflow: scroll; */
   border: 1px solid;
 `;
 
