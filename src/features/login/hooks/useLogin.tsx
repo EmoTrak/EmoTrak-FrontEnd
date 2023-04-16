@@ -31,7 +31,7 @@ export const useLogin = () => {
       onSuccess(data) {
         const info = data.headers.authorization;
         const token = info.split(" ")[1];
-        setCookie("token", token, { path: "/", maxAge: 3540 });
+        setCookie("token", token, { path: "/", maxAge: 1740 });
         navigate(-1);
       },
       onError(err) {
