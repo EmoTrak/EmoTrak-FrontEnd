@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { ReactComponent as IconLeft } from "../../../assets/tutorial/IconLeft.svg";
-import { ReactComponent as IconMain } from "../../../assets/tutorial/IconMain.svg";
-import { ReactComponent as IconRight } from "../../../assets/tutorial/IconRight.svg";
-import { ReactComponent as IconText } from "../../../assets/tutorial/IconText.svg";
-
-interface PositionProps {
-  position: number;
-}
+import * as St from "../TutorialStyle";
+import TutorialBackgroundTop from "../../../assets/tutorial/1_Tutorial_top.png";
+import TutorialBackgroundBottom from "../../../assets/tutorial/1_Tutorial_bottom.png";
+import TutorialText from "../../../assets/tutorial/2_Text_1.png";
+import TutorialSun from "../../../assets/tutorial/2_Sun_1.png";
+import TutorialIcon1 from "../../../assets/tutorial/2_Icon_1.png";
+import TutorialIcon2 from "../../../assets/tutorial/2_Icon_2.png";
+import TutorialIcon3 from "../../../assets/tutorial/2_Icon_3.png";
+import TutorialIcon4 from "../../../assets/tutorial/2_Icon_4.png";
+import TutorialIcon5 from "../../../assets/tutorial/2_Icon_5.png";
+import TutorialCalender from "../../../assets/tutorial/4_Calender.png";
+import TutorialDrawing from "../../../assets/tutorial/4_Drawing.png";
+import TutorialGraph from "../../../assets/tutorial/4_Graph.png";
+import { ReactComponent as TutorialGraphTitle } from "../../../assets/tutorial/4_GraphTitle.svg";
 
 const Tutorial = () => {
   const [position, setPosition] = useState<number>(0);
@@ -23,158 +28,60 @@ const Tutorial = () => {
   }, []);
 
   return (
-    <StTutorialWrapper>
-      <StTutorialDiv>
-        <StTutorialTitleContentDiv position={position}>
-          <IconText />
-        </StTutorialTitleContentDiv>
-      </StTutorialDiv>
-      <StTutorialDiv>
-        <StTutorialMovingLogoContentDiv>
-          <StIconImageLeft position={position}>
-            <IconLeft width={400} height={400} />
-          </StIconImageLeft>
-          <StIconImageMain>
-            <IconMain width={500} height={500} />
-          </StIconImageMain>
-          <StIconImageRight position={position}>
-            <IconRight width={400} height={400} />
-          </StIconImageRight>
-        </StTutorialMovingLogoContentDiv>
-      </StTutorialDiv>
-      <StTutorialDiv>
-        <StTutorialLogoContentDiv position={position}>
-          {/* <BrandIcon width={400} height={400} /> */}
-        </StTutorialLogoContentDiv>
-      </StTutorialDiv>
-      <StTutorialDiv>
-        <StTutorialCalenderContentDiv position={position}>
-          <StTutorialP>매일 나의 감정을 기록해요</StTutorialP>
-        </StTutorialCalenderContentDiv>
-      </StTutorialDiv>
-      <StTutorialDiv>
-        <StTutorialContentDiv>
-          <StTutorialP>사진도, 그림일기도 가능!</StTutorialP>
-        </StTutorialContentDiv>
-      </StTutorialDiv>
-      <StTutorialDiv>
-        <StTutorialContentDiv>
-          <StTutorialP>5개 이상 모이면 통계로도 확인할 수 있어요</StTutorialP>
-        </StTutorialContentDiv>
-      </StTutorialDiv>
-      <StTutorialDiv>
-        <StTutorialContentDiv>
-          <StTutorialP>자랑하고 싶은 건 공유게시판에 !</StTutorialP>
-        </StTutorialContentDiv>
-      </StTutorialDiv>
-      <StTutorialItem src="" alt="" />
-      <StTutorialItem src="" alt="" />
-    </StTutorialWrapper>
+    <St.TutorialWrapper>
+      <St.TutorialDiv>
+        <St.TutorialBackgroundTop
+          url={TutorialBackgroundTop}
+          position={position}
+        >
+          <St.TutorialText src={TutorialText} position={position} />
+          <St.TutorialSun src={TutorialSun} position={position} />
+        </St.TutorialBackgroundTop>
+        <St.TutorialBackgroundBottom
+          url={TutorialBackgroundBottom}
+          position={position}
+        >
+          <St.TutorialIcon1 src={TutorialIcon1} position={position} />
+          <St.TutorialIcon2 src={TutorialIcon2} position={position} />
+          <St.TutorialIcon3 src={TutorialIcon3} position={position} />
+          <St.TutorialIcon4 src={TutorialIcon4} position={position} />
+          <St.TutorialIcon5 src={TutorialIcon5} position={position} />
+        </St.TutorialBackgroundBottom>
+      </St.TutorialDiv>
+      <St.TutorialDiv>
+        <St.CalenderBackground position={position}>
+          <St.PointBox>Point .1</St.PointBox>
+          <St.PointTitleP>매일 기록하는 나만의 감정달력</St.PointTitleP>
+          <St.PointP>
+            날마다 다른 감정을 귀여운 6가지 이모티콘으로 채우는 재미! 다양한
+            색과 표정으로 기록하세요!
+          </St.PointP>
+          <St.Calendar src={TutorialCalender} position={position} />
+        </St.CalenderBackground>
+      </St.TutorialDiv>
+      <St.TutorialDiv>
+        <St.DrawingBackground position={position}>
+          <St.PointBox>Point .2</St.PointBox>
+          <St.PointTitleP>내 마음대로 꾸미는 그림일기</St.PointTitleP>
+          <St.PointSubTitleP>
+            이모티콘과 감정별점으로 오늘의 기분에 점수를 매겨봐요!
+          </St.PointSubTitleP>
+          <St.PointP>
+            자유롭게 그림판 위에 오늘을 기록하세요. 공유하기 기능으로 모두와
+            함께 볼 수 있어요 !
+          </St.PointP>
+          <St.Drawing src={TutorialDrawing} position={position} />
+        </St.DrawingBackground>
+      </St.TutorialDiv>
+      <St.TutorialDiv>
+        <St.GraphBackground position={position}>
+          <St.PointBox>Point .3</St.PointBox>
+          <TutorialGraphTitle width="60vw" height="20vh" />
+          <St.Graph src={TutorialGraph} position={position} />
+        </St.GraphBackground>
+      </St.TutorialDiv>
+    </St.TutorialWrapper>
   );
 };
 
 export default Tutorial;
-
-const StTutorialWrapper = styled.div`
-  margin: 0;
-  width: 100%;
-  border: 1px solid;
-  overflow: hidden;
-  min-height: 2900px;
-`;
-
-const StTutorialDiv = styled.div`
-  position: relative;
-  z-index: 2;
-`;
-const StTutorialTitleContentDiv = styled.div<PositionProps>`
-  width: 100%;
-  margin: 0 auto;
-  display: flex;
-  height: 30vh;
-  justify-content: center;
-  align-items: center;
-  /* position-y: ${({ position }) => `${position / 2}`};s */
-`;
-
-const StTutorialMovingLogoContentDiv = styled.div`
-  width: 100%;
-  margin: 0 auto;
-  display: flex;
-  height: 60vh;
-  justify-content: center;
-  align-items: center;
-`;
-
-const StTutorialLogoContentDiv = styled.div<PositionProps>`
-  width: 100%;
-  margin: 0 auto;
-  display: flex;
-  max-height: 20vh;
-  left: 5%;
-  justify-content: center;
-  align-items: center;
-  transition: transform 0.1s ease-in-out;
-  transform: ${({ position }) => `scale(${0 + position * 0.0013})`};
-`;
-
-const StTutorialContentDiv = styled.div`
-  width: 1000px;
-  margin: 0 auto;
-  display: flex;
-  height: 400px;
-  justify-content: center;
-  align-items: center;
-`;
-
-const StTutorialCalenderContentDiv = styled.div<PositionProps>`
-  width: 1000px;
-  margin: 0 auto;
-  display: flex;
-  height: 400px;
-  justify-content: center;
-  align-items: center;
-  background: none;
-  background-repeat: no-repeat;
-  background-position-y: ${({ position }) => `${position / 2}`};
-`;
-
-const StTitle = styled.div`
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.5);
-  text-align: center;
-  padding: 40px 120px;
-  font-size: 50px;
-`;
-
-const StTutorialP = styled.p`
-  position: relative;
-  font-size: 50px;
-  z-index: 2;
-`;
-
-const StTutorialItem = styled.img`
-  position: absolute;
-  top: 1600px;
-  right: 0;
-  opacity: 0.5;
-  z-index: 1;
-`;
-
-const StIconImageLeft = styled.div<PositionProps>`
-  position: absolute;
-  left: 0;
-  z-index: 3;
-  transform: ${({ position }) => `translateX(${position / 1.3}px)`};
-`;
-
-const StIconImageRight = styled.div<PositionProps>`
-  position: absolute;
-  right: 0;
-  z-index: 3;
-  transform: ${({ position }) => `translateX(${-position / 1.3}px)`};
-`;
-
-const StIconImageMain = styled.div`
-  /* margin: 50px; */
-`;
