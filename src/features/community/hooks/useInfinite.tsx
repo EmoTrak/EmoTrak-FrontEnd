@@ -1,24 +1,29 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import user from "../../../lib/api/user";
 import { keys } from "../../../data/queryKeys/keys";
 import { SelectType } from "../../../data/type/d1";
 
 const useInfinite = (select: SelectType) => {
-  const { data, isLoading, isError, refetch } = useQuery({
+  const { data, isError, fetchNextPage, hasNextPage, status } = useInfiniteQuery({
     queryKey: [keys.GET_BOARD, select],
-    queryFn: async () => {
-      const data = await user.get(`/boards`, { params: select });
-      return { data: data.data.data.contents, isLast: data.data.data.lastPage };
+    queryFn: async ({ pageParam = 1 }) => {
+      const data = await user.get(`/boards?page=${pageParam}`, { params: select });
+      return { data: data.data.data.contents, pageParam };
+    },
+    getNextPageParam: (lastPage) => {
+      const nextPage = lastPage.pageParam + 1;
+      if (lastPage.data.length > 0) {
+        return nextPage;
+      }
     },
     keepPreviousData: true,
   });
 
   return {
-    boardData: data?.data,
-    isLast: data?.isLast,
-    boardLoading: isLoading,
+    data,
+    fetchNextPage,
+    hasNextPage,
     boardError: isError,
-    refetch,
   };
 };
 

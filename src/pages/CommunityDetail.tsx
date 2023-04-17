@@ -23,7 +23,7 @@ const CommunityDetail = (): JSX.Element => {
   const token = getCookie("token");
   const [page, setPage] = useState<number>(1);
   const { deletePost } = useDelete();
-  const { data, isLoading, status } = useAddCommunityDetail(page);
+  const { data, isLoading, status, remove } = useAddCommunityDetail(page);
 
   const deletePostHandler = (id: number) => {
     if (window.confirm("삭제하시겠습니까?")) {
@@ -35,6 +35,9 @@ const CommunityDetail = (): JSX.Element => {
 
   useEffect(() => {
     scrollOnTop();
+    return () => {
+      remove();
+    };
   }, []);
 
   if (isLoading) {

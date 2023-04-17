@@ -6,6 +6,7 @@ import { useState } from "react";
 import { getCookie } from "../../../utils/cookies";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_PAGE } from "../../../data/routes/urls";
+import { keys } from "../../../data/queryKeys/keys";
 
 interface LikeType {
   isLike: boolean | undefined;
@@ -14,6 +15,7 @@ interface LikeType {
 }
 
 const LikePost = ({ isLike, id, count }: LikeType) => {
+  const queryClient = useQueryClient();
   const token = getCookie("token");
   const navigate = useNavigate();
   const [like, setLike] = useState<Partial<LikeType>>({
