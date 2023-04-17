@@ -12,6 +12,7 @@ import MiniCalendar from "./MiniCalendar";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
 const Calendar = (): JSX.Element => {
+  const [side, setSide] = useState(false);
   const today: date = {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
@@ -29,9 +30,7 @@ const Calendar = (): JSX.Element => {
   const lastDate: number = new Date(select.year, select.month, 0).getDate();
   const firstDay: number = new Date(select.year, select.month - 1, 1).getDay();
 
-  const [side, setSide] = useState(false);
-
-  //해당 요일의 값 가져오는 함수
+  //해당 날짜의 값 가져오는 함수
   const clickDayBtn = (day: number): void => {
     setSide(true);
     setSelect({ ...select, date: day });
@@ -39,7 +38,7 @@ const Calendar = (): JSX.Element => {
 
   // 날짜 변환 함수
   const date = new Array(lastDate).fill(null).map(
-    (e, i): date => ({
+    (_, i): date => ({
       year: select.year,
       month: select.month,
       date: i + 1,
@@ -63,10 +62,12 @@ const Calendar = (): JSX.Element => {
     setSelect({ year: today.year, month: today.month });
   };
 
-  const { data, isLoading } = useQuery({
-    queryKey: [keys.GET_DIARY, select],
+  const { data } = useQuery({
+    queryKey: [keys.GET_DIARY, select.year, select.month],
     queryFn: async () => {
-      const data = await user.get("/daily", { params: select });
+      const data = await user.get("/daily", {
+        params: { year: select.year, month: select.month },
+      });
       return data.data.data;
     },
   });
@@ -84,9 +85,9 @@ const Calendar = (): JSX.Element => {
             <button onClick={prevMonth}>
               <AiOutlineLeft />
             </button>
-            <h1>
+            <h2>
               {select.year}년 {select.month}월
-            </h1>
+            </h2>
             <button onClick={nextMonth}>
               <AiOutlineRight />
             </button>
@@ -106,27 +107,20 @@ const Calendar = (): JSX.Element => {
             <Day key={i}></Day>
           ))}
           {date.map((item) =>
-            // 이번달
-            item.year === today.year &&
-            item.month === today.month &&
-            Number(item.date) <= Number(today.date) ? (
-              <Day
-                key={item.date}
-                onClick={() => clickDayBtn(Number(item.date))}
-              >
+            item.year < today.year ? (
+              <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                {item.date}
+                <CalendarEmo data={data} item={item} today={today} />
+              </Day>
+            ) : item.year === today.year && item.month < today.month ? (
+              <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
                 {item.date}
                 <CalendarEmo data={data} item={item} today={today} />
               </Day>
             ) : item.year === today.year &&
               item.month === today.month &&
-              Number(item.date) > Number(today.date) ? (
-              <Day key={item.date}>{item.date}</Day>
-            ) : item.year <= today.year && item.month <= today.month ? (
-              // 이전달
-              <Day
-                key={item.date}
-                onClick={() => clickDayBtn(Number(item.date))}
-              >
+              Number(item.date) <= Number(today.date) ? (
+              <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
                 {item.date}
                 <CalendarEmo data={data} item={item} today={today} />
               </Day>
@@ -139,12 +133,7 @@ const Calendar = (): JSX.Element => {
 
       {side ? (
         <>
-          <Sidebar
-            side={side}
-            setSide={setSide}
-            data={data}
-            diaryDay={select}
-          />
+          <Sidebar side={side} setSide={setSide} data={data} diaryDay={select} />
           <SideImg> 여기에 이미지가 들어갑니다.</SideImg>
         </>
       ) : (
@@ -209,7 +198,10 @@ const Day = styled.button`
   min-width: calc(100% / 7);
   display: flex;
   border: 0;
+  font-size: 18px;
+  box-sizing: border-box;
   background-color: transparent;
+  position: relative;
   font-family: "KyoboHand";
   cursor: pointer;
 `;
