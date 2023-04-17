@@ -29,9 +29,15 @@ export const useLogin = () => {
     },
     {
       onSuccess(data) {
-        const info = data.headers.authorization;
+        const info = data.headers["authorization"];
+        const refresh = data.headers["refresh-token"];
+        const expire = data.headers["access-token-expire-time"];
+
         const token = info.split(" ")[1];
+
         setCookie("token", token, { path: "/", maxAge: 1740 });
+        setCookie("refreshToken", refresh, { path: "/", maxAge: 604800 });
+        setCookie("expire", expire, { path: "/", maxAge: 604800 });
         navigate(-1);
       },
       onError(err) {
@@ -40,8 +46,8 @@ export const useLogin = () => {
       },
     }
   );
-  const submitFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitFormHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     login.mutate(loginInfo);
   };
 
