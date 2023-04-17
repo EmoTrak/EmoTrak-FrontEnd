@@ -33,6 +33,11 @@ export const usePen = (
     const context = canvas.getContext("2d");
 
     if (context) {
+      // const scale = window.devicePixelRatio;
+      // context.clearRect(0, 0, canvas.width, canvas.height);
+      // context.beginPath();
+      // context.arc(cursorX * scale, cursorY * scale, 10 * scale, 0, 2 * Math.PI);
+      // context.fill();
       context.strokeStyle = `${color}`;
       context.lineJoin = "round";
       context.lineWidth = penSize;

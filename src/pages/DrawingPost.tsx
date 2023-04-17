@@ -14,6 +14,11 @@ import { StCanvasWrapper } from "../features/post/components/Canvas";
 import PenTool from "../features/post/components/PenTool";
 import { getCookie } from "../utils/cookies";
 import { LOGIN_PAGE } from "../data/routes/urls";
+import BallPointPen from "../assets/Drawing/Ball Point Pen.png";
+import Eraser from "../assets/Drawing/Erase.png";
+import Reboot from "../assets/Drawing/Reboot.png";
+import { StLabel, StScoreBox, StSubmitBox, StTextArea } from "./ImagePost";
+import Checkbox from "../components/Checkbox";
 
 export type InputValue = {
   draw: boolean;
@@ -30,6 +35,7 @@ export type InputValue = {
 
 const DrawingPost = (): JSX.Element => {
   const token = getCookie("token");
+  const refreshToken = getCookie("refreshToken");
   const navigate = useNavigate();
 
   // 날짜
@@ -220,7 +226,7 @@ const DrawingPost = (): JSX.Element => {
   };
 
   useEffect(() => {
-    if (!token) {
+    if (!token && !refreshToken) {
       navigate(`${LOGIN_PAGE}`);
     }
     const preventGoBack = () => {
@@ -251,65 +257,68 @@ const DrawingPost = (): JSX.Element => {
       <form onSubmit={submitFormHandler}>
         <Flex row gap={10}>
           <StCanvasWrapper>
-            <div style={{ backgroundColor: "#f4f2ee" }}>
-              <canvas
-                ref={canvasRef}
-                height={700}
-                width={700}
-                onMouseDown={mouseDownHandler}
-                onMouseMove={mouseMoveHandler}
-                onMouseUp={mouseUpHandler}
-                onMouseLeave={mouseLeaveHandler}
-                onTouchStart={startTouch}
-                onTouchMove={moveTouch}
-                onTouchEnd={endTouch}
-              ></canvas>
-            </div>
-            <Flex row>
-              <ul>도구 선택</ul>
-              <li>
-                {selectPen ? (
-                  <PenTool
-                    color={selectedColor}
-                    selectedSize={selectedSize}
-                    onSizeSelect={selectPenSizeHandler}
-                    setSelectPen={setSelectPen}
-                  />
-                ) : null}
-                <button
-                  type="button"
-                  value="pen"
-                  onClick={(e) => switchModeHandler(e)}
-                >
-                  펜
-                </button>
-                {selectPen ? (
-                  <>
-                    <Palette
-                      selectedColor={selectedColor}
-                      onColorSelect={selectColorHandler}
+            <StCanvas
+              ref={canvasRef}
+              height={700}
+              width={800}
+              onMouseDown={mouseDownHandler}
+              onMouseMove={mouseMoveHandler}
+              onMouseUp={mouseUpHandler}
+              onMouseLeave={mouseLeaveHandler}
+              onTouchStart={startTouch}
+              onTouchMove={moveTouch}
+              onTouchEnd={endTouch}
+            ></StCanvas>
+            <StToolBox>
+              <StToolList>
+                <StPenSizeTool>
+                  {selectPen ? (
+                    <PenTool
+                      color={selectedColor}
+                      selectedSize={selectedSize}
+                      onSizeSelect={selectPenSizeHandler}
                       setSelectPen={setSelectPen}
                     />
-                  </>
-                ) : null}
-              </li>
-              <li>
-                <button
+                  ) : null}
+                </StPenSizeTool>
+                <div>
+                  {" "}
+                  {selectPen ? (
+                    <>
+                      <Palette
+                        selectedColor={selectedColor}
+                        onColorSelect={selectColorHandler}
+                        setSelectPen={setSelectPen}
+                      />
+                    </>
+                  ) : null}
+                </div>
+
+                <StPenButton
+                  type="button"
+                  value="pen"
+                  url={BallPointPen}
+                  onClick={(e) => switchModeHandler(e)}
+                ></StPenButton>
+              </StToolList>
+              <StToolList>
+                <StEraserButton
+                  url={Eraser}
                   type="button"
                   value="eraser"
                   onClick={(e) => switchModeHandler(e)}
-                >
-                  지우개
-                </button>
-              </li>
-              <button type="button" onClick={clearCanvas}>
-                다시 그리기
-              </button>
-            </Flex>
-          </StCanvasWrapper>{" "}
+                ></StEraserButton>
+              </StToolList>
+              <StRebootButton
+                type="button"
+                url={Reboot}
+                onClick={clearCanvas}
+              ></StRebootButton>
+            </StToolBox>
+          </StCanvasWrapper>
           <StCanvasWrapper>
-            <div>
-              <StUnorderLi style={{ display: "flex", flexDirection: "row" }}>
+            <StScoreBox>
+              <StUnorderLi>
                 {emoIds.map((item: number) => (
                   <StList key={item}>
                     <StEmoButton
@@ -328,8 +337,7 @@ const DrawingPost = (): JSX.Element => {
                   </StList>
                 ))}
               </StUnorderLi>
-            </div>
-            <div>
+
               {starArray.map((score) => (
                 <Star
                   key={score}
@@ -338,40 +346,40 @@ const DrawingPost = (): JSX.Element => {
                   onClick={() => changeStarHandler(score)}
                 />
               ))}
-              <span>{inputValue.star === 0 ? null : inputValue.star}</span>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column" }}>
+              <span>{inputValue.star === 0 ? "?" : inputValue.star}</span>
+            </StScoreBox>
+            <div>
               <label>
-                공유여부
-                <input
-                  name="share"
-                  type="checkbox"
-                  checked={inputValue?.share}
-                  onChange={onCheckHandler}
-                />
-              </label>
-              <label>
-                내용
-                <textarea
+                <StTextArea
                   name="detail"
                   value={inputValue?.detail}
                   spellCheck={false}
                   required
-                  cols={30}
-                  rows={10}
+                  // cols={30}
+                  // rows={10}
                   maxLength={1500}
                   onChange={onChangeHandler}
-                ></textarea>
+                ></StTextArea>
               </label>
             </div>
+            <StSubmitBox>
+              <StLabel>
+                공유여부
+                <Checkbox
+                  name="share"
+                  checked={inputValue?.share === true}
+                  onChange={onCheckHandler}
+                />
+              </StLabel>
+              {validPicture ? (
+                <button type="submit">등록하기</button>
+              ) : (
+                <button type="button" onClick={savePicture}>
+                  계속하기
+                </button>
+              )}
+            </StSubmitBox>
           </StCanvasWrapper>
-          {validPicture ? (
-            <button type="submit">등록하기</button>
-          ) : (
-            <button type="button" onClick={savePicture}>
-              계속하기
-            </button>
-          )}
         </Flex>
       </form>
     </div>
@@ -391,6 +399,7 @@ export const StUnorderLi = styled.ul`
   gap: 20px;
   list-style: none;
   padding: 0;
+  display: flex;
 `;
 
 type EmoButtonProps = {
@@ -414,4 +423,75 @@ export const StEmoButton = styled.button<EmoButtonProps>`
   &:hover {
     border: 5px solid grey;
   }
+`;
+
+export const StCanvas = styled.canvas`
+  /* border: 1px solid; */
+  /* width: 40vw; */
+  /* height: 70vh; */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-size: 100% 100%; */
+`;
+
+export const StToolBox = styled.div`
+  /* border: 1px solid; */
+  display: flex;
+  width: 40vw;
+  height: 7vh;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
+export const StToolList = styled.li`
+  list-style: none;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const StPenSizeTool = styled.div`
+  /* border: 1px solid; */
+  position: absolute;
+  top: -12vh;
+  right: -0.3vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+interface IconProps {
+  url: string;
+}
+
+export const StPenButton = styled.button<IconProps>`
+  background-image: ${({ url }) => `url(${url})`};
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  width: 1.5vw;
+  height: 1.5vw;
+  border: none;
+`;
+
+export const StEraserButton = styled.button<IconProps>`
+  background-image: ${({ url }) => `url(${url})`};
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  width: 1.5vw;
+  height: 1.5vw;
+  border: none;
+  margin: 5px;
+`;
+
+export const StRebootButton = styled.button<IconProps>`
+  background-image: ${({ url }) => `url(${url})`};
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  width: 1.2vw;
+  height: 1.2vw;
+  border: none;
+  margin: 5px;
 `;

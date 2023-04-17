@@ -31,6 +31,7 @@ const ImageEdit = () => {
   const dailyId = Number(params.id);
   const navigate = useNavigate();
   const token = getCookie("token");
+  const refreshToken = getCookie("refreshToken");
 
   const [validPhoto, setValidPhoto] = useState<boolean>(true);
   const getDetail = useCallback(() => {
@@ -38,12 +39,9 @@ const ImageEdit = () => {
   }, [dailyId]);
 
   useEffect(() => {
-    if (!token || token === "undefined") {
-      if (token) {
-        removeCookie("token");
-        alert("로그인이 필요합니다 !");
-        navigate(`${LOGIN_PAGE}`);
-      }
+    if (!token && !refreshToken) {
+      alert("로그인이 필요합니다 !");
+      navigate(`${LOGIN_PAGE}`);
     }
     getDetail();
     const newClicked = clicked.map((_, index) =>
@@ -220,7 +218,7 @@ const ImageEdit = () => {
           </StCanvasWrapper>
           <StCanvasWrapper>
             <StScoreBox>
-              <StUnorderLi style={{ display: "flex", flexDirection: "row" }}>
+              <StUnorderLi>
                 {emoIds.map((item: number) => (
                   <StList key={item}>
                     <StEmoButton
@@ -248,7 +246,7 @@ const ImageEdit = () => {
                   onClick={() => clickStarHandler(score)}
                 />
               ))}
-              <span>{inputValue?.star === 0 ? null : inputValue?.star}</span>
+              <span>{inputValue?.star === 0 ? "?" : inputValue?.star}</span>
             </StScoreBox>
             <div>
               <label>

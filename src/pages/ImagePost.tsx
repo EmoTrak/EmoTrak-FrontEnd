@@ -16,6 +16,7 @@ import Checkbox from "../components/Checkbox";
 
 const ImagePost = (): JSX.Element => {
   const token = getCookie("token");
+  const refreshToken = getCookie("refreshToken");
   const navigate = useNavigate();
   // 날짜
   const params = useParams();
@@ -129,7 +130,7 @@ const ImagePost = (): JSX.Element => {
 
   useEffect(() => {
     preview(photo);
-    if (!token) {
+    if (!token && !refreshToken) {
       navigate(`${LOGIN_PAGE}`);
     }
     const preventGoBack = () => {
