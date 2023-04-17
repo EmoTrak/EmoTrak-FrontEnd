@@ -16,6 +16,7 @@ import { keys } from "../data/queryKeys/keys";
 import { scrollOnTop } from "../utils/scollOnTop";
 import PostDate from "../features/community/components/PostDate";
 import { DRAW_EDIT_PAGE, IMAGE_EDIT_PAGE } from "../data/routes/urls";
+import PageNation from "../components/PageNation";
 
 const CommunityDetail = (): JSX.Element => {
   const queryClient = useQueryClient();
@@ -23,7 +24,7 @@ const CommunityDetail = (): JSX.Element => {
   const token = getCookie("token");
   const [page, setPage] = useState<number>(1);
   const { deletePost } = useDelete();
-  const { data, isLoading, status, remove } = useAddCommunityDetail(page);
+  const { data, isError, status, remove } = useAddCommunityDetail(page);
 
   const deletePostHandler = (id: number) => {
     if (window.confirm("삭제하시겠습니까?")) {
@@ -34,15 +35,17 @@ const CommunityDetail = (): JSX.Element => {
   };
 
   useEffect(() => {
-    scrollOnTop();
+    // scrollOnTop();
     return () => {
       remove();
     };
   }, []);
 
-  if (isLoading) {
-    <>로딩중</>;
+  if (isError) {
+    <>에러</>;
   }
+
+  console.log(data);
 
   return (
     <Container>
@@ -100,12 +103,7 @@ const CommunityDetail = (): JSX.Element => {
           data.comments.map((item: commentData, i: number) => (
             <Comment item={item} key={i} />
           ))}
-        {page !== 1 && (
-          <button onClick={() => setPage((pre) => pre - 1)}>{page - 1}</button>
-        )}
-        <button onClick={() => setPage((pre) => pre + 1)} disabled={data?.lastPage}>
-          {data?.lastPage ? page : page + 1}
-        </button>
+        {status === "success" && <PageNation page={page} setPage={setPage} data={data} />}
       </StPostDetailWrapper>
     </Container>
   );
@@ -115,41 +113,34 @@ export default CommunityDetail;
 
 const Container = styled.div`
   display: flex;
-  margin-top: 120px;
+  align-items: flex-start;
+  position: relative;
 `;
 
 const StDefaultImage = styled.div`
-  width: 50vw;
+  width: 50%;
   border: 1px solid;
 `;
 
 const StCanvasWrapper = styled.div`
   width: 50%;
-  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  position: relative;
+  position: sticky;
+  top: 150px;
+  left: 20px;
 `;
 
 const StPostDetailWrapper = styled.div`
   width: 50%;
-  height: 100%;
-  max-height: 90vh;
-  border: 1px solid;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   position: relative;
-  overflow: scroll;
-  ::-webkit-scrollbar-thumb {
-    background-color: red;
-  }
 `;
+
 const Img = styled.img`
-  width: 40vw;
-  /* position: fixed; */
-  /* top: 20%; */
-  /* left: 5vw; */
+  width: 90%;
 `;
