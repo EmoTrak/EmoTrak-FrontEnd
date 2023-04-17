@@ -21,6 +21,8 @@ const Header = (): JSX.Element => {
     if (window.confirm("로그아웃하시겠습니까")) {
       navigate(`${LOGIN_PAGE}`);
       removeCookie("token", { path: "/" });
+      removeCookie("refreshToken", { path: "/" });
+      removeCookie("expire", { path: "/" });
       setIsLogin(true);
     }
   };
