@@ -6,9 +6,11 @@ import useUpdateComment from "../hooks/useUpdateComment";
 import LikeComment from "./LikeComment";
 import Report from "./Report";
 import PostDate from "./PostDate";
+import { getCookie } from "../../../utils/cookies";
 
 const Comment = ({ item }: Partial<CommentProps>) => {
   const [edit, setEdit] = useState<boolean>(false);
+  const token = getCookie("token");
   const [editComment, setEditComment] = useState<string | undefined>(item?.comment);
 
   const changeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,11 +28,12 @@ const Comment = ({ item }: Partial<CommentProps>) => {
         <>
           <div>닉네임 : {item?.nickname}</div>
           <div>댓글 : {item?.comment}</div>
-          <h2>{item?.id}</h2>
           <LikeComment isLike={item?.hasLike} id={item?.id} count={item?.likesCnt} />
-          <Report id={item?.id} uri="comments/report">
-            <button>신고하기</button>
-          </Report>
+          {token && (
+            <Report id={item?.id} uri="comments/report">
+              <button>신고하기</button>
+            </Report>
+          )}
         </>
       )}
       {item?.hasAuth && (

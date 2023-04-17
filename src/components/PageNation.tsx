@@ -60,20 +60,27 @@ const PageNation = (props: any) => {
 const Container = styled.div`
   display: flex;
   align-items: center;
+  margin-left: auto;
+  margin-right: auto;
 `;
 const PageBtn = styled.button<{ currentPage: boolean }>`
   background-color: transparent;
   border: 0;
   border-radius: 50%;
   margin: 10px;
-  width: 25px;
-  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
   cursor: ${(props) => (props.currentPage ? "auto" : "pointer")};
-  font-size: ${(props) => (props.currentPage ? "20px" : "17px")};
+  font-size: 17px;
   color: ${(props) => (props.currentPage ? "black" : "#6d6c6c")};
+  font-weight: ${(props) => props.currentPage && 800};
   &:hover {
     background-color: ${(props) => !props.currentPage && "#D0BD95"};
     color: ${(props) => !props.currentPage && "white"};
+    font-weight: 800;
   }
   &:active {
     background-color: ${(props) => !props.currentPage && "#DADADA"};

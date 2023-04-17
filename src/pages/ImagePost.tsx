@@ -12,6 +12,7 @@ import { usePreview } from "../features/post/hooks/usePreview";
 import Flex from "../components/Flex";
 import { getCookie } from "../utils/cookies";
 import { LOGIN_PAGE } from "../data/routes/urls";
+import Checkbox from "../components/Checkbox";
 
 const ImagePost = (): JSX.Element => {
   const token = getCookie("token");
@@ -158,86 +159,97 @@ const ImagePost = (): JSX.Element => {
     <>
       <form onSubmit={submitFormHandler}>
         <Flex row>
-          <div>
+          <StCanvasWrapper>
             {validPhoto ? (
               <StPhotoPreview url={`${previewUrl}`}>
-                <button type="button" onClick={deletePhotoHandler}>
+                <StDeletePhotoButton type="button" onClick={deletePhotoHandler}>
                   삭제
-                </button>
+                </StDeletePhotoButton>
               </StPhotoPreview>
             ) : (
-              <StPhotoInputBox>
-                <label
-                  ref={dragRef}
-                  onDragOver={dragOverHandler}
-                  onDrop={dropHandler}
-                >
-                  <StPhotoInput
-                    type="file"
-                    accept="image/jpeg image/png image/jpg image/gif"
-                    onChange={changeFileHandler}
-                    required
-                  />
-                </label>
-              </StPhotoInputBox>
+              <StPhotoInputContainer>
+                <StPhotoInputBox>
+                  <label
+                    ref={dragRef}
+                    onDragOver={dragOverHandler}
+                    onDrop={dropHandler}
+                  >
+                    <StPhotoInput
+                      type="file"
+                      accept="image/jpeg image/png image/jpg image/gif"
+                      onChange={changeFileHandler}
+                      required
+                    />
+                  </label>
+                </StPhotoInputBox>
+              </StPhotoInputContainer>
             )}
-          </div>
+          </StCanvasWrapper>
 
           <StCanvasWrapper>
-            <div>
+            <StScoreBox>
               <StUnorderLi style={{ display: "flex", flexDirection: "row" }}>
                 {[1, 2, 3, 4, 5, 6].map((item: number) => (
                   <StList key={item}>
                     <StEmoButton
                       name="emoId"
                       type="button"
+                      // {inputValue.emoId ===item ? "selected" : null}
+                      selected={inputValue.emoId === item ? true : false}
                       value={item}
                       onClick={changeEmojiHandler}
                     >
                       <EmotionIcons
                         height="50"
-                        width="50"
+                        width="50vw"
                         emotionTypes={`EMOTION_${item}`}
                       />
                     </StEmoButton>
                   </StList>
                 ))}
               </StUnorderLi>
-            </div>
-            <div>
               {[1, 2, 3, 4, 5].map((score) => (
                 <Star
                   key={score}
-                  size="30"
+                  size="2vw"
                   color={clicked[score - 1] ? "#FFDC82" : "#E5DFD3"}
                   onClick={() => changeStarHandler(score)}
                 />
               ))}
-              <span>{inputValue.star === 0 ? null : inputValue.star}</span>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column" }}>
+              <p>{inputValue.star === 0 ? "?" : inputValue.star}</p>
+            </StScoreBox>
+            <div>
               <label>
+                <StTextArea
+                  name="detail"
+                  // cols={30}
+                  // rows={10}
+                  required
+                  spellCheck={false}
+                  maxLength={1500}
+                  onChange={onChangeHandler}
+                ></StTextArea>
+              </label>
+            </div>
+            <StSubmitBox>
+              <StLabel>
                 공유여부
-                <input
+                {/* <input
                   name="share"
                   type="checkbox"
+                  checked={inputValue.share === true}
+                  disabled={editItem?.restrict}
+                  onChange={onCheckHandler}
+                /> */}
+                <Checkbox
+                  name="share"
+                  checked={inputValue.share === true}
                   disabled={editItem?.restrict}
                   onChange={onCheckHandler}
                 />
-              </label>
-              <label>
-                내용
-                <textarea
-                  name="detail"
-                  cols={30}
-                  rows={10}
-                  required
-                  maxLength={1500}
-                  onChange={onChangeHandler}
-                ></textarea>
-              </label>
-            </div>
-            <button type="submit">등록하기</button>
+              </StLabel>
+              <button type="submit">등록하기</button>
+            </StSubmitBox>
           </StCanvasWrapper>
         </Flex>
       </form>
@@ -247,18 +259,30 @@ const ImagePost = (): JSX.Element => {
 
 export default ImagePost;
 
+// export const StCanvasWrapper = styled.div`
+//   width: 50%;
+//   height: 80vh;
+//   /* border: 1px solid; */
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   overflow: scroll;
+// `;
+
 export const StPhotoInputBox = styled.li`
-  width: 50vw;
+  width: 40vw;
   height: 70vh;
   position: relative;
   border: 1px solid rgb(230, 229, 239);
-  background: rgb(250, 250, 253);
+  background: #e5dfd3;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   color: rgb(155, 153, 169);
   font-size: 1rem;
+  border-radius: 30px;
   margin-right: 1rem;
 
   ::before {
@@ -266,12 +290,14 @@ export const StPhotoInputBox = styled.li`
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
+    border-radius: 30px;
     width: 40vw;
-    height: 40vh;
+    height: 60vh;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 1rem;
+    font-size: 1.2vw;
   }
 `;
 
@@ -291,11 +317,78 @@ export type StPreviewProps = {
 };
 
 export const StPhotoPreview = styled.div<StPreviewProps>`
-  width: 50vw;
+  width: 45vw;
   height: 70vh;
+  border-radius: 30px;
+  position: absolute;
+  display: flex;
+  justify-content: flex-end;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
   ${({ url }) => {
     return `background-image:url(${url})`;
   }}
+`;
+
+export const StDeletePhotoButton = styled.button`
+  width: 2.5vw;
+  height: 1.5vw;
+  border: 3px solid #d0bd95;
+  border-radius: 10px;
+  margin: 20px;
+  background-color: #e5dfd3;
+  color: #ae9898;
+  font-family: inherit;
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #d0bd95;
+    color: #ffffff;
+    border: 3px solid #e5dfd3;
+  }
+`;
+
+export const StScoreBox = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 45vw;
+  height: 10vh;
+`;
+
+export const StTextArea = styled.textarea`
+  resize: none;
+  border: none;
+  outline: none;
+  width: 41vw;
+  height: 50vh;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  font-size: 2vh;
+  font-family: inherit;
+  line-height: 2;
+  margin: 20px;
+  padding: 10px;
+`;
+
+export const StSubmitBox = styled.div`
+  width: 40vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const StPhotoInputContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const StLabel = styled.label`
+  font-size: 1vw;
+  font-family: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

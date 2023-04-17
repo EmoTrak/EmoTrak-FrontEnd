@@ -16,7 +16,7 @@ import { keys } from "../data/queryKeys/keys";
 import { scrollOnTop } from "../utils/scollOnTop";
 import PostDate from "../features/community/components/PostDate";
 import { DRAW_EDIT_PAGE, IMAGE_EDIT_PAGE } from "../data/routes/urls";
-import PageNation from "../features/community/components/PageNation";
+import PageNation from "../components/PageNation";
 
 const CommunityDetail = (): JSX.Element => {
   const queryClient = useQueryClient();
@@ -113,37 +113,34 @@ export default CommunityDetail;
 
 const Container = styled.div`
   display: flex;
-  margin-top: 120px;
+  align-items: flex-start;
+  position: relative;
 `;
 
 const StDefaultImage = styled.div`
-  width: 50vw;
+  width: 50%;
   border: 1px solid;
-  position: sticky;
 `;
 
 const StCanvasWrapper = styled.div`
   width: 50%;
-  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  position: relative;
+  position: sticky;
+  top: 150px;
+  left: 20px;
 `;
 
 const StPostDetailWrapper = styled.div`
   width: 50%;
-  height: 100%;
-  max-height: 90vh;
-  border: 1px solid;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   position: relative;
-  /* overflow: scroll; */
 `;
 
 const Img = styled.img`
-  width: 40vw;
+  width: 90%;
 `;

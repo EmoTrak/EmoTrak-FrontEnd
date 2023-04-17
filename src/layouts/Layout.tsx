@@ -18,8 +18,8 @@ const Layout = ({ children }: Props) => {
 };
 
 const Test = styled.div`
-  min-height: 90vh;
-  margin-top: 13vh;
-  margin-bottom: 1vh;
+  margin-top: 130px;
+  margin-bottom: 10px;
+  position: relative;
 `;
 export default Layout;

@@ -12,7 +12,12 @@ type Props = {
 const Star = ({ size, onClick, value, color }: Props) => {
   return (
     <StStarButton type="button" value={value} onClick={onClick}>
-      <StarIcon height={size} width={size} fill={`${color}`} stroke={`${color}`} />
+      <StarIcon
+        height={size}
+        width={size}
+        fill={`${color}`}
+        stroke={`${color}`}
+      />
     </StStarButton>
   );
 };
@@ -23,6 +28,13 @@ const StStarButton = styled.button<Props>`
   background-color: transparent;
   border: 1px solid transparent;
   border-radius: 50%;
+
+  svg {
+    :hover {
+      fill: #ffdc82;
+      stroke: #ffdc82;
+    }
+  }
 `;
 
 // const RatingBox = styled.div`

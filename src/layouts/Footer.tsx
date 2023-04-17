@@ -35,8 +35,8 @@ const Footer = (): JSX.Element => {
           </span>
         </div>
         <br />
-        윤지현(FE) 양인서(FE) 박승우(FE) 이 진(BE) 홍다정(BE) 서영석(BE)
-        박문주(BE) 이수정(DE)
+        윤지현(FE) 양인서(FE) 박승우(FE) 이 진(BE) 홍다정(BE) 서영석(BE) 박문주(BE)
+        이수정(DE)
         <br />
         <br />©{date.getFullYear()} TEAM EMOTRAK. ALL RIGHTS RESERVED
       </FooterSt>
@@ -48,9 +48,7 @@ export default Footer;
 
 const Wrap = styled.div`
   background-color: #fffffc;
-
-  width: 100%;
-  height: 10%;
+  position: relative;
 `;
 const FooterSt = styled.ul`
   background-color: #fffffc;
