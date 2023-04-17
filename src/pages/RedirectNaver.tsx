@@ -20,8 +20,12 @@ const RedirectNaver = () => {
     retry: 1,
     onSuccess(data) {
       const info = data.headers.authorization.split(" ");
+      const refresh = data.headers["refresh-token"];
+      const expire = data.headers["access-token-expire-time"];
       const token = info[1];
-      setCookie("token", token, { path: "/", maxAge: 3540 });
+      setCookie("refreshToken", refresh, { path: "/", maxAge: 604800 });
+      setCookie("expire", expire, { path: "/", maxAge: 604800 });
+      setCookie("token", token, { path: "/", maxAge: 1740 });
     },
   });
 
