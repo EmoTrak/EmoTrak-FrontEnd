@@ -103,7 +103,9 @@ const CommunityDetail = (): JSX.Element => {
           data.comments.map((item: commentData, i: number) => (
             <Comment item={item} key={i} />
           ))}
-        {status === "success" && <PageNation page={page} setPage={setPage} data={data} />}
+        {status === "success" && (
+          <PageNation page={page} setPage={setPage} totalCount={data.totalComments} />
+        )}
       </StPostDetailWrapper>
     </Container>
   );

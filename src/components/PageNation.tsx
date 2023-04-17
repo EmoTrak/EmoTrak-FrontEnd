@@ -3,11 +3,11 @@ import styled from "styled-components";
 import * as Icon from "react-icons/md";
 
 const PageNation = (props: any) => {
-  const { page, setPage, data } = props;
+  const { page, setPage, totalCount } = props;
 
   const [pageArr, setPageArr] = useState([1, 2, 3, 4, 5]);
 
-  const lastPage = Math.ceil(data.totalComments / 20);
+  const lastPage = Math.ceil(totalCount / 20);
 
   useEffect(() => {
     if (page === 1 || page === 2) {
