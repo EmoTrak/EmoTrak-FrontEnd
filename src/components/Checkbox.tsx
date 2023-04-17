@@ -28,9 +28,11 @@ const Checkbox = ({
 export default Checkbox;
 
 const CheckboxContainer = styled.div`
-  display: inline-block;
+  display: flex;
   vertical-align: middle;
-  margin: 10px;
+  margin: 5px;
+  justify-content: center;
+  align-items: center;
 `;
 
 const HiddenCheckBox = styled.input`

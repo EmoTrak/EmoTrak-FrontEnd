@@ -232,7 +232,7 @@ const ImagePost = (): JSX.Element => {
               </label>
             </div>
             <StSubmitBox>
-              <label>
+              <StLabel>
                 공유여부
                 {/* <input
                   name="share"
@@ -247,7 +247,7 @@ const ImagePost = (): JSX.Element => {
                   disabled={editItem?.restrict}
                   onChange={onCheckHandler}
                 />
-              </label>
+              </StLabel>
               <button type="submit">등록하기</button>
             </StSubmitBox>
           </StCanvasWrapper>
@@ -282,6 +282,7 @@ export const StPhotoInputBox = styled.li`
   flex-direction: column;
   color: rgb(155, 153, 169);
   font-size: 1rem;
+  border-radius: 30px;
   margin-right: 1rem;
 
   ::before {
@@ -289,12 +290,14 @@ export const StPhotoInputBox = styled.li`
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
+    border-radius: 30px;
     width: 40vw;
     height: 60vh;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 1rem;
+    font-size: 1.2vw;
   }
 `;
 
@@ -377,6 +380,14 @@ export const StSubmitBox = styled.div`
 `;
 
 export const StPhotoInputContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const StLabel = styled.label`
+  font-size: 1vw;
+  font-family: inherit;
   display: flex;
   justify-content: center;
   align-items: center;
