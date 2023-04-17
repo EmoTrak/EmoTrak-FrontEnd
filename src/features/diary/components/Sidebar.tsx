@@ -1,52 +1,69 @@
-import styled, { css, keyframes } from 'styled-components';
-import { DayProps } from '../../../data/type/d1';
-import EmotionIcons from '../../../components/Icon/EmoticonIcons';
-import { useNavigate } from 'react-router-dom';
-import { DETAIL_PAGE } from '../../../data/routes/urls';
-import ClickModalPost from './ClickModalPost';
+import styled, { css, keyframes } from "styled-components";
+import { DayProps } from "../../../data/type/d1";
+import EmotionIcons from "../../../components/Icon/EmoticonIcons";
+import { useNavigate } from "react-router-dom";
+import { DETAIL_PAGE } from "../../../data/routes/urls";
+import ClickModalPost from "./ClickModalPost";
 
-const Sidebar = ({ side, setSide, data, diaryDay }: Partial<DayProps>): JSX.Element => {
+const Sidebar = ({
+  side,
+  setSide,
+  data,
+  diaryDay,
+}: Partial<DayProps>): JSX.Element => {
   const navigate = useNavigate();
-  const ClickCloseBtn = (): void => {
-    if (setSide) setSide(false);
+
+  const ClickCloseBtn = () => {
+    if (setSide) {
+      setSide((prev) => !prev);
+    }
   };
+console.log(side);
 
   const detailData = data?.contents.filter((e) => e.day === diaryDay?.date);
 
   return (
     <>
-      <CloseBtn onClick={ClickCloseBtn} side={side}>
-        X
-      </CloseBtn>
-      <Container side={side}>
-        {detailData?.map((e, i) => (
-          <ContentBox key={i}>
-            <Imoticon>
-              <EmotionIcons
-                height="100%"
-                width="100%"
-                emotionTypes={`EMOTION_${e.emoId}`}
-              />
-            </Imoticon>
-            <Content key={i} onClick={() => navigate(`${DETAIL_PAGE}/${e.id}`)}>
-              {e.detail}
-            </Content>
-          </ContentBox>
-        ))}
-        {Number(detailData?.length) < 2 && (
-          <ContentBox>
-            <Imoticon>
-              <EmotionIcons height="100%" width="100%" emotionTypes={'EMOTION_7'} />
-            </Imoticon>
-            <ClickModalPost diaryDay={diaryDay}>
-              <PostContent>+</PostContent>
-            </ClickModalPost>
-          </ContentBox>
-        )}
-      </Container>
+      <Wrap side={side}>
+        <CloseBtn onClick={ClickCloseBtn}>X</CloseBtn>
+        <Container>
+          {detailData?.map((e, i) => (
+            <ContentBox key={i}>
+              <Imoticon>
+                <EmotionIcons
+                  height="100%"
+                  width="100%"
+                  emotionTypes={`EMOTION_${e.emoId}`}
+                />
+              </Imoticon>
+              <Content
+                key={i}
+                onClick={() => navigate(`${DETAIL_PAGE}/${e.id}`)}
+              >
+                {e.detail}
+              </Content>
+            </ContentBox>
+          ))}
+          {Number(detailData?.length) < 2 && (
+            <ContentBox>
+              <Imoticon>
+                <EmotionIcons
+                  height="100%"
+                  width="100%"
+                  emotionTypes={"EMOTION_7"}
+                />
+              </Imoticon>
+              <ClickModalPost diaryDay={diaryDay}>
+                <PostContent>+</PostContent>
+              </ClickModalPost>
+            </ContentBox>
+          )}
+        </Container>
+      </Wrap>
     </>
   );
 };
+
 const OpenBox = keyframes`
   from {
     right: -100%;
@@ -65,39 +82,31 @@ const CloseBox = keyframes`
   }
 `;
 
+const Wrap = styled.div`
+  display: flex;
+  position: absolute;
+  right: ${({ side }: Partial<DayProps>) => (side ? "0%" : "-100%")};
+  animation: ${({ side }: Partial<DayProps>) => (side ? OpenBox : CloseBox)}
+    0.5s ease;
+
+`;
 const Container = styled.div`
   width: 27vw;
-  height: 55vw;
+  height: 100vh;
   background-color: #e5dfd3;
   box-sizing: border-box;
   padding: 6vw 1vw;
   display: flex;
   flex-direction: column;
-  position: relative;
-  top: 10%;
-  right: 0;
-  ${({ side }: Partial<DayProps>) =>
-    side
-      ? css`
-          animation: ${OpenBox} 0.5s ease;
-        `
-      : css`
-          animation: ${CloseBox} 0.5s ease;
-        `}
 `;
 
 const CloseBtn = styled.button`
   height: 40px;
   width: 30px;
-  background-color: #e5dfd3;
-  ${({ side }: Partial<DayProps>) =>
-    side
-      ? css`
-          animation: ${OpenBox} 0.5s ease;
-        `
-      : css`
-          animation: ${CloseBox} 0.5s ease;
-        `}
+  background-color: #d0bd95;
+  border-radius: 5px 0 0 5px;
+  cursor: pointer;
+  border: none;
 `;
 const ContentBox = styled.div`
   height: 50%;
@@ -116,6 +125,7 @@ const Content = styled.div`
   height: 80%;
   overflow: hidden;
   word-break: break-all;
+  cursor: pointer;
 `;
 
 const Imoticon = styled.div`
