@@ -52,13 +52,15 @@ user.interceptors.response.use(
 
       const newInfo = data.headers["authorization"];
       const newToken = newInfo.split(" ")[1];
+      removeCookie("token", { path: "/" });
       setCookie("token", newToken, { path: "/", maxAge: 1740 });
 
       return user.request(originalConfig);
     } catch (error) {
-      removeCookie("refreshToken", { path: "/" });
-      removeCookie("token", { path: "/" });
-      removeCookie("expire", { path: "/" });
+      // 이부분 이후 수정 예정
+      // removeCookie("refreshToken", { path: "/" });
+      // removeCookie("token", { path: "/" });
+      // removeCookie("expire", { path: "/" });
       alert("다시 로그인해주세요!");
     }
 
