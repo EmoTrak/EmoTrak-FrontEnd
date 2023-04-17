@@ -19,6 +19,17 @@ import { useQuery } from "@tanstack/react-query";
 import { keys } from "../data/queryKeys/keys";
 import { DetailType } from "./Detail";
 import { useEdit } from "../features/detail/hooks/useEdit";
+import {
+  StCanvas,
+  StEraserButton,
+  StPenButton,
+  StToolList,
+  StToolBox,
+  StPenSizeTool,
+} from "./DrawingPost";
+import BallPointPen from "../assets/Drawing/Ball Point Pen.png";
+import Eraser from "../assets/Drawing/Erase.png";
+import { StLabel, StScoreBox, StSubmitBox, StTextArea } from "./ImagePost";
 
 export type InputValue = {
   draw: boolean;
@@ -36,6 +47,7 @@ export type InputValue = {
 const DrawEdit = (): JSX.Element => {
   const navigate = useNavigate();
   const token = getCookie("token");
+  const refreshToken = getCookie("refreshToken");
   const params = useParams();
   const dailyId = Number(params.id);
   const getDetail = useCallback(() => {
@@ -73,12 +85,9 @@ const DrawEdit = (): JSX.Element => {
   };
 
   useEffect(() => {
-    if (!token || token === "undefined") {
-      if (token) {
-        removeCookie("token");
-        alert("로그인이 필요합니다 !");
-        navigate(`${LOGIN_PAGE}`);
-      }
+    if (!token && !refreshToken) {
+      alert("로그인이 필요합니다 !");
+      navigate(`${LOGIN_PAGE}`);
     }
     getDetail();
     const newClicked = clicked.map((_, index) =>
@@ -279,64 +288,65 @@ const DrawEdit = (): JSX.Element => {
       <form onSubmit={submitFormHandler}>
         <Flex row gap={10}>
           <StCanvasWrapper>
-            <div style={{ backgroundColor: "#f4f2ee" }}>
-              <canvas
-                ref={canvasRef}
-                height={700}
-                width={700}
-                onMouseDown={mouseDownHandler}
-                onMouseMove={mouseMoveHandler}
-                onMouseUp={mouseUpHandler}
-                onMouseLeave={mouseLeaveHandler}
-                onTouchStart={startTouch}
-                onTouchMove={moveTouch}
-                onTouchEnd={endTouch}
-              ></canvas>
-            </div>
-            <Flex row>
-              <ul>도구 선택</ul>
-              <li>
-                {selectPen ? (
-                  <PenTool
-                    color={selectedColor}
-                    selectedSize={selectedSize}
-                    onSizeSelect={selectPenSizeHandler}
-                    setSelectPen={setSelectPen}
-                  />
-                ) : null}
-                <button
-                  type="button"
-                  value="pen"
-                  onClick={(e) => switchModeHandler(e)}
-                >
-                  펜
-                </button>
-                {selectPen ? (
-                  <>
-                    <Palette
-                      selectedColor={selectedColor}
-                      onColorSelect={selectColorHandler}
+            <StCanvas
+              ref={canvasRef}
+              height={700}
+              width={700}
+              onMouseDown={mouseDownHandler}
+              onMouseMove={mouseMoveHandler}
+              onMouseUp={mouseUpHandler}
+              onMouseLeave={mouseLeaveHandler}
+              onTouchStart={startTouch}
+              onTouchMove={moveTouch}
+              onTouchEnd={endTouch}
+            ></StCanvas>
+
+            <StToolBox>
+              <StToolList>
+                <StPenSizeTool>
+                  {selectPen ? (
+                    <PenTool
+                      color={selectedColor}
+                      selectedSize={selectedSize}
+                      onSizeSelect={selectPenSizeHandler}
                       setSelectPen={setSelectPen}
                     />
-                  </>
-                ) : null}
-              </li>
-              <li>
-                <button
+                  ) : null}
+                </StPenSizeTool>
+                <div>
+                  {selectPen ? (
+                    <>
+                      <Palette
+                        selectedColor={selectedColor}
+                        onColorSelect={selectColorHandler}
+                        setSelectPen={setSelectPen}
+                      />
+                    </>
+                  ) : null}
+                </div>
+
+                <StPenButton
+                  type="button"
+                  value="pen"
+                  url={BallPointPen}
+                  onClick={(e) => switchModeHandler(e)}
+                ></StPenButton>
+              </StToolList>
+              <StToolList>
+                <StEraserButton
+                  url={Eraser}
                   type="button"
                   value="eraser"
                   onClick={(e) => switchModeHandler(e)}
-                >
-                  지우개
-                </button>
-              </li>
+                ></StEraserButton>
+              </StToolList>
               <button type="button" onClick={clearCanvas}>
                 다시 그리기
               </button>
-            </Flex>
+            </StToolBox>
           </StCanvasWrapper>{" "}
           <StCanvasWrapper>
-            <div>
+            <StScoreBox>
               <StUnorderLi style={{ display: "flex", flexDirection: "row" }}>
                 {emoIds.map((item: number) => (
                   <StList key={item}>
@@ -355,9 +365,7 @@ const DrawEdit = (): JSX.Element => {
                     </StEmoButton>
                   </StList>
                 ))}
-              </StUnorderLi>
-            </div>
-            <div>
+              </StUnorderLi>{" "}
               {starArray.map((score) => (
                 <Star
                   key={score}
@@ -367,20 +375,11 @@ const DrawEdit = (): JSX.Element => {
                 />
               ))}
               <span>{inputValue.star === 0 ? null : inputValue.star}</span>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <label>
-                공유여부
-                <input
-                  name="share"
-                  type="checkbox"
-                  checked={inputValue?.share}
-                  onChange={onCheckHandler}
-                />
-              </label>
+            </StScoreBox>
+            <div>
               <label>
                 내용
-                <textarea
+                <StTextArea
                   name="detail"
                   value={inputValue?.detail}
                   required
@@ -389,17 +388,28 @@ const DrawEdit = (): JSX.Element => {
                   rows={10}
                   maxLength={1500}
                   onChange={onChangeHandler}
-                ></textarea>
+                ></StTextArea>
               </label>
             </div>
+            <StSubmitBox>
+              <StLabel>
+                공유여부
+                <input
+                  name="share"
+                  type="checkbox"
+                  checked={inputValue?.share}
+                  onChange={onCheckHandler}
+                />
+              </StLabel>
+              {validPicture ? (
+                <button type="submit">등록하기</button>
+              ) : (
+                <button type="button" onClick={savePicture}>
+                  계속하기
+                </button>
+              )}
+            </StSubmitBox>
           </StCanvasWrapper>
-          {validPicture ? (
-            <button type="submit">등록하기</button>
-          ) : (
-            <button type="button" onClick={savePicture}>
-              계속하기
-            </button>
-          )}
         </Flex>
       </form>
     </div>
