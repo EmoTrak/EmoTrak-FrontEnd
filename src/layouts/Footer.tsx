@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_PAGE } from "../data/routes/urls";
+import { AiFillGithub } from "react-icons/ai";
+import { RxNotionLogo } from "react-icons/rx";
 
 const Footer = (): JSX.Element => {
   const nav = useNavigate();
@@ -18,21 +20,25 @@ const Footer = (): JSX.Element => {
           >
             튜토리얼&nbsp; | &nbsp;
           </span>
-          <span
-            onClick={() => {
-              window.open("");
-            }}
-          >
+          <a href="" target="_blank" rel="noreferrer">
             오류 제보
-          </span>
+          </a>
           &nbsp; | &nbsp;
-          <span
-            onClick={() => {
-              window.open("");
-            }}
-          >
+          <a href="" target="_blank" rel="noreferrer">
             만족도 조사
-          </span>
+          </a>
+          <div>
+            <a href="https://github.com/EmoTrak" target="_blank" rel="noreferrer">
+              <AiFillGithub />
+            </a>
+            <a
+              href="https://www.notion.so/1nxeo/4-EmoTrak-0e155b9e771b4c659480f406933151f6"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <RxNotionLogo />
+            </a>
+          </div>
         </div>
         <br />
         윤지현(FE) 양인서(FE) 박승우(FE) 이 진(BE) 홍다정(BE) 서영석(BE) 박문주(BE)
@@ -52,21 +58,35 @@ const Wrap = styled.div`
 `;
 const FooterSt = styled.ul`
   background-color: #fffffc;
-  height: 120px;
   text-align: center;
   padding: 30px;
   font-size: 13px;
   color: gray;
   div {
     font-size: 25px;
-    padding: 0px 0px 20px 0px;
     span {
       color: gray;
-      text-decoration: none;
-
+      cursor: pointer;
       :hover {
-        cursor: pointer;
         color: #0c0a0a;
+      }
+    }
+    a {
+      color: gray;
+      text-decoration: none;
+      :hover {
+        color: #0c0a0a;
+      }
+    }
+    div {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      a {
+        text-decoration: none;
+        color: black;
+        font-size: 35px;
       }
     }
   }
