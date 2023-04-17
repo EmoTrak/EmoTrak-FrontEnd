@@ -16,6 +16,7 @@ import { getCookie } from "../utils/cookies";
 import { LOGIN_PAGE } from "../data/routes/urls";
 import BallPointPen from "../assets/Drawing/Ball Point Pen.png";
 import Eraser from "../assets/Drawing/Erase.png";
+import Reboot from "../assets/Drawing/Reboot.png";
 import { StLabel, StScoreBox, StSubmitBox, StTextArea } from "./ImagePost";
 import Checkbox from "../components/Checkbox";
 
@@ -259,7 +260,7 @@ const DrawingPost = (): JSX.Element => {
             <StCanvas
               ref={canvasRef}
               height={700}
-              width={700}
+              width={800}
               onMouseDown={mouseDownHandler}
               onMouseMove={mouseMoveHandler}
               onMouseUp={mouseUpHandler}
@@ -308,9 +309,11 @@ const DrawingPost = (): JSX.Element => {
                   onClick={(e) => switchModeHandler(e)}
                 ></StEraserButton>
               </StToolList>
-              <button type="button" onClick={clearCanvas}>
-                다시 그리기
-              </button>
+              <StRebootButton
+                type="button"
+                url={Reboot}
+                onClick={clearCanvas}
+              ></StRebootButton>
             </StToolBox>
           </StCanvasWrapper>
           <StCanvasWrapper>
@@ -423,13 +426,14 @@ export const StEmoButton = styled.button<EmoButtonProps>`
 `;
 
 export const StCanvas = styled.canvas`
-  border: 1px solid;
-  width: 40vw;
-  height: 70vh;
+  /* border: 1px solid; */
+  /* width: 40vw; */
+  /* height: 70vh; */
   position: relative;
-  /* display: flex; */
-  /* justify-content: flex-end; */
-  /* align-items: ;  */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-size: 100% 100%; */
 `;
 
 export const StToolBox = styled.div`
@@ -479,4 +483,15 @@ export const StEraserButton = styled.button<IconProps>`
   width: 1.5vw;
   height: 1.5vw;
   border: none;
+  margin: 5px;
+`;
+
+export const StRebootButton = styled.button<IconProps>`
+  background-image: ${({ url }) => `url(${url})`};
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  width: 1.2vw;
+  height: 1.2vw;
+  border: none;
+  margin: 5px;
 `;

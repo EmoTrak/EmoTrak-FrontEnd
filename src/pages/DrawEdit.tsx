@@ -26,9 +26,11 @@ import {
   StToolList,
   StToolBox,
   StPenSizeTool,
+  StRebootButton,
 } from "./DrawingPost";
 import BallPointPen from "../assets/Drawing/Ball Point Pen.png";
 import Eraser from "../assets/Drawing/Erase.png";
+import Reboot from "../assets/Drawing/Reboot.png";
 import { StLabel, StScoreBox, StSubmitBox, StTextArea } from "./ImagePost";
 
 export type InputValue = {
@@ -91,7 +93,7 @@ const DrawEdit = (): JSX.Element => {
     }
     getDetail();
     const newClicked = clicked.map((_, index) =>
-      index < targetItem.star ? true : false
+      index < targetItem?.star ? true : false
     );
     setClicked(newClicked);
     const canvas = canvasRef?.current;
@@ -291,7 +293,7 @@ const DrawEdit = (): JSX.Element => {
             <StCanvas
               ref={canvasRef}
               height={700}
-              width={700}
+              width={800}
               onMouseDown={mouseDownHandler}
               onMouseMove={mouseMoveHandler}
               onMouseUp={mouseUpHandler}
@@ -340,11 +342,13 @@ const DrawEdit = (): JSX.Element => {
                   onClick={(e) => switchModeHandler(e)}
                 ></StEraserButton>
               </StToolList>
-              <button type="button" onClick={clearCanvas}>
-                다시 그리기
-              </button>
+              <StRebootButton
+                type="button"
+                url={Reboot}
+                onClick={clearCanvas}
+              ></StRebootButton>
             </StToolBox>
-          </StCanvasWrapper>{" "}
+          </StCanvasWrapper>
           <StCanvasWrapper>
             <StScoreBox>
               <StUnorderLi style={{ display: "flex", flexDirection: "row" }}>
