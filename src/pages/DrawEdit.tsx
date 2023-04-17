@@ -384,6 +384,7 @@ const DrawEdit = (): JSX.Element => {
                   name="detail"
                   value={inputValue?.detail}
                   required
+                  spellCheck={false}
                   cols={30}
                   rows={10}
                   maxLength={1500}

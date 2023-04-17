@@ -223,6 +223,7 @@ const ImagePost = (): JSX.Element => {
                   // cols={30}
                   // rows={10}
                   required
+                  spellCheck={false}
                   maxLength={1500}
                   onChange={onChangeHandler}
                 ></StTextArea>

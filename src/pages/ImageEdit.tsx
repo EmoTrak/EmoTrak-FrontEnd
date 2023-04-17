@@ -258,6 +258,7 @@ const ImageEdit = () => {
                   value={inputValue?.detail}
                   cols={30}
                   rows={10}
+                  spellCheck={false}
                   required
                   onChange={onChangeHandler}
                 ></StTextArea>

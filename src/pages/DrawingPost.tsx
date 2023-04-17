@@ -355,6 +355,7 @@ const DrawingPost = (): JSX.Element => {
                 <textarea
                   name="detail"
                   value={inputValue?.detail}
+                  spellCheck={false}
                   required
                   cols={30}
                   rows={10}
