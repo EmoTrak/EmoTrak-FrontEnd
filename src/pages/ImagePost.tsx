@@ -167,20 +167,22 @@ const ImagePost = (): JSX.Element => {
                 </StDeletePhotoButton>
               </StPhotoPreview>
             ) : (
-              <StPhotoInputBox>
-                <label
-                  ref={dragRef}
-                  onDragOver={dragOverHandler}
-                  onDrop={dropHandler}
-                >
-                  <StPhotoInput
-                    type="file"
-                    accept="image/jpeg image/png image/jpg image/gif"
-                    onChange={changeFileHandler}
-                    required
-                  />
-                </label>
-              </StPhotoInputBox>
+              <StPhotoInputContainer>
+                <StPhotoInputBox>
+                  <label
+                    ref={dragRef}
+                    onDragOver={dragOverHandler}
+                    onDrop={dropHandler}
+                  >
+                    <StPhotoInput
+                      type="file"
+                      accept="image/jpeg image/png image/jpg image/gif"
+                      onChange={changeFileHandler}
+                      required
+                    />
+                  </label>
+                </StPhotoInputBox>
+              </StPhotoInputContainer>
             )}
           </StCanvasWrapper>
 
@@ -269,8 +271,8 @@ export default ImagePost;
 // `;
 
 export const StPhotoInputBox = styled.li`
-  width: 50vw;
-  height: 80vh;
+  width: 40vw;
+  height: 70vh;
   position: relative;
   border: 1px solid rgb(230, 229, 239);
   background: #e5dfd3;
@@ -371,5 +373,11 @@ export const StSubmitBox = styled.div`
   width: 40vw;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+`;
+
+export const StPhotoInputContainer = styled.div`
+  display: flex;
+  justify-content: center;
   align-items: center;
 `;
