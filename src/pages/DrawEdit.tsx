@@ -343,6 +343,7 @@ const DrawEdit = (): JSX.Element => {
                     <StEmoButton
                       name="emoId"
                       type="button"
+                      selected={inputValue.emoId === item ? true : false}
                       value={item}
                       onClick={changeEmojiHandler}
                     >
@@ -383,6 +384,7 @@ const DrawEdit = (): JSX.Element => {
                   name="detail"
                   value={inputValue?.detail}
                   required
+                  spellCheck={false}
                   cols={30}
                   rows={10}
                   maxLength={1500}
@@ -414,10 +416,15 @@ export const StUnorderLi = styled.ul`
   gap: 20px;
 `;
 
-export const StEmoButton = styled.button`
+type EmoButtonProps = {
+  selected: boolean;
+};
+
+export const StEmoButton = styled.button<EmoButtonProps>`
   width: 55px;
   height: 55px;
-  border: 1px solid transparent;
+  border: ${(props) =>
+    props.selected ? "5px solid grey" : "5px solid transparent"};
   background-color: transparent;
   border-radius: 50%;
   display: flex;
