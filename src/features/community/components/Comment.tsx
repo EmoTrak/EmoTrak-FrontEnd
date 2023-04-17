@@ -26,6 +26,7 @@ const Comment = ({ item }: Partial<CommentProps>) => {
         <>
           <div>닉네임 : {item?.nickname}</div>
           <div>댓글 : {item?.comment}</div>
+          <h2>{item?.id}</h2>
           <LikeComment isLike={item?.hasLike} id={item?.id} count={item?.likesCnt} />
           <Report id={item?.id} uri="comments/report">
             <button>신고하기</button>

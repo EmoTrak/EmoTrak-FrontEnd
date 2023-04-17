@@ -16,6 +16,7 @@ import { keys } from "../data/queryKeys/keys";
 import { scrollOnTop } from "../utils/scollOnTop";
 import PostDate from "../features/community/components/PostDate";
 import { DRAW_EDIT_PAGE, IMAGE_EDIT_PAGE } from "../data/routes/urls";
+import PageNation from "../features/community/components/PageNation";
 
 const CommunityDetail = (): JSX.Element => {
   const queryClient = useQueryClient();
@@ -23,7 +24,7 @@ const CommunityDetail = (): JSX.Element => {
   const token = getCookie("token");
   const [page, setPage] = useState<number>(1);
   const { deletePost } = useDelete();
-  const { data, isLoading, status, remove } = useAddCommunityDetail(page);
+  const { data, isError, status, remove } = useAddCommunityDetail(page);
 
   const deletePostHandler = (id: number) => {
     if (window.confirm("삭제하시겠습니까?")) {
@@ -34,15 +35,17 @@ const CommunityDetail = (): JSX.Element => {
   };
 
   useEffect(() => {
-    scrollOnTop();
+    // scrollOnTop();
     return () => {
       remove();
     };
   }, []);
 
-  if (isLoading) {
-    <>로딩중</>;
+  if (isError) {
+    <>에러</>;
   }
+
+  console.log(data);
 
   return (
     <Container>
@@ -100,12 +103,7 @@ const CommunityDetail = (): JSX.Element => {
           data.comments.map((item: commentData, i: number) => (
             <Comment item={item} key={i} />
           ))}
-        {page !== 1 && (
-          <button onClick={() => setPage((pre) => pre - 1)}>{page - 1}</button>
-        )}
-        <button onClick={() => setPage((pre) => pre + 1)} disabled={data?.lastPage}>
-          {data?.lastPage ? page : page + 1}
-        </button>
+        {status === "success" && <PageNation page={page} setPage={setPage} data={data} />}
       </StPostDetailWrapper>
     </Container>
   );
@@ -121,6 +119,7 @@ const Container = styled.div`
 const StDefaultImage = styled.div`
   width: 50vw;
   border: 1px solid;
+  position: sticky;
 `;
 
 const StCanvasWrapper = styled.div`
@@ -142,14 +141,9 @@ const StPostDetailWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   position: relative;
-  overflow: scroll;
-  ::-webkit-scrollbar-thumb {
-    background-color: red;
-  }
+  /* overflow: scroll; */
 `;
+
 const Img = styled.img`
   width: 40vw;
-  /* position: fixed; */
-  /* top: 20%; */
-  /* left: 5vw; */
 `;
