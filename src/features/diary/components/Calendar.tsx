@@ -9,6 +9,7 @@ import user from "../../../lib/api/user";
 import { date } from "../../../data/type/d1";
 import CalendarEmo from "./CalendarEmo";
 import MiniCalendar from "./MiniCalendar";
+import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
 const Calendar = (): JSX.Element => {
   const today: date = {
@@ -72,17 +73,25 @@ const Calendar = (): JSX.Element => {
 
   return (
     <Container>
-      <div>
+      <Flex jc="center" ai="center">
         <MiniCalendar year={select.year} month={select.month - 1} />
         <MiniCalendar year={select.year} month={select.month + 1} />
-      </div>
+      </Flex>
       <CalendarBox>
-        <button onClick={prevMonth}>이전달</button>
-        <h1>
-          {select.year}년 {select.month}월
-        </h1>
-        <button onClick={nextMonth}>다음달</button>
-        <button onClick={thisMonth}>이번달</button>
+        <CalendarWrap>
+          <NowMonth onClick={thisMonth}>이번달</NowMonth>
+          <CalendarBtn>
+            <button onClick={prevMonth}>
+              <AiOutlineLeft />
+            </button>
+            <h1>
+              {select.year}년 {select.month}월
+            </h1>
+            <button onClick={nextMonth}>
+              <AiOutlineRight />
+            </button>
+          </CalendarBtn>
+        </CalendarWrap>
         <TotalWeek>
           <Day>일</Day>
           <Day>월</Day>
@@ -101,7 +110,10 @@ const Calendar = (): JSX.Element => {
             item.year === today.year &&
             item.month === today.month &&
             Number(item.date) <= Number(today.date) ? (
-              <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+              <Day
+                key={item.date}
+                onClick={() => clickDayBtn(Number(item.date))}
+              >
                 {item.date}
                 <CalendarEmo data={data} item={item} today={today} />
               </Day>
@@ -111,7 +123,10 @@ const Calendar = (): JSX.Element => {
               <Day key={item.date}>{item.date}</Day>
             ) : item.year <= today.year && item.month <= today.month ? (
               // 이전달
-              <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+              <Day
+                key={item.date}
+                onClick={() => clickDayBtn(Number(item.date))}
+              >
                 {item.date}
                 <CalendarEmo data={data} item={item} today={today} />
               </Day>
@@ -121,14 +136,57 @@ const Calendar = (): JSX.Element => {
           )}
         </DiaryDay>
       </CalendarBox>
-      {side && <Sidebar side={side} setSide={setSide} data={data} diaryDay={select} />}
+
+      {side ? (
+        <>
+          <Sidebar
+            side={side}
+            setSide={setSide}
+            data={data}
+            diaryDay={select}
+          />
+          <SideImg> 여기에 이미지가 들어갑니다.</SideImg>
+        </>
+      ) : (
+        <SideImg> 여기에 이미지가 들어갑니다.</SideImg>
+      )}
     </Container>
   );
 };
 
+const CalendarWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+const CalendarBtn = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: 2vw;
+    height: 5vh;
+  }
+`;
 const Container = styled.div`
   display: flex;
-  background-color: white;
+  background-color: #fff;
+`;
+const NowMonth = styled.div`
+  margin-top: 10px;
+  border-radius: 10px;
+  background-color: #e5dfd3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  width: 5vw;
+  height: 3vh;
+  cursor: pointer;
 `;
 const CalendarBox = styled.div`
   width: 50vw;
@@ -153,20 +211,12 @@ const Day = styled.button`
   border: 0;
   background-color: transparent;
   font-family: "KyoboHand";
-`;
-const Sunday = styled.button`
-  min-width: calc(100% / 7);
-  border: 0;
-  background-color: transparent;
-  font-family: "KyoboHand";
-  color: red;
+  cursor: pointer;
 `;
 
-const Saturday = styled.button`
-  min-width: calc(100% / 7);
-  border: 0;
-  background-color: transparent;
-  font-family: "KyoboHand";
-  color: blue;
+const SideImg = styled.div`
+  width: 27vw;
+  height: 100vh;
 `;
+
 export default Calendar;
