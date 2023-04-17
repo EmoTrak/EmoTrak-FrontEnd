@@ -179,11 +179,11 @@ export default Canvas;
 
 export const StCanvasWrapper = styled.div`
   width: 50%;
-  height: 70vh;
-  border: 1px solid;
+  height: 80vh;
+  /* border: 1px solid; */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   overflow: scroll;
 `;

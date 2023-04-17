@@ -315,6 +315,7 @@ const DrawingPost = (): JSX.Element => {
                     <StEmoButton
                       name="emoId"
                       type="button"
+                      selected={inputValue.emoId === item ? true : false}
                       value={item}
                       onClick={changeEmojiHandler}
                     >
@@ -380,16 +381,26 @@ export default DrawingPost;
 
 export const StList = styled.li`
   list-style-type: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const StUnorderLi = styled.ul`
   gap: 20px;
+  list-style: none;
+  padding: 0;
 `;
 
-export const StEmoButton = styled.button`
+type EmoButtonProps = {
+  selected: boolean;
+};
+
+export const StEmoButton = styled.button<EmoButtonProps>`
   width: 55px;
   height: 55px;
-  border: 1px solid transparent;
+  border: ${(props) =>
+    props.selected ? "5px solid grey" : "5px solid transparent"};
   background-color: transparent;
   border-radius: 50%;
   display: flex;

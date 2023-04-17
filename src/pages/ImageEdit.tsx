@@ -11,10 +11,20 @@ import { useEdit } from "../features/detail/hooks/useEdit";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
 import Star from "../components/Icon/Star";
-import { StPhotoInput, StPhotoInputBox, StPhotoPreview } from "./ImagePost";
+import {
+  StDeletePhotoButton,
+  StPhotoInput,
+  StPhotoInputBox,
+  StPhotoPreview,
+  StScoreBox,
+  StSubmitBox,
+  StTextArea,
+} from "./ImagePost";
 import { usePreview } from "../features/post/hooks/usePreview";
 import { getCookie, removeCookie } from "../utils/cookies";
 import { LOGIN_PAGE } from "../data/routes/urls";
+import Flex from "../components/Flex";
+import Checkbox from "../components/Checkbox";
 
 const ImageEdit = () => {
   const params = useParams();
@@ -37,7 +47,7 @@ const ImageEdit = () => {
     }
     getDetail();
     const newClicked = clicked.map((_, index) =>
-      index < targetItem.star ? true : false
+      index < targetItem?.star ? true : false
     );
     setClicked(newClicked);
   }, [token]);
@@ -172,94 +182,107 @@ const ImageEdit = () => {
   return (
     <>
       <form onSubmit={submitFormHandler}>
-        <div>
-          {exPhoto ? (
-            <StPhotoPreview url={`${targetItem?.imgUrl}`}>
-              <button type="button" onClick={deleteExistingPhotoHandler}>
-                삭제
-              </button>
-            </StPhotoPreview>
-          ) : validPhoto ? (
-            <StPhotoPreview url={`${previewUrl}`}>
-              {validPhoto ? (
-                <button type="button" onClick={deletePhotoHandler}>
+        <Flex row>
+          <StCanvasWrapper>
+            {exPhoto ? (
+              <StPhotoPreview url={`${targetItem?.imgUrl}`}>
+                <StDeletePhotoButton
+                  type="button"
+                  onClick={deleteExistingPhotoHandler}
+                >
                   삭제
-                </button>
-              ) : null}
-            </StPhotoPreview>
-          ) : (
-            <StPhotoInputBox>
-              <label
-                ref={dragRef}
-                onDragOver={dragOverHandler}
-                onDrop={dropHandler}
-              >
-                <StPhotoInput
-                  type="file"
-                  accept="image/jpeg image/png image/jpg image/gif"
-                  onChange={changeFileHandler}
+                </StDeletePhotoButton>
+              </StPhotoPreview>
+            ) : validPhoto ? (
+              <StPhotoPreview url={`${previewUrl}`}>
+                {validPhoto ? (
+                  <button type="button" onClick={deletePhotoHandler}>
+                    삭제
+                  </button>
+                ) : null}
+              </StPhotoPreview>
+            ) : (
+              <StPhotoInputBox>
+                <label
+                  ref={dragRef}
+                  onDragOver={dragOverHandler}
+                  onDrop={dropHandler}
+                >
+                  <StPhotoInput
+                    type="file"
+                    accept="image/jpeg image/png image/jpg image/gif"
+                    onChange={changeFileHandler}
+                    required
+                  />
+                </label>
+              </StPhotoInputBox>
+            )}
+          </StCanvasWrapper>
+          <StCanvasWrapper>
+            <StScoreBox>
+              <StUnorderLi style={{ display: "flex", flexDirection: "row" }}>
+                {emoIds.map((item: number) => (
+                  <StList key={item}>
+                    <StEmoButton
+                      name="emoId"
+                      type="button"
+                      value={item}
+                      selected={inputValue.emoId === item ? true : false}
+                      onClick={clickEmojiHandler}
+                    >
+                      <EmotionIcons
+                        height="50"
+                        width="50"
+                        emotionTypes={`EMOTION_${item}`}
+                      />
+                    </StEmoButton>
+                  </StList>
+                ))}
+              </StUnorderLi>
+
+              {starArray.map((score) => (
+                <Star
+                  key={score}
+                  size="30"
+                  color={editStar[score - 1] ? "#FFDC82" : "#E5DFD3"}
+                  onClick={() => clickStarHandler(score)}
+                />
+              ))}
+              <span>{inputValue?.star === 0 ? null : inputValue?.star}</span>
+            </StScoreBox>
+            <div>
+              <label>
+                내용
+                <StTextArea
+                  name="detail"
+                  value={inputValue?.detail}
+                  cols={30}
+                  rows={10}
                   required
+                  onChange={onChangeHandler}
+                ></StTextArea>
+              </label>
+            </div>
+            <StSubmitBox>
+              <label>
+                공유여부
+                {/* <input
+                  name="share"
+                  type="checkbox"
+                  checked={inputValue.share === true}
+                  onChange={onCheckHandler}
+                /> */}
+                <Checkbox
+                  name="share"
+                  checked={inputValue?.share === true}
+                  disabled={editItem?.restrict}
+                  onChange={onCheckHandler}
                 />
               </label>
-            </StPhotoInputBox>
-          )}
-        </div>
-        <StCanvasWrapper>
-          <div>
-            <StUnorderLi style={{ display: "flex", flexDirection: "row" }}>
-              {emoIds.map((item: number) => (
-                <StList key={item}>
-                  <StEmoButton
-                    name="emoId"
-                    type="button"
-                    value={item}
-                    onClick={clickEmojiHandler}
-                  >
-                    <EmotionIcons
-                      height="50"
-                      width="50"
-                      emotionTypes={`EMOTION_${item}`}
-                    />
-                  </StEmoButton>
-                </StList>
-              ))}
-            </StUnorderLi>
-          </div>
-          <div>
-            {starArray.map((score) => (
-              <Star
-                key={score}
-                size="30"
-                color={editStar[score - 1] ? "#FFDC82" : "#E5DFD3"}
-                onClick={() => clickStarHandler(score)}
-              />
-            ))}
-            <span>{inputValue.star === 0 ? null : inputValue.star}</span>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <label>
-              공유여부
-              <input
-                name="share"
-                type="checkbox"
-                checked={inputValue.share === true}
-                onChange={onCheckHandler}
-              />
-            </label>
-            <label>
-              내용
-              <textarea
-                name="detail"
-                value={inputValue?.detail}
-                cols={30}
-                rows={10}
-                required
-                onChange={onChangeHandler}
-              ></textarea>
-            </label>
-          </div>
-        </StCanvasWrapper>
-        <button type="submit">등록하기</button>
+              <button type="submit">등록하기</button>
+            </StSubmitBox>
+          </StCanvasWrapper>
+        </Flex>
       </form>
     </>
   );
