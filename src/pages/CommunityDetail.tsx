@@ -37,7 +37,7 @@ const CommunityDetail = (): JSX.Element => {
   };
 
   useEffect(() => {
-    // scrollOnTop();
+    scrollOnTop();
     return () => {
       remove();
     };
@@ -46,8 +46,6 @@ const CommunityDetail = (): JSX.Element => {
   if (isError) {
     <>에러</>;
   }
-
-  console.log(data);
 
   return (
     <Container>

@@ -93,9 +93,10 @@ const DrawingPost = (): JSX.Element => {
       return;
     }
     const canvas: HTMLCanvasElement = canvasRef.current;
+    const rect = canvas.getBoundingClientRect(); // 캔버스의 뷰포트 상의 위치 정보를 가져옴
     return {
-      x: event.pageX - canvas.offsetLeft,
-      y: event.pageY - canvas.offsetTop,
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
     };
   };
 
@@ -212,15 +213,10 @@ const DrawingPost = (): JSX.Element => {
   const submitFormHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // setValidPicture(true);
-    // if (validPicture === false) {
-    //   alert("그리기 완료 버튼을 눌러주세요!");
-    // }
     if (validEmoji === false || validStar === false) {
       alert("글 내용을 모두 입력해주세요.");
     }
     if (validEmoji && validStar) {
-      // await savePictureHandler();
       submitDiaryHandler(event);
     }
   };
@@ -430,9 +426,9 @@ export const StCanvas = styled.canvas`
   /* width: 40vw; */
   /* height: 70vh; */
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
   /* background-size: 100% 100%; */
 `;
 
@@ -456,8 +452,8 @@ export const StToolList = styled.li`
 export const StPenSizeTool = styled.div`
   /* border: 1px solid; */
   position: absolute;
-  top: -12vh;
-  right: -0.3vw;
+  top: -16vh;
+  right: -0.5vw;
   display: flex;
   justify-content: center;
   align-items: center;

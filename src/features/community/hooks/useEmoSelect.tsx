@@ -19,7 +19,7 @@ const useEmoSelect = () => {
   if (!emoNum) {
     setEmoNum("1,2,3,4,5,6");
   }
-  return { clickEmojiHandler, emoNum };
+  return { clickEmojiHandler, emoNum, emoSelect };
 };
 
 export default useEmoSelect;

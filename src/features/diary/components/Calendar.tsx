@@ -62,7 +62,7 @@ const Calendar = (): JSX.Element => {
     setSelect({ year: today.year, month: today.month });
   };
 
-  const { data } = useQuery({
+  const { data, isError } = useQuery({
     queryKey: [keys.GET_DIARY, select.year, select.month],
     queryFn: async () => {
       const data = await user.get("/daily", {
@@ -71,6 +71,10 @@ const Calendar = (): JSX.Element => {
       return data.data.data;
     },
   });
+
+  if (isError) {
+    return <>에러..</>;
+  }
 
   return (
     <Container>

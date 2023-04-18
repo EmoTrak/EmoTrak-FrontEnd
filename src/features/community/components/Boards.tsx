@@ -12,7 +12,7 @@ import EmotionIcons from "../../../components/Icon/EmoticonIcons";
 
 const Boards = (): JSX.Element => {
   const navigate = useNavigate();
-  const { clickEmojiHandler, emoNum } = useEmoSelect();
+  const { clickEmojiHandler, emoNum, emoSelect } = useEmoSelect();
   const [listOpen, setListOpen] = useState<boolean>(false);
   const [postData, setPostData] = useState<ImageType[]>([]);
   const [select, setSelect] = useState<SelectType>({
@@ -32,8 +32,29 @@ const Boards = (): JSX.Element => {
     const { scrollTop, offsetHeight } = document.documentElement;
     if (hasNextPage && window.innerHeight + scrollTop + 1 >= offsetHeight) {
       fetchNextPage({ cancelRefetch: false });
+      saveScrollPosition();
     }
+    saveScrollPosition();
   };
+
+  function saveScrollPosition() {
+    if (document.scrollingElement) {
+      sessionStorage.setItem(
+        "scrollPosition",
+        document.documentElement.scrollTop.toString()
+      );
+    }
+  }
+
+  function restoreScrollPosition() {
+    const scrollPosition = sessionStorage.getItem("scrollPosition");
+    if (scrollPosition) {
+      setTimeout(() => {
+        window.scrollTo(0, Number(scrollPosition));
+      }, 50);
+      sessionStorage.removeItem("scrollPosition");
+    }
+  }
 
   useEffect(() => {
     if (data) {
@@ -47,6 +68,7 @@ const Boards = (): JSX.Element => {
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
+    restoreScrollPosition();
     return () => {
       window.removeEventListener("scroll", onScroll);
     };
@@ -65,9 +87,7 @@ const Boards = (): JSX.Element => {
   return (
     <Container>
       <SelectBar>
-        <SelectTitle
-          onClick={(): void => setListOpen((pre: boolean): boolean => !pre)}
-        >
+        <SelectTitle onClick={(): void => setListOpen((pre: boolean): boolean => !pre)}>
           {select.sort === "recent" ? "최신순" : "인기순"}
           <BsCaretDownFill />
           {listOpen && (
@@ -90,6 +110,7 @@ const Boards = (): JSX.Element => {
                 clickEmojiHandler(i);
                 setPostData([]);
               }}
+              isClick={emoSelect[i]}
             >
               <EmotionIcons
                 height="100%"
@@ -102,10 +123,7 @@ const Boards = (): JSX.Element => {
       </SelectBar>
       <ImageContainer>
         {postData.map((item: ImageType, i: number) => (
-          <ImageBox
-            key={i}
-            onClick={() => navigate(`${COMMUNITY_PAGE}/${item.id}`)}
-          >
+          <ImageBox key={i} onClick={() => navigate(`${COMMUNITY_PAGE}/${item.id}`)}>
             <Image src={item.imgUrl} />
           </ImageBox>
         ))}
@@ -123,7 +141,7 @@ const Container = styled.div`
 
 const SelectBar = styled.div`
   height: 70px;
-  background-color: #E5DFD3;
+  background-color: #e5dfd3;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -133,16 +151,16 @@ const SelectBar = styled.div`
 const ButtonBox = styled.div`
   margin-left: 30px;
 `;
-const StEmoButton = styled.button`
+const StEmoButton = styled.button<{ isClick: boolean }>`
   width: 45px;
   height: 45px;
   border: 0;
-  background-color: transparent;
+  background-color: ${(props) => (props.isClick ? "#D0BD95" : "transparent")};
   margin-left: 15px;
   border-radius: 50%;
   cursor: pointer;
   &:hover {
-    background-color: #d1d0d0;
+    background-color: ${(props) => (props.isClick ? "#D0BD95" : "#d1d0d0")};
   }
 `;
 
@@ -187,13 +205,14 @@ const ImageContainer = styled.div`
   height: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 50px;
+  grid-gap: 40px;
 `;
 
 const Image = styled.img`
   background-repeat: no-repeat;
+  /* width: calc(100% / 4); */
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
 `;
 
 const ImageBox = styled.div`
@@ -202,7 +221,7 @@ const ImageBox = styled.div`
   align-items: center;
   overflow: hidden;
   cursor: pointer;
-  
+
   /* &:nth-child(1),
   &:nth-child(4),
   &:nth-child(9),
@@ -219,7 +238,7 @@ const ImageBox = styled.div`
     grid-column: span 2;
     grid-row: span 2;
   } */
-`; 
+`;
 
 const ScrollOntop = styled.button`
   position: fixed;
