@@ -92,12 +92,12 @@ const Detail = (): JSX.Element => {
 
   return (
     <div>
-      <BackWrap>
-        <button onClick={() => navigate(-1)}>
-          <AiOutlineLeft />
-        </button>
-      </BackWrap>
       <Flex row>
+        <BackWrap>
+          <button onClick={() => navigate(-1)}>
+            <AiOutlineLeft fontSize="40px" />
+          </button>
+        </BackWrap>
         <StCanvasWrapper>
           <CanvasWrap>
             {targetItem?.imgUrl ? (
@@ -112,7 +112,7 @@ const Detail = (): JSX.Element => {
           </CanvasWrap>
         </StCanvasWrapper>
         <StCanvasWrapper>
-          <Wrapper>
+          <Wrapper style={{ backgroundColor: "white" }}>
             <Flex>
               <EmoMoveBtn>
                 {contents?.length < 2 || dailyId <= otherItem?.id ? (
@@ -177,9 +177,7 @@ const Detail = (): JSX.Element => {
                 </Flex>
               </div>
               <DetailText>
-                <DetailWrapper>
-                  {targetItem?.detail}
-                </DetailWrapper>
+                <DetailWrapper>{targetItem?.detail}</DetailWrapper>
               </DetailText>
               <DetailBtnWrap>
                 <div>
@@ -207,29 +205,46 @@ const DetailText = styled.div`
   display: flex;
   justify-content: center;
   text-decoration: underline;
-  text-underline-position:under;
-  text-decoration-color: #AE9898;
+  text-underline-position: under;
+  text-decoration-color: #ae9898;
   height: 50vh;
 `;
 
 const BackWrap = styled.div`
-  display: flex;
-  justify-content: space-between;
+  height: 10vh;
   margin-left: 50px;
+  button {
+    height: 10vh;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
 `;
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
 `;
+
 const DetailWrapper = styled.div`
   background-size: cover;
   display: flex;
   overflow: scroll;
+  overflow-x: hidden;
+  ::-webkit-scrollbar {
+    /* 스크롤이 움직이는 영역  */
+    background-color: #fff;
+  }
+  ::-webkit-scrollbar-thumb {
+    /*  스크롤  */
+    background-color: #F4F2EE;
+    border-radius: 30px;
+  }
   background-color: #fff;
   padding: 10px;
   width: 90%;
   font-size: 25px;
 `;
+
 const CanvasWrap = styled.div`
   display: flex;
   justify-content: center;
@@ -248,7 +263,7 @@ const StDetailImage = styled.img`
 
 const StDetailImageBox = styled.div`
   width: 50vw;
-  height: 50vh;
+  height: 80vh;
   display: flex;
   justify-content: center;
   align-items: center;

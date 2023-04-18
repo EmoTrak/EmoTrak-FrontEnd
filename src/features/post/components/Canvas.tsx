@@ -178,7 +178,7 @@ Canvas.defaultProps = {
 export default Canvas;
 
 export const StCanvasWrapper = styled.div`
-  width: 50%;
+  width: 45vw;
   height: 80vh;
   /* border: 1px solid; */
   display: flex;
