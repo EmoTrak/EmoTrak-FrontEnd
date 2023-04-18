@@ -19,6 +19,7 @@ import AdminComment from "../features/admin/components/AdminComment";
 import AdminPost from "../features/admin/components/AdminPost";
 import RedirectNaver from "../pages/RedirectNaver";
 import GlobalStyle from "../components/GlobalStyle";
+import RedirectGoogle from "../pages/RedirectGoogle";
 
 const Router = () => {
   return (
@@ -40,6 +41,7 @@ const Router = () => {
           <Route path="/members" element={<Members />} />
           <Route path="/oauth/kakao" element={<RedirectKakao />} />
           <Route path="/oauth/naver" element={<RedirectNaver />} />
+          <Route path="/oauth/google" element={<RedirectGoogle />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/adminpost" element={<AdminPost />} />
           <Route path="/admincomment" element={<AdminComment />} />
