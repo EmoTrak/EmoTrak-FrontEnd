@@ -32,8 +32,11 @@ const ListWrapper = styled.div`
 `;
 
 const ListTitle = styled.div`
-  width: 10vw;
+  width: 7vw;
   font-size: 18px;
+  display: flex;
+  justify-content: center;
+  font-weight: 800;
 `;
 
 const ListContent = styled.div`
@@ -42,7 +45,7 @@ const ListContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
   gap: 1vw;
 `;
 

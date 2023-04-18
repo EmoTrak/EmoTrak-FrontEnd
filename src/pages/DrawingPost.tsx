@@ -463,8 +463,9 @@ export const StPenSizeTool = styled.div`
   align-items: center;
 `;
 
-interface IconProps {
-  url: string;
+export interface IconProps {
+  url?: string;
+  size?: number;
 }
 
 export const StPenButton = styled.button<IconProps>`
