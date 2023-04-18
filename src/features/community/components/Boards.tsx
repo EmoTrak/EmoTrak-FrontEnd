@@ -118,7 +118,7 @@ const Boards = (): JSX.Element => {
 };
 
 const Container = styled.div`
-  padding: 10px;
+  padding: 50px;
 `;
 
 const SelectBar = styled.div`
@@ -181,13 +181,13 @@ const SortListBtn = styled.button`
   }
 `;
 const ImageContainer = styled.div`
-  padding: 10px;
+  margin-top: 10px;
   z-index: 1;
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 50px;
 `;
 
 const Image = styled.img`
@@ -203,7 +203,7 @@ const ImageBox = styled.div`
   overflow: hidden;
   cursor: pointer;
   
-  &:nth-child(1),
+  /* &:nth-child(1),
   &:nth-child(4),
   &:nth-child(9),
   &:nth-child(15n + 4) {
@@ -218,7 +218,7 @@ const ImageBox = styled.div`
   &:nth-child(30n + 1) {
     grid-column: span 2;
     grid-row: span 2;
-  }
+  } */
 `; 
 
 const ScrollOntop = styled.button`
