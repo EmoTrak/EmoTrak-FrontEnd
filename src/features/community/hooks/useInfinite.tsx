@@ -16,7 +16,7 @@ const useInfinite = (select: SelectType) => {
         return nextPage;
       }
     },
-    staleTime: 50000,
+    refetchOnMount: false,
     keepPreviousData: true,
   });
 

@@ -44,10 +44,10 @@ export interface ChildrenType {
   children: React.ReactNode;
 }
 
-export interface BooleanType {
+export type BooleanType = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
+};
 
 export type ModalState = BooleanType[];
 

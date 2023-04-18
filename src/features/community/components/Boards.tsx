@@ -12,7 +12,7 @@ import EmotionIcons from "../../../components/Icon/EmoticonIcons";
 
 const Boards = (): JSX.Element => {
   const navigate = useNavigate();
-  const { clickEmojiHandler, emoNum } = useEmoSelect();
+  const { clickEmojiHandler, emoNum, emoSelect } = useEmoSelect();
   const [listOpen, setListOpen] = useState<boolean>(false);
   const [postData, setPostData] = useState<ImageType[]>([]);
   const [select, setSelect] = useState<SelectType>({
@@ -39,13 +39,15 @@ const Boards = (): JSX.Element => {
 
   function saveScrollPosition() {
     if (document.scrollingElement) {
-      sessionStorage.setItem("scrollPosition", window.scrollY.toString());
+      sessionStorage.setItem(
+        "scrollPosition",
+        document.documentElement.scrollTop.toString()
+      );
     }
   }
 
   function restoreScrollPosition() {
     const scrollPosition = sessionStorage.getItem("scrollPosition");
-    console.log("scroll", scrollPosition);
     if (scrollPosition) {
       setTimeout(() => {
         window.scrollTo(0, Number(scrollPosition));
@@ -108,6 +110,7 @@ const Boards = (): JSX.Element => {
                 clickEmojiHandler(i);
                 setPostData([]);
               }}
+              isClick={emoSelect[i]}
             >
               <EmotionIcons
                 height="100%"
@@ -148,16 +151,16 @@ const SelectBar = styled.div`
 const ButtonBox = styled.div`
   margin-left: 30px;
 `;
-const StEmoButton = styled.button`
+const StEmoButton = styled.button<{ isClick: boolean }>`
   width: 45px;
   height: 45px;
   border: 0;
-  background-color: transparent;
+  background-color: ${(props) => (props.isClick ? "#D0BD95" : "transparent")};
   margin-left: 15px;
   border-radius: 50%;
   cursor: pointer;
   &:hover {
-    background-color: #d1d0d0;
+    background-color: ${(props) => (props.isClick ? "#D0BD95" : "#d1d0d0")};
   }
 `;
 
@@ -202,13 +205,14 @@ const ImageContainer = styled.div`
   height: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 50px;
+  grid-gap: 40px;
 `;
 
 const Image = styled.img`
   background-repeat: no-repeat;
+  /* width: calc(100% / 4); */
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
 `;
 
 const ImageBox = styled.div`
