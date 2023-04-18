@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import guest from "../lib/api/guest";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie, setCookie } from "../utils/cookies";
+import { keys } from "../data/queryKeys/keys";
 
 const RedirectNaver = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const RedirectNaver = () => {
     return await guest.get(`/naver/callback?code=${code}&state=${state}`);
   }, []);
 
-  const authNaverCode = useQuery([], getNaverLogin, {
+  const authNaverCode = useQuery([`${keys.GET_NAVER_LOGIN}`], getNaverLogin, {
     retry: 1,
     onSuccess(data) {
       const info = data.headers.authorization.split(" ");

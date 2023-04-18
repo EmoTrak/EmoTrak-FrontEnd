@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import {
+  GOOGLE_AUTH_URL,
   KAKAO_AUTH_URL,
   NAVER_AUTH_URL,
   SIGN_UP_PAGE,
@@ -87,7 +88,7 @@ const LoginForm = () => {
             size={2.7}
             type="button"
             onClick={() => {
-              // window.location.href = NAVER_AUTH_URL;
+              window.location.href = GOOGLE_AUTH_URL;
             }}
           ></SocialLoginButton>
           구글로 로그인하기
