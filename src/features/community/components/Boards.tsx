@@ -65,7 +65,9 @@ const Boards = (): JSX.Element => {
   return (
     <Container>
       <SelectBar>
-        <SelectTitle onClick={(): void => setListOpen((pre: boolean): boolean => !pre)}>
+        <SelectTitle
+          onClick={(): void => setListOpen((pre: boolean): boolean => !pre)}
+        >
           {select.sort === "recent" ? "최신순" : "인기순"}
           <BsCaretDownFill />
           {listOpen && (
@@ -100,7 +102,10 @@ const Boards = (): JSX.Element => {
       </SelectBar>
       <ImageContainer>
         {postData.map((item: ImageType, i: number) => (
-          <ImageBox key={i} onClick={() => navigate(`${COMMUNITY_PAGE}/${item.id}`)}>
+          <ImageBox
+            key={i}
+            onClick={() => navigate(`${COMMUNITY_PAGE}/${item.id}`)}
+          >
             <Image src={item.imgUrl} />
           </ImageBox>
         ))}
@@ -113,13 +118,12 @@ const Boards = (): JSX.Element => {
 };
 
 const Container = styled.div`
-  /* height: 1000px; */
-  /* overflow: scroll; */
-  border: 1px solid;
+  padding: 10px;
 `;
 
 const SelectBar = styled.div`
   height: 70px;
+  background-color: #E5DFD3;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -140,14 +144,6 @@ const StEmoButton = styled.button`
   &:hover {
     background-color: #d1d0d0;
   }
-`;
-
-const ImageContainer = styled.div`
-  border: 1px solid;
-  display: grid;
-  z-index: 1;
-  gap: 10px;
-  grid-template-columns: 1fr 1fr;
 `;
 
 const SelectTitle = styled.div`
@@ -184,23 +180,46 @@ const SortListBtn = styled.button`
     background-color: lightgray;
   }
 `;
+const ImageContainer = styled.div`
+  padding: 10px;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 10px;
+`;
 
 const Image = styled.img`
   background-repeat: no-repeat;
   width: 100%;
-  height: auto;
-  border: 1px solid;
+  height: 100%;
 `;
 
 const ImageBox = styled.div`
-  width: 200px;
-  height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   cursor: pointer;
-`;
+  
+  &:nth-child(1),
+  &:nth-child(4),
+  &:nth-child(9),
+  &:nth-child(15n + 4) {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  
+  &:nth-child(20n + 1) {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  &:nth-child(30n + 1) {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+`; 
 
 const ScrollOntop = styled.button`
   position: fixed;
@@ -208,9 +227,9 @@ const ScrollOntop = styled.button`
   right: 10%;
   background-color: white;
   border-radius: 50%;
+  border: 0.5px solid;
   width: 30px;
   height: 30px;
-  border: 0.5px solid;
   font-size: 20px;
   display: flex;
   align-items: center;
