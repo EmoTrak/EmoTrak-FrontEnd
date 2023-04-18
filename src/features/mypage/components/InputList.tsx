@@ -27,7 +27,7 @@ const ListWrapper = styled.div`
   display: flex;
   padding: 2rem 0px;
   border-bottom: 1px solid rgb(220, 219, 228);
-  margin: 1vw;
+  margin: 5px;
   position: relative;
 `;
 
@@ -46,7 +46,7 @@ const ListContent = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 1vw;
+  gap: 0.5vw;
 `;
 
 export default InputList;

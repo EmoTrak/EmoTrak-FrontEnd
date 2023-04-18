@@ -10,6 +10,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_PAGE, SIGN_UP_PAGE } from "../../../data/routes/urls";
 import { getCookie } from "../../../utils/cookies";
+import InputList from "../../mypage/components/InputList";
+import { MyPageInput } from "../../../pages/Mypage";
 
 const SignupForm = () => {
   const navigate = useNavigate();
@@ -120,91 +122,107 @@ const SignupForm = () => {
     <StFormWrapper>
       <form onSubmit={submitInfoHandler}>
         <Flex jc="center" ai="center">
-          <label>
-            이메일
-            <input
-              type="text"
-              name="email"
-              value={signInfo.email}
-              maxLength={25}
-              onChange={(e) => changeInputHandler(e)}
-            />
-            <button
-              type="button"
-              onClick={() => checkEmailHandler(signInfo.email)}
-              disabled={emailValidation}
-            >
-              중복확인
-            </button>
-            {signInfo.email ? (
-              emailValidation ? (
-                <span>사용할 수 있는 아이디입니다.</span>
-              ) : (
-                <StWarningMessage>중복확인이 필요합니다.</StWarningMessage>
-              )
-            ) : (
-              <StWarningMessage>이메일 형식으로 입력해주세요.</StWarningMessage>
-            )}
-          </label>
-          <label>
-            닉네임
-            <input
-              type="text"
-              name="nickname"
-              value={signInfo.nickname}
-              maxLength={8}
-              onChange={(e) => changeInputHandler(e)}
-            />
-            <button
-              type="button"
-              onClick={() => checkNicknameHandler(signInfo.nickname)}
-              disabled={nicknameValidation}
-            >
-              중복확인
-            </button>
-            {signInfo.nickname ? (
-              nicknameValidation ? (
-                <span>사용할 수 있는 닉네임입니다.</span>
-              ) : (
-                <StWarningMessage>중복확인이 필요합니다.</StWarningMessage>
-              )
-            ) : (
-              <span></span>
-            )}
-          </label>
-          <label>
-            비밀번호
-            <input
-              type="password"
-              name="password"
-              value={signInfo.password}
-              maxLength={15}
-              onChange={(e) => changeInputHandler(e)}
-            />
-            {7 < Number(signInfo.password.length) ? null : (
-              <StWarningMessage>
-                비밀번호는 영소문자, 숫자를 포함하는 8~15자리이어야합니다.
-              </StWarningMessage>
-            )}
-          </label>
-          <label>
-            비밀번호 확인
-            <input
-              type="password"
-              value={checkPassword}
-              maxLength={15}
-              onChange={(e) => checkPasswordChangeHandler(e)}
-            />
-            {checkPassword ? (
-              checkPasswordHandler(checkPassword) ? (
-                <span>비밀번호가 일치합니다.</span>
-              ) : (
-                <StWarningMessage>
-                  비밀번호가 일치하지 않습니다.
-                </StWarningMessage>
-              )
-            ) : null}
-          </label>
+          <InputList name="이메일" important>
+            <label>
+              <SignFormContentBox>
+                <MyPageInput
+                  type="text"
+                  name="email"
+                  value={signInfo.email}
+                  maxLength={25}
+                  onChange={(e) => changeInputHandler(e)}
+                />
+                <button
+                  type="button"
+                  onClick={() => checkEmailHandler(signInfo.email)}
+                  disabled={emailValidation}
+                >
+                  중복확인
+                </button>
+                {signInfo.email ? (
+                  emailValidation ? (
+                    <span>사용할 수 있는 아이디입니다.</span>
+                  ) : (
+                    <StWarningMessage>중복확인이 필요합니다.</StWarningMessage>
+                  )
+                ) : (
+                  <StWarningMessage>
+                    이메일 형식으로 입력해주세요.
+                  </StWarningMessage>
+                )}
+              </SignFormContentBox>
+            </label>
+          </InputList>
+          <InputList name="닉네임" important>
+            <label>
+              <SignFormContentBox>
+                <MyPageInput
+                  type="text"
+                  name="nickname"
+                  value={signInfo.nickname}
+                  maxLength={8}
+                  onChange={(e) => changeInputHandler(e)}
+                />
+                <button
+                  type="button"
+                  onClick={() => checkNicknameHandler(signInfo.nickname)}
+                  disabled={nicknameValidation}
+                >
+                  중복확인
+                </button>
+                {signInfo.nickname ? (
+                  nicknameValidation ? (
+                    <span>사용할 수 있는 닉네임입니다.</span>
+                  ) : (
+                    <StWarningMessage>중복확인이 필요합니다.</StWarningMessage>
+                  )
+                ) : (
+                  <span></span>
+                )}
+              </SignFormContentBox>
+            </label>
+          </InputList>
+          <InputList name="비밀번호" important>
+            <label>
+              <SignFormContentBox>
+                <MyPageInput
+                  type="password"
+                  name="password"
+                  value={signInfo.password}
+                  maxLength={15}
+                  onChange={(e) => changeInputHandler(e)}
+                />
+                {7 < Number(signInfo.password.length) ? null : (
+                  <StWarningMessage>
+                    영소문자, 숫자를 포함하는 8~15자리이어야합니다.
+                  </StWarningMessage>
+                )}
+              </SignFormContentBox>
+            </label>
+          </InputList>
+          <InputList name="비밀번호 확인">
+            <label>
+              <SignFormContentBox>
+                <MyPageInput
+                  type="password"
+                  value={checkPassword}
+                  maxLength={15}
+                  onChange={(e) => checkPasswordChangeHandler(e)}
+                />
+                {checkPassword ? (
+                  checkPasswordHandler(checkPassword) ? (
+                    <span>비밀번호가 일치합니다.</span>
+                  ) : (
+                    <StWarningMessage>
+                      비밀번호가 일치하지 않습니다.
+                    </StWarningMessage>
+                  )
+                ) : (
+                  <span>비밀번호를 다시 입력해주세요.</span>
+                )}
+              </SignFormContentBox>
+            </label>
+          </InputList>
           <button type="submit">가입하기</button>
         </Flex>
       </form>
@@ -216,4 +234,12 @@ export default SignupForm;
 
 const StWarningMessage = styled.span`
   color: red;
+`;
+
+const SignFormContentBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1vh;
 `;
