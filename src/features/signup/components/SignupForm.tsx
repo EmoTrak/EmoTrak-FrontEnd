@@ -5,13 +5,14 @@ import { useEmailValidation } from "../hooks/useEmailValidation";
 import { useNicknameValidation } from "../hooks/useNicknameValidation";
 import { usePasswordCheck } from "../hooks/usePasswordCheck";
 import { useSignup } from "../hooks/useSignup";
-import { StFormWrapper } from "../../login/components/LoginForm";
+import { FormTitle, StFormWrapper } from "../../login/components/LoginForm";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_PAGE, SIGN_UP_PAGE } from "../../../data/routes/urls";
 import { getCookie } from "../../../utils/cookies";
 import InputList from "../../mypage/components/InputList";
 import { MyPageInput } from "../../../pages/Mypage";
+import SignupTitle from "../../../assets/Texts/Signup.svg";
 
 const SignupForm = () => {
   const navigate = useNavigate();
@@ -121,7 +122,8 @@ const SignupForm = () => {
   return (
     <StFormWrapper>
       <form onSubmit={submitInfoHandler}>
-        <Flex jc="center" ai="center">
+        <Flex>
+          <FormTitle url={SignupTitle} size={6} />
           <InputList name="이메일" important>
             <label>
               <SignFormContentBox>

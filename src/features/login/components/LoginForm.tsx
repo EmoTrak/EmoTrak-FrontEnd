@@ -101,13 +101,15 @@ const LoginForm = () => {
 export default LoginForm;
 
 export const StFormWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 80vh;
+  height: 82vh;
   /* border: 1px solid; */
   justify-content: center;
   align-items: center;
+  overflow: visible;
 `;
 
 export const SocialLoginButton = styled.button<IconProps>`
@@ -151,5 +153,5 @@ export const FormTitle = styled.div<IconProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 2vh 6vh;
+  margin: 0.5vh 6vh;
 `;
