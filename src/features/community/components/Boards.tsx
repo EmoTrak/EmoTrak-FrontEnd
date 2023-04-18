@@ -32,8 +32,27 @@ const Boards = (): JSX.Element => {
     const { scrollTop, offsetHeight } = document.documentElement;
     if (hasNextPage && window.innerHeight + scrollTop + 1 >= offsetHeight) {
       fetchNextPage({ cancelRefetch: false });
+      saveScrollPosition();
     }
+    saveScrollPosition();
   };
+
+  function saveScrollPosition() {
+    if (document.scrollingElement) {
+      sessionStorage.setItem("scrollPosition", window.scrollY.toString());
+    }
+  }
+
+  function restoreScrollPosition() {
+    const scrollPosition = sessionStorage.getItem("scrollPosition");
+    console.log("scroll", scrollPosition);
+    if (scrollPosition) {
+      setTimeout(() => {
+        window.scrollTo(0, Number(scrollPosition));
+      }, 50);
+      sessionStorage.removeItem("scrollPosition");
+    }
+  }
 
   useEffect(() => {
     if (data) {
@@ -47,6 +66,7 @@ const Boards = (): JSX.Element => {
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
+    restoreScrollPosition();
     return () => {
       window.removeEventListener("scroll", onScroll);
     };
@@ -65,9 +85,7 @@ const Boards = (): JSX.Element => {
   return (
     <Container>
       <SelectBar>
-        <SelectTitle
-          onClick={(): void => setListOpen((pre: boolean): boolean => !pre)}
-        >
+        <SelectTitle onClick={(): void => setListOpen((pre: boolean): boolean => !pre)}>
           {select.sort === "recent" ? "최신순" : "인기순"}
           <BsCaretDownFill />
           {listOpen && (
@@ -102,10 +120,7 @@ const Boards = (): JSX.Element => {
       </SelectBar>
       <ImageContainer>
         {postData.map((item: ImageType, i: number) => (
-          <ImageBox
-            key={i}
-            onClick={() => navigate(`${COMMUNITY_PAGE}/${item.id}`)}
-          >
+          <ImageBox key={i} onClick={() => navigate(`${COMMUNITY_PAGE}/${item.id}`)}>
             <Image src={item.imgUrl} />
           </ImageBox>
         ))}
@@ -123,7 +138,7 @@ const Container = styled.div`
 
 const SelectBar = styled.div`
   height: 70px;
-  background-color: #E5DFD3;
+  background-color: #e5dfd3;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -202,7 +217,7 @@ const ImageBox = styled.div`
   align-items: center;
   overflow: hidden;
   cursor: pointer;
-  
+
   /* &:nth-child(1),
   &:nth-child(4),
   &:nth-child(9),
@@ -219,7 +234,7 @@ const ImageBox = styled.div`
     grid-column: span 2;
     grid-row: span 2;
   } */
-`; 
+`;
 
 const ScrollOntop = styled.button`
   position: fixed;
