@@ -53,14 +53,14 @@ const MiniCalendar = ({ year, month }: date) => {
 };
 
 const CalendarBox = styled.div`
-  width: 15vw;
-  margin: 15px 15px 100px;
+  width: 200px;
+  margin: 50px 0 0 3vw;
 `;
 
 const DiaryDay = styled.div`
   display: flex;
   flex-wrap: wrap;
-  height: 10vw;
+  height: 150px;
 `;
 
 const Day = styled.button`

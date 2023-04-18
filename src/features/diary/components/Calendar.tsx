@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-
+import { useState } from "react";
 import styled from "styled-components";
 import Sidebar from "./Sidebar";
 import Flex from "../../../components/Flex";
@@ -10,6 +9,8 @@ import { date } from "../../../data/type/d1";
 import CalendarEmo from "./CalendarEmo";
 import MiniCalendar from "./MiniCalendar";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import MonthSelect from "./MonthSelect";
+import { MdOutlineArrowDropDownCircle } from "react-icons/md";
 
 const Calendar = (): JSX.Element => {
   const [side, setSide] = useState(false);
@@ -78,60 +79,114 @@ const Calendar = (): JSX.Element => {
 
   return (
     <Container>
-      <Flex jc="center" ai="center">
+      <Flex ai="center">
         <MiniCalendar year={select.year} month={select.month - 1} />
         <MiniCalendar year={select.year} month={select.month + 1} />
       </Flex>
       <CalendarBox>
         <CalendarWrap>
-          <NowMonth onClick={thisMonth}>이번달</NowMonth>
+          <NowDay>
+            <span>
+              {select.year}년 {select.month}월
+            </span>
+            <p />
+            <MonthSelect select={select} setSelect={setSelect}>
+              <SelectBtn>
+                <MdOutlineArrowDropDownCircle />
+              </SelectBtn>
+            </MonthSelect>
+          </NowDay>
+
           <CalendarBtn>
             <button onClick={prevMonth}>
               <AiOutlineLeft />
             </button>
-            <h2>
-              {select.year}년 {select.month}월
-            </h2>
+            <Now onClick={thisMonth}>오늘</Now>
             <button onClick={nextMonth}>
               <AiOutlineRight />
             </button>
           </CalendarBtn>
         </CalendarWrap>
         <TotalWeek>
-          <Day>일</Day>
-          <Day>월</Day>
-          <Day>화</Day>
-          <Day>수</Day>
-          <Day>목</Day>
-          <Day>금</Day>
-          <Day>토</Day>
+          <Weeks style={{ color: "red" }}>SUN</Weeks>
+          <Weeks>MON</Weeks>
+          <Weeks>TUE</Weeks>
+          <Weeks>WED</Weeks>
+          <Weeks>THU</Weeks>
+          <Weeks>FRI</Weeks>
+          <Weeks>SAT</Weeks>
         </TotalWeek>
         <DiaryDay>
           {new Array(firstDay).fill(null).map((e, i) => (
             <Day key={i}></Day>
           ))}
-          {date.map((item) =>
-            item.year < today.year ? (
-              <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
-                {item.date}
-                <CalendarEmo data={data} item={item} today={today} />
-              </Day>
-            ) : item.year === today.year && item.month < today.month ? (
-              <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
-                {item.date}
-                <CalendarEmo data={data} item={item} today={today} />
-              </Day>
-            ) : item.year === today.year &&
+          {date.map((item) => {
+            // 전년도일때
+            if (item.year < today.year && item.day === 0) {
+              return (
+                <Sunday key={item.date}>
+                  {item.date}
+                  <CalendarEmo data={data} item={item} today={today} />
+                </Sunday>
+              );
+            } else if (item.year < today.year) {
+              return (
+                <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                  {item.date}
+                  <CalendarEmo data={data} item={item} today={today} />
+                </Day>
+              );
+            }
+            // 올해 && 이전달일때
+            else if (
+              item.year === today.year &&
+              item.month < today.month &&
+              item.day === 0
+            ) {
+              return (
+                <Sunday key={item.date}>
+                  {item.date}
+                  <CalendarEmo data={data} item={item} today={today} />
+                </Sunday>
+              );
+            } else if (item.year === today.year && item.month < today.month) {
+              return (
+                <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                  {item.date}
+                  <CalendarEmo data={data} item={item} today={today} />
+                </Day>
+              );
+            }
+            // 이번달 오늘까지
+            else if (
+              item.year === today.year &&
               item.month === today.month &&
-              Number(item.date) <= Number(today.date) ? (
-              <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
-                {item.date}
-                <CalendarEmo data={data} item={item} today={today} />
-              </Day>
-            ) : (
-              <Day key={item.date}>{item.date}</Day>
-            )
-          )}
+              Number(item.date) <= Number(today.date) &&
+              item.day === 0
+            ) {
+              return (
+                <Sunday key={item.date}>
+                  {item.date}
+                  <CalendarEmo data={data} item={item} today={today} />
+                </Sunday>
+              );
+            } else if (
+              item.year === today.year &&
+              item.month === today.month &&
+              Number(item.date) <= Number(today.date)
+            ) {
+              return (
+                <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                  {item.date}
+                  <CalendarEmo data={data} item={item} today={today} />
+                </Day>
+              );
+            } else if (item.day === 0) {
+              return <Sunday key={item.date}>{item.date}</Sunday>;
+            } else {
+              return <Day key={item.date}>{item.date}</Day>;
+            }
+          })}
         </DiaryDay>
       </CalendarBox>
 
@@ -156,29 +211,58 @@ const CalendarWrap = styled.div`
 const CalendarBtn = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+  margin-bottom: 10px;
   button {
     background-color: transparent;
     border: none;
     cursor: pointer;
-    width: 2vw;
-    height: 5vh;
+    color: #808080;
   }
 `;
 const Container = styled.div`
   display: flex;
   background-color: #fff;
 `;
-const NowMonth = styled.div`
-  margin-top: 10px;
+
+const NowDay = styled.div`
+  margin: 15px;
+  display: flex;
+  justify-content: center;
+  span {
+    font-size: 25px;
+    position: relative;
+    z-index: 3;
+  }
+  p {
+    background-color: #feec96;
+    border-radius: 10px;
+    width: 130px;
+    height: 16px;
+    position: absolute;
+    top: 13px;
+    z-index: 2;
+  }
+`;
+
+const SelectBtn = styled.button`
+  position: absolute;
+  top: 20px;
+  border: 0;
+  background-color: transparent;
+  font-size: 20px;
+  color: #d0bd95;
+`;
+
+const Now = styled.div`
   border-radius: 10px;
   background-color: #e5dfd3;
   display: flex;
   justify-content: center;
   align-items: center;
   border: none;
-  width: 5vw;
-  height: 3vh;
+  width: 50px;
+  height: 25px;
+  margin: 0 10px 5px;
   cursor: pointer;
 `;
 const CalendarBox = styled.div`
@@ -195,9 +279,20 @@ const DiaryDay = styled.div`
 const TotalWeek = styled.div`
   min-width: calc(100% / 7);
   display: flex;
-  justify-content: center;
 `;
 
+const Weeks = styled.div`
+  min-width: calc(100% / 7);
+  display: flex;
+  justify-content: center;
+  border: 0;
+  font-size: 15px;
+  box-sizing: border-box;
+  background-color: transparent;
+  position: relative;
+  font-family: "KyoboHand";
+  cursor: pointer;
+`;
 const Day = styled.button`
   min-width: calc(100% / 7);
   display: flex;
@@ -210,8 +305,21 @@ const Day = styled.button`
   cursor: pointer;
 `;
 
+const Sunday = styled.button`
+  min-width: calc(100% / 7);
+  border: 0;
+  display: flex;
+  font-size: 18px;
+  box-sizing: border-box;
+  background-color: transparent;
+  position: relative;
+  font-family: "KyoboHand";
+  cursor: pointer;
+  color: red;
+`;
+
 const SideImg = styled.div`
-  width: 27vw;
+  width: 21vw;
   height: 100vh;
 `;
 

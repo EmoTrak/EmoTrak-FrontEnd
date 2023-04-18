@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import {
   ModalBackground,
   ModalClose,
@@ -12,20 +12,20 @@ import { useNavigate } from "react-router-dom";
 import { DRAW_POST_PAGE, IMAGE_POST_PAGE } from "../../../data/routes/urls";
 import { IoMdClose } from "react-icons/io";
 
-const ClickModalPost = ({ children, diaryDay }: PropsType) => {
+const ClickModalPost = ({ children, diaryDay }: PropsType & PropsWithChildren) => {
   const navigate = useNavigate();
 
   return (
     <Modalroot>
       <ModalBackground />
       <ModalTrigger>{children}</ModalTrigger>
-      <ModalContent>
+      <ModalContent top={30} left={40}>
         <PostContent>
-          <CloseBtn>
-            <ModalClose>
+          <ModalClose>
+            <CloseBtn>
               <IoMdClose />
-            </ModalClose>
-          </CloseBtn>
+            </CloseBtn>
+          </ModalClose>
 
           <Text>나의 감정을 기록해주세요!</Text>
           <ClickBtn
@@ -85,6 +85,6 @@ const ClickBtn = styled.div`
 const CloseBtn = styled.div`
   position: absolute;
   top: 10px;
-  right: 5px;
+  right: 10px;
 `;
 export default ClickModalPost;
