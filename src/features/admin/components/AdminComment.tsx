@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Flex from "../../../components/Flex";
 import styled from "styled-components";
@@ -9,6 +9,7 @@ import { getCookie } from "../../../utils/cookies";
 import { IAdminData, IPayload } from "../../../data/type/d2";
 import useAdminComment from "../hooks/useAdminComment";
 import useAdminPost from "../hooks/useAdminPost";
+import PageNation from "../../../components/PageNation";
 
 const AdminComment = (): JSX.Element => {
   const nav = useNavigate();
@@ -16,6 +17,8 @@ const AdminComment = (): JSX.Element => {
   let payloadJson;
   let payload!: IPayload;
   const [headerB64, payloadB64, signatureB64] = (token || "").split(".");
+  const [page, setPage] = useState<number>(1);
+
   if (typeof atob !== undefined && payloadB64) {
     payloadJson = atob(payloadB64);
   }
@@ -28,8 +31,10 @@ const AdminComment = (): JSX.Element => {
       nav("/");
     }
   }, [payload, nav]);
-  const { adminCommentData, adminCommentDelete } = useAdminComment();
-  const { onReportDelete } = useAdminPost();
+  const { adminCommentData, adminCommentDelete, status } =
+    useAdminComment(page);
+  const { onReportDelete } = useAdminPost(page);
+  console.log(adminCommentData?.totalCount);
 
   return (
     <Wrapper>
@@ -51,10 +56,10 @@ const AdminComment = (): JSX.Element => {
           </thead>
 
           <StTbody>
-            {adminCommentData?.map((item: IAdminData, i: number) => {
+            {adminCommentData?.contents?.map((item: IAdminData, i: number) => {
               return (
                 <tr key={i}>
-                  <td>{i+1}</td>
+                  <td>{i + 1}</td>
                   <td>{item.nickname}</td>
                   <td>{item.email}</td>
                   <td>{item.count}</td>
@@ -81,6 +86,16 @@ const AdminComment = (): JSX.Element => {
           </StTbody>
         </StTable>
       </Flex>
+      <PageWrap>
+        {status === "success" && (
+          <PageNation
+            page={page}
+            setPage={setPage}
+            totalCount={adminCommentData?.totalCount}
+            size={15}
+          />
+        )}
+      </PageWrap>
     </Wrapper>
   );
 };
@@ -114,4 +129,9 @@ const BackBtn = styled.button`
   &:hover {
     background-color: lightgray;
   }
+`;
+
+const PageWrap = styled.div`
+  display: flex;
+  justify-content: center;
 `;

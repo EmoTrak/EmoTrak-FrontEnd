@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Flex from "../../../components/Flex";
 import styled from "styled-components";
@@ -8,12 +8,15 @@ import { ADMIN, COMMUNITY_PAGE } from "../../../data/routes/urls";
 import { getCookie } from "../../../utils/cookies";
 import { IAdminData, IPayload } from "../../../data/type/d2";
 import useAdminPost from "../hooks/useAdminPost";
+import PageNation from "../../../components/PageNation";
 
 const AdminPost = (): JSX.Element => {
   const nav = useNavigate();
   const token = getCookie("token");
+  const [page, setPage] = useState<number>(1);
   let payloadJson;
   let payload!: IPayload;
+
   const [headerB64, payloadB64, signatureB64] = (token || "").split(".");
   if (typeof atob !== undefined && payloadB64) {
     payloadJson = atob(payloadB64);
@@ -28,7 +31,9 @@ const AdminPost = (): JSX.Element => {
     }
   }, [payload, nav]);
 
-  const { adminPostData, adminDeleteData, onReportDelete } = useAdminPost();
+  const { adminPostData, adminDeleteData, onReportDelete, status } =
+    useAdminPost(page);
+  console.log(adminPostData);
 
   return (
     <Wrapper>
@@ -51,7 +56,7 @@ const AdminPost = (): JSX.Element => {
             </thead>
 
             <StTbody>
-              {adminPostData?.map((item: IAdminData, i: number) => {
+              {adminPostData?.contents?.map((item: IAdminData, i: number) => {
                 return (
                   <tr key={i}>
                     <td>{item.id}</td>
@@ -87,6 +92,16 @@ const AdminPost = (): JSX.Element => {
           </StTable>
         </div>
       </Flex>
+      <PageWrap>
+        {status === "success" && (
+          <PageNation
+            page={page}
+            setPage={setPage}
+            totalCount={adminPostData?.totalCount}
+            size={15}
+          />
+        )}
+      </PageWrap>
     </Wrapper>
   );
 };
@@ -122,4 +137,8 @@ const BackBtn = styled.button`
   &:hover {
     background-color: lightgray;
   }
+`;
+const PageWrap = styled.div`
+  display: flex;
+  justify-content: center;
 `;
