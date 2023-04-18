@@ -17,6 +17,7 @@ import { scrollOnTop } from "../utils/scollOnTop";
 import PostDate from "../features/community/components/PostDate";
 import { DRAW_EDIT_PAGE, IMAGE_EDIT_PAGE } from "../data/routes/urls";
 import PageNation from "../components/PageNation";
+import { GiSiren } from "react-icons/gi";
 
 const CommunityDetail = (): JSX.Element => {
   const queryClient = useQueryClient();
@@ -29,7 +30,8 @@ const CommunityDetail = (): JSX.Element => {
   const deletePostHandler = (id: number) => {
     if (window.confirm("삭제하시겠습니까?")) {
       deletePost.mutate(id, {
-        onSuccess: () => queryClient.resetQueries({ queryKey: [keys.GET_BOARD] }),
+        onSuccess: () =>
+          queryClient.resetQueries({ queryKey: [keys.GET_BOARD] }),
       });
     }
   };
@@ -51,58 +53,157 @@ const CommunityDetail = (): JSX.Element => {
         {data?.imgUrl ? (
           <Img src={data?.imgUrl} />
         ) : (
-          <StDefaultImage>이미지가 필요합니다</StDefaultImage>
+          <StDefaultImage
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTy4_1Wwmqj8b6SlMR0zLTqg1peTC9-_nHJaQ&usqp=CAU"
+            alt="이미지가 없습니다."
+          />
         )}
       </StCanvasWrapper>
       <StPostDetailWrapper>
-        <Flex>
-          {status === "success" && (
-            <LikePost isLike={data.hasLike} id={data.id} count={data.likesCnt} />
-          )}
-          <Flex row>
-            이모티콘
-            <EmotionIcons
-              height="50"
-              width="50"
-              emotionTypes={`EMOTION_${data?.emoId}`}
-            />
-            <div>닉네임 :{data?.nickname}</div>
-          </Flex>
-          <Flex row>내 감정점수 {data?.star}</Flex>
-          {status === "success" && <PostDate date={data.date} />}
-          <Flex row>{data?.detail}</Flex>
-          {data?.hasAuth && (
-            <div>
-              {data?.draw ? (
-                <button onClick={() => navigate(`${DRAW_EDIT_PAGE}/${data?.id}`)}>
-                  수정
-                </button>
-              ) : (
-                <button onClick={() => navigate(`${IMAGE_EDIT_PAGE}/${data?.id}`)}>
-                  수정
-                </button>
+        <div style={{ width: "50vw" }}>
+          <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {status === "success" && (
+                <LikePost
+                  isLike={data.hasLike}
+                  id={data.id}
+                  count={data.likesCnt}
+                />
               )}
-              <button onClick={() => deletePostHandler(data?.id)}>삭제</button>
             </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {!data?.hasReport && !data?.hasAuth && (
+                <Report id={data?.id} uri="report">
+                  <button style={{color:'red', fontSize:'30px', border:'none', backgroundColor:'transparent', cursor:'pointer'}}>
+                    <GiSiren/>
+                  </button>
+                </Report>
+              )}
+            </div>
+          </div>
+          <div style={{ display: "flex" }}>
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                justifyContent: "space-evenly",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  height: "100px",
+                }}
+              >
+                <EmotionIcons
+                  height="50"
+                  width="50"
+                  emotionTypes={`EMOTION_${data?.emoId}`}
+                />
+              </div>
+              <h1
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  textAlign: "center",
+                }}
+              >
+                내 감정점수 {data?.star}
+              </h1>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
+                <div></div>
+                {status === "success" && <PostDate date={data.date} />}
+              </div>
+            </div>
+          </div>
+          <h2
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "30px",
+            }}
+          >
+            닉네임 :{data?.nickname}
+          </h2>
+          <div
+            style={{
+              display: "flex",
+              fontSize: "20px",
+              border: "1px solid lightgray",
+            }}
+          >
+            <p
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                fontSize: "20px",
+                width: "100vw",
+              }}
+            >
+              {data?.detail}
+            </p>
+          </div>
+          {token && (
+            <>
+              <CreateComment id={data?.id} />
+            </>
           )}
-        </Flex>
-
-        {token && (
-          <>
-            <CreateComment id={data?.id} />
-            {!data?.hasReport && !data?.hasAuth && (
-              <Report id={data?.id} uri="report">
-                <button>신고하기</button>
-              </Report>
+          <div>
+            {data?.hasAuth && (
+              <div>
+                {data?.draw ? (
+                  <button
+                    onClick={() => navigate(`${DRAW_EDIT_PAGE}/${data?.id}`)}
+                  >
+                    수정
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => navigate(`${IMAGE_EDIT_PAGE}/${data?.id}`)}
+                  >
+                    수정
+                  </button>
+                )}
+                <button onClick={() => deletePostHandler(data?.id)}>
+                  삭제
+                </button>
+              </div>
             )}
-          </>
-        )}
+          </div>
+          <div></div>
+        </div>
+
         {status === "success" &&
           data.comments.map((item: commentData, i: number) => (
             <Comment item={item} key={i} />
           ))}
         {status === "success" && (
-          <PageNation page={page} setPage={setPage} totalCount={data.totalComments} />
+          <PageNation
+            page={page}
+            setPage={setPage}
+            totalCount={data.totalComments}
+          />
         )}
       </StPostDetailWrapper>
     </Container>
@@ -112,18 +213,15 @@ const CommunityDetail = (): JSX.Element => {
 export default CommunityDetail;
 
 const Container = styled.div`
+  width: 100%;
   display: flex;
   align-items: flex-start;
   position: relative;
-`;
 
-const StDefaultImage = styled.div`
-  width: 50%;
-  border: 1px solid;
+  height: 100%;
 `;
-
 const StCanvasWrapper = styled.div`
-  width: 50%;
+  width: 80%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -133,8 +231,12 @@ const StCanvasWrapper = styled.div`
   left: 20px;
 `;
 
+const StDefaultImage = styled.img`
+  width: 90%;
+`;
+
 const StPostDetailWrapper = styled.div`
-  width: 50%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

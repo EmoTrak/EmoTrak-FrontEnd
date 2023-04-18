@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { CommentType, Idtype } from "../../../data/type/d1";
 import useAddComment from "../hooks/useAddComment";
+import styled from "styled-components";
 
 const CreateComment = ({ id }: Idtype) => {
   const [input, setInput] = useState<CommentType>({
     comment: "",
   });
-  const changeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeInputHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput({ ...input, comment: e.target.value });
   };
 
@@ -19,12 +20,36 @@ const CreateComment = ({ id }: Idtype) => {
   };
 
   return (
-    <form onSubmit={submitCommentHandler}>
-      댓글작성 :
-      <input type="text" value={input.comment} onChange={changeInputHandler} />
-      <button type="submit">댓글작성</button>
-    </form>
+    <div style={{ margin: "10px 0 10px" }}>
+      <form
+        onSubmit={submitCommentHandler}
+        style={{ display: "flex", flexDirection: "column" }}
+      >
+        <span>댓글</span>
+        <CommentInput
+          style={{ width: "500px", height: "70px", border: "1px solid #eee" }}
+          value={input.comment}
+          onChange={changeInputHandler}
+          placeholder="댓글을 남겨보세요!"
+        />
+        <div>
+          <button type="submit">댓글작성</button>
+        </div>
+      </form>
+    </div>
   );
 };
 
 export default CreateComment;
+
+const CommentInput = styled.textarea`
+  margin: 5px 0 5px 0;
+  padding: 10px;
+  border-radius: 10px;
+  resize: none;
+  :focus {
+    outline: none !important;
+    border-color: #e7e1d9;
+    box-shadow: 0 0 10px #e7e1d9;
+  }
+`;

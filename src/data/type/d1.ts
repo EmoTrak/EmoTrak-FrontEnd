@@ -79,7 +79,7 @@ export interface commentData {
   createdAt: string;
   email: string;
   hasAuth: boolean;
-  id: number;
+  id?: number;
   nickname: string;
   hasLike: boolean;
   hasReport: boolean;

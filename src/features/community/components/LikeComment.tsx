@@ -23,13 +23,20 @@ const LikeComment = ({ isLike: hasLike, id, count }: LikeType) => {
   const { likeMutate } = useLikeComment(setLike);
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "5px",
+      }}
+    >
       {like.isLike ? (
         <LikeTrue
           onClick={() =>
             token
               ? likeMutate(id)
-              : window.confirm("로그인 후 이용가능합니다") && navigate(LOGIN_PAGE)
+              : window.confirm("로그인 후 이용가능합니다") &&
+                navigate(LOGIN_PAGE)
           }
         >
           <RiHeart3Fill />
@@ -39,21 +46,24 @@ const LikeComment = ({ isLike: hasLike, id, count }: LikeType) => {
           onClick={() =>
             token
               ? likeMutate(id)
-              : window.confirm("로그인 후 이용가능합니다") && navigate(LOGIN_PAGE)
+              : window.confirm("로그인 후 이용가능합니다") &&
+                navigate(LOGIN_PAGE)
           }
         >
           <RiHeart3Line />
         </LikeFalse>
       )}
-      <LikeCount>{like.count}명이 좋아합니다</LikeCount>
-    </>
+      <LikeCount>{like.count}</LikeCount>
+    </div>
   );
 };
 
 const LikeTrue = styled.div`
   color: red;
   font-size: 30px;
-  display: contents;
+  display: flex;
+  justify-content: center;
+
   cursor: pointer;
 `;
 
@@ -62,9 +72,13 @@ const LikeFalse = styled.div`
   font-size: 30px;
   display: contents;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
 `;
 
 const LikeCount = styled.div`
-  //
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 export default LikeComment;

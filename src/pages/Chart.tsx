@@ -27,7 +27,7 @@ const Chart = (): JSX.Element => {
   const { chartData, isLoading, isError } = useChartData(year);
 
   useEffect(() => {
-    if (!getCookie("token")) {
+    if (!getCookie("token") && !getCookie("refreshToken")) {
       alert("로그인을 해주세요!");
       nav("/");
     } else {
@@ -64,7 +64,7 @@ const Chart = (): JSX.Element => {
                     value={item.value}
                     onClick={onMonthClick}
                   >
-                    {item.month}
+                    <p>{item.month}</p>
                   </MonthListBtn>
                 ))}
               </MonthList>
@@ -147,7 +147,7 @@ const MonthList = styled.div`
   width: 17vw;
   position: absolute;
   margin-top: 5px;
-  left: -28px;
+  left: -45px;
 `;
 
 const MonthListBtn = styled.button`
@@ -158,9 +158,17 @@ const MonthListBtn = styled.button`
   padding: 0.5vw;
   cursor: pointer;
   font-family: "KyoboHand";
-  &:hover {
-    border-radius: 1vw;
 
-    background-color: #eee;
+  &:hover {
+    p {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #eee;
+      border-radius: 50%;
+      width: 100%;
+      height:60%;
+      margin: 0;
+    }
   }
 `;
