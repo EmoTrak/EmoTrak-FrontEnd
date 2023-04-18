@@ -6,7 +6,7 @@ const useDeleteComment = () => {
   const queryClient = useQueryClient();
 
   const { mutate: deleteComment } = useMutation({
-    mutationFn: async (id: number) => {
+    mutationFn: async (id: number | undefined) => {
       await user.delete(`/boards/comments/${id}`);
     },
     onSuccess: () => {

@@ -7,6 +7,7 @@ import EmotionIcons from "../components/Icon/EmoticonIcons";
 import Flex from "../components/Flex";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
 import { getCookie, removeCookie } from "../utils/cookies";
+import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import {
   DETAIL_PAGE,
   DRAW_EDIT_PAGE,
@@ -17,6 +18,10 @@ import { useDelete } from "../features/detail/hooks/useDelete";
 // import Star from "../components/Icon/Star";
 import styled from "styled-components";
 import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
+
+interface PositionProps {
+  url?: string;
+}
 
 export type DetailType = {
   id: number;
@@ -87,66 +92,109 @@ const Detail = (): JSX.Element => {
 
   return (
     <div>
+      <BackWrap>
+        <button onClick={() => navigate(-1)}>
+          <AiOutlineLeft />
+        </button>
+      </BackWrap>
       <Flex row>
         <StCanvasWrapper>
-          {targetItem?.imgUrl ? (
-            <StDetailImageBox>
-              <StDetailImage src={targetItem?.imgUrl} alt="" />
-            </StDetailImageBox>
-          ) : (
-            <StDetailImageBox>
-              <StDefaultImage>이미지가 필요합니다</StDefaultImage>
-            </StDetailImageBox>
-          )}
+          <CanvasWrap>
+            {targetItem?.imgUrl ? (
+              <StDetailImageBox>
+                <StDetailImage src={targetItem?.imgUrl} alt="" />
+              </StDetailImageBox>
+            ) : (
+              <StDetailImageBox>
+                <StDefaultImage>이미지가 필요합니다</StDefaultImage>
+              </StDetailImageBox>
+            )}
+          </CanvasWrap>
         </StCanvasWrapper>
         <StCanvasWrapper>
-          <Flex>
-            <div>
-              {contents?.length < 2 || dailyId <= otherItem?.id ? (
-                <button disabled>previous</button>
-              ) : (
-                <button
-                  onClick={() => navigate(`${DETAIL_PAGE}/${otherItem.id}`)}
-                >
-                  previous
-                </button>
-              )}
-              {contents?.length < 2 || dailyId >= otherItem?.id ? (
-                <button disabled>next</button>
-              ) : (
-                <button
-                  onClick={() => navigate(`${DETAIL_PAGE}/${otherItem.id}`)}
-                >
-                  next
-                </button>
-              )}
-            </div>
-            <Flex row>
-              이모티콘
-              <EmotionIcons
-                height="50"
-                width="50"
-                emotionTypes={`EMOTION_${targetItem?.emoId}`}
-              />
-            </Flex>
-            <Flex row>
-              내 감정점수
-              {targetItem?.star}
-            </Flex>
-            <Flex row>
-              공유여부
-              {targetItem?.share ? "shared" : "private"}
-            </Flex>
-            <Flex row>{targetItem?.detail}</Flex>
-            <div>
-              <button onClick={navigateEditHandler}>수정</button>
-              <div>
-                <DeleteConfirmModal itemId={targetItem?.id}>
-                  삭제
-                </DeleteConfirmModal>
+          <Wrapper>
+            <Flex>
+              <EmoMoveBtn>
+                {contents?.length < 2 || dailyId <= otherItem?.id ? (
+                  <button disabled>
+                    <AiOutlineLeft />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => navigate(`${DETAIL_PAGE}/${otherItem.id}`)}
+                  >
+                    <AiOutlineLeft />
+                  </button>
+                )}
+                {contents?.length < 2 || dailyId >= otherItem?.id ? (
+                  <button disabled>
+                    <AiOutlineRight />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => navigate(`${DETAIL_PAGE}/${otherItem.id}`)}
+                  >
+                    <AiOutlineRight />
+                  </button>
+                )}
+              </EmoMoveBtn>
+              <DetailEmoWrap>
+                <Flex row>
+                  <></>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      fontSize: "50px",
+                    }}
+                  >
+                    <EmotionIcons
+                      height="50"
+                      width="50"
+                      emotionTypes={`EMOTION_${targetItem?.emoId}`}
+                    />
+                  </div>
+                </Flex>
+                <Flex row>
+                  <div></div>
+                  <h3
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      fontSize: "30px",
+                    }}
+                  >
+                    내 감정점수
+                    {targetItem?.star}
+                  </h3>
+                </Flex>
+              </DetailEmoWrap>
+              <div style={{ marginLeft: "50px" }}>
+                <Flex row>
+                  <div>공유여부:&nbsp;</div>
+                  {targetItem?.share ? "Shared" : "NoShared"}
+                </Flex>
               </div>
-            </div>
-          </Flex>
+              <DetailText>
+                <DetailWrapper>
+                  {targetItem?.detail}
+                </DetailWrapper>
+              </DetailText>
+              <DetailBtnWrap>
+                <div>
+                  <button onClick={navigateEditHandler}>수정</button>
+                </div>
+                <div>
+                  <button>
+                    <DeleteConfirmModal itemId={targetItem?.id}>
+                      삭제
+                    </DeleteConfirmModal>
+                  </button>
+                </div>
+              </DetailBtnWrap>
+            </Flex>
+          </Wrapper>
         </StCanvasWrapper>
       </Flex>
     </div>
@@ -155,9 +203,41 @@ const Detail = (): JSX.Element => {
 
 export default Detail;
 
+const DetailText = styled.div`
+  display: flex;
+  justify-content: center;
+  text-decoration: underline;
+  text-underline-position:under;
+  text-decoration-color: #AE9898;
+  height: 50vh;
+`;
+
+const BackWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-left: 50px;
+`;
+const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+const DetailWrapper = styled.div`
+  background-size: cover;
+  display: flex;
+  overflow: scroll;
+  background-color: #fff;
+  padding: 10px;
+  width: 90%;
+  font-size: 25px;
+`;
+const CanvasWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: 100%;
+`;
 const StDefaultImage = styled.div`
-  width: 500px;
-  height: 500px;
   border: 1px solid;
 `;
 
@@ -172,4 +252,20 @@ const StDetailImageBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+const DetailEmoWrap = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+`;
+const DetailBtnWrap = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  margin-left: 50px;
+`;
+const EmoMoveBtn = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 `;

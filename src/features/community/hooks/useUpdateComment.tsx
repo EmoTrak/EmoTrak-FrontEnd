@@ -6,7 +6,7 @@ const useUpdateComment = (editComment: string | undefined) => {
   const queryClient = useQueryClient();
 
   const { mutate: updateComment } = useMutation({
-    mutationFn: async (id: number) => {
+    mutationFn: async (id: number | undefined) => {
       await user.patch(`/boards/comments/${id}`, { comment: editComment });
     },
     onSuccess: () => {

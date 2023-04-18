@@ -7,13 +7,16 @@ import LikeComment from "./LikeComment";
 import Report from "./Report";
 import PostDate from "./PostDate";
 import { getCookie } from "../../../utils/cookies";
+import { GiSiren } from "react-icons/gi";
 
 const Comment = ({ item }: Partial<CommentProps>) => {
   const [edit, setEdit] = useState<boolean>(false);
   const token = getCookie("token");
-  const [editComment, setEditComment] = useState<string | undefined>(item?.comment);
+  const [editComment, setEditComment] = useState<string | undefined>(
+    item?.comment
+  );
 
-  const changeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeInputHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEditComment(e.target.value);
   };
 
@@ -23,39 +26,141 @@ const Comment = ({ item }: Partial<CommentProps>) => {
   return (
     <CommentBox>
       {edit ? (
-        <input type="text" value={editComment} onChange={changeInputHandler} />
+        <div
+          style={{
+            height: "122px",
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
+        >
+          <EditInput value={editComment} onChange={changeInputHandler} />
+          <div>
+            <button
+              style={{
+                height: "25px",
+                width: "70px",
+              }}
+              onClick={() =>
+                edit
+                  ? updateComment(item?.id, {
+                      onSuccess: () => setEdit((pre) => !pre),
+                    })
+                  : setEdit((pre) => !pre)
+              }
+            >
+              수정완료
+            </button>
+            <button
+              style={{
+                height: "25px",
+                width: "70px",
+                margin: "5px 10px 0 0px",
+              }}
+              onClick={() => edit && setEdit((pre) => !pre)}
+            >
+              취소
+            </button>
+          </div>
+        </div>
       ) : (
-        <>
-          <div>닉네임 : {item?.nickname}</div>
-          <div>댓글 : {item?.comment}</div>
-          <LikeComment isLike={item?.hasLike} id={item?.id} count={item?.likesCnt} />
-          {token && (
-            <Report id={item?.id} uri="comments/report">
-              <button>신고하기</button>
-            </Report>
+        <div
+          style={{
+            width: "50vw",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          <h4 style={{ margin: "5px 0 5px 0" }}>닉네임 : {item?.nickname}</h4>
+          <div style={{ margin: "5px 0 5px 0" }}>댓글 : {item?.comment}</div>
+          <div>
+            <button
+              style={{
+                height: "25px",
+                width: "70px",
+              }}
+              onClick={() =>
+                edit
+                  ? updateComment(item?.id, {
+                      onSuccess: () => setEdit((pre) => !pre),
+                    })
+                  : setEdit((pre) => !pre)
+              }
+            >
+              {edit ? "수정완료" : "수정"}
+            </button>
+            <button
+              style={{
+                height: "25px",
+                width: "70px",
+                margin: "5px 10px 0 0px",
+              }}
+              onClick={() => deleteComment(item?.id)}
+            >
+              삭제
+            </button>
+          </div>
+        </div>
+      )}
+      {edit ? null : (
+        <div>
+          {item?.hasAuth && (
+            <div>
+              <LikeComment
+                isLike={item?.hasLike}
+                id={item?.id}
+                count={item?.likesCnt}
+              />
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                {token && (
+                  <Report id={item?.id} uri="comments/report">
+                    <button
+                      style={{
+                        height: "25px",
+                        width: "70px",
+                        color: "red",
+                        fontSize: "30px",
+                        border: "none",
+                        backgroundColor: "transparent",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <GiSiren />
+                    </button>
+                  </Report>
+                )}
+              </div>
+            </div>
           )}
-        </>
+          {typeof item?.createdAt === "string" && (
+            <div style={{ textAlign: "center" }}>
+              <PostDate date={item.createdAt} />
+            </div>
+          )}
+        </div>
       )}
-      {item?.hasAuth && (
-        <>
-          <button
-            onClick={() =>
-              edit
-                ? updateComment(item.id, { onSuccess: () => setEdit((pre) => !pre) })
-                : setEdit((pre) => !pre)
-            }
-          >
-            {edit ? "수정완료" : "수정"}
-          </button>
-          <button onClick={() => deleteComment(item.id)}>삭제</button>
-        </>
-      )}
-      {typeof item?.createdAt === "string" && <PostDate date={item.createdAt} />}
     </CommentBox>
   );
 };
 
-const CommentBox = styled.div`
-  border-top: 1px solid;
-`;
 export default Comment;
+
+const CommentBox = styled.div`
+  display: flex;
+`;
+const EditInput = styled.textarea`
+  width: 500px;
+  height: 100px;
+  border: 1px solid #eee;
+  margin: 5px 0 5px 0;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  resize: none;
+  :focus {
+    outline: none;
+    border-color: #e7e1d9;
+    box-shadow: 0 0 10px #e7e1d9;
+  }
+`;
