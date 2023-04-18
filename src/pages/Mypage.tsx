@@ -195,7 +195,7 @@ const MyPageContentWrapper = styled.div`
   align-items: center;
 `;
 
-const MyPageInput = styled.input`
+export const MyPageInput = styled.input`
   width: 15vw;
   height: 1vw;
   border: none;
