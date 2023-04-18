@@ -28,7 +28,7 @@ export const useEdit = ({ inputValue, dailyId, canvasRef }: PostInput) => {
     },
     {
       onSuccess() {
-        alert("수정되었습니다");
+        // alert("수정되었습니다");
         navigate(-1);
       },
       onError() {
@@ -41,6 +41,8 @@ export const useEdit = ({ inputValue, dailyId, canvasRef }: PostInput) => {
     const canvas = canvasRef?.current;
     // const dataURL = canvas?.toDataURL();
     // setPicture(dataURL);
+    // console.log("이미지 저장 시도");
+
     canvas?.toBlob(
       (blob) => {
         if (blob) {

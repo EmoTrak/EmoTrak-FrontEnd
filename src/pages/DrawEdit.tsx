@@ -136,9 +136,10 @@ const DrawEdit = (): JSX.Element => {
       return;
     }
     const canvas: HTMLCanvasElement = canvasRef.current;
+    const rect = canvas.getBoundingClientRect(); // 캔버스의 뷰포트 상의 위치 정보를 가져옴
     return {
-      x: event.pageX - canvas.offsetLeft,
-      y: event.pageY - canvas.offsetTop,
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
     };
   };
 
@@ -181,10 +182,12 @@ const DrawEdit = (): JSX.Element => {
     setMode("pen");
   };
 
-  const savePicture = () => {
-    setValidPicture(true);
-    savePictureHandler();
+  const savePicture = (event: React.MouseEvent) => {
+    event.preventDefault();
+    // event.stopPropagation();
     setInputValue({ ...inputValue, deleteImg: true });
+    savePictureHandler();
+    setValidPicture(true);
   };
 
   // useEffect + AddEventListener 대체 함수
@@ -252,7 +255,7 @@ const DrawEdit = (): JSX.Element => {
 
   // 글작성 함수
   const submitFormHandler = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    // event.preventDefault();
     if (validPicture) {
       editDiaryHandler(event);
     }
@@ -262,13 +265,13 @@ const DrawEdit = (): JSX.Element => {
     if (!token) {
       navigate(`${LOGIN_PAGE}`);
     }
-    const preventGoBack = () => {
-      if (window.confirm("페이지를 나가시겠습니까?")) {
-        navigate(-1);
-      } else {
-        window.history.pushState(null, "", window.location.href);
-      }
-    };
+    // const preventGoBack = () => {
+    //   if (window.confirm("페이지를 나가시겠습니까?")) {
+    //     navigate(-1);
+    //   } else {
+    //     window.history.pushState(null, "", window.location.href);
+    //   }
+    // };
 
     // 새로고침 막기 변수
     const preventClose = (e: BeforeUnloadEvent) => {
@@ -277,10 +280,10 @@ const DrawEdit = (): JSX.Element => {
     };
 
     window.history.pushState(null, "", window.location.href);
-    window.addEventListener("popstate", preventGoBack);
+    // window.addEventListener("popstate", preventGoBack);
     window.addEventListener("beforeunload", preventClose);
     return () => {
-      window.removeEventListener("popstate", preventGoBack);
+      // window.removeEventListener("popstate", preventGoBack);
       window.removeEventListener("beforeunload", preventClose);
     };
   }, [token]);
