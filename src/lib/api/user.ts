@@ -64,7 +64,7 @@ user.interceptors.response.use(
       alert("다시 로그인해주세요!");
     }
 
-    return Promise.reject(error);
+    // return Promise.reject(error);
   }
 );
 
