@@ -10,7 +10,10 @@ const PageNation = (props: any) => {
   const lastPage = Math.ceil(totalCount / 20);
 
   useEffect(() => {
-    if (page === 1 || page === 2) {
+    if (lastPage <= 5) {
+      const newArr = new Array(lastPage).fill(null).map((_, i) => i + 1);
+      setPageArr(newArr);
+    } else if (page === 1 || page === 2) {
       setPageArr([1, 2, 3, 4, 5]);
     } else if (page === lastPage - 1 || page === lastPage) {
       setPageArr([lastPage - 4, lastPage - 3, lastPage - 2, lastPage - 1, lastPage]);
@@ -33,26 +36,31 @@ const PageNation = (props: any) => {
           </>
         )}
 
-        {pageArr.map((item) => (
-          <PageBtn
-            onClick={() => setPage(item)}
-            key={item}
-            currentPage={item === page}
-            disabled={item === page}
-          >
-            {item}
-          </PageBtn>
-        ))}
-        {page !== lastPage && page !== lastPage - 1 && page !== lastPage - 2 && (
-          <>
-            <ArrowBtn onClick={() => setPage(page + 1)}>
-              <Icon.MdKeyboardArrowRight />
-            </ArrowBtn>
-            <ArrowBtn onClick={() => setPage(lastPage)}>
-              <Icon.MdKeyboardDoubleArrowRight />
-            </ArrowBtn>
-          </>
-        )}
+        {/* 마지막 페이지가 1이 아닐때 페이지 수를 보여주는 로직 */}
+        {lastPage !== 1 &&
+          pageArr.map((item) => (
+            <PageBtn
+              onClick={() => setPage(item)}
+              key={item}
+              currentPage={item === page}
+              disabled={item === page}
+            >
+              {item}
+            </PageBtn>
+          ))}
+        {lastPage > 5 &&
+          page !== lastPage &&
+          page !== lastPage - 1 &&
+          page !== lastPage - 2 && (
+            <>
+              <ArrowBtn onClick={() => setPage(page + 1)}>
+                <Icon.MdKeyboardArrowRight />
+              </ArrowBtn>
+              <ArrowBtn onClick={() => setPage(lastPage)}>
+                <Icon.MdKeyboardDoubleArrowRight />
+              </ArrowBtn>
+            </>
+          )}
       </Container>
     </>
   );
