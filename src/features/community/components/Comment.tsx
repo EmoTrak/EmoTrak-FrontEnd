@@ -29,7 +29,7 @@ const Comment = ({ item }: Partial<CommentProps>) => {
           <div>닉네임 : {item?.nickname}</div>
           <div>댓글 : {item?.comment}</div>
           <LikeComment isLike={item?.hasLike} id={item?.id} count={item?.likesCnt} />
-          {token && (
+          {token && !item?.hasReport && (
             <Report id={item?.id} uri="comments/report">
               <button>신고하기</button>
             </Report>

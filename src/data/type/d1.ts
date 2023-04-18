@@ -82,6 +82,7 @@ export interface commentData {
   id: number;
   nickname: string;
   hasLike: boolean;
+  hasReport: boolean;
 }
 
 export interface UriType {
