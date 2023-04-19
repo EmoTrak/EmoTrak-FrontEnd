@@ -2,13 +2,15 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { keys } from "../../../data/queryKeys/keys";
 import user from "../../../lib/api/user";
 
-const useAdminPost = () => {
+const useAdminPost = (page: number) => {
   const queryClient = useQueryClient();
 
-  const { data } = useQuery({
-    queryKey: [keys.GET_ADMIN],
+  const { data, status } = useQuery({
+    queryKey: [keys.GET_ADMIN, page],
     queryFn: async () => {
-      const { data } = await user.get("/admin/boards");
+      const { data } = await user.get("/admin/boards", {
+        params: { page },
+      });
       return data.data;
     },
     refetchOnWindowFocus: false,
@@ -45,7 +47,12 @@ const useAdminPost = () => {
     },
   });
 
-  return { adminPostData: data, adminDeleteData: mutate, onReportDelete };
+  return {
+    adminPostData: data,
+    adminDeleteData: mutate,
+    onReportDelete,
+    status,
+  };
 };
 
 export default useAdminPost;

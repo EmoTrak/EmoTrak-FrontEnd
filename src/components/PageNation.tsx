@@ -3,11 +3,11 @@ import styled from "styled-components";
 import * as Icon from "react-icons/md";
 
 const PageNation = (props: any) => {
-  const { page, setPage, totalCount } = props;
+  const { page, setPage, totalCount, size } = props;
 
   const [pageArr, setPageArr] = useState([1, 2, 3, 4, 5]);
 
-  const lastPage = Math.ceil(totalCount / 20);
+  const lastPage = Math.ceil(totalCount / size);
 
   useEffect(() => {
     if (lastPage <= 5) {
@@ -16,7 +16,13 @@ const PageNation = (props: any) => {
     } else if (page === 1 || page === 2) {
       setPageArr([1, 2, 3, 4, 5]);
     } else if (page === lastPage - 1 || page === lastPage) {
-      setPageArr([lastPage - 4, lastPage - 3, lastPage - 2, lastPage - 1, lastPage]);
+      setPageArr([
+        lastPage - 4,
+        lastPage - 3,
+        lastPage - 2,
+        lastPage - 1,
+        lastPage,
+      ]);
     } else {
       setPageArr([page - 2, page - 1, page, page + 1, page + 2]);
     }

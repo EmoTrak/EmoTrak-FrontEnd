@@ -87,8 +87,16 @@ const CommunityDetail = (): JSX.Element => {
             >
               {!data?.hasReport && !data?.hasAuth && (
                 <Report id={data?.id} uri="report">
-                  <button style={{color:'red', fontSize:'30px', border:'none', backgroundColor:'transparent', cursor:'pointer'}}>
-                    <GiSiren/>
+                  <button
+                    style={{
+                      color: "red",
+                      fontSize: "30px",
+                      border: "none",
+                      backgroundColor: "transparent",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <GiSiren />
                   </button>
                 </Report>
               )}
@@ -203,6 +211,7 @@ const CommunityDetail = (): JSX.Element => {
             page={page}
             setPage={setPage}
             totalCount={data.totalComments}
+            size={20}
           />
         )}
       </StPostDetailWrapper>
