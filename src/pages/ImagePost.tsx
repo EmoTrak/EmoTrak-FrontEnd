@@ -13,6 +13,7 @@ import Flex from "../components/Flex";
 import { getCookie } from "../utils/cookies";
 import { LOGIN_PAGE } from "../data/routes/urls";
 import Checkbox from "../components/Checkbox";
+import Button from "../components/Button";
 
 const ImagePost = (): JSX.Element => {
   const token = getCookie("token");
@@ -249,7 +250,9 @@ const ImagePost = (): JSX.Element => {
                   onChange={onCheckHandler}
                 />
               </StLabel>
-              <button type="submit">등록하기</button>
+              <Button size="large" type="submit">
+                등록하기
+              </Button>
             </StSubmitBox>
           </StCanvasWrapper>
         </Flex>

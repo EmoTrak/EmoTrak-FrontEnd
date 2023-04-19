@@ -1,8 +1,24 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-const useEmoSelect = () => {
+const useEmoSelect = (paramEmo: string | null) => {
   const [emoSelect, setEmoSelect] = useState<boolean[]>(Array(6).fill(false));
-  const [emoNum, setEmoNum] = useState("1,2,3,4,5,6");
+
+  if (!paramEmo) {
+    paramEmo = "1,2,3,4,5,6";
+  }
+  const changeEmo = () => {
+    if (paramEmo) {
+      const copySelect = Array(6).fill(false);
+      paramEmo.split(",").map((item) => copySelect.splice(Number(item) - 1, 1, true));
+      setEmoSelect(copySelect);
+    }
+  };
+
+  useEffect(() => {
+    changeEmo();
+  }, [paramEmo]);
+
+  const [emoNum, setEmoNum] = useState(paramEmo);
 
   const clickEmojiHandler = (num: number): void => {
     const newEmoSelect = [...emoSelect];

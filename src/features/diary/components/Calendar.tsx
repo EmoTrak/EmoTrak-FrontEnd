@@ -11,6 +11,7 @@ import MiniCalendar from "./MiniCalendar";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import MonthSelect from "./MonthSelect";
 import { MdOutlineArrowDropDownCircle } from "react-icons/md";
+import Button from "../../../components/Button";
 
 const Calendar = (): JSX.Element => {
   const [side, setSide] = useState(false);
@@ -98,13 +99,15 @@ const Calendar = (): JSX.Element => {
           </NowDay>
 
           <CalendarBtn>
-            <button onClick={prevMonth}>
+            <Button icon size="x-small" onClick={prevMonth}>
               <AiOutlineLeft />
-            </button>
-            <Now onClick={thisMonth}>오늘</Now>
-            <button onClick={nextMonth}>
+            </Button>
+            <Button size="x-small" onClick={thisMonth}>
+              오늘
+            </Button>
+            <Button icon size="x-small" onClick={nextMonth}>
               <AiOutlineRight />
-            </button>
+            </Button>
           </CalendarBtn>
         </CalendarWrap>
         <TotalWeek>
@@ -131,7 +134,10 @@ const Calendar = (): JSX.Element => {
               );
             } else if (item.year < today.year) {
               return (
-                <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Day
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Day>
@@ -151,7 +157,10 @@ const Calendar = (): JSX.Element => {
               );
             } else if (item.year === today.year && item.month < today.month) {
               return (
-                <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Day
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Day>
@@ -176,7 +185,10 @@ const Calendar = (): JSX.Element => {
               Number(item.date) <= Number(today.date)
             ) {
               return (
-                <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Day
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Day>
@@ -192,7 +204,12 @@ const Calendar = (): JSX.Element => {
 
       {side ? (
         <>
-          <Sidebar side={side} setSide={setSide} data={data} diaryDay={select} />
+          <Sidebar
+            side={side}
+            setSide={setSide}
+            data={data}
+            diaryDay={select}
+          />
           <SideImg> 여기에 이미지가 들어갑니다.</SideImg>
         </>
       ) : (
@@ -212,12 +229,6 @@ const CalendarBtn = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 10px;
-  button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    color: #808080;
-  }
 `;
 const Container = styled.div`
   display: flex;
@@ -255,7 +266,6 @@ const SelectBtn = styled.button`
 
 const Now = styled.div`
   border-radius: 10px;
-  background-color: #e5dfd3;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -264,6 +274,12 @@ const Now = styled.div`
   height: 25px;
   margin: 0 10px 5px;
   cursor: pointer;
+  background-color: #e5dfd3;
+  color: #c0afab;
+  &:hover {
+    background-color: #d0bd95;
+    color: white;
+  }
 `;
 const CalendarBox = styled.div`
   width: 50vw;
@@ -291,7 +307,6 @@ const Weeks = styled.div`
   background-color: transparent;
   position: relative;
   font-family: "KyoboHand";
-  cursor: pointer;
 `;
 const Day = styled.button`
   min-width: calc(100% / 7);

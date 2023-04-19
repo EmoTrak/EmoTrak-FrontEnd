@@ -15,6 +15,7 @@ import Kakao from "../../../assets/Social/Kakao.svg";
 import Naver from "../../../assets/Social/Naver.svg";
 import Google from "../../../assets/Social/Google.svg";
 import LoginTitle from "../../../assets/Texts/Login.svg";
+import Button from "../../../components/Button";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const LoginForm = () => {
     <StFormWrapper>
       <form id="login" onSubmit={submitFormHandler}>
         <Flex gap={10}>
-          <FormTitle url={LoginTitle} size={3.3} />
+          <FormTitle url={LoginTitle} size={5} />
           <InputList name="ID">
             <label>
               <MyPageInput
@@ -51,47 +52,49 @@ const LoginForm = () => {
         </Flex>
       </form>
       <ButtonBox>
-        <button type="submit" form="login">
+        <Button circle size="circle" type="submit" form="login">
           로그인
-        </button>
-        <button type="button" onClick={() => navigate(SIGN_UP_PAGE)}>
+        </Button>
+        <Button
+          circle
+          size="circle"
+          type="button"
+          onClick={() => navigate(SIGN_UP_PAGE)}
+        >
           회원가입
-        </button>
+        </Button>
       </ButtonBox>
       <ButtonBox>
         <SocialButtonLabel>
           <SocialLoginButton
             url={Kakao}
-            size={2.25}
+            size={12}
             type="button"
             style={{ margin: "0.5vh" }}
             onClick={() => {
               window.location.href = KAKAO_AUTH_URL;
             }}
           ></SocialLoginButton>
-          카카오로 로그인하기
         </SocialButtonLabel>
         <SocialButtonLabel>
           <SocialLoginButton
             url={Naver}
-            size={2.7}
+            size={12}
             type="button"
             onClick={() => {
               window.location.href = NAVER_AUTH_URL;
             }}
           ></SocialLoginButton>
-          네이버로 로그인하기
         </SocialButtonLabel>
         <SocialButtonLabel>
           <SocialLoginButton
             url={Google}
-            size={2.7}
+            size={12}
             type="button"
             onClick={() => {
               window.location.href = GOOGLE_AUTH_URL;
             }}
           ></SocialLoginButton>
-          구글로 로그인하기
         </SocialButtonLabel>
       </ButtonBox>
     </StFormWrapper>
@@ -120,7 +123,7 @@ export const SocialLoginButton = styled.button<IconProps>`
   background-repeat: no-repeat;
   background-size: 100% 100%;
   width: ${({ size }) => `${size}vw`};
-  height: ${({ size }) => `${size}vw`};
+  height: ${({ size }) => `${size}vh`};
   display: flex;
   justify-content: center;
   align-items: center;

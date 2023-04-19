@@ -32,6 +32,7 @@ import BallPointPen from "../assets/Drawing/Ball Point Pen.png";
 import Eraser from "../assets/Drawing/Erase.png";
 import Reboot from "../assets/Drawing/Reboot.png";
 import { StLabel, StScoreBox, StSubmitBox, StTextArea } from "./ImagePost";
+import Button from "../components/Button";
 
 export type InputValue = {
   draw: boolean;
@@ -409,11 +410,13 @@ const DrawEdit = (): JSX.Element => {
                 />
               </StLabel>
               {validPicture ? (
-                <button type="submit">등록하기</button>
+                <Button size="large" type="submit">
+                  등록하기
+                </Button>
               ) : (
-                <button type="button" onClick={savePicture}>
+                <Button size="large" type="button" onClick={savePicture}>
                   계속하기
-                </button>
+                </Button>
               )}
             </StSubmitBox>
           </StCanvasWrapper>

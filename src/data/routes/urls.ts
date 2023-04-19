@@ -1,13 +1,17 @@
-export const DETAIL_PAGE = "/detail";
 export const LOGIN_PAGE = "/login";
-export const CHART_PAGE = "/chart";
 export const SIGN_UP_PAGE = "/signup";
+export const MY_PAGE = "/mypage";
 export const IMAGE_POST_PAGE = "/image-post";
 export const DRAW_POST_PAGE = "/draw-post";
-export const COMMUNITY_PAGE = "/community";
+export const DETAIL_PAGE = "/detail";
 export const IMAGE_EDIT_PAGE = "/image-edit";
 export const DRAW_EDIT_PAGE = "/draw-edit";
-export const MY_PAGE = "/mypage";
+export const CHART_PAGE = "/chart";
+export const COMMUNITY_PAGE = "/community";
+export const COMMUNITY_DETAIL = "/community";
+export const OAUTH_KAKAO = "/oauth/kakao";
+export const OAUTH_NAVER = "/oauth/naver";
+export const OAUTH_GOOGLE = "/oauth/google";
 export const ADMIN = "/admin";
 export const ADMIN_POST = "/adminpost";
 export const ADMIN_COMMENT = "/admincomment";
@@ -27,3 +31,4 @@ export const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 const GOOGLE_REDIRECT_URI = process.env.REACT_APP_GOOGLE_REDIRECT_URI;
 export const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
+
