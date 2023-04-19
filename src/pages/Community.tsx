@@ -1,7 +1,7 @@
-import React from "react";
+import Boards from "../features/community/components/Boards";
 
-const Community = (): JSX.Element => {
-  return <div>Community</div>;
+const Community = () => {
+  return <Boards />;
 };
 
 export default Community;

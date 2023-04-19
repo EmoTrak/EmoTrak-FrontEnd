@@ -1,8 +1,7 @@
-import React from "react";
-import Layout from "../layouts/Layout";
+import Calendar from '../features/diary/components/Calendar';
 
 const Home = (): JSX.Element => {
-  return <>Home</>;
+  return <Calendar />;
 };
 
 export default Home;

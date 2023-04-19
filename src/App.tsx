@@ -21,9 +21,7 @@ function App(): JSX.Element {
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
         <GlobalStyle />
-        <Layout>
-          <Router />
-        </Layout>
+        <Router />
       </QueryClientProvider>
     </Provider>
   );
