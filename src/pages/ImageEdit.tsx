@@ -25,6 +25,7 @@ import { getCookie, removeCookie } from "../utils/cookies";
 import { LOGIN_PAGE } from "../data/routes/urls";
 import Flex from "../components/Flex";
 import Checkbox from "../components/Checkbox";
+import Button from "../components/Button";
 
 const ImageEdit = () => {
   const params = useParams();
@@ -278,7 +279,9 @@ const ImageEdit = () => {
                   onChange={onCheckHandler}
                 />
               </label>
-              <button type="submit">등록하기</button>
+              <Button size="large" type="submit">
+                등록하기
+              </Button>
             </StSubmitBox>
           </StCanvasWrapper>
         </Flex>

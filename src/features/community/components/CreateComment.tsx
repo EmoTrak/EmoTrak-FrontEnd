@@ -2,6 +2,7 @@ import { useState } from "react";
 import { CommentType, Idtype } from "../../../data/type/d1";
 import useAddComment from "../hooks/useAddComment";
 import styled from "styled-components";
+import Button from "../../../components/Button";
 
 const CreateComment = ({ id }: Idtype) => {
   const [input, setInput] = useState<CommentType>({
@@ -33,7 +34,9 @@ const CreateComment = ({ id }: Idtype) => {
           placeholder="댓글을 남겨보세요!"
         />
         <div>
-          <button type="submit">댓글작성</button>
+          <Button size="x-small" type="submit">
+            댓글작성
+          </Button>
         </div>
       </form>
     </div>

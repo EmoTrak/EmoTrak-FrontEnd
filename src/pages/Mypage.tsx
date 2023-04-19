@@ -10,6 +10,7 @@ import InputList from "../features/mypage/components/InputList";
 import { getCookie } from "../utils/cookies";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_PAGE } from "../data/routes/urls";
+import Button from "../components/Button";
 
 type InfoType = {
   email: string;
@@ -105,16 +106,20 @@ const Mypage = () => {
           />
           <MyPageButtonBox>
             {nicknameValidation ? (
-              <button
+              <Button
+                size="small"
                 disabled={!nicknameValidation}
                 onClick={() => changeNickname.mutate(info.nickname)}
               >
                 닉네임 변경
-              </button>
+              </Button>
             ) : (
-              <button onClick={() => checkNicknameHandler(info.nickname)}>
+              <Button
+                size="small"
+                onClick={() => checkNicknameHandler(info.nickname)}
+              >
                 중복확인
-              </button>
+              </Button>
             )}
           </MyPageButtonBox>
         </InputList>
@@ -156,7 +161,8 @@ const Mypage = () => {
             )}
           </div>
           <MyPageButtonBox>
-            <button
+            <Button
+              size="small"
               disabled={
                 info.password === "" ||
                 validPassword(info.password) === false ||
@@ -165,11 +171,13 @@ const Mypage = () => {
               onClick={() => changePassword.mutate(info.password)}
             >
               비밀번호 변경
-            </button>
+            </Button>
           </MyPageButtonBox>
         </InputList>
         <MyPageButtonBox>
-          <button onClick={withdrawUserHandler}>회원탈퇴</button>
+          <Button size="small" onClick={withdrawUserHandler}>
+            회원탈퇴
+          </Button>
         </MyPageButtonBox>
       </MyPageContentWrapper>
     </MyPageWrapper>

@@ -18,6 +18,7 @@ import PostDate from "../features/community/components/PostDate";
 import { DRAW_EDIT_PAGE, IMAGE_EDIT_PAGE } from "../data/routes/urls";
 import PageNation from "../components/PageNation";
 import { GiSiren } from "react-icons/gi";
+import Button from "../components/Button";
 
 const CommunityDetail = (): JSX.Element => {
   const queryClient = useQueryClient();
@@ -76,6 +77,33 @@ const CommunityDetail = (): JSX.Element => {
                   id={data.id}
                   count={data.likesCnt}
                 />
+              )}
+            </div>
+            <div>
+              {data?.hasAuth && (
+                <div>
+                  {data?.draw ? (
+                    <Button
+                      size="small"
+                      onClick={() => navigate(`${DRAW_EDIT_PAGE}/${data?.id}`)}
+                    >
+                      수정
+                    </Button>
+                  ) : (
+                    <Button
+                      size="x-small"
+                      onClick={() => navigate(`${IMAGE_EDIT_PAGE}/${data?.id}`)}
+                    >
+                      수정
+                    </Button>
+                  )}
+                  <Button
+                    size="x-small"
+                    onClick={() => deletePostHandler(data?.id)}
+                  >
+                    삭제
+                  </Button>
+                </div>
               )}
             </div>
             <div
@@ -172,33 +200,12 @@ const CommunityDetail = (): JSX.Element => {
               {data?.detail}
             </p>
           </div>
+
           {token && (
             <>
               <CreateComment id={data?.id} />
             </>
           )}
-          <div>
-            {data?.hasAuth && (
-              <div>
-                {data?.draw ? (
-                  <button
-                    onClick={() => navigate(`${DRAW_EDIT_PAGE}/${data?.id}`)}
-                  >
-                    수정
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => navigate(`${IMAGE_EDIT_PAGE}/${data?.id}`)}
-                  >
-                    수정
-                  </button>
-                )}
-                <button onClick={() => deletePostHandler(data?.id)}>
-                  삭제
-                </button>
-              </div>
-            )}
-          </div>
           <div></div>
         </div>
 

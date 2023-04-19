@@ -18,6 +18,7 @@ import { useDelete } from "../features/detail/hooks/useDelete";
 // import Star from "../components/Icon/Star";
 import styled from "styled-components";
 import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
+import Button from "../components/Button";
 
 interface PositionProps {
   url?: string;
@@ -94,9 +95,9 @@ const Detail = (): JSX.Element => {
     <div>
       <Flex row>
         <BackWrap>
-          <button onClick={() => navigate(-1)}>
+          <Button icon size="small" onClick={() => navigate(-1)}>
             <AiOutlineLeft fontSize="40px" />
-          </button>
+          </Button>
         </BackWrap>
         <StCanvasWrapper>
           <CanvasWrap>
@@ -116,26 +117,28 @@ const Detail = (): JSX.Element => {
             <Flex>
               <EmoMoveBtn>
                 {contents?.length < 2 || dailyId <= otherItem?.id ? (
-                  <button disabled>
+                  <Button icon disabled>
                     <AiOutlineLeft />
-                  </button>
+                  </Button>
                 ) : (
-                  <button
+                  <Button
+                    icon
                     onClick={() => navigate(`${DETAIL_PAGE}/${otherItem.id}`)}
                   >
                     <AiOutlineLeft />
-                  </button>
+                  </Button>
                 )}
                 {contents?.length < 2 || dailyId >= otherItem?.id ? (
-                  <button disabled>
+                  <Button icon disabled>
                     <AiOutlineRight />
-                  </button>
+                  </Button>
                 ) : (
-                  <button
+                  <Button
+                    icon
                     onClick={() => navigate(`${DETAIL_PAGE}/${otherItem.id}`)}
                   >
                     <AiOutlineRight />
-                  </button>
+                  </Button>
                 )}
               </EmoMoveBtn>
               <DetailEmoWrap>
@@ -181,14 +184,16 @@ const Detail = (): JSX.Element => {
               </DetailText>
               <DetailBtnWrap>
                 <div>
-                  <button onClick={navigateEditHandler}>수정</button>
+                  <Button size="large" onClick={navigateEditHandler}>
+                    수정
+                  </Button>
                 </div>
                 <div>
-                  <button>
+                  <Button size="large">
                     <DeleteConfirmModal itemId={targetItem?.id}>
                       삭제
                     </DeleteConfirmModal>
-                  </button>
+                  </Button>
                 </div>
               </DetailBtnWrap>
             </Flex>
@@ -236,7 +241,7 @@ const DetailWrapper = styled.div`
   }
   ::-webkit-scrollbar-thumb {
     /*  스크롤  */
-    background-color: #F4F2EE;
+    background-color: #f4f2ee;
     border-radius: 30px;
   }
   background-color: #fff;
