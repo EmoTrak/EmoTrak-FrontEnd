@@ -37,11 +37,8 @@ export interface KeyType {
   [key: string]: string;
 }
 
-export interface PropsType extends ChildrenType {
+export interface PropsType {
   diaryDay?: Partial<date>;
-}
-export interface ChildrenType {
-  children: React.ReactNode;
 }
 
 export type BooleanType = {
@@ -88,3 +85,13 @@ export interface commentData {
 export interface UriType {
   uri: string;
 }
+
+export type DateSelectType = {
+  select: date;
+  setSelect: React.Dispatch<React.SetStateAction<date>>;
+};
+
+export type Position = {
+  top: number;
+  left: number;
+};

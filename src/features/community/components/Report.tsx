@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { ChildrenType, Idtype, UriType } from "../../../data/type/d1";
+import React, { PropsWithChildren, useState } from "react";
+import { Idtype, UriType } from "../../../data/type/d1";
 import * as UI from "../../../components/Modal";
 import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
@@ -8,7 +8,7 @@ import user from "../../../lib/api/user";
 import * as Sub from "../../../components/subModal";
 import { keys } from "../../../data/queryKeys/keys";
 
-const Report = ({ children, id, uri }: ChildrenType & Idtype & UriType) => {
+const Report = ({ children, id, uri }: PropsWithChildren & Idtype & UriType) => {
   const [reason, setReason] = useState("");
 
   const changeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +30,7 @@ const Report = ({ children, id, uri }: ChildrenType & Idtype & UriType) => {
     <UI.Modalroot>
       <UI.ModalBackground />
       <UI.ModalTrigger>{children}</UI.ModalTrigger>
-      <UI.ModalContent>
+      <UI.ModalContent top={30} left={40}>
         <Container>
           <CloseBtn>
             <UI.ModalClose>
@@ -48,7 +48,7 @@ const Report = ({ children, id, uri }: ChildrenType & Idtype & UriType) => {
               <Sub.SubModalTrigger>
                 <button type="submit">신고</button>
               </Sub.SubModalTrigger>
-              <Sub.SubModalContent>
+              <Sub.SubModalContent top={30} left={40}>
                 <Container>
                   {status === "idle" ? (
                     <>

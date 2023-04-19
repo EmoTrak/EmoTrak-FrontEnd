@@ -24,8 +24,9 @@ const Imoticon = styled.div`
   border-radius: 50%;
   width: 5vw;
   margin-top: 10px;
-  margin-left: 10px;
+  margin-left: 13px;
   position: absolute;
+  z-index: 0;
 `;
 
 export default CalendarEmo;

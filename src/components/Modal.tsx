@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
-import { BooleanType, PropsType } from "../data/type/d1";
+import React, { PropsWithChildren, createContext, useContext, useState } from "react";
+import { BooleanType, Position } from "../data/type/d1";
 import styled from "styled-components";
 
 const defaultValue = {
@@ -9,14 +9,12 @@ const defaultValue = {
 
 const Context = createContext<BooleanType>(defaultValue);
 
-export const Modalroot = ({ children }: PropsType) => {
+export const Modalroot = ({ children }: PropsWithChildren) => {
   const [open, setOpen] = useState<boolean>(false);
-  return (
-    <Context.Provider value={{ open, setOpen }}>{children}</Context.Provider>
-  );
+  return <Context.Provider value={{ open, setOpen }}>{children}</Context.Provider>;
 };
 
-export const ModalTrigger = ({ children }: PropsType) => {
+export const ModalTrigger = ({ children }: PropsWithChildren) => {
   const { setOpen } = useContext(Context);
   return <div onClick={() => setOpen((pre) => !pre)}>{children}</div>;
 };
@@ -34,21 +32,30 @@ const Background = styled.div`
   height: 100%;
 `;
 
-export const ModalContent = ({ children }: PropsType) => {
+export const ModalContent = ({ children, top, left }: PropsWithChildren & Position) => {
   const { open } = useContext(Context);
-  return <>{open && <Content>{children}</Content>}</>;
+  return (
+    <>
+      {open && (
+        <Content top={top} left={left}>
+          {children}
+        </Content>
+      )}
+    </>
+  );
 };
 
-const Content = styled.div`
+const Content = styled.div<Position>`
   background-color: #ffffff;
   position: fixed;
-  top: 30%;
   border-radius: 30px;
-  left: 30%;
   box-sizing: border-box;
+  top: ${({ top }) => top}%;
+  left: ${({ left }) => left}%;
+  z-index: 10;
 `;
 
-export const ModalClose = ({ children }: PropsType) => {
+export const ModalClose = ({ children }: PropsWithChildren) => {
   const { setOpen } = useContext(Context);
 
   return <CloseBtn onClick={() => setOpen((pre) => !pre)}>{children}</CloseBtn>;
@@ -58,5 +65,4 @@ const CloseBtn = styled.button`
   border: 0;
   background-color: transparent;
   cursor: pointer;
-  font-size: 25px;
 `;

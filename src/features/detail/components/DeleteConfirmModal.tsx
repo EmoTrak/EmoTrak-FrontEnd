@@ -30,7 +30,7 @@ const DeleteConfirmModal = ({ children, itemId }: DeleteModalProps) => {
     <Modalroot>
       <ModalBackground />
       <ModalTrigger>{children}</ModalTrigger>
-      <ModalContent>
+      <ModalContent top={10} left={30}>
         <PostContent>
           <CloseBtn>
             <ModalClose>
@@ -43,9 +43,7 @@ const DeleteConfirmModal = ({ children, itemId }: DeleteModalProps) => {
             <ClickBtn>
               <ModalClose>아니오</ModalClose>
             </ClickBtn>
-            <ClickBtn onClick={() => deletePostHandler(itemId)}>
-              삭제하기
-            </ClickBtn>
+            <ClickBtn onClick={() => deletePostHandler(itemId)}>삭제하기</ClickBtn>
           </Flex>
         </PostContent>
       </ModalContent>

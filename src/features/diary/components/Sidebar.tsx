@@ -1,4 +1,4 @@
-import styled, { css, keyframes } from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { DayProps } from "../../../data/type/d1";
 import EmotionIcons from "../../../components/Icon/EmoticonIcons";
 import { useNavigate } from "react-router-dom";
@@ -92,7 +92,7 @@ const Container = styled.div`
 const CloseBtn = styled.button`
   margin-top: 20px;
   height: 60px;
-  width: 40px;
+  width: 35px;
   color: white;
   background-color: #e5dfd3;
   border-radius: 5px 0 0 5px;
@@ -115,18 +115,20 @@ const Content = styled.div`
   border-radius: 5px;
   padding: 5%;
   box-sizing: border-box;
+  max-width: 22vw;
   width: 22vw;
   height: 80%;
   overflow: hidden;
   word-break: break-all;
   cursor: pointer;
+  color: #d0bd95;
 `;
 
 const Imoticon = styled.div`
   border-radius: 50%;
   background-color: white;
   padding: 5px;
-  width: 40px;
+  min-width: 40px;
   height: 40px;
 `;
 
@@ -142,6 +144,7 @@ const PostContent = styled.div`
   font-size: 20px;
   font-weight: 700;
   cursor: pointer;
+  color: #e5dfd3;
 `;
 
 export default Sidebar;
