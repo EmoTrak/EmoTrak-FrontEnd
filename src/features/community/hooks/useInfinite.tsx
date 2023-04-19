@@ -3,11 +3,24 @@ import user from "../../../lib/api/user";
 import { keys } from "../../../data/queryKeys/keys";
 import { SelectType } from "../../../data/type/d1";
 
-const useInfinite = (select: SelectType) => {
+// const useInfinite = (select: SelectType) => {
+const useInfinite = (paramSort: string | null, paramEmo: string | null) => {
+  if (!paramSort) {
+    paramSort = "recent";
+  }
+  if (!paramEmo) {
+    paramEmo = "1,2,3,4,5,6";
+  }
   const { data, isError, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: [keys.GET_BOARD, select],
+    queryKey: [keys.GET_BOARD, paramSort, paramEmo],
     queryFn: async ({ pageParam = 1 }) => {
-      const data = await user.get(`/boards?page=${pageParam}`, { params: select });
+      const data = await user.get(`/boards?page=${pageParam}`, {
+        params: {
+          sort: paramSort,
+          size: 30,
+          emo: paramEmo,
+        },
+      });
       return { data: data.data.data.contents, pageParam };
     },
     getNextPageParam: (lastPage) => {

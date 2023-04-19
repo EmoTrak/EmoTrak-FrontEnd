@@ -266,7 +266,6 @@ const SelectBtn = styled.button`
 
 const Now = styled.div`
   border-radius: 10px;
-  background-color: #e5dfd3;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -275,6 +274,12 @@ const Now = styled.div`
   height: 25px;
   margin: 0 10px 5px;
   cursor: pointer;
+  background-color: #e5dfd3;
+  color: #c0afab;
+  &:hover {
+    background-color: #d0bd95;
+    color: white;
+  }
 `;
 const CalendarBox = styled.div`
   width: 50vw;
@@ -302,7 +307,6 @@ const Weeks = styled.div`
   background-color: transparent;
   position: relative;
   font-family: "KyoboHand";
-  cursor: pointer;
 `;
 const Day = styled.button`
   min-width: calc(100% / 7);
