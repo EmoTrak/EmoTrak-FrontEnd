@@ -8,6 +8,7 @@ import Report from "./Report";
 import PostDate from "./PostDate";
 import { getCookie } from "../../../utils/cookies";
 import { GiSiren } from "react-icons/gi";
+import Button from "../../../components/Button";
 
 const Comment = ({ item }: Partial<CommentProps>) => {
   const [edit, setEdit] = useState<boolean>(false);
@@ -36,11 +37,8 @@ const Comment = ({ item }: Partial<CommentProps>) => {
         >
           <EditInput value={editComment} onChange={changeInputHandler} />
           <div>
-            <button
-              style={{
-                height: "25px",
-                width: "70px",
-              }}
+            <Button
+              size="x-small"
               onClick={() =>
                 edit
                   ? updateComment(item?.id, {
@@ -50,17 +48,13 @@ const Comment = ({ item }: Partial<CommentProps>) => {
               }
             >
               수정완료
-            </button>
-            <button
-              style={{
-                height: "25px",
-                width: "70px",
-                margin: "5px 10px 0 0px",
-              }}
+            </Button>
+            <Button
+              size="x-small"
               onClick={() => edit && setEdit((pre) => !pre)}
             >
               취소
-            </button>
+            </Button>
           </div>
         </div>
       ) : (
@@ -75,11 +69,8 @@ const Comment = ({ item }: Partial<CommentProps>) => {
           <h4 style={{ margin: "5px 0 5px 0" }}>닉네임 : {item?.nickname}</h4>
           <div style={{ margin: "5px 0 5px 0" }}>댓글 : {item?.comment}</div>
           <div>
-            <button
-              style={{
-                height: "25px",
-                width: "70px",
-              }}
+            <Button
+              size="x-small"
               onClick={() =>
                 edit
                   ? updateComment(item?.id, {
@@ -89,20 +80,12 @@ const Comment = ({ item }: Partial<CommentProps>) => {
               }
             >
               {edit ? "수정완료" : "수정"}
-            </button>
-            <button
-              style={{
-                height: "25px",
-                width: "70px",
-                margin: "5px 10px 0 0px",
-              }}
-              onClick={() => deleteComment(item?.id)}
-            >
+            </Button>
+            <Button size="x-small" onClick={() => deleteComment(item?.id)}>
               삭제
-            </button>
+            </Button>
           </div>
         </div>
-
       )}
       {edit ? null : (
         <div>
@@ -116,7 +99,8 @@ const Comment = ({ item }: Partial<CommentProps>) => {
               <div style={{ display: "flex", justifyContent: "center" }}>
                 {token && (
                   <Report id={item?.id} uri="comments/report">
-                    <button
+                    <Button
+                      icon
                       style={{
                         height: "25px",
                         width: "70px",
@@ -128,7 +112,7 @@ const Comment = ({ item }: Partial<CommentProps>) => {
                       }}
                     >
                       <GiSiren />
-                    </button>
+                    </Button>
                   </Report>
                 )}
               </div>
@@ -149,6 +133,8 @@ export default Comment;
 
 const CommentBox = styled.div`
   display: flex;
+  border-bottom: 1px solid #ae9898;
+  padding: 4px;
 `;
 const EditInput = styled.textarea`
   width: 500px;

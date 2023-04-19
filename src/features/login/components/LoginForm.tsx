@@ -15,6 +15,7 @@ import Kakao from "../../../assets/Social/Kakao.svg";
 import Naver from "../../../assets/Social/Naver.svg";
 import Google from "../../../assets/Social/Google.svg";
 import LoginTitle from "../../../assets/Texts/Login.svg";
+import Button from "../../../components/Button";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const LoginForm = () => {
     <StFormWrapper>
       <form id="login" onSubmit={submitFormHandler}>
         <Flex gap={10}>
-          <FormTitle url={LoginTitle} size={3.3} />
+          <FormTitle url={LoginTitle} size={5} />
           <InputList name="ID">
             <label>
               <MyPageInput
@@ -51,12 +52,17 @@ const LoginForm = () => {
         </Flex>
       </form>
       <ButtonBox>
-        <button type="submit" form="login">
+        <Button circle size="circle" type="submit" form="login">
           로그인
-        </button>
-        <button type="button" onClick={() => navigate(SIGN_UP_PAGE)}>
+        </Button>
+        <Button
+          circle
+          size="circle"
+          type="button"
+          onClick={() => navigate(SIGN_UP_PAGE)}
+        >
           회원가입
-        </button>
+        </Button>
       </ButtonBox>
       <ButtonBox>
         <SocialButtonLabel>
