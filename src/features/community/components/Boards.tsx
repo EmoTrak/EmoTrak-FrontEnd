@@ -1,33 +1,46 @@
 import styled from "styled-components";
 import { BsCaretDownFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { FiChevronsUp } from "react-icons/fi";
 import { scrollOnTop } from "../../../utils/scollOnTop";
-import { ImageType, SelectType } from "../../../data/type/d1";
+import { ImageType } from "../../../data/type/d1";
 import { COMMUNITY_PAGE } from "../../../data/routes/urls";
 import useEmoSelect from "../hooks/useEmoSelect";
 import useInfinite from "../hooks/useInfinite";
 import EmotionIcons from "../../../components/Icon/EmoticonIcons";
 
 const Boards = (): JSX.Element => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const paramSort = searchParams.get("sort");
+  const paramEmo = searchParams.get("emo");
   const navigate = useNavigate();
-  const { clickEmojiHandler, emoNum, emoSelect } = useEmoSelect();
-  const [listOpen, setListOpen] = useState<boolean>(false);
-  const [postData, setPostData] = useState<ImageType[]>([]);
-  const [select, setSelect] = useState<SelectType>({
-    emo: "1,2,3,4,5,6",
-    size: 20,
-    sort: "recent",
-  });
+  const { clickEmojiHandler, emoNum, emoSelect } = useEmoSelect(paramEmo);
 
-  const clickSelectHandler = (sel: string): void => {
-    setSelect({ ...select, sort: sel });
-    setListOpen((pre: boolean): boolean => !pre);
+  // 최신순 or 인기순 선택모달
+  const [listOpen, setListOpen] = useState<boolean>(false);
+
+  // 서버에서 불러온 데이터를 배열에 저장
+  const [postData, setPostData] = useState<ImageType[]>([]);
+  const { data, fetchNextPage, hasNextPage, boardError } = useInfinite(
+    paramSort,
+    paramEmo
+  );
+  console.log("렌더링?");
+
+  const emoChangeBtn = () => {
+    if (paramSort) {
+      setSearchParams({ sort: paramSort, emo: emoNum });
+    } else {
+      setSearchParams({ sort: "recent", emo: emoNum });
+    }
   };
 
-  const { data, fetchNextPage, hasNextPage, boardError } = useInfinite(select);
+  const clickSortListButton = (str: string) => {
+    setSearchParams({ sort: str, emo: emoNum });
+  };
 
+  // 스크롤 위치가 바닥에 닿았을때 다음 페이지 정보를 불러오는 함수
   const onScroll = () => {
     const { scrollTop, offsetHeight } = document.documentElement;
     if (hasNextPage && window.innerHeight + scrollTop + 1 >= offsetHeight) {
@@ -37,6 +50,7 @@ const Boards = (): JSX.Element => {
     saveScrollPosition();
   };
 
+  // 스크롤 현재 위치를 저장
   function saveScrollPosition() {
     if (document.scrollingElement) {
       sessionStorage.setItem(
@@ -46,6 +60,7 @@ const Boards = (): JSX.Element => {
     }
   }
 
+  // 직전에 저장한 스크롤 위치가 있다면 그 위치로 이동
   function restoreScrollPosition() {
     const scrollPosition = sessionStorage.getItem("scrollPosition");
     if (scrollPosition) {
@@ -75,9 +90,7 @@ const Boards = (): JSX.Element => {
   }, [hasNextPage]);
 
   useEffect(() => {
-    if (emoNum) {
-      setSelect({ ...select, emo: emoNum });
-    }
+    emoChangeBtn();
   }, [emoNum]);
 
   if (boardError) {
@@ -88,14 +101,14 @@ const Boards = (): JSX.Element => {
     <Container>
       <SelectBar>
         <SelectTitle onClick={(): void => setListOpen((pre: boolean): boolean => !pre)}>
-          {select.sort === "recent" ? "최신순" : "인기순"}
+          {paramSort === "popular" ? "인기순" : "최신순"}
           <BsCaretDownFill />
           {listOpen && (
             <Sort>
-              <SortListBtn onClick={(): void => clickSelectHandler("recent")}>
+              <SortListBtn onClick={() => clickSortListButton("recent")}>
                 최신순
               </SortListBtn>
-              <SortListBtn onClick={(): void => clickSelectHandler("popular")}>
+              <SortListBtn onClick={() => clickSortListButton("popular")}>
                 인기순
               </SortListBtn>
             </Sort>
@@ -106,10 +119,7 @@ const Boards = (): JSX.Element => {
           {new Array(6).fill(null).map((e, i) => (
             <StEmoButton
               key={i}
-              onClick={() => {
-                clickEmojiHandler(i);
-                setPostData([]);
-              }}
+              onClick={() => clickEmojiHandler(i)}
               isClick={emoSelect[i]}
             >
               <EmotionIcons
