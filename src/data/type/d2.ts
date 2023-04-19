@@ -1,3 +1,5 @@
+import { ReactElement } from "react";
+
 export interface PropsData {
   month: number | string;
   graphData: graphDataType[];
@@ -30,3 +32,11 @@ export interface IOption {
   value: string;
   month: string;
 }
+export type RouterProps = {
+  token: string;
+  isAuthenticated: boolean;
+  pathname: string;
+  isAdminAuthenticated?: string | boolean;
+  children: ReactElement;
+  isAuthAdmin: boolean;
+};

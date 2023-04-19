@@ -5,36 +5,17 @@ import styled from "styled-components";
 import { BiArrowBack } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { ADMIN } from "../../../data/routes/urls";
-import { getCookie } from "../../../utils/cookies";
-import { IAdminData, IPayload } from "../../../data/type/d2";
+import { IAdminData } from "../../../data/type/d2";
 import useAdminComment from "../hooks/useAdminComment";
 import useAdminPost from "../hooks/useAdminPost";
 import PageNation from "../../../components/PageNation";
 
 const AdminComment = (): JSX.Element => {
-  const nav = useNavigate();
-  const token = getCookie("token");
-  let payloadJson;
-  let payload!: IPayload;
-  const [headerB64, payloadB64, signatureB64] = (token || "").split(".");
   const [page, setPage] = useState<number>(1);
-
-  if (typeof atob !== undefined && payloadB64) {
-    payloadJson = atob(payloadB64);
-  }
-  if (payloadJson !== undefined) {
-    payload = JSON.parse(payloadJson);
-  }
-  useEffect(() => {
-    if (payload?.auth === undefined || payload?.auth !== "ADMIN") {
-      alert("권한이 없습니다!");
-      nav("/");
-    }
-  }, [payload, nav]);
+  const nav = useNavigate();
   const { adminCommentData, adminCommentDelete, status } =
     useAdminComment(page);
   const { onReportDelete } = useAdminPost(page);
-  console.log(adminCommentData?.totalCount);
 
   return (
     <Wrapper>
