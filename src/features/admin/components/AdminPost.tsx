@@ -5,35 +5,16 @@ import styled from "styled-components";
 import { BiArrowBack } from "react-icons/bi";
 import { TbShareOff } from "react-icons/tb";
 import { ADMIN, COMMUNITY_PAGE } from "../../../data/routes/urls";
-import { getCookie } from "../../../utils/cookies";
-import { IAdminData, IPayload } from "../../../data/type/d2";
+import { IAdminData } from "../../../data/type/d2";
 import useAdminPost from "../hooks/useAdminPost";
 import PageNation from "../../../components/PageNation";
 
 const AdminPost = (): JSX.Element => {
   const nav = useNavigate();
-  const token = getCookie("token");
   const [page, setPage] = useState<number>(1);
-  let payloadJson;
-  let payload!: IPayload;
-
-  const [headerB64, payloadB64, signatureB64] = (token || "").split(".");
-  if (typeof atob !== undefined && payloadB64) {
-    payloadJson = atob(payloadB64);
-  }
-  if (payloadJson !== undefined) {
-    payload = JSON.parse(payloadJson);
-  }
-  useEffect(() => {
-    if (payload?.auth === undefined || payload?.auth !== "ADMIN") {
-      alert("권한이 없습니다!");
-      nav("/");
-    }
-  }, [payload, nav]);
 
   const { adminPostData, adminDeleteData, onReportDelete, status } =
     useAdminPost(page);
-  console.log(adminPostData);
 
   return (
     <Wrapper>
