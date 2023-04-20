@@ -4,6 +4,7 @@ import guest from "../lib/api/guest";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie, setCookie } from "../utils/cookies";
 import { keys } from "../data/queryKeys/keys";
+import { HOME_PAGE } from "../data/routes/urls";
 
 const RedirectGoogle = () => {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const RedirectGoogle = () => {
 
   useEffect(() => {
     if (token) {
-      navigate(-2);
+      navigate(`${HOME_PAGE}`);
     }
   }, [token]);
 

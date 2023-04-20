@@ -19,10 +19,10 @@ const Header = () => {
 
   const logoutUserHandler = () => {
     if (window.confirm("로그아웃하시겠습니까")) {
-      navigate("/");
       removeCookie("token", { path: "/" });
       removeCookie("refreshToken", { path: "/" });
       removeCookie("expire", { path: "/" });
+      navigate("/");
       setIsLogin(true);
     }
   };
