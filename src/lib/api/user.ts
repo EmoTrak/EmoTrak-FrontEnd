@@ -4,7 +4,9 @@ import { getCookie, removeCookie, setCookie } from "../../utils/cookies";
 
 const user = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
-
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+  },
 });
 
 user.interceptors.request.use(
