@@ -12,6 +12,7 @@ import EmotionIcons from "../components/Icon/EmoticonIcons";
 import Star from "../components/Icon/Star";
 import {
   StDeletePhotoButton,
+  StLabel,
   StPhotoInput,
   StPhotoInputBox,
   StPhotoPreview,
@@ -40,7 +41,7 @@ const ImageEdit = () => {
   useEffect(() => {
     if (!token && !refreshToken) {
       alert("로그인이 필요합니다 !");
-      navigate('/');
+      navigate("/");
     }
     getDetail();
     const newClicked = clicked.map((_, index) =>
@@ -49,9 +50,10 @@ const ImageEdit = () => {
     setClicked(newClicked);
   }, [token]);
 
-  const { data, isLoading } = useQuery([`${keys.GET_DETAIL}`], getDetail, {
-    retry: 0,
-  });
+  const { data, isLoading } = useQuery(
+    [`${keys.GET_DETAIL}`, dailyId],
+    getDetail
+  );
   const { preview, previewUrl } = usePreview();
 
   const year = data?.data.data.year;
@@ -259,7 +261,7 @@ const ImageEdit = () => {
               </label>
             </div>
             <StSubmitBox>
-              <label>
+              <StLabel>
                 공유여부
                 <Checkbox
                   name="share"
@@ -267,7 +269,7 @@ const ImageEdit = () => {
                   disabled={editItem?.restrict}
                   onChange={onCheckHandler}
                 />
-              </label>
+              </StLabel>
               <Button size="large" type="submit">
                 등록하기
               </Button>

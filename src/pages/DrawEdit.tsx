@@ -31,6 +31,7 @@ import Eraser from "../assets/Drawing/Erase.png";
 import Reboot from "../assets/Drawing/Reboot.png";
 import { StLabel, StScoreBox, StSubmitBox, StTextArea } from "./ImagePost";
 import Button from "../components/Button";
+import Checkbox from "../components/Checkbox";
 
 export type InputValue = {
   draw: boolean;
@@ -55,9 +56,7 @@ const DrawEdit = () => {
     return user.get(`daily/${dailyId}`);
   }, [dailyId]);
 
-  const { data } = useQuery([`${keys.GET_DETAIL}`], getDetail, {
-    retry: 0,
-  });
+  const { data } = useQuery([`${keys.GET_DETAIL}`, dailyId], getDetail);
 
   // 캔버스 상태
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -68,7 +67,9 @@ const DrawEdit = () => {
   const year = data?.data.data.year;
   const month = data?.data.data.month;
   const contents = data?.data.data.contents;
-  const targetItem = contents?.filter((item: DetailType) => item.id === dailyId)[0];
+  const targetItem = contents?.filter(
+    (item: DetailType) => item.id === dailyId
+  )[0];
 
   const editItem: InputValue = {
     year,
@@ -96,7 +97,7 @@ const DrawEdit = () => {
     const canvas = canvasRef?.current;
     const ctx = canvas?.getContext("2d");
     const image = new Image();
-    image.src = `${targetItem.imgUrl}`; // S3 버킷 이미지 URL
+    image.src = `${targetItem?.imgUrl}`; // S3 버킷 이미지 URL
     image.crossOrigin = "Anonymous"; // tainted canvas 방지용
     image.onload = () => {
       // 이미지가 로드되었을 때 캔버스에 그리기
@@ -140,12 +141,8 @@ const DrawEdit = () => {
     };
   };
 
-  const { startPaint, paint, exitPaint, moveTouch, startTouch, endTouch } = usePen(
-    canvasRef,
-    getCoordinates,
-    selectedColor,
-    selectedSize
-  );
+  const { startPaint, paint, exitPaint, moveTouch, startTouch, endTouch } =
+    usePen(canvasRef, getCoordinates, selectedColor, selectedSize);
 
   const { startErase, erase, exitErase } = useEraser(canvasRef, getCoordinates);
 
@@ -159,7 +156,9 @@ const DrawEdit = () => {
   };
 
   // 지우개, 펜 모드 변경 함수
-  const switchModeHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
+  const switchModeHandler = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): void => {
     const button = event.target as HTMLButtonElement;
     const value = button.value;
     if (value === "eraser") {
@@ -190,7 +189,9 @@ const DrawEdit = () => {
   };
 
   // useEffect + AddEventListener 대체 함수
-  const mouseDownHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
+  const mouseDownHandler = (
+    event: React.MouseEvent<HTMLCanvasElement>
+  ): void => {
     if (mode === "pen") {
       startPaint(event);
     } else if (mode === "eraser") {
@@ -198,7 +199,9 @@ const DrawEdit = () => {
     }
   };
 
-  const mouseMoveHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
+  const mouseMoveHandler = (
+    event: React.MouseEvent<HTMLCanvasElement>
+  ): void => {
     if (mode === "pen") {
       paint(event);
     } else if (mode === "eraser") {
@@ -213,7 +216,9 @@ const DrawEdit = () => {
       exitErase();
     }
   };
-  const mouseLeaveHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
+  const mouseLeaveHandler = (
+    event: React.MouseEvent<HTMLCanvasElement>
+  ): void => {
     if (mode === "pen") {
       exitPaint();
     } else if (mode === "eraser") {
@@ -225,7 +230,13 @@ const DrawEdit = () => {
   const emoIds: number[] = [1, 2, 3, 4, 5, 6];
 
   // 별점
-  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
+  const [clicked, setClicked] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
   const starArray: number[] = [1, 2, 3, 4, 5];
   const clickStarHandler = (index: number): void => {
     setClicked(clicked.map((_, i) => i <= index - 1));
@@ -387,7 +398,7 @@ const DrawEdit = () => {
             <StSubmitBox>
               <StLabel>
                 공유여부
-                <input
+                <Checkbox
                   name="share"
                   type="checkbox"
                   checked={inputValue?.share}
@@ -428,7 +439,8 @@ type EmoButtonProps = {
 export const StEmoButton = styled.button<EmoButtonProps>`
   width: 55px;
   height: 55px;
-  border: ${(props) => (props.selected ? "5px solid grey" : "5px solid transparent")};
+  border: ${(props) =>
+    props.selected ? "5px solid grey" : "5px solid transparent"};
   background-color: transparent;
   border-radius: 50%;
   display: flex;
