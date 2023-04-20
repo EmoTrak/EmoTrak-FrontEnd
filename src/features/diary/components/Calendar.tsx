@@ -74,9 +74,7 @@ const Calendar = () => {
     },
   });
 
-  if (isError) {
-    return <>에러..</>;
-  }
+  
 
   return (
     <Container>
