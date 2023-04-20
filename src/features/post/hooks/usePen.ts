@@ -6,7 +6,6 @@ interface PenProps {
   action?(): Function;
   color?: string;
   penSize?: number;
-  // setValidPicture: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const usePen = (
@@ -14,7 +13,6 @@ export const usePen = (
   action: Function,
   color: string,
   penSize: number
-  // setValidPicture: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   const [isPainting, setIsPainting] = useState<boolean>(false);
   const [mousePosition, setMousePosition] =
@@ -33,11 +31,6 @@ export const usePen = (
     const context = canvas.getContext("2d");
 
     if (context) {
-      // const scale = window.devicePixelRatio;
-      // context.clearRect(0, 0, canvas.width, canvas.height);
-      // context.beginPath();
-      // context.arc(cursorX * scale, cursorY * scale, 10 * scale, 0, 2 * Math.PI);
-      // context.fill();
       context.strokeStyle = `${color}`;
       context.lineJoin = "round";
       context.lineWidth = penSize;
@@ -48,7 +41,6 @@ export const usePen = (
       context.closePath();
 
       context.stroke();
-      // setValidPicture(false);
     }
   };
 
@@ -58,7 +50,6 @@ export const usePen = (
       if (!ref.current) {
         return;
       }
-      // setIsPainting(true);
       const canvas: HTMLCanvasElement = ref.current;
       let touch = event.touches[0];
       let mouseEvent = new MouseEvent("mousedown", {
@@ -73,7 +64,7 @@ export const usePen = (
   const moveTouch = useCallback(
     (event: React.TouchEvent<HTMLCanvasElement>) => {
       event.preventDefault();
-      event.stopPropagation(); // prevent drag
+      event.stopPropagation(); 
 
       if (!ref.current) {
         return;
@@ -90,9 +81,8 @@ export const usePen = (
   );
 
   const endTouch = useCallback((event: React.TouchEvent<HTMLCanvasElement>) => {
-    // setIsPainting(false);
     event.preventDefault();
-    event.stopPropagation(); // prevent drag
+    event.stopPropagation();
 
     if (!ref.current) {
       return;
@@ -109,7 +99,6 @@ export const usePen = (
     });
     canvas.dispatchEvent(mouseUpEvent);
     canvas.dispatchEvent(mouseLeaveEvent);
-    // setIsErasing(false);
   }, []);
 
   const startPaint = useCallback(
@@ -117,7 +106,6 @@ export const usePen = (
       const coordinates = action(event);
       if (coordinates) {
         setIsPainting(true);
-        // setIsErasing(false);
         setMousePosition(coordinates);
       }
     },
@@ -126,8 +114,8 @@ export const usePen = (
 
   const paint = useCallback(
     (event: React.MouseEvent<HTMLCanvasElement>): void => {
-      event.preventDefault(); // prevent drag
-      event.stopPropagation(); // prevent drag
+      event.preventDefault(); 
+      event.stopPropagation(); 
 
       if (isPainting) {
         const newMousePosition = action(event);
@@ -142,7 +130,6 @@ export const usePen = (
 
   const exitPaint = useCallback((): void => {
     setIsPainting(false);
-    // setIsErasing(false);
   }, []);
 
   return { startPaint, paint, exitPaint, endTouch, startTouch, moveTouch };

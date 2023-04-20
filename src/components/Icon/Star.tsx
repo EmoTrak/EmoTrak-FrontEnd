@@ -36,21 +36,3 @@ const StStarButton = styled.button<Props>`
     }
   }
 `;
-
-// const RatingBox = styled.div`
-//   margin: 0 auto;
-
-//   & svg {
-//     color: #e5dfd3;
-//     cursor: pointer;
-//   }
-//   :hover svg {
-//     color: #ffdc82;
-//   }
-//   & svg:hover ~ svg {
-//     color: #e5dfd3;
-//   }
-//   /* .black {
-//     color: black;
-//   } */
-// `;

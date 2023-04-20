@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useCallback, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import guest from "../lib/api/guest";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie, setCookie } from "../utils/cookies";
@@ -24,9 +24,6 @@ const RedirectGoogle = () => {
     {
       retry: 1,
       onSuccess(data) {
-        // console.log(data.headers);
-        // setCookie("data", data.headers,{path:"/"})
-
         const info = data.headers.authorization.split(" ");
         const refresh = data.headers["refresh-token"];
         const expire = data.headers["access-token-expire-time"];

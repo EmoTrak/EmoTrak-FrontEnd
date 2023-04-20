@@ -8,7 +8,7 @@ import { useSignup } from "../hooks/useSignup";
 import { FormTitle, StFormWrapper } from "../../login/components/LoginForm";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { LOGIN_PAGE, SIGN_UP_PAGE } from "../../../data/routes/urls";
+import { LOGIN_PAGE } from "../../../data/routes/urls";
 import { getCookie } from "../../../utils/cookies";
 import InputList from "../../mypage/components/InputList";
 import { MyPageInput } from "../../../pages/Mypage";
@@ -107,7 +107,7 @@ const SignupForm = () => {
     // 새로고침 막기 변수
     const preventClose = (e: BeforeUnloadEvent) => {
       e.preventDefault();
-      e.returnValue = ""; // chrome에서는 설정이 필요해서 넣은 코드
+      e.returnValue = ""; 
     };
 
     window.history.pushState(null, "", window.location.href);

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Flex from "../../../components/Flex";
 import styled from "styled-components";
 import Palette from "./Palette";
@@ -51,7 +51,6 @@ const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
     getCoordinates,
     selectedColor,
     selectedSize
-    // setValidPicture
   );
 
   const { startErase, erase, exitErase } = useEraser(canvasRef, getCoordinates);
@@ -79,15 +78,6 @@ const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
     setSelectedColor(color);
     setMode("pen");
   };
-
-  const savePictureHandler = useCallback(() => {
-    canvas?.toBlob((blob) => {
-      if (blob) {
-        // setPicture(blob);
-        // setImage(blob);
-      }
-    });
-  }, []);
 
   const mouseDownHandler = (
     event: React.MouseEvent<HTMLCanvasElement>
@@ -143,9 +133,6 @@ const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
         <button type="button" onClick={clearCanvas}>
           다시 그리기
         </button>
-        <button type="button" onClick={savePictureHandler}>
-          그리기 완료
-        </button>
       </Flex>
       <Flex row>
         <ul>도구 선택</ul>
@@ -180,7 +167,6 @@ export default Canvas;
 export const StCanvasWrapper = styled.div`
   width: 45vw;
   height: 80vh;
-  /* border: 1px solid; */
   display: flex;
   flex-direction: column;
   justify-content: center;

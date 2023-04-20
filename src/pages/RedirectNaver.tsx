@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import guest from "../lib/api/guest";
 import { useQuery } from "@tanstack/react-query";

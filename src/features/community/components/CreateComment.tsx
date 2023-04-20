@@ -34,7 +34,7 @@ const CreateComment = ({ id }: Idtype) => {
           placeholder="댓글을 남겨보세요!"
         />
         <div>
-          <Button size="x-small" type="submit">
+          <Button size="small" type="submit">
             댓글작성
           </Button>
         </div>

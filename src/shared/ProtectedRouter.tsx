@@ -23,7 +23,6 @@ export const ProtectedRoute = ({
   useEffect(() => {
     if (payload?.auth !== undefined && payload?.auth === "ADMIN") {
     } else if (isAuthAdmin && !isAdminAuthenticated) {
-      console.log(isAdminAuthenticated);
       alert("권한이없습니다.");
       nav("/");
     }

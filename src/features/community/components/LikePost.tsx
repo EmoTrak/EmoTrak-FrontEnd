@@ -6,7 +6,6 @@ import { useState } from "react";
 import { getCookie } from "../../../utils/cookies";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_PAGE } from "../../../data/routes/urls";
-import { keys } from "../../../data/queryKeys/keys";
 
 interface LikeType {
   isLike: boolean | undefined;
@@ -86,6 +85,6 @@ const LikeFalse = styled.div`
 `;
 
 const LikeCount = styled.div`
-  //
+
 `;
 export default LikePost;

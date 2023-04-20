@@ -26,7 +26,6 @@ const Boards = (): JSX.Element => {
     paramSort,
     paramEmo
   );
-  console.log("렌더링?");
 
   const emoChangeBtn = () => {
     if (paramSort) {
@@ -220,9 +219,7 @@ const ImageContainer = styled.div`
 
 const Image = styled.img`
   background-repeat: no-repeat;
-  /* width: calc(100% / 4); */
   width: 100%;
-  /* height: 100%; */
 `;
 
 const ImageBox = styled.div`
@@ -231,23 +228,6 @@ const ImageBox = styled.div`
   align-items: center;
   overflow: hidden;
   cursor: pointer;
-
-  /* &:nth-child(1),
-  &:nth-child(4),
-  &:nth-child(9),
-  &:nth-child(15n + 4) {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-  
-  &:nth-child(20n + 1) {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-  &:nth-child(30n + 1) {
-    grid-column: span 2;
-    grid-row: span 2;
-  } */
 `;
 
 const ScrollOntop = styled.button`

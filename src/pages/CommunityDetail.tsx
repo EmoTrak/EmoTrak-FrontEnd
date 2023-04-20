@@ -31,8 +31,7 @@ const CommunityDetail = (): JSX.Element => {
   const deletePostHandler = (id: number) => {
     if (window.confirm("삭제하시겠습니까?")) {
       deletePost.mutate(id, {
-        onSuccess: () =>
-          queryClient.resetQueries({ queryKey: [keys.GET_BOARD] }),
+        onSuccess: () => queryClient.resetQueries({ queryKey: [keys.GET_BOARD] }),
       });
     }
   };
@@ -72,11 +71,7 @@ const CommunityDetail = (): JSX.Element => {
               }}
             >
               {status === "success" && (
-                <LikePost
-                  isLike={data.hasLike}
-                  id={data.id}
-                  count={data.likesCnt}
-                />
+                <LikePost isLike={data.hasLike} id={data.id} count={data.likesCnt} />
               )}
             </div>
             <div>
@@ -84,7 +79,7 @@ const CommunityDetail = (): JSX.Element => {
                 <div>
                   {data?.draw ? (
                     <Button
-                      size="small"
+                      size="x-small"
                       onClick={() => navigate(`${DRAW_EDIT_PAGE}/${data?.id}`)}
                     >
                       수정
@@ -97,36 +92,10 @@ const CommunityDetail = (): JSX.Element => {
                       수정
                     </Button>
                   )}
-                  <Button
-                    size="x-small"
-                    onClick={() => deletePostHandler(data?.id)}
-                  >
+                  <Button size="x-small" onClick={() => deletePostHandler(data?.id)}>
                     삭제
                   </Button>
                 </div>
-              )}
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {!data?.hasReport && !data?.hasAuth && (
-                <Report id={data?.id} uri="report">
-                  <button
-                    style={{
-                      color: "red",
-                      fontSize: "30px",
-                      border: "none",
-                      backgroundColor: "transparent",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <GiSiren />
-                  </button>
-                </Report>
               )}
             </div>
           </div>
@@ -152,15 +121,7 @@ const CommunityDetail = (): JSX.Element => {
                   emotionTypes={`EMOTION_${data?.emoId}`}
                 />
               </div>
-              <h1
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  textAlign: "center",
-                }}
-              >
-                내 감정점수 {data?.star}
-              </h1>
+              <h1>내 감정점수 {data?.star}</h1>
               <div
                 style={{
                   display: "flex",
@@ -206,7 +167,6 @@ const CommunityDetail = (): JSX.Element => {
               <CreateComment id={data?.id} />
             </>
           )}
-          <div></div>
         </div>
 
         {status === "success" &&

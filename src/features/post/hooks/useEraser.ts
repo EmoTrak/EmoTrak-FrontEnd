@@ -33,7 +33,6 @@ export const useEraser = (
     (event: React.MouseEvent<HTMLCanvasElement>): void => {
       const coordinates = action(event);
       if (coordinates) {
-        // setIsPainting(true);
         setIsErasing(true);
         setMousePosition(coordinates);
       }
@@ -43,8 +42,8 @@ export const useEraser = (
 
   const erase = useCallback(
     (event: React.MouseEvent<HTMLCanvasElement>): void => {
-      event.preventDefault(); // prevent drag
-      event.stopPropagation(); // prevent drag
+      event.preventDefault(); 
+      event.stopPropagation(); 
 
       if (isErasing) {
         const newMousePosition = action(event);

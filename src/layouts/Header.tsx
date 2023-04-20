@@ -52,9 +52,7 @@ const Header = (): JSX.Element => {
               <PageButton onClick={() => navigate(`${COMMUNITY_PAGE}`)}>
                 공유 페이지
               </PageButton>
-              {/* <PageButton onClick={() => setSearchParams(`${COMMUNITY_PAGE}`,{ sort: "recent" })}>
-                공유 페이지
-              </PageButton> */}
+              
 
               <PageButton onClick={() => navigate(`${CHART_PAGE}`)}>
                 차트 페이지
