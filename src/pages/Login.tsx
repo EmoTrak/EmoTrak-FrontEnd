@@ -8,11 +8,6 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const navigate = useNavigate();
   const token = getCookie("token");
-  useEffect(() => {
-    if (token) {
-      navigate("/");
-    }
-  }, []);
 
   return (
     <StLoginPageWrapper>
