@@ -13,7 +13,6 @@ import { Coordinate } from "../data/type/d3";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
 import PenTool from "../features/post/components/PenTool";
 import { getCookie } from "../utils/cookies";
-import { LOGIN_PAGE } from "../data/routes/urls";
 import BallPointPen from "../assets/Drawing/Ball Point Pen.png";
 import Eraser from "../assets/Drawing/Erase.png";
 import Reboot from "../assets/Drawing/Reboot.png";
@@ -222,7 +221,7 @@ const DrawingPost = () => {
 
   useEffect(() => {
     if (!token && !refreshToken) {
-      navigate(`${LOGIN_PAGE}`);
+      navigate('/');
     }
     const preventGoBack = () => {
       if (window.confirm("페이지를 나가시겠습니까?")) {

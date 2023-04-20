@@ -6,7 +6,7 @@ import {
   ADMIN,
   CHART_PAGE,
   COMMUNITY_PAGE,
-  LOGIN_PAGE,
+  HOME_PAGE,
   MY_PAGE,
 } from "../data/routes/urls";
 import EmoTrak from "../assets/logo/EmoTrakLogo.png";
@@ -19,7 +19,7 @@ const Header = () => {
 
   const logoutUserHandler = () => {
     if (window.confirm("로그아웃하시겠습니까")) {
-      navigate(`${LOGIN_PAGE}`);
+      navigate("/");
       removeCookie("token", { path: "/" });
       removeCookie("refreshToken", { path: "/" });
       removeCookie("expire", { path: "/" });
@@ -40,18 +40,21 @@ const Header = () => {
   return (
     <StHeader>
       <Flex row jc="space-between">
-        <EmoTrakLogo onClick={() => navigate("/")}>
+        <EmoTrakLogo onClick={() => navigate(`${HOME_PAGE}`)}>
           <LogoImg src={EmoTrak} alt="로고" />
         </EmoTrakLogo>
         {payload?.auth === "ADMIN" ? (
           <NavWrapper>
             <Flex row gap={10}>
-              <PageButton onClick={() => navigate(`${ADMIN}`)}>관리자페이지</PageButton>
-              <PageButton onClick={() => navigate(`${MY_PAGE}`)}>마이페이지</PageButton>
+              <PageButton onClick={() => navigate(`${ADMIN}`)}>
+                관리자페이지
+              </PageButton>
+              <PageButton onClick={() => navigate(`${MY_PAGE}`)}>
+                마이페이지
+              </PageButton>
               <PageButton onClick={() => navigate(`${COMMUNITY_PAGE}`)}>
                 공유 페이지
               </PageButton>
-              
 
               <PageButton onClick={() => navigate(`${CHART_PAGE}`)}>
                 차트 페이지
@@ -62,7 +65,9 @@ const Header = () => {
         ) : token ? (
           <NavWrapper>
             <Flex row gap={10}>
-              <PageButton onClick={() => navigate(`${MY_PAGE}`)}>마이페이지</PageButton>
+              <PageButton onClick={() => navigate(`${MY_PAGE}`)}>
+                마이페이지
+              </PageButton>
               <PageButton onClick={() => navigate(`${COMMUNITY_PAGE}`)}>
                 공유 페이지
               </PageButton>
@@ -78,7 +83,7 @@ const Header = () => {
               <PageButton onClick={() => navigate(`${COMMUNITY_PAGE}`)}>
                 공유 페이지
               </PageButton>
-              <PageButton onClick={() => navigate(`${LOGIN_PAGE}`)}>로그인</PageButton>
+              <PageButton onClick={() => navigate("/")}>로그인</PageButton>
             </Flex>
           </NavWrapper>
         )}

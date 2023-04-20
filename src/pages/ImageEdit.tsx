@@ -21,7 +21,6 @@ import {
 } from "./ImagePost";
 import { usePreview } from "../features/post/hooks/usePreview";
 import { getCookie } from "../utils/cookies";
-import { LOGIN_PAGE } from "../data/routes/urls";
 import Flex from "../components/Flex";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
@@ -41,7 +40,7 @@ const ImageEdit = () => {
   useEffect(() => {
     if (!token && !refreshToken) {
       alert("로그인이 필요합니다 !");
-      navigate(`${LOGIN_PAGE}`);
+      navigate('/');
     }
     getDetail();
     const newClicked = clicked.map((_, index) =>

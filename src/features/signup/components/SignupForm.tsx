@@ -8,7 +8,6 @@ import { useSignup } from "../hooks/useSignup";
 import { FormTitle, StFormWrapper } from "../../login/components/LoginForm";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { LOGIN_PAGE } from "../../../data/routes/urls";
 import { getCookie } from "../../../utils/cookies";
 import InputList from "../../mypage/components/InputList";
 import { MyPageInput } from "../../../pages/Mypage";
@@ -94,7 +93,7 @@ const SignupForm = () => {
   };
   useEffect(() => {
     if (token) {
-      navigate(`${LOGIN_PAGE}`);
+      navigate('/');
     }
     const preventGoBack = () => {
       if (window.confirm("페이지를 나가시겠습니까?")) {
