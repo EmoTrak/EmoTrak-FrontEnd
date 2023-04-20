@@ -2,7 +2,6 @@ import { useMutation } from "@tanstack/react-query";
 import { SignInfo } from "../../../data/type/d3";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { LOGIN_PAGE } from "../../../data/routes/urls";
 
 export const useSignup = () => {
   const navigate = useNavigate();
@@ -16,7 +15,7 @@ export const useSignup = () => {
     {
       onSuccess() {
         alert("환영합니다!");
-        navigate(`${LOGIN_PAGE}`);
+        navigate("/");
       },
       onError() {},
     }

@@ -9,7 +9,6 @@ import styled from "styled-components";
 import InputList from "../features/mypage/components/InputList";
 import { getCookie } from "../utils/cookies";
 import { useNavigate } from "react-router-dom";
-import { LOGIN_PAGE } from "../data/routes/urls";
 import Button from "../components/Button";
 
 type InfoType = {
@@ -81,7 +80,7 @@ const Mypage = () => {
 
     if (!token && !refreshToken) {
       alert("로그인이 필요합니다!");
-      navigate(`${LOGIN_PAGE}`);
+      navigate('/');
     }
   }, [userInfo]);
 

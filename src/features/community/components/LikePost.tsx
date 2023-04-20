@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { useState } from "react";
 import { getCookie } from "../../../utils/cookies";
 import { useNavigate } from "react-router-dom";
-import { LOGIN_PAGE } from "../../../data/routes/urls";
 
 interface LikeType {
   isLike: boolean | undefined;
@@ -28,9 +27,17 @@ const LikePost = ({ isLike, id, count }: LikeType) => {
     },
     onMutate: () => {
       if (like.isLike)
-        return setLike({ ...like, isLike: false, count: Number(like.count) - 1 });
+        return setLike({
+          ...like,
+          isLike: false,
+          count: Number(like.count) - 1,
+        });
       else {
-        return setLike({ ...like, isLike: true, count: Number(like.count) + 1 });
+        return setLike({
+          ...like,
+          isLike: true,
+          count: Number(like.count) + 1,
+        });
       }
     },
     onSuccess: (likedata) =>
@@ -48,7 +55,7 @@ const LikePost = ({ isLike, id, count }: LikeType) => {
           onClick={() =>
             token
               ? likeMutate()
-              : window.confirm("로그인 후 이용가능합니다") && navigate(LOGIN_PAGE)
+              : window.confirm("로그인 후 이용가능합니다") && navigate("/")
           }
         >
           <RiHeart3Fill />
@@ -58,7 +65,7 @@ const LikePost = ({ isLike, id, count }: LikeType) => {
           onClick={() =>
             token
               ? likeMutate()
-              : window.confirm("로그인 후 이용가능합니다") && navigate(LOGIN_PAGE)
+              : window.confirm("로그인 후 이용가능합니다") && navigate("/")
           }
         >
           <RiHeart3Line />
@@ -83,7 +90,5 @@ const LikeFalse = styled.div`
   cursor: pointer;
 `;
 
-const LikeCount = styled.div`
-
-`;
+const LikeCount = styled.div``;
 export default LikePost;

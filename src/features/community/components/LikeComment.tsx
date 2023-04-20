@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { useState } from "react";
 import { getCookie } from "../../../utils/cookies";
 import { useNavigate } from "react-router-dom";
-import { LOGIN_PAGE } from "../../../data/routes/urls";
 import useLikeComment from "../hooks/useLikeComment";
+import { HOME_PAGE } from "../../../data/routes/urls";
 
 interface LikeType {
   isLike: boolean | undefined;
@@ -35,8 +35,7 @@ const LikeComment = ({ isLike: hasLike, id, count }: LikeType) => {
           onClick={() =>
             token
               ? likeMutate(id)
-              : window.confirm("로그인 후 이용가능합니다") &&
-                navigate(LOGIN_PAGE)
+              : window.confirm("로그인 후 이용가능합니다") && navigate("/")
           }
         >
           <RiHeart3Fill />
@@ -46,8 +45,7 @@ const LikeComment = ({ isLike: hasLike, id, count }: LikeType) => {
           onClick={() =>
             token
               ? likeMutate(id)
-              : window.confirm("로그인 후 이용가능합니다") &&
-                navigate(LOGIN_PAGE)
+              : window.confirm("로그인 후 이용가능합니다") && navigate("/")
           }
         >
           <RiHeart3Line />
