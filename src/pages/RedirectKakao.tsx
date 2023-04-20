@@ -4,6 +4,7 @@ import { getCookie, setCookie } from "../utils/cookies";
 import guest from "../lib/api/guest";
 import { useQuery } from "@tanstack/react-query";
 import { keys } from "../data/queryKeys/keys";
+import { HOME_PAGE } from "../data/routes/urls";
 
 const RedirectKakao = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const RedirectKakao = () => {
 
   useEffect(() => {
     if (token) {
-      navigate(-2);
+      navigate(`${HOME_PAGE}`);
     }
   }, [token]);
 

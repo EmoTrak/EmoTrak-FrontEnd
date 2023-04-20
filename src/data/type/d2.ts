@@ -39,4 +39,5 @@ export type RouterProps = {
   isAdminAuthenticated?: string | boolean;
   children: ReactElement;
   isAuthAdmin: boolean;
+  AlreadyLogin: boolean;
 };

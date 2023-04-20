@@ -4,6 +4,7 @@ import { LoginInfo } from "../../../data/type/d3";
 import guest from "../../../lib/api/guest";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { HOME_PAGE } from "../../../data/routes/urls";
 
 export const useLogin = () => {
   const navigate = useNavigate();
@@ -38,9 +39,9 @@ export const useLogin = () => {
         setCookie("token", token, { path: "/", maxAge: 1740 });
         setCookie("refreshToken", refresh, { path: "/", maxAge: 604800 });
         setCookie("expire", expire, { path: "/", maxAge: 604800 });
-        navigate(-1);
+        navigate(`${HOME_PAGE}`);
       },
-      onError(err) {
+      onError() {
         alert("아이디와 비밀번호를 확인해주세요 !");
         setLoginInfo({ email: "", password: "" });
       },

@@ -43,17 +43,17 @@ const Router = () => {
       isAuthAdmin: false,
     },
     {
-      pathname: `${PAGE.HOME_PAGE}`,
-      element: <Home />,
-      isPublic: false,
-      isLogin: true,
-      isAuthAdmin: false,
-    },
-    {
       pathname: `${PAGE.SIGN_UP_PAGE}`,
       element: <Signup />,
       isPublic: true,
       isLogin: false,
+      isAuthAdmin: false,
+    },
+    {
+      pathname: `${PAGE.HOME_PAGE}`,
+      element: <Home />,
+      isPublic: false,
+      isLogin: true,
       isAuthAdmin: false,
     },
     {
@@ -109,14 +109,14 @@ const Router = () => {
       pathname: `${PAGE.COMMUNITY_PAGE}`,
       element: <Community />,
       isPublic: true,
-      isLogin: false,
+      isLogin: true,
       isAuthAdmin: false,
     },
     {
       pathname: `${PAGE.COMMUNITY_DETAIL}/:id`,
       element: <CommunityDetail />,
       isPublic: true,
-      isLogin: false,
+      isLogin: true,
       isAuthAdmin: false,
     },
     {
@@ -170,11 +170,17 @@ const Router = () => {
           {pages.map((page) => {
             const isAuthenticated = page.isPublic || token;
             const isAuthAdmin = page.isAuthAdmin;
+
             const isAdminAuthenticated =
               page.isAuthAdmin === true &&
               payload?.auth !== undefined &&
               payload?.auth === "ADMIN";
 
+            const AlreadyLogin =
+              page.isPublic === true &&
+              page.isLogin === false &&
+              page.isAuthAdmin === false;
+              
             return (
               <Route
                 key={page.pathname}
@@ -186,6 +192,7 @@ const Router = () => {
                     isAuthenticated={isAuthenticated}
                     isAdminAuthenticated={isAdminAuthenticated}
                     isAuthAdmin={isAuthAdmin}
+                    AlreadyLogin={AlreadyLogin}
                   >
                     {page.element}
                   </ProtectedRoute>
