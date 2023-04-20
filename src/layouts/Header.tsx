@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getCookie, removeCookie } from "../utils/cookies";
 import Flex from "../components/Flex";
 import {
@@ -12,8 +12,7 @@ import {
 import EmoTrak from "../assets/logo/EmoTrakLogo.png";
 import { useState } from "react";
 
-const Header = (): JSX.Element => {
-  const [searchParams, setSearchParams] = useSearchParams();
+const Header = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
   const token = getCookie("token");

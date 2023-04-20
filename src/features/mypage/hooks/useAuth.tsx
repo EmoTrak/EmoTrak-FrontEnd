@@ -30,23 +30,7 @@ export const useAuth = () => {
       },
     }
   );
-  // const authorization = useMutation(
-  //   async (item: string | undefined) => {
-  //     const data = await user.post(`/users/mypage`, item);
-  //     return data;
-  //   },
-  //   {
-  //     onSuccess(data) {
-  //       const info: MyInfo = data.data;
-  //       setUserInfo(info);
-  //       action(true);
-  //     },
-  //     onError(error) {
-  //       alert("비밀번호를 확인해주세요");
-  //       action(false);
-  //     },
-  //   }
-  // );
+
 
   return { data, userInfo, isLoading };
 };

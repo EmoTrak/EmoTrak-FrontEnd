@@ -10,7 +10,7 @@ import useEmoSelect from "../hooks/useEmoSelect";
 import useInfinite from "../hooks/useInfinite";
 import EmotionIcons from "../../../components/Icon/EmoticonIcons";
 
-const Boards = (): JSX.Element => {
+const Boards = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const paramSort = searchParams.get("sort");
   const paramEmo = searchParams.get("emo");

@@ -1,10 +1,9 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Flex from "../../../components/Flex";
 import { ADMIN_COMMENT, ADMIN_POST } from "../../../data/routes/urls";
 
-const AdminNavbar = (): JSX.Element => {
+const AdminNavbar = () => {
   const nav = useNavigate();
   return (
     <Flex>

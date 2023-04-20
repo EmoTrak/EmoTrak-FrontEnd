@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ApexCharts from "react-apexcharts";
 import styled from "styled-components";
 import { PropsData } from "../../../data/type/d2";
 
-const BarChart = ({ graphData, month }: PropsData): JSX.Element => {
+const BarChart = ({ graphData, month }: PropsData) => {
   const [barCountArr, setBarCountArr] = useState<number[]>([]);
   const newBarCount = barCountArr.reduce((sum: number, cur: number) => {
     return sum + cur;

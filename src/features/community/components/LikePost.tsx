@@ -1,5 +1,5 @@
 import { RiHeart3Fill, RiHeart3Line } from "react-icons/ri";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import user from "../../../lib/api/user";
 import styled from "styled-components";
 import { useState } from "react";
@@ -14,7 +14,6 @@ interface LikeType {
 }
 
 const LikePost = ({ isLike, id, count }: LikeType) => {
-  const queryClient = useQueryClient();
   const token = getCookie("token");
   const navigate = useNavigate();
   const [like, setLike] = useState<Partial<LikeType>>({

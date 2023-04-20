@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { getCookie } from "../utils/cookies";
 import { useNavigate } from "react-router-dom";
 
-const Login = (): JSX.Element => {
+const Login = () => {
   const navigate = useNavigate();
   const token = getCookie("token");
   useEffect(() => {

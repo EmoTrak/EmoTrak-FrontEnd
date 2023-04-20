@@ -6,7 +6,7 @@ import { DETAIL_PAGE } from "../../../data/routes/urls";
 import ClickModalPost from "./ClickModalPost";
 import { MdArrowForwardIos } from "react-icons/md";
 
-const Sidebar = ({ side, setSide, data, diaryDay }: Partial<DayProps>): JSX.Element => {
+const Sidebar = ({ side, setSide, data, diaryDay }: Partial<DayProps>) => {
   const navigate = useNavigate();
 
   const ClickCloseBtn = () => {

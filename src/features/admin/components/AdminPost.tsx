@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Flex from "../../../components/Flex";
 import styled from "styled-components";
@@ -9,7 +9,7 @@ import { IAdminData } from "../../../data/type/d2";
 import useAdminPost from "../hooks/useAdminPost";
 import PageNation from "../../../components/PageNation";
 
-const AdminPost = (): JSX.Element => {
+const AdminPost = () => {
   const nav = useNavigate();
   const [page, setPage] = useState<number>(1);
 

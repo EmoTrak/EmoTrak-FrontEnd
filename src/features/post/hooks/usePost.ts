@@ -9,14 +9,6 @@ interface PostInput {
   canvasRef?: React.RefObject<HTMLCanvasElement> | null;
 }
 
-interface PostResult {
-  submitDiaryHandler(): void;
-  savePictureHandler(): void;
-  fileInputHandler(): Promise<void>;
-  fileDropHandler(): Promise<void>;
-  photo: Blob;
-}
-
 export const usePost = ({ inputValue, canvasRef }: PostInput) => {
   const navigate = useNavigate();
   const [picture, setPicture] = useState<Blob | null>(null);

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Flex from "../../../components/Flex";
 import { SignInfo } from "../../../data/type/d3";
 import { useEmailValidation } from "../hooks/useEmailValidation";

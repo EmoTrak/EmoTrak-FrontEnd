@@ -1,6 +1,6 @@
 import Calendar from '../features/diary/components/Calendar';
 
-const Home = (): JSX.Element => {
+const Home = () => {
   return <Calendar />;
 };
 
