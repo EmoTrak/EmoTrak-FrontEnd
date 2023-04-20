@@ -1,13 +1,6 @@
 import { useCallback, useState } from "react";
 import { Coordinate } from "../../../data/type/d3";
 
-interface PenProps {
-  ref?: React.RefObject<HTMLCanvasElement>;
-  action?(): Function;
-  color?: string;
-  penSize?: number;
-}
-
 export const usePen = (
   ref: React.RefObject<HTMLCanvasElement>,
   action: Function,

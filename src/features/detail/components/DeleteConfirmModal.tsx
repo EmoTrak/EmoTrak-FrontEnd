@@ -7,7 +7,6 @@ import {
   Modalroot,
 } from "../../../components/Modal";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { useDelete } from "../hooks/useDelete";
 import Flex from "../../../components/Flex";
@@ -18,7 +17,6 @@ interface DeleteModalProps {
 }
 
 const DeleteConfirmModal = ({ children, itemId }: DeleteModalProps) => {
-  const navigate = useNavigate();
   const { deletePost } = useDelete();
   const deletePostHandler = (id: number) => {
     deletePost.mutate(id);

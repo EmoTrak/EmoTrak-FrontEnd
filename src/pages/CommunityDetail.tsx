@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Flex from "../components/Flex";
 import { useNavigate } from "react-router-dom";
 import { useDelete } from "../features/detail/hooks/useDelete";
 import styled from "styled-components";
@@ -8,7 +7,6 @@ import { getCookie } from "../utils/cookies";
 import { commentData } from "../data/type/d1";
 import LikePost from "../features/community/components/LikePost";
 import CreateComment from "../features/community/components/CreateComment";
-import Report from "../features/community/components/Report";
 import Comment from "../features/community/components/Comment";
 import useAddCommunityDetail from "../features/community/hooks/useAddCommunityDetail";
 import { useQueryClient } from "@tanstack/react-query";
@@ -17,10 +15,9 @@ import { scrollOnTop } from "../utils/scollOnTop";
 import PostDate from "../features/community/components/PostDate";
 import { DRAW_EDIT_PAGE, IMAGE_EDIT_PAGE } from "../data/routes/urls";
 import PageNation from "../components/PageNation";
-import { GiSiren } from "react-icons/gi";
 import Button from "../components/Button";
 
-const CommunityDetail = (): JSX.Element => {
+const CommunityDetail = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const token = getCookie("token");

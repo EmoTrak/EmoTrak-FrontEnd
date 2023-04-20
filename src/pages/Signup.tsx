@@ -1,7 +1,7 @@
 import SignupForm from "../features/signup/components/SignupForm";
 import { StLoginPageWrapper } from "./Login";
 
-const Register = (): JSX.Element => {
+const Register = () => {
   return (
     <StLoginPageWrapper>
       <SignupForm />

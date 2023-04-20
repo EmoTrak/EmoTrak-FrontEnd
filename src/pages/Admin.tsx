@@ -1,8 +1,7 @@
-import React from "react";
 import styled from "styled-components";
 import AdminNavbar from "../features/admin/components/AdminNavbar";
 
-const Admin = (): JSX.Element => {
+const Admin = () => {
   return (
     <Wrapper>
       <AdminNavbar />

@@ -14,14 +14,9 @@ import {
   IMAGE_EDIT_PAGE,
   LOGIN_PAGE,
 } from "../data/routes/urls";
-import { useDelete } from "../features/detail/hooks/useDelete";
 import styled from "styled-components";
 import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 import Button from "../components/Button";
-
-interface PositionProps {
-  url?: string;
-}
 
 export type DetailType = {
   id: number;
@@ -35,7 +30,7 @@ export type DetailType = {
   draw: boolean;
 };
 
-const Detail = (): JSX.Element => {
+const Detail = () => {
   const params = useParams();
   const dailyId: number = Number(params.id);
   const navigate = useNavigate();
@@ -51,7 +46,6 @@ const Detail = (): JSX.Element => {
     getDetail();
   }, [token]);
 
-  const { deletePost } = useDelete();
 
   const getDetail = useCallback(() => {
     return user.get(`daily/${dailyId}`);

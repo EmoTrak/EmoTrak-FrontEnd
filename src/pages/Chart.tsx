@@ -11,7 +11,7 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import useChartFn from "../features/chart/hooks/useChartFn";
 import { scrollOnTop } from "../utils/scollOnTop";
 
-const Chart = (): JSX.Element => {
+const Chart = () => {
   const nav = useNavigate();
 
   const {
@@ -166,7 +166,7 @@ const MonthListBtn = styled.button`
       background-color: #eee;
       border-radius: 50%;
       width: 100%;
-      height:60%;
+      height: 60%;
       margin: 0;
     }
   }

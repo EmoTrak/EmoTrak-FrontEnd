@@ -13,7 +13,7 @@ import MonthSelect from "./MonthSelect";
 import { MdOutlineArrowDropDownCircle } from "react-icons/md";
 import Button from "../../../components/Button";
 
-const Calendar = (): JSX.Element => {
+const Calendar = () => {
   const [side, setSide] = useState(false);
   const today: date = {
     year: new Date().getFullYear(),

@@ -34,7 +34,7 @@ export type InputValue = {
   restrict: boolean;
 };
 
-const DrawingPost = (): JSX.Element => {
+const DrawingPost = () => {
   const token = getCookie("token");
   const refreshToken = getCookie("refreshToken");
   const navigate = useNavigate();
