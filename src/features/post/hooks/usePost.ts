@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { InputValue } from "../../../pages/DrawingPost";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import user from "../../../lib/api/user";
 import { useNavigate } from "react-router-dom";
+import { keys } from "../../../data/queryKeys/keys";
 
 interface PostInput {
   inputValue: InputValue;
@@ -10,6 +11,7 @@ interface PostInput {
 }
 
 export const usePost = ({ inputValue, canvasRef }: PostInput) => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [picture, setPicture] = useState<Blob | null>(null);
   const [photo, setPhoto] = useState<Blob | null>(null);
@@ -54,6 +56,9 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
     {
       onSuccess(data) {
         const newItemId = data.data.data.id;
+        queryClient.invalidateQueries({
+          queryKey: [keys.GET_BOARD, "recent", "1,2,3,4,5,6"],
+        });
         navigate(`/detail/${newItemId}`);
       },
       onError(err) {
@@ -62,9 +67,7 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
     }
   );
 
-  const submitDiaryHandler = (
-    event: React.FormEvent<HTMLFormElement>
-  ): void => {
+  const submitDiaryHandler = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const formData = new FormData();
     const dto = new Blob([JSON.stringify(inputValue)], {

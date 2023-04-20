@@ -39,7 +39,7 @@ const Router = () => {
       pathname: "/",
       element: <Home />,
       isPublic: false,
-      isLogin: false,
+      isLogin: true,
       isAuthAdmin: false,
     },
     {
