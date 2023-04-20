@@ -31,6 +31,7 @@ import Eraser from "../assets/Drawing/Erase.png";
 import Reboot from "../assets/Drawing/Reboot.png";
 import { StLabel, StScoreBox, StSubmitBox, StTextArea } from "./ImagePost";
 import Button from "../components/Button";
+import Checkbox from "../components/Checkbox";
 
 export type InputValue = {
   draw: boolean;
@@ -55,9 +56,7 @@ const DrawEdit = () => {
     return user.get(`daily/${dailyId}`);
   }, [dailyId]);
 
-  const { data } = useQuery([`${keys.GET_DETAIL}`], getDetail, {
-    retry: 0,
-  });
+  const { data } = useQuery([`${keys.GET_DETAIL}`, dailyId], getDetail);
 
   // 캔버스 상태
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -88,7 +87,7 @@ const DrawEdit = () => {
   useEffect(() => {
     if (!token && !refreshToken) {
       alert("로그인이 필요합니다 !");
-      navigate('/');
+      navigate("/");
     }
     getDetail();
     const newClicked = clicked.map((_, index) =>
@@ -98,7 +97,7 @@ const DrawEdit = () => {
     const canvas = canvasRef?.current;
     const ctx = canvas?.getContext("2d");
     const image = new Image();
-    image.src = `${targetItem.imgUrl}`; // S3 버킷 이미지 URL
+    image.src = `${targetItem?.imgUrl}`; // S3 버킷 이미지 URL
     image.crossOrigin = "Anonymous"; // tainted canvas 방지용
     image.onload = () => {
       // 이미지가 로드되었을 때 캔버스에 그리기
@@ -261,7 +260,7 @@ const DrawEdit = () => {
 
   useEffect(() => {
     if (!token) {
-      navigate('/');
+      navigate("/");
     }
     // const preventGoBack = () => {
     //   if (window.confirm("페이지를 나가시겠습니까?")) {
@@ -399,7 +398,7 @@ const DrawEdit = () => {
             <StSubmitBox>
               <StLabel>
                 공유여부
-                <input
+                <Checkbox
                   name="share"
                   type="checkbox"
                   checked={inputValue?.share}

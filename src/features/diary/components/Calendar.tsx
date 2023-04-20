@@ -248,6 +248,7 @@ const SelectBtn = styled.button`
   background-color: transparent;
   font-size: 20px;
   color: #d0bd95;
+  cursor: pointer;
 `;
 
 const Now = styled.div`
