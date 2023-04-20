@@ -33,7 +33,7 @@ const MonthSelect = ({
           </Year>
           <SelectMonth>
             {month.map((_, i) => (
-              <UI.ModalClose>
+              <UI.ModalClose key={i}>
                 <ClickBtn onClick={() => setSelect({ ...select, month: i + 1 })}>
                   {i + 1}
                 </ClickBtn>

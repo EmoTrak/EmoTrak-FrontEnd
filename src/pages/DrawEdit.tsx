@@ -68,9 +68,7 @@ const DrawEdit = () => {
   const year = data?.data.data.year;
   const month = data?.data.data.month;
   const contents = data?.data.data.contents;
-  const targetItem = contents?.filter(
-    (item: DetailType) => item.id === dailyId
-  )[0];
+  const targetItem = contents?.filter((item: DetailType) => item.id === dailyId)[0];
 
   const editItem: InputValue = {
     year,
@@ -88,7 +86,7 @@ const DrawEdit = () => {
   useEffect(() => {
     if (!token && !refreshToken) {
       alert("로그인이 필요합니다 !");
-      navigate('/');
+      navigate("/");
     }
     getDetail();
     const newClicked = clicked.map((_, index) =>
@@ -142,8 +140,12 @@ const DrawEdit = () => {
     };
   };
 
-  const { startPaint, paint, exitPaint, moveTouch, startTouch, endTouch } =
-    usePen(canvasRef, getCoordinates, selectedColor, selectedSize);
+  const { startPaint, paint, exitPaint, moveTouch, startTouch, endTouch } = usePen(
+    canvasRef,
+    getCoordinates,
+    selectedColor,
+    selectedSize
+  );
 
   const { startErase, erase, exitErase } = useEraser(canvasRef, getCoordinates);
 
@@ -157,9 +159,7 @@ const DrawEdit = () => {
   };
 
   // 지우개, 펜 모드 변경 함수
-  const switchModeHandler = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ): void => {
+  const switchModeHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
     const button = event.target as HTMLButtonElement;
     const value = button.value;
     if (value === "eraser") {
@@ -190,9 +190,7 @@ const DrawEdit = () => {
   };
 
   // useEffect + AddEventListener 대체 함수
-  const mouseDownHandler = (
-    event: React.MouseEvent<HTMLCanvasElement>
-  ): void => {
+  const mouseDownHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
     if (mode === "pen") {
       startPaint(event);
     } else if (mode === "eraser") {
@@ -200,9 +198,7 @@ const DrawEdit = () => {
     }
   };
 
-  const mouseMoveHandler = (
-    event: React.MouseEvent<HTMLCanvasElement>
-  ): void => {
+  const mouseMoveHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
     if (mode === "pen") {
       paint(event);
     } else if (mode === "eraser") {
@@ -217,9 +213,7 @@ const DrawEdit = () => {
       exitErase();
     }
   };
-  const mouseLeaveHandler = (
-    event: React.MouseEvent<HTMLCanvasElement>
-  ): void => {
+  const mouseLeaveHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
     if (mode === "pen") {
       exitPaint();
     } else if (mode === "eraser") {
@@ -231,13 +225,7 @@ const DrawEdit = () => {
   const emoIds: number[] = [1, 2, 3, 4, 5, 6];
 
   // 별점
-  const [clicked, setClicked] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
   const starArray: number[] = [1, 2, 3, 4, 5];
   const clickStarHandler = (index: number): void => {
     setClicked(clicked.map((_, i) => i <= index - 1));
@@ -261,7 +249,7 @@ const DrawEdit = () => {
 
   useEffect(() => {
     if (!token) {
-      navigate('/');
+      navigate("/");
     }
     // const preventGoBack = () => {
     //   if (window.confirm("페이지를 나가시겠습니까?")) {
@@ -440,8 +428,7 @@ type EmoButtonProps = {
 export const StEmoButton = styled.button<EmoButtonProps>`
   width: 55px;
   height: 55px;
-  border: ${(props) =>
-    props.selected ? "5px solid grey" : "5px solid transparent"};
+  border: ${(props) => (props.selected ? "5px solid grey" : "5px solid transparent")};
   background-color: transparent;
   border-radius: 50%;
   display: flex;
