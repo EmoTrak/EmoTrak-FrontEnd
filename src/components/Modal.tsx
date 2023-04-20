@@ -61,8 +61,7 @@ export const ModalClose = ({ children }: PropsWithChildren) => {
   return <CloseBtn onClick={() => setOpen((pre) => !pre)}>{children}</CloseBtn>;
 };
 
-const CloseBtn = styled.button`
+const CloseBtn = styled.div`
   border: 0;
-  background-color: transparent;
   cursor: pointer;
 `;
