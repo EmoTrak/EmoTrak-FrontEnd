@@ -11,7 +11,7 @@ import { useEraser } from "../features/post/hooks/useEraser";
 import { Coordinate } from "../data/type/d3";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
 import PenTool from "../features/post/components/PenTool";
-import { getCookie, removeCookie } from "../utils/cookies";
+import { getCookie } from "../utils/cookies";
 import { LOGIN_PAGE } from "../data/routes/urls";
 import user from "../lib/api/user";
 import { useQuery } from "@tanstack/react-query";
@@ -46,7 +46,7 @@ export type InputValue = {
   restrict: boolean;
 };
 
-const DrawEdit = (): JSX.Element => {
+const DrawEdit = () => {
   const navigate = useNavigate();
   const token = getCookie("token");
   const refreshToken = getCookie("refreshToken");

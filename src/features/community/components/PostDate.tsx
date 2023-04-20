@@ -1,7 +1,7 @@
 import { PostDateType } from "../../../data/type/d1";
 
 const PostDate = ({ date }: PostDateType) => {
-  const today: any = {
+  const today = {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
     date: new Date().getDate(),

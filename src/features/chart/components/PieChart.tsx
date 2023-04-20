@@ -1,9 +1,9 @@
 import ApexCharts from "react-apexcharts";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { PropsData } from "../../../data/type/d2";
 
-function PieChart({ graphData, month }: PropsData): JSX.Element {
+function PieChart({ graphData, month }: PropsData) {
   const [pieCountArr, setBarCountArr] = useState<number[]>([]);
   const newPieCount = pieCountArr.reduce((sum: number, cur: number) => {
     return sum + cur;

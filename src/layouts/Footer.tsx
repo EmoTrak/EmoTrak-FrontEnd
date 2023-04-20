@@ -4,7 +4,7 @@ import { LOGIN_PAGE } from "../data/routes/urls";
 import { AiFillGithub } from "react-icons/ai";
 import { RxNotionLogo } from "react-icons/rx";
 
-const Footer = (): JSX.Element => {
+const Footer = () => {
   const nav = useNavigate();
   const date = new Date();
 

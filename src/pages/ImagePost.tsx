@@ -14,7 +14,7 @@ import { LOGIN_PAGE } from "../data/routes/urls";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
 
-const ImagePost = (): JSX.Element => {
+const ImagePost = () => {
   const token = getCookie("token");
   const refreshToken = getCookie("refreshToken");
   const navigate = useNavigate();

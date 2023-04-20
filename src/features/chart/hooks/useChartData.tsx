@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
 import { keys } from "../../../data/queryKeys/keys";
 import user from "../../../lib/api/user";
 

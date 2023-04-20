@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Flex from "../../../components/Flex";
 import styled from "styled-components";
@@ -10,7 +10,7 @@ import useAdminComment from "../hooks/useAdminComment";
 import useAdminPost from "../hooks/useAdminPost";
 import PageNation from "../../../components/PageNation";
 
-const AdminComment = (): JSX.Element => {
+const AdminComment = () => {
   const [page, setPage] = useState<number>(1);
   const nav = useNavigate();
   const { adminCommentData, adminCommentDelete, status } =
