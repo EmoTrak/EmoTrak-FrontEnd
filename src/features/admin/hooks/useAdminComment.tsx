@@ -13,11 +13,9 @@ const useAdminComment = (page: number) => {
     },
     refetchOnWindowFocus: false,
   });
-console.log(data);
 
   const { mutate } = useMutation({
     mutationFn: async (payload: number) => {
-      console.log(payload);
       const { data } = await user.delete(`/boards/comments/${payload}`);
       return data;
     },

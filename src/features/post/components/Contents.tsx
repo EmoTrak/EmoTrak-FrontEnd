@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { useInput } from "../hooks/useInput";
 import { InputValue } from "../../../pages/DrawingPost";
@@ -107,5 +107,4 @@ const StEmoButton = styled.button`
   display: flex;
   justify-content: center;
   cursor: pointer;
-  /* align-items: center; */
 `;

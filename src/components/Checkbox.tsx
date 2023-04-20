@@ -61,8 +61,6 @@ const StyledCheckBox = styled.div<CheckProps>`
   display: inline-block;
   width: 1.2vw;
   height: 1.2vw;
-  /* border: ${(props) =>
-    props.checked ? "none" : "solid 0.1rem transparent"}; */
   background: ${(props) => (props.checked ? "#d0bd95" : "white")};
   border-radius: 0.4rem;
   transition: all 150ms;

@@ -2,12 +2,10 @@ import { useState } from "react";
 import { InputValue } from "../../../pages/DrawingPost";
 import {
   useMutation,
-  QueryClient,
   useQueryClient,
 } from "@tanstack/react-query";
 import user from "../../../lib/api/user";
 import { useNavigate } from "react-router-dom";
-import { DETAIL_PAGE } from "../../../data/routes/urls";
 import { keys } from "../../../data/queryKeys/keys";
 
 type PostInput = {
@@ -28,7 +26,6 @@ export const useEdit = ({ inputValue, dailyId, canvasRef }: PostInput) => {
     },
     {
       onSuccess() {
-        // alert("수정되었습니다");
         navigate(-1);
       },
       onError() {
@@ -39,9 +36,6 @@ export const useEdit = ({ inputValue, dailyId, canvasRef }: PostInput) => {
 
   const savePictureHandler = (): void => {
     const canvas = canvasRef?.current;
-    // const dataURL = canvas?.toDataURL();
-    // setPicture(dataURL);
-    // console.log("이미지 저장 시도");
 
     canvas?.toBlob(
       (blob) => {

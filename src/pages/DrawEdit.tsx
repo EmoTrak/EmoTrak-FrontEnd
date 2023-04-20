@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Flex from "../components/Flex";
 import { useNavigate, useParams } from "react-router-dom";
-import { usePost } from "../features/post/hooks/usePost";
 import { useInput } from "../features/post/hooks/useInput";
 import styled from "styled-components";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
@@ -256,7 +255,6 @@ const DrawEdit = (): JSX.Element => {
 
   // 글작성 함수
   const submitFormHandler = async (event: React.FormEvent<HTMLFormElement>) => {
-    // event.preventDefault();
     if (validPicture) {
       editDiaryHandler(event);
     }

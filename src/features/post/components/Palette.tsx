@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-
 interface PaletteProps {
   selectedColor: string;
   onColorSelect(color: string): void;
@@ -11,22 +9,15 @@ const Palette = ({
   onColorSelect,
   setSelectPen,
 }: PaletteProps) => {
-  //상태 관리
-
-  //   // 색상 선택 핸들러
-  //   const handleColorSelect = (color) => {
-  //     setSelectedColor(color);
-  //   };
-  // 컬러 팔레트에 사용할 색상 배열
   const colorPalette = [
-    "#fed400e2", // 노랑
-    "#f67269", // 빨강
-    "#d67dcc", // 분홍
-    "#787bca", // 보라
-    "#5dc0ed", // 파랑
-    "#3ac66d", // 초록
-    "#000000", // 검정
-    "white", // 흰색
+    "#fed400e2",
+    "#f67269",
+    "#d67dcc",
+    "#787bca",
+    "#5dc0ed",
+    "#3ac66d",
+    "#000000",
+    "#ffffff",
   ];
 
   return (
@@ -42,7 +33,7 @@ const Palette = ({
               cursor: "pointer",
               marginRight: "10px",
               borderRadius: "50%",
-              border: color === selectedColor ? "2px solid grey" : "none", // 선택된 색상에는 테두리있도록 표시
+              border: color === selectedColor ? "2px solid grey" : "none",
             }}
             onClick={() => {
               onColorSelect(color);

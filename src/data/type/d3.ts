@@ -1,5 +1,3 @@
-// 엥인서 모듈 파일
-
 export type LoginInfo = {
   email: string;
   password: string;

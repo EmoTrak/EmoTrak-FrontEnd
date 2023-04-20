@@ -6,7 +6,6 @@ import { keys } from "../data/queryKeys/keys";
 import { useQuery } from "@tanstack/react-query";
 import { DetailType } from "./Detail";
 import { useInput } from "../features/post/hooks/useInput";
-import { usePost } from "../features/post/hooks/usePost";
 import { useEdit } from "../features/detail/hooks/useEdit";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
@@ -21,7 +20,7 @@ import {
   StTextArea,
 } from "./ImagePost";
 import { usePreview } from "../features/post/hooks/usePreview";
-import { getCookie, removeCookie } from "../utils/cookies";
+import { getCookie } from "../utils/cookies";
 import { LOGIN_PAGE } from "../data/routes/urls";
 import Flex from "../components/Flex";
 import Checkbox from "../components/Checkbox";
@@ -92,7 +91,6 @@ const ImageEdit = () => {
     });
 
   // 드래그앤 드랍
-  // const [isDragging, setIsDragging] = useState<boolean>(false);
   const dragRef = useRef<HTMLLabelElement | null>(null);
 
   const dragOverHandler = useCallback((event: React.DragEvent): void => {
@@ -100,7 +98,6 @@ const ImageEdit = () => {
     event.stopPropagation();
 
     if (event.dataTransfer!.files) {
-      // setIsDragging(true);
     }
   }, []);
 
@@ -110,7 +107,6 @@ const ImageEdit = () => {
       event.stopPropagation();
 
       fileDropHandler(event);
-      // setIsDragging(false);
       setValidPhoto(true);
     },
     []
@@ -266,12 +262,6 @@ const ImageEdit = () => {
             <StSubmitBox>
               <label>
                 공유여부
-                {/* <input
-                  name="share"
-                  type="checkbox"
-                  checked={inputValue.share === true}
-                  onChange={onCheckHandler}
-                /> */}
                 <Checkbox
                   name="share"
                   checked={inputValue?.share === true}

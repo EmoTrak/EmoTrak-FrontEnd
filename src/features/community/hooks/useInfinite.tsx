@@ -1,9 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import user from "../../../lib/api/user";
 import { keys } from "../../../data/queryKeys/keys";
-import { SelectType } from "../../../data/type/d1";
 
-// const useInfinite = (select: SelectType) => {
 const useInfinite = (paramSort: string | null, paramEmo: string | null) => {
   if (!paramSort) {
     paramSort = "recent";

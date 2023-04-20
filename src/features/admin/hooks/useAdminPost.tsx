@@ -19,7 +19,6 @@ const useAdminPost = (page: number) => {
   //신고된 게시물 공유해제
   const { mutate } = useMutation({
     mutationFn: async (payload: number) => {
-      console.log(payload);
       const { data } = await user.patch(`/admin/restrict/${payload}`);
       return data;
     },
@@ -34,7 +33,6 @@ const useAdminPost = (page: number) => {
   // 신고된 게시물, 댓글 삭제
   const { mutate: onReportDelete } = useMutation({
     mutationFn: async (payload: number) => {
-      console.log(payload);
       const { data } = await user.delete(`/admin/report/${payload}`);
       return data;
     },

@@ -1,4 +1,3 @@
-// 지현
 export interface Idtype {
   id?: number;
 }
@@ -53,7 +52,6 @@ export interface ImageType extends Idtype {
 }
 
 export interface SelectType {
-  // page: number;
   emo: string;
   size: number;
   sort: string;
