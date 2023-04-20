@@ -31,11 +31,11 @@ export const ProtectedRoute = ({
       console.log("하이");
       nav(`${HOME_PAGE}`);
     }
+    if (!isAuthenticated) {
+      alert("로그인이 필요한 서비스 입니다.");
+      nav("/");
+    }
   }, []);
-  if (!isAuthenticated) {
-    alert("로그인이 필요한 서비스 입니다.");
-    nav("/");
-  }
 
   return children;
 };
