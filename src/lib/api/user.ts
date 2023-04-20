@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { getCookie, removeCookie, setCookie } from "../../utils/cookies";
 
@@ -27,6 +28,7 @@ user.interceptors.response.use(
   },
 
   async function (error) {
+    const nav = useNavigate()
     const originalConfig = error.config;
     try {
       const refreshToken = getCookie("refreshToken");
@@ -55,6 +57,7 @@ user.interceptors.response.use(
       // removeCookie("token", { path: "/" });
       // removeCookie("expire", { path: "/" });
       alert("다시 로그인해주세요!");
+      nav('/')
     }
 
     return Promise.reject(error);
