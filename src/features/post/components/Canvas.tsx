@@ -59,9 +59,7 @@ const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
   };
 
   // 지우개, 펜 모드 변경 함수
-  const switchModeHandler = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ): void => {
+  const switchModeHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
     const button = event.target as HTMLButtonElement;
     const value = button.value;
     setMode(value);
@@ -73,9 +71,7 @@ const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
     setMode("pen");
   };
 
-  const mouseDownHandler = (
-    event: React.MouseEvent<HTMLCanvasElement>
-  ): void => {
+  const mouseDownHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
     if (mode === "pen") {
       startPaint(event);
     } else if (mode === "eraser") {
@@ -83,9 +79,7 @@ const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
     }
   };
 
-  const mouseMoveHandler = (
-    event: React.MouseEvent<HTMLCanvasElement>
-  ): void => {
+  const mouseMoveHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
     if (mode === "pen") {
       paint(event);
     } else if (mode === "eraser") {
@@ -100,9 +94,7 @@ const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
       exitErase();
     }
   };
-  const mouseLeaveHandler = (
-    event: React.MouseEvent<HTMLCanvasElement>
-  ): void => {
+  const mouseLeaveHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
     if (mode === "pen") {
       exitPaint();
     } else if (mode === "eraser") {
@@ -138,11 +130,7 @@ const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
           />
         </li>
         <li>
-          <button
-            type="button"
-            value="eraser"
-            onClick={(e) => switchModeHandler(e)}
-          >
+          <button type="button" value="eraser" onClick={(e) => switchModeHandler(e)}>
             지우개
           </button>
         </li>
@@ -159,7 +147,7 @@ Canvas.defaultProps = {
 export default Canvas;
 
 export const StCanvasWrapper = styled.div`
-  width: 45vw;
+  width: 50vw;
   height: 80vh;
   display: flex;
   flex-direction: column;

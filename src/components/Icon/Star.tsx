@@ -1,23 +1,16 @@
-import React from "react";
+import React, { ComponentPropsWithoutRef } from "react";
 import { ReactComponent as StarIcon } from "../../assets/emoticon/star.svg";
 import styled from "styled-components";
 
 type Props = {
   size?: string;
-  value?: number;
   color?: string;
-  onClick(): void;
-};
+} & ComponentPropsWithoutRef<"button">;
 
-const Star = ({ size, onClick, value, color }: Props) => {
+const Star = ({ size, color }: Props) => {
   return (
-    <StStarButton type="button" value={value} onClick={onClick}>
-      <StarIcon
-        height={size}
-        width={size}
-        fill={`${color}`}
-        stroke={`${color}`}
-      />
+    <StStarButton type="button">
+      <StarIcon height={size} width={size} fill={`${color}`} stroke={`${color}`} />
     </StStarButton>
   );
 };

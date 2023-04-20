@@ -28,7 +28,7 @@ const CreateComment = ({ id }: Idtype) => {
       >
         <span>댓글</span>
         <CommentInput
-          style={{ width: "500px", height: "70px", border: "1px solid #eee" }}
+          style={{ width: "40vw", height: "50px", border: "1px solid #eee" }}
           value={input.comment}
           onChange={changeInputHandler}
           placeholder="댓글을 남겨보세요!"
