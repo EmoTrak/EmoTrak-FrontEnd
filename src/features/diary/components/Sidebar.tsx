@@ -14,7 +14,6 @@ const Sidebar = ({ side, setSide, data, diaryDay }: Partial<DayProps>): JSX.Elem
       setSide((prev) => !prev);
     }
   };
-  console.log(side);
 
   const detailData = data?.contents.filter((e) => e.day === diaryDay?.date);
 

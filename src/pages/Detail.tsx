@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { keys } from "../data/queryKeys/keys";
 import user from "../lib/api/user";
 import { useNavigate, useParams } from "react-router-dom";
@@ -15,7 +15,6 @@ import {
   LOGIN_PAGE,
 } from "../data/routes/urls";
 import { useDelete } from "../features/detail/hooks/useDelete";
-// import Star from "../components/Icon/Star";
 import styled from "styled-components";
 import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 import Button from "../components/Button";

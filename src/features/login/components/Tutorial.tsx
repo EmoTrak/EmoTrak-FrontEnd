@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import * as St from "../TutorialStyle";
 import TutorialBackgroundTop from "../../../assets/tutorial/1_Tutorial_top.png";
 import TutorialBackgroundBottom from "../../../assets/tutorial/1_Tutorial_bottom.png";

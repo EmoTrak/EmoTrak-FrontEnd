@@ -1,4 +1,3 @@
-import React from "react";
 import { PostDateType } from "../../../data/type/d1";
 
 const PostDate = ({ date }: PostDateType) => {

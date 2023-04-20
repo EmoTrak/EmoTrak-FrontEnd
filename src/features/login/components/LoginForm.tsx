@@ -109,7 +109,6 @@ export const StFormWrapper = styled.div`
   flex-direction: column;
   width: 100%;
   height: 82vh;
-  /* border: 1px solid; */
   justify-content: center;
   align-items: center;
   overflow: visible;

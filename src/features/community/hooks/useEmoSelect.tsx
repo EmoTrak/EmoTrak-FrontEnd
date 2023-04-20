@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const useEmoSelect = (paramEmo: string | null) => {
   const [emoSelect, setEmoSelect] = useState<boolean[]>(Array(6).fill(false));

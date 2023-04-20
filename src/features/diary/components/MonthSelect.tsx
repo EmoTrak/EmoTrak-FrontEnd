@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 import * as UI from "../../../components/Modal";
 import styled from "styled-components";
 import { DateSelectType } from "../../../data/type/d1";

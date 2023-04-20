@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import BarChart from "../features/chart/components/BarChart";
 import PieChart from "../features/chart/components/PieChart";
@@ -39,7 +39,6 @@ const Chart = (): JSX.Element => {
   if (isError) return <div>에러..</div>;
 
   const emoIds: number[] = [1, 2, 3, 4, 5, 6];
-  console.log(month);
 
   return (
     <StWrapper>

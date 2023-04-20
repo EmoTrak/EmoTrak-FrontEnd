@@ -1,4 +1,3 @@
-import React from "react";
 import SignupForm from "../features/signup/components/SignupForm";
 import { StLoginPageWrapper } from "./Login";
 

@@ -41,11 +41,7 @@ const useChartFn = () => {
       return setMonth(Number(month) + 1);
     }
   };
-  // const onModalLayoutClick = (isShow: boolean) => {
-  //   if (isShow) {
-  //     setIsShow((prev) => !prev);
-  //   }
-  // };
+  
   const onMonthClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const button: HTMLButtonElement = e.currentTarget;
     setMonth(button.value);

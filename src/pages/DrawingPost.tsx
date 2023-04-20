@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Flex from "../components/Flex";
 import { useNavigate, useParams } from "react-router-dom";
 import { usePost } from "../features/post/hooks/usePost";
@@ -52,8 +52,6 @@ const DrawingPost = (): JSX.Element => {
   const [validPicture, setValidPicture] = useState<boolean>(false);
   const [validStar, setValidStar] = useState<boolean>(false);
   const [validEmoji, setValidEmoji] = useState<boolean>(false);
-
-  // const canvas = canvasRef.current;
 
   const newItem: InputValue = {
     year,
@@ -352,8 +350,6 @@ const DrawingPost = (): JSX.Element => {
                   value={inputValue?.detail}
                   spellCheck={false}
                   required
-                  // cols={30}
-                  // rows={10}
                   maxLength={1500}
                   onChange={onChangeHandler}
                 ></StTextArea>
@@ -425,18 +421,10 @@ export const StEmoButton = styled.button<EmoButtonProps>`
 `;
 
 export const StCanvas = styled.canvas`
-  /* border: 1px solid; */
-  /* width: 40vw; */
-  /* height: 70vh; */
   position: relative;
-  /* display: flex; */
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* background-size: 100% 100%; */
 `;
 
 export const StToolBox = styled.div`
-  /* border: 1px solid; */
   display: flex;
   width: 40vw;
   height: 7vh;
@@ -453,7 +441,6 @@ export const StToolList = styled.li`
 `;
 
 export const StPenSizeTool = styled.div`
-  /* border: 1px solid; */
   position: absolute;
   top: -16vh;
   right: -0.5vw;

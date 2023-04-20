@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import Image from "../features/imagepost/components/Image";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
 import { InputValue, StEmoButton, StList, StUnorderLi } from "./DrawingPost";
 import Star from "../components/Icon/Star";
@@ -55,9 +54,6 @@ const ImagePost = (): JSX.Element => {
     });
   const { preview, previewUrl } = usePreview();
 
-  // 감정 선택
-  // const emoIds: number[] = [1, 2, 3, 4, 5, 6];
-
   // 별점
   const [clicked, setClicked] = useState<boolean[]>([
     false,
@@ -66,23 +62,17 @@ const ImagePost = (): JSX.Element => {
     false,
     false,
   ]);
-  // const starArray: number[] = [1, 2, 3, 4, 5];
   const clickStarHandler = (index: number): void => {
     setClicked(clicked.map((_, i) => i <= index - 1));
     scoreStarHandler(index);
   };
 
   // 드래그앤 드랍
-  // const [isDragging, setIsDragging] = useState<boolean>(false);
   const dragRef = useRef<HTMLLabelElement | null>(null);
 
   const dragOverHandler = useCallback((event: React.DragEvent): void => {
     event.preventDefault();
     event.stopPropagation();
-
-    if (event.dataTransfer!.files) {
-      // setIsDragging(true);
-    }
   }, []);
 
   const dropHandler = useCallback(
@@ -91,7 +81,6 @@ const ImagePost = (): JSX.Element => {
       event.stopPropagation();
 
       fileDropHandler(event);
-      // setIsDragging(false);
       setValidPhoto(true);
     },
     []
@@ -196,7 +185,6 @@ const ImagePost = (): JSX.Element => {
                     <StEmoButton
                       name="emoId"
                       type="button"
-                      // {inputValue.emoId ===item ? "selected" : null}
                       selected={inputValue.emoId === item ? true : false}
                       value={item}
                       onClick={changeEmojiHandler}
@@ -224,8 +212,6 @@ const ImagePost = (): JSX.Element => {
               <label>
                 <StTextArea
                   name="detail"
-                  // cols={30}
-                  // rows={10}
                   required
                   spellCheck={false}
                   maxLength={1500}
@@ -236,13 +222,6 @@ const ImagePost = (): JSX.Element => {
             <StSubmitBox>
               <StLabel>
                 공유여부
-                {/* <input
-                  name="share"
-                  type="checkbox"
-                  checked={inputValue.share === true}
-                  disabled={editItem?.restrict}
-                  onChange={onCheckHandler}
-                /> */}
                 <Checkbox
                   name="share"
                   checked={inputValue.share === true}
@@ -263,16 +242,6 @@ const ImagePost = (): JSX.Element => {
 
 export default ImagePost;
 
-// export const StCanvasWrapper = styled.div`
-//   width: 50%;
-//   height: 80vh;
-//   /* border: 1px solid; */
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   overflow: scroll;
-// `;
 
 export const StPhotoInputBox = styled.li`
   width: 40vw;

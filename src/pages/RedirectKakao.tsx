@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCookie, setCookie } from "../utils/cookies";
 import guest from "../lib/api/guest";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { keys } from "../data/queryKeys/keys";
 
 const RedirectKakao = () => {

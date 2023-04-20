@@ -1,6 +1,6 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import user from "../../../lib/api/user";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { keys } from "../../../data/queryKeys/keys";
 
 interface MyInfo {
@@ -15,11 +15,6 @@ export const useAuth = () => {
     nickname: "",
     hasSocial: false,
   });
-
-  // const getUserInfo = useCallback(async () => {
-  //   const data = await user.get(`/users/mypage`);
-  //   return data;
-  // }, []);
 
   const { data, isLoading } = useQuery(
     [`${keys.GET_USER}`],
