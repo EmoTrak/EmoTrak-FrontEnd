@@ -26,7 +26,6 @@ const Boards = (): JSX.Element => {
     paramSort,
     paramEmo
   );
-  console.log("렌더링?");
 
   const emoChangeBtn = () => {
     if (paramSort) {
