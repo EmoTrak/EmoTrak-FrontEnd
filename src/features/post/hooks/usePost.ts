@@ -30,9 +30,7 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
   };
 
   // 이미지 파일 업로드 함수
-  const fileInputHandler = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): Promise<void> => {
+  const fileInputHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const target = event.currentTarget;
     const files = (target.files as FileList)[0];
     const imgBlob = new Blob([files], { type: "image/jpeg" });
@@ -40,9 +38,7 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
   };
 
   // 이미지 파일 드래그앤드랍 업로드 함수
-  const fileDropHandler = async (
-    event: React.DragEvent<HTMLLabelElement>
-  ): Promise<void> => {
+  const fileDropHandler = (event: React.DragEvent<HTMLLabelElement>): void => {
     const files = (event.dataTransfer.files as FileList)[0];
     const imgBlob = new Blob([files], { type: "image/jpeg" });
     setPhoto(imgBlob);
@@ -55,13 +51,13 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
     },
     {
       onSuccess(data) {
-        const newItemId = data.data.data.id;
-        queryClient.invalidateQueries({
-          queryKey: [keys.GET_BOARD, "recent", "1,2,3,4,5,6"],
+        queryClient.refetchQueries({
+          queryKey: [keys.GET_BOARD],
         });
+        const newItemId = data.data.data.id;
         navigate(`/detail/${newItemId}`);
       },
-      onError(err) {
+      onError() {
         alert("입력한 내용을 확인해주세요!");
       },
     }
