@@ -1,4 +1,4 @@
-export const LOGIN_PAGE = "/login";
+export const HOME_PAGE = "/home";
 export const SIGN_UP_PAGE = "/signup";
 export const MY_PAGE = "/mypage";
 export const IMAGE_POST_PAGE = "/image-post";

@@ -10,7 +10,6 @@ import styled from "styled-components";
 import { usePreview } from "../features/post/hooks/usePreview";
 import Flex from "../components/Flex";
 import { getCookie } from "../utils/cookies";
-import { LOGIN_PAGE } from "../data/routes/urls";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
 
@@ -121,7 +120,7 @@ const ImagePost = () => {
   useEffect(() => {
     preview(photo);
     if (!token && !refreshToken) {
-      navigate(`${LOGIN_PAGE}`);
+      navigate('/');
     }
     const preventGoBack = () => {
       if (window.confirm("페이지를 나가시겠습니까?")) {

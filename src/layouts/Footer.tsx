@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { LOGIN_PAGE } from "../data/routes/urls";
 import { AiFillGithub } from "react-icons/ai";
 import { RxNotionLogo } from "react-icons/rx";
 
@@ -14,7 +13,7 @@ const Footer = () => {
         <div>
           <span
             onClick={() => {
-              nav(`${LOGIN_PAGE}`);
+              nav("/");
             }}
           >
             튜토리얼&nbsp; | &nbsp;
@@ -27,7 +26,11 @@ const Footer = () => {
             만족도 조사
           </a>
           <div>
-            <a href="https://github.com/EmoTrak" target="_blank" rel="noreferrer">
+            <a
+              href="https://github.com/EmoTrak"
+              target="_blank"
+              rel="noreferrer"
+            >
               <AiFillGithub />
             </a>
             <a
@@ -40,8 +43,8 @@ const Footer = () => {
           </div>
         </div>
         <br />
-        윤지현(FE) 양인서(FE) 박승우(FE) 이 진(BE) 홍다정(BE) 서영석(BE) 박문주(BE)
-        이수정(DE)
+        윤지현(FE) 양인서(FE) 박승우(FE) 이 진(BE) 홍다정(BE) 서영석(BE)
+        박문주(BE) 이수정(DE)
         <br />
         <br />©{date.getFullYear()} TEAM EMOTRAK. ALL RIGHTS RESERVED
       </FooterSt>

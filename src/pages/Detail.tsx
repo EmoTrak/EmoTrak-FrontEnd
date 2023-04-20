@@ -12,7 +12,6 @@ import {
   DETAIL_PAGE,
   DRAW_EDIT_PAGE,
   IMAGE_EDIT_PAGE,
-  LOGIN_PAGE,
 } from "../data/routes/urls";
 import styled from "styled-components";
 import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
@@ -40,7 +39,7 @@ const Detail = () => {
       if (token) {
         removeCookie("token");
         alert("로그인이 필요합니다 !");
-        navigate(`${LOGIN_PAGE}`);
+        navigate('/');
       }
     }
     getDetail();

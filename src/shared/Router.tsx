@@ -37,16 +37,16 @@ const Router = () => {
   const pages = [
     {
       pathname: "/",
-      element: <Home />,
-      isPublic: false,
+      element: <Login />,
+      isPublic: true,
       isLogin: false,
       isAuthAdmin: false,
     },
     {
-      pathname: `${PAGE.LOGIN_PAGE}`,
-      element: <Login />,
-      isPublic: true,
-      isLogin: false,
+      pathname: `${PAGE.HOME_PAGE}`,
+      element: <Home />,
+      isPublic: false,
+      isLogin: true,
       isAuthAdmin: false,
     },
     {
