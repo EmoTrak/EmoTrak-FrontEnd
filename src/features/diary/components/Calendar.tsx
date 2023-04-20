@@ -127,17 +127,14 @@ const Calendar = () => {
             // 전년도일때
             if (item.year < today.year && item.day === 0) {
               return (
-                <Sunday key={item.date}>
+                <Sunday key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Sunday>
               );
             } else if (item.year < today.year) {
               return (
-                <Day
-                  key={item.date}
-                  onClick={() => clickDayBtn(Number(item.date))}
-                >
+                <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Day>
@@ -150,17 +147,14 @@ const Calendar = () => {
               item.day === 0
             ) {
               return (
-                <Sunday key={item.date}>
+                <Sunday key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Sunday>
               );
             } else if (item.year === today.year && item.month < today.month) {
               return (
-                <Day
-                  key={item.date}
-                  onClick={() => clickDayBtn(Number(item.date))}
-                >
+                <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Day>
@@ -174,7 +168,7 @@ const Calendar = () => {
               item.day === 0
             ) {
               return (
-                <Sunday key={item.date}>
+                <Sunday key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Sunday>
@@ -185,10 +179,7 @@ const Calendar = () => {
               Number(item.date) <= Number(today.date)
             ) {
               return (
-                <Day
-                  key={item.date}
-                  onClick={() => clickDayBtn(Number(item.date))}
-                >
+                <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Day>
@@ -204,12 +195,7 @@ const Calendar = () => {
 
       {side ? (
         <>
-          <Sidebar
-            side={side}
-            setSide={setSide}
-            data={data}
-            diaryDay={select}
-          />
+          <Sidebar side={side} setSide={setSide} data={data} diaryDay={select} />
           <SideImg> 여기에 이미지가 들어갑니다.</SideImg>
         </>
       ) : (
