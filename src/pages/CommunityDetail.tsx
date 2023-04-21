@@ -13,7 +13,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { keys } from "../data/queryKeys/keys";
 import { scrollOnTop } from "../utils/scollOnTop";
 import PostDate from "../features/community/components/PostDate";
-import { DRAW_EDIT_PAGE, IMAGE_EDIT_PAGE } from "../data/routes/urls";
+import { COMMUNITY_PAGE, DRAW_EDIT_PAGE, IMAGE_EDIT_PAGE } from "../data/routes/urls";
 import PageNation from "../components/PageNation";
 import Button from "../components/Button";
 import Star from "../components/Icon/Star";
@@ -31,7 +31,10 @@ const CommunityDetail = () => {
   const deletePostHandler = (id: number) => {
     if (window.confirm("삭제하시겠습니까?")) {
       deletePost.mutate(id, {
-        onSuccess: () => queryClient.resetQueries({ queryKey: [keys.GET_BOARD] }),
+        onSuccess: () => {
+          navigate(COMMUNITY_PAGE);
+          queryClient.resetQueries({ queryKey: [keys.GET_BOARD] });
+        },
       });
     }
   };

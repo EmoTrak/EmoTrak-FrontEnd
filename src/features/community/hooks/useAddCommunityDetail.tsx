@@ -9,9 +9,9 @@ const useAddCommunityDetail = (page: number) => {
   const navigate = useNavigate();
   const dailyId: number = Number(param.id);
   const { data, isError, status, remove } = useQuery({
-    queryKey: [keys.GET_BOARD, page],
+    queryKey: [keys.GET_BOARD_DETAIL, page],
     queryFn: async () => {
-      const data = await user.get(`/boards/${dailyId}`, { params: { page: page } });
+      const data = await user.get(`/boards/${dailyId}`, { params: { page } });
       return data.data.data;
     },
     onError: (error: AxiosError<object>) => {
