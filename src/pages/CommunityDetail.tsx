@@ -16,6 +16,9 @@ import PostDate from "../features/community/components/PostDate";
 import { DRAW_EDIT_PAGE, IMAGE_EDIT_PAGE } from "../data/routes/urls";
 import PageNation from "../components/PageNation";
 import Button from "../components/Button";
+import Star from "../components/Icon/Star";
+import Report from "../features/community/components/Report";
+import { GiSiren } from "react-icons/gi";
 
 const CommunityDetail = () => {
   const queryClient = useQueryClient();
@@ -50,121 +53,129 @@ const CommunityDetail = () => {
         {data?.imgUrl ? (
           <Img src={data?.imgUrl} />
         ) : (
-          <StDefaultImage
+          <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTy4_1Wwmqj8b6SlMR0zLTqg1peTC9-_nHJaQ&usqp=CAU"
             alt="이미지가 없습니다."
           />
         )}
       </StCanvasWrapper>
       <StPostDetailWrapper>
-        <div style={{ width: "50vw" }}>
-          <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-            <div
-              style={{
-                display: "flex",
-                gap: "10px",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {status === "success" && (
-                <LikePost isLike={data.hasLike} id={data.id} count={data.likesCnt} />
-              )}
-            </div>
-            <div>
-              {data?.hasAuth && (
-                <div>
-                  {data?.draw ? (
-                    <Button
-                      size="x-small"
-                      onClick={() => navigate(`${DRAW_EDIT_PAGE}/${data?.id}`)}
-                    >
-                      수정
-                    </Button>
-                  ) : (
-                    <Button
-                      size="x-small"
-                      onClick={() => navigate(`${IMAGE_EDIT_PAGE}/${data?.id}`)}
-                    >
-                      수정
-                    </Button>
-                  )}
-                  <Button size="x-small" onClick={() => deletePostHandler(data?.id)}>
-                    삭제
-                  </Button>
-                </div>
-              )}
-            </div>
-          </div>
-          <div style={{ display: "flex" }}>
-            <div
-              style={{
-                display: "flex",
-                width: "100%",
-                justifyContent: "space-evenly",
-              }}
-            >
-              <div
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          {status === "success" && (
+            <LikePost isLike={data.hasLike} id={data.id} count={data.likesCnt} />
+          )}
+          {!data?.hasReport && !data?.hasAuth && token && (
+            <Report id={data?.id} uri="report">
+              <Button
+                icon
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  height: "100px",
+                  color: "red",
+                  fontSize: "30px",
                 }}
               >
-                <EmotionIcons
-                  height="50"
-                  width="50"
-                  emotionTypes={`EMOTION_${data?.emoId}`}
-                />
-              </div>
-              <h1>내 감정점수 {data?.star}</h1>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                }}
+                <GiSiren />
+              </Button>
+            </Report>
+          )}
+        </div>
+
+        {data?.hasAuth && (
+          <div>
+            {data?.draw ? (
+              <Button
+                size="x-small"
+                onClick={() => navigate(`${DRAW_EDIT_PAGE}/${data?.id}`)}
               >
-                <div></div>
-                {status === "success" && <PostDate date={data.date} />}
-              </div>
-            </div>
+                수정
+              </Button>
+            ) : (
+              <Button
+                size="x-small"
+                onClick={() => navigate(`${IMAGE_EDIT_PAGE}/${data?.id}`)}
+              >
+                수정
+              </Button>
+            )}
+            <Button size="x-small" onClick={() => deletePostHandler(data?.id)}>
+              삭제
+            </Button>
           </div>
-          <h2
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              fontSize: "30px",
-            }}
-          >
-            닉네임 :{data?.nickname}
-          </h2>
+        )}
+        <div
+          style={{
+            display: "flex",
+          }}
+        >
           <div
             style={{
               display: "flex",
-              fontSize: "20px",
-              border: "1px solid lightgray",
+              flexDirection: "column",
+              justifyContent: "center",
+              height: "100px",
             }}
           >
-            <p
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "20px",
-                width: "100vw",
-              }}
-            >
-              {data?.detail}
-            </p>
+            <EmotionIcons
+              height="50"
+              width="50"
+              emotionTypes={`EMOTION_${data?.emoId}`}
+            />
           </div>
-
-          {token && (
-            <>
-              <CreateComment id={data?.id} />
-            </>
-          )}
+          <h1>
+            감정점수
+            {Array(5)
+              .fill(null)
+              .map((_, i) =>
+                i < data?.star ? (
+                  <Star key={i} size="30" color={"#FFDC82"} />
+                ) : (
+                  <Star key={i} size="30" color={"#E5DFD3"} />
+                )
+              )}
+          </h1>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            {status === "success" && <PostDate date={data.date} />}
+          </div>
         </div>
+        <h2
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            fontSize: "30px",
+          }}
+        >
+          닉네임 :{data?.nickname}
+        </h2>
+        <div
+          style={{
+            display: "flex",
+            fontSize: "20px",
+            border: "1px solid lightgray",
+          }}
+        >
+          <p
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "20px",
+              width: "40vw",
+            }}
+          >
+            {data?.detail}
+          </p>
+        </div>
+
+        {token && <CreateComment id={data?.id} />}
 
         {status === "success" &&
           data.comments.map((item: commentData, i: number) => (
@@ -188,13 +199,14 @@ export default CommunityDetail;
 const Container = styled.div`
   width: 100%;
   display: flex;
+  justify-content: space-evenly;
   align-items: flex-start;
   position: relative;
-
   height: 100%;
 `;
 const StCanvasWrapper = styled.div`
-  width: 80%;
+  position: relative;
+  width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -204,15 +216,11 @@ const StCanvasWrapper = styled.div`
   left: 20px;
 `;
 
-const StDefaultImage = styled.img`
-  width: 90%;
-`;
-
 const StPostDetailWrapper = styled.div`
-  width: 100%;
+  width: 40vw;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   position: relative;
 `;
 
