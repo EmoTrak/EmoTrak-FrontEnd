@@ -56,7 +56,10 @@ const DrawEdit = () => {
     return user.get(`daily/${dailyId}`);
   }, [dailyId]);
 
-  const { data } = useQuery([`${keys.GET_DETAIL}`, dailyId], getDetail);
+  const { data, isLoading } = useQuery(
+    [`${keys.GET_DETAIL}`],
+    async () => await user.get(`daily/${dailyId}`)
+  );
 
   // 캔버스 상태
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -89,7 +92,7 @@ const DrawEdit = () => {
       alert("로그인이 필요합니다 !");
       navigate("/");
     }
-    getDetail();
+    // getDetail();
     const newClicked = clicked.map((_, index) =>
       index < targetItem?.star ? true : false
     );
@@ -284,7 +287,9 @@ const DrawEdit = () => {
       window.removeEventListener("beforeunload", preventClose);
     };
   }, [token]);
-
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div style={{ height: "80vh" }}>
       <form onSubmit={submitFormHandler}>
