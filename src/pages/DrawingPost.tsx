@@ -221,7 +221,7 @@ const DrawingPost = () => {
 
   useEffect(() => {
     if (!token && !refreshToken) {
-      navigate('/');
+      navigate("/");
     }
     const preventGoBack = () => {
       if (window.confirm("페이지를 나가시겠습니까?")) {
@@ -364,12 +364,16 @@ const DrawingPost = () => {
                 />
               </StLabel>
               {validPicture ? (
-                <Button size="large" type="submit">
+                <Button
+                  style={{ backgroundColor: "#F89790", color: "white" }}
+                  size="large"
+                  type="submit"
+                >
                   등록하기
                 </Button>
               ) : (
                 <Button size="large" type="button" onClick={savePicture}>
-                  계속하기
+                  그림저장
                 </Button>
               )}
             </StSubmitBox>
