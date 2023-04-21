@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { AiFillGithub } from "react-icons/ai";
 import { RxNotionLogo } from "react-icons/rx";
+import { PRIVACY_POLICY } from "../data/routes/urls";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
 
 const Footer = () => {
   const nav = useNavigate();
@@ -43,9 +45,16 @@ const Footer = () => {
           </div>
         </div>
         <br />
+        <span
+          onClick={() => {
+            nav(`${PRIVACY_POLICY}`);
+          }}
+        >
+          개인정보 처리방침 Privacy Policy
+        </span>
+        <br /> <br />
         윤지현(FE) 양인서(FE) 박승우(FE) 이 진(BE) 홍다정(BE) 서영석(BE)
         박문주(BE) 이수정(DE)
-        <br />
         <br />©{date.getFullYear()} TEAM EMOTRAK. ALL RIGHTS RESERVED
       </FooterSt>
     </Wrap>
