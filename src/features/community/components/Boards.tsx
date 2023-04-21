@@ -65,7 +65,7 @@ const Boards = () => {
     if (scrollPosition) {
       setTimeout(() => {
         window.scrollTo(0, Number(scrollPosition));
-      }, 50);
+      }, 70);
       sessionStorage.removeItem("scrollPosition");
     }
   }
