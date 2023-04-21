@@ -31,25 +31,22 @@ const Detail = () => {
   const dailyId: number = Number(params.id);
   const navigate = useNavigate();
   const token = getCookie("token");
-  useEffect(() => {
-    if (!token || token === "undefined") {
-      if (token) {
-        removeCookie("token");
-        alert("로그인이 필요합니다 !");
-        navigate("/");
-      }
-    }
-    getDetail();
-  }, [token]);
+  // useEffect(() => {
+  //   if (!token || token === "undefined") {
+  //     if (token) {
+  //       removeCookie("token");
+  //       alert("로그인이 필요합니다 !");
+  //       navigate("/");
+  //     }
+  //   }
+  //   getDetail();
+  // }, [token]);
 
   const getDetail = useCallback(() => {
     return user.get(`daily/${dailyId}`);
   }, [dailyId]);
 
-  const { data, isLoading, isError, status } = useQuery(
-    [`${keys.GET_DETAIL}`],
-    getDetail
-  );
+  const { data, isLoading } = useQuery([`${keys.GET_DETAIL}`], getDetail);
 
   const contents = data?.data.data.contents;
   const otherItem = contents?.filter((item: DetailType) => item.id !== dailyId)[0];
@@ -64,16 +61,9 @@ const Detail = () => {
     }
   };
 
-  if (isError) {
-    alert("삭제된 게시물입니다!");
-    navigate("/");
-  }
   if (isLoading) {
     return <div>로딩중..</div>;
   }
-
-  // const starArr = new Array(targetItem?.star).fill(null);
-  // const emptyStarArr = new Array(5 - targetItem?.star).fill(null);
 
   return (
     <Container>
