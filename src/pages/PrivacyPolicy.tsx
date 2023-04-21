@@ -33,19 +33,39 @@ const PrivacyPolicy = () => {
         <p>정보 수집 및 사용</p>
 
         <p>
-          더 나은 경험을 위해 서비스를 사용하는 동안 특정 개인 식별 정보를
-          제공하도록 요구할 수 있습니다. 우리가 요청한 정보는 우리가 보유하고 이
-          개인 정보 보호 정책에 설명된 대로 사용됩니다.
+          앱은 귀하를 식별하는 데 사용되는 정보를 수집할 수 있는 Google API
+          서비스를 포함한 타사 서비스를 사용합니다. Google 사용자 데이터의
+          사용은 이 개인 정보 보호 정책에 설명된 내용으로 제한됩니다.
         </p>
 
         <p>
-          앱은 귀하를 식별하는 데 사용되는 정보를 수집할 수 있는 타사 서비스를
-          사용합니다.
+          앱에서 사용하는 타사 서비스 제공업체의 개인정보 보호정책 링크: Google
+          API 서비스 Google 사용자 데이터의 액세스, 사용, 저장 및 공유
         </p>
 
-        <p>앱에서 사용하는 타사 서비스 제공업체의 개인정보 보호정책 링크</p>
+        <p>
+          당사 앱은 서비스를 제공하고 개선하기 위해 Google 사용자 데이터에
+          액세스합니다. 당사는 승인된 API 범위에 따라 다음과 같은 방식으로
+          귀하의 Google 사용자 데이터에 액세스, 사용, 저장 또는 공유할 수
+          있습니다.
+        </p>
 
-        <p>구글 플레이 서비스</p>
+        <p>
+          1. People API(.../auth/userinfo.email)를 통해 이메일 주소에 접근하여
+          Google 계정의 기본 정보를 확인하고 앱에 연결합니다.
+        </p>
+
+        <p>
+          2. People API(.../auth/userinfo.profile)를 통해 공개 프로필 정보에
+          액세스하여 앱 내에서 경험을 개인화하십시오.
+        </p>
+        <p>
+          당사는 본 개인정보 보호정책에 설명된 목적으로만 귀하의 Google 사용자
+          데이터에 액세스, 사용, 저장 또는 공유합니다. Google은 마케팅 목적으로
+          귀하의 Google 사용자 데이터를 제3자와 판매, 임대 또는 공유하지
+          않습니다.
+        </p>
+
         <p>로그 데이터</p>
 
         <p>
@@ -93,7 +113,6 @@ const PrivacyPolicy = () => {
         <p>보안</p>
 
         <p>
-          {" "}
           당사는 귀하의 개인 정보 제공에 대한 귀하의 신뢰를 소중히 여기므로
           상업적으로 허용되는 정보 보호 수단을 사용하기 위해 노력하고 있습니다.
           그러나 인터넷을 통한 전송 방법이나 전자 저장 방법은 100% 안전하고
@@ -160,20 +179,36 @@ const PrivacyPolicy = () => {
         </p>
         <p>Information Collection and Use</p>
         <p>
-          For a better experience, while using our Service, we may require you
-          to provide us with certain personally identifiable information. The
-          information that we request will be retained by us and used as
-          described in this privacy policy.
-        </p>
-        <p>
-          The app does use third-party services that may collect information
-          used to identify you.
+          The app does use third-party services, including Google API Services,
+          that may collect information used to identify you. Our use of Google
+          user data is limited to what is described in this privacy policy.
         </p>
         <p>
           Link to the privacy policy of third-party service providers used by
-          the app
+          the app: Google API Services Access, Use, Storage, and Sharing of
+          Google User Data
         </p>
-        <p>Google Play Services</p>
+        <p>
+          Our app accesses Google user data in order to provide and improve our
+          Service. We may access, use, store, or share your Google user data in
+          the following ways, according to the granted API Scopes:
+        </p>
+        <p>
+          1. Access your email address through the People API
+          (.../auth/userinfo.email) to verify your Google account's basic
+          information and link it to our app.
+        </p>
+        <p>
+          2. Access your public profile information through the People API
+          (.../auth/userinfo.profile) to personalize your experience within our
+          app.
+        </p>
+        <p>
+          We only access, use, store, or share your Google user data for the
+          purposes described in this privacy policy. We do not sell, rent, or
+          otherwise share your Google user data with third parties for marketing
+          purposes.
+        </p>
         <p>Log Data</p>
         <p>
           We want to inform you that whenever you use our Service, in a case of
@@ -221,7 +256,6 @@ const PrivacyPolicy = () => {
           method of electronic storage is 100% secure and reliable, and we
           cannot guarantee its absolute security.
         </p>
-
         <p>Links to Other Sites</p>
         <p>
           This Service may contain links to other sites. If you click on a
