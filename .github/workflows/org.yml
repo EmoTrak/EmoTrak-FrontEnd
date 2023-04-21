@@ -2,6 +2,7 @@
 
 name: Sync and merge upstream repository
 on:
+  workflow_dispatch:
   schedule:
      # actually, ~5 minutes is the highest
      # effective frequency you will get
