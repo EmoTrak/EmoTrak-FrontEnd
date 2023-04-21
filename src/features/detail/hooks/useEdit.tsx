@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { InputValue } from "../../../pages/DrawingPost";
-import {
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import user from "../../../lib/api/user";
 import { useNavigate } from "react-router-dom";
 import { keys } from "../../../data/queryKeys/keys";
+import { DETAIL_PAGE } from "../../../data/routes/urls";
 
 type PostInput = {
   inputValue?: InputValue;
@@ -22,11 +20,11 @@ export const useEdit = ({ inputValue, dailyId, canvasRef }: PostInput) => {
   const editDiary = useMutation(
     async (item: FormData) => {
       await user.patch(`/daily/${dailyId}`, item);
-      queryClient.invalidateQueries([`${keys.GET_DETAIL}`]);
     },
     {
       onSuccess() {
-        navigate(-1);
+        queryClient.invalidateQueries([`${keys.GET_DETAIL}`]);
+        navigate(`${DETAIL_PAGE}/${dailyId}`);
       },
       onError() {
         alert("입력한 내용을 확인해주세요!");

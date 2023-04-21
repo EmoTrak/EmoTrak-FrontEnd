@@ -43,15 +43,16 @@ const ImageEdit = () => {
       alert("로그인이 필요합니다 !");
       navigate("/");
     }
-    getDetail();
+    // getDetail();
     const newClicked = clicked.map((_, index) =>
       index < targetItem?.star ? true : false
     );
     setClicked(newClicked);
+    preview(photo);
   }, [token]);
 
-  const { data, isLoading } = useQuery(
-    [`${keys.GET_DETAIL}`, dailyId],
+  const { data, status, isLoading } = useQuery(
+    [`${keys.GET_DETAIL}`],
     getDetail
   );
   const { preview, previewUrl } = usePreview();
@@ -62,7 +63,7 @@ const ImageEdit = () => {
   const targetItem = contents?.filter(
     (item: DetailType) => item.id === dailyId
   )[0];
-
+  console.log(targetItem);
   const editItem: InputValue = {
     year,
     month,
@@ -120,7 +121,7 @@ const ImageEdit = () => {
 
   useEffect(() => {
     preview(photo);
-  }, [photo, exPhoto]);
+  }, [photo, exPhoto, dailyId]);
 
   // 감정 선택
   const emoIds: number[] = [1, 2, 3, 4, 5, 6];
@@ -192,9 +193,13 @@ const ImageEdit = () => {
             ) : validPhoto ? (
               <StPhotoPreview url={`${previewUrl}`}>
                 {validPhoto ? (
-                  <button type="button" onClick={deletePhotoHandler}>
+                  <Button
+                    size="small"
+                    type="button"
+                    onClick={deletePhotoHandler}
+                  >
                     삭제
-                  </button>
+                  </Button>
                 ) : null}
               </StPhotoPreview>
             ) : (
