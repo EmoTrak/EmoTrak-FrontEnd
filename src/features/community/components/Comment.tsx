@@ -58,27 +58,28 @@ const Comment = ({ item }: Partial<CommentProps>) => {
           <div>
             <h4 style={{ margin: "5px 0" }}>닉네임 : {item?.nickname}</h4>
             <div style={{ margin: "5px 0" }}>댓글 : {item?.comment}</div>
-            <div>
-              <Button
-                size="x-small"
-                onClick={() =>
-                  edit
-                    ? updateComment(item?.id, {
-                        onSuccess: () => setEdit((pre) => !pre),
-                      })
-                    : setEdit((pre) => !pre)
-                }
-              >
-                {edit ? "수정완료" : "수정"}
-              </Button>
-              <Button size="x-small" onClick={() => deleteComment(item?.id)}>
-                삭제
-              </Button>
-            </div>
           </div>
 
           <div>
-            {!item?.hasAuth && (
+            {item?.hasAuth ? (
+              <div>
+                <Button
+                  size="x-small"
+                  onClick={() =>
+                    edit
+                      ? updateComment(item?.id, {
+                          onSuccess: () => setEdit((pre) => !pre),
+                        })
+                      : setEdit((pre) => !pre)
+                  }
+                >
+                  {edit ? "수정완료" : "수정"}
+                </Button>
+                <Button size="x-small" onClick={() => deleteComment(item?.id)}>
+                  삭제
+                </Button>
+              </div>
+            ) : (
               <div>
                 <LikeComment
                   isLike={item?.hasLike}

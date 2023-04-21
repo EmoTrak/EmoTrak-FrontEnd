@@ -177,17 +177,18 @@ const CommunityDetail = () => {
 
         {token && <CreateComment id={data?.id} />}
 
-        {status === "success" &&
-          data.comments.map((item: commentData, i: number) => (
-            <Comment item={item} key={i} />
-          ))}
         {status === "success" && (
-          <PageNation
-            page={page}
-            setPage={setPage}
-            totalCount={data.totalComments}
-            size={20}
-          />
+          <>
+            {data.comments.map((item: commentData, i: number) => (
+              <Comment item={item} key={i} />
+            ))}
+            <PageNation
+              page={page}
+              setPage={setPage}
+              totalCount={data.totalComments}
+              size={20}
+            />
+          </>
         )}
       </StPostDetailWrapper>
     </Container>
