@@ -32,6 +32,11 @@ const StButton = styled.button<ButtonProps>`
 
   ${({ size }) => {
     switch (size) {
+      case "x-large":
+        return css`
+          height: 60px;
+          width: 400px;
+        `;
       case "large":
         return css`
           height: 50px;
