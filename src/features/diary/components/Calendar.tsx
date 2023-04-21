@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Sidebar from "./Sidebar";
 import Flex from "../../../components/Flex";
@@ -12,8 +12,13 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import MonthSelect from "./MonthSelect";
 import { MdOutlineArrowDropDownCircle } from "react-icons/md";
 import Button from "../../../components/Button";
+import { getCookie } from "../../../utils/cookies";
+import { useNavigate } from "react-router-dom";
 
 const Calendar = () => {
+  const token = getCookie("token");
+  const navigate = useNavigate();
+
   const [side, setSide] = useState(false);
   const today: date = {
     year: new Date().getFullYear(),
@@ -74,7 +79,7 @@ const Calendar = () => {
     },
   });
 
-  
+
 
   return (
     <Container>
@@ -125,14 +130,20 @@ const Calendar = () => {
             // 전년도일때
             if (item.year < today.year && item.day === 0) {
               return (
-                <Sunday key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Sunday
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Sunday>
               );
             } else if (item.year < today.year) {
               return (
-                <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Day
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Day>
@@ -145,14 +156,20 @@ const Calendar = () => {
               item.day === 0
             ) {
               return (
-                <Sunday key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Sunday
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Sunday>
               );
             } else if (item.year === today.year && item.month < today.month) {
               return (
-                <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Day
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Day>
@@ -166,7 +183,10 @@ const Calendar = () => {
               item.day === 0
             ) {
               return (
-                <Sunday key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Sunday
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Sunday>
@@ -177,7 +197,10 @@ const Calendar = () => {
               Number(item.date) <= Number(today.date)
             ) {
               return (
-                <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Day
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Day>
@@ -193,7 +216,12 @@ const Calendar = () => {
 
       {side ? (
         <>
-          <Sidebar side={side} setSide={setSide} data={data} diaryDay={select} />
+          <Sidebar
+            side={side}
+            setSide={setSide}
+            data={data}
+            diaryDay={select}
+          />
           <SideImg> 여기에 이미지가 들어갑니다.</SideImg>
         </>
       ) : (

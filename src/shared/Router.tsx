@@ -22,6 +22,7 @@ import * as PAGE from "../data/routes/urls";
 import { getCookie } from "../utils/cookies";
 import { IPayload } from "../data/type/d2";
 import { ProtectedRoute } from "./ProtectedRouter";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
 
 const Router = () => {
   const token = getCookie("token");
@@ -38,6 +39,13 @@ const Router = () => {
     {
       pathname: "/",
       element: <Login />,
+      isPublic: true,
+      isLogin: false,
+      isAuthAdmin: false,
+    },
+    {
+      pathname: `${PAGE.PRIVACY_POLICY}`,
+      element: <PrivacyPolicy />,
       isPublic: true,
       isLogin: false,
       isAuthAdmin: false,
@@ -180,7 +188,7 @@ const Router = () => {
               page.isPublic === true &&
               page.isLogin === false &&
               page.isAuthAdmin === false;
-              
+
             return (
               <Route
                 key={page.pathname}
