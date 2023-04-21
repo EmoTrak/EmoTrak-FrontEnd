@@ -7,10 +7,15 @@ type Props = {
   color?: string;
 } & ComponentPropsWithoutRef<"button">;
 
-const Star = ({ size, color }: Props) => {
+const Star = ({ size, color, onClick }: Props) => {
   return (
-    <StStarButton type="button">
-      <StarIcon height={size} width={size} fill={`${color}`} stroke={`${color}`} />
+    <StStarButton type="button" onClick={onClick}>
+      <StarIcon
+        height={size}
+        width={size}
+        fill={`${color}`}
+        stroke={`${color}`}
+      />
     </StStarButton>
   );
 };
