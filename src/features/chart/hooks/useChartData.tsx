@@ -2,12 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { keys } from "../../../data/queryKeys/keys";
 import user from "../../../lib/api/user";
 
-function useChartData(year: number) {
+function useChartData(select: number) {
   const { data, isError, isLoading } = useQuery({
-    queryKey: [keys.GET_CHART, { year }],
+    queryKey: [keys.GET_CHART, select],
     queryFn: async () => {
       const { data } = await user.get("/graph/", {
-        params: { year },
+        params: { year: select },
       });
       return data.data;
     },

@@ -14,11 +14,11 @@ export const ProtectedRoute = ({
   const nav = useNavigate();
   let payloadJson;
   let payload!: IPayload;
-  const [headerB64, payloadB64, signatureB64] = (token || "").split(".");
-  if (typeof atob !== undefined && payloadB64) {
+  const payloadB64 = (token || "").split(".")[1];
+  if (atob && payloadB64) {
     payloadJson = atob(payloadB64);
   }
-  if (payloadJson !== undefined) {
+  if (payloadJson) {
     payload = JSON.parse(payloadJson);
   }
   useEffect(() => {
@@ -28,7 +28,6 @@ export const ProtectedRoute = ({
       nav(`/`);
     }
     if (AlreadyLogin && token) {
-      console.log("하이");
       nav(`${HOME_PAGE}`);
     }
     if (!isAuthenticated) {
