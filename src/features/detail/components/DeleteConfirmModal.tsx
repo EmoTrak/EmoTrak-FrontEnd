@@ -11,6 +11,7 @@ import { IoMdClose } from "react-icons/io";
 import { useDelete } from "../hooks/useDelete";
 import Flex from "../../../components/Flex";
 import { useNavigate } from "react-router-dom";
+import { themeColor } from "../../../utils/theme";
 
 interface DeleteModalProps {
   children: React.ReactNode;
@@ -55,8 +56,8 @@ const DeleteConfirmModal = ({ children, itemId }: DeleteModalProps) => {
 
 const PostContent = styled.div`
   width: 380px;
-  color: #a18585;
-  background-color: white;
+  color: ${themeColor.main.chocomilk};
+  background-color: ${themeColor.main.white};
   border-radius: 22px;
   display: flex;
   justify-content: flex-end;
@@ -64,17 +65,17 @@ const PostContent = styled.div`
   flex-direction: column;
   font-size: 20px;
   box-sizing: border-box;
-  box-shadow: 1px 1px 10px 5px #e2e2e2;
+  box-shadow: 1px 1px 10px 5px ${themeColor.main.gray};
   padding: 10% 2% 5%;
   cursor: auto;
 `;
 const Text = styled.div`
   padding-bottom: 10%;
-  color: #6b5f5f;
+  color: ${themeColor.main.chocomilk};
 `;
 
 const ClickBtn = styled.div`
-  background-color: #e5dfd3;
+  background-color: ${themeColor.main.oatmeal};
   border-radius: 22px;
   display: flex;
   justify-content: center;

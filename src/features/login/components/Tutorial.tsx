@@ -1,18 +1,26 @@
 import { useEffect, useState } from "react";
 import * as St from "../TutorialStyle";
-import TutorialBackgroundTop from "../../../assets/tutorial/1_Tutorial_top.png";
-import TutorialBackgroundBottom from "../../../assets/tutorial/1_Tutorial_bottom.png";
-import TutorialText from "../../../assets/tutorial/2_Text_1.png";
-import TutorialSun from "../../../assets/tutorial/2_Sun_1.png";
-import TutorialIcon1 from "../../../assets/tutorial/2_Icon_1.png";
-import TutorialIcon2 from "../../../assets/tutorial/2_Icon_2.png";
-import TutorialIcon3 from "../../../assets/tutorial/2_Icon_3.png";
-import TutorialIcon4 from "../../../assets/tutorial/2_Icon_4.png";
-import TutorialIcon5 from "../../../assets/tutorial/2_Icon_5.png";
-import TutorialCalender from "../../../assets/tutorial/4_Calender.png";
-import TutorialDrawing from "../../../assets/tutorial/4_Drawing.png";
-import TutorialGraph from "../../../assets/tutorial/4_Graph.png";
-import { ReactComponent as TutorialGraphTitle } from "../../../assets/tutorial/4_GraphTitle.svg";
+import TutorialBackgroundTop from "../../../assets/tutorial/1_Tutorial_top.webp";
+import TutorialBackgroundBottom from "../../../assets/tutorial/1_Tutorial_bottom.webp";
+import TutorialText from "../../../assets/tutorial/2_Text_1.webp";
+import TutorialSun from "../../../assets/tutorial/2_Sun_1.webp";
+import TutorialIcon1 from "../../../assets/tutorial/2_Icon_1.webp";
+import TutorialIcon2 from "../../../assets/tutorial/2_Icon_2.webp";
+import TutorialIcon3 from "../../../assets/tutorial/2_Icon_3.webp";
+import TutorialIcon4 from "../../../assets/tutorial/2_Icon_4.webp";
+import TutorialIcon5 from "../../../assets/tutorial/2_Icon_5.webp";
+import TutorialCalender from "../../../assets/tutorial/4_Calendar.webp";
+import TutorialDrawing from "../../../assets/tutorial/4_Drawing.webp";
+import TutorialGraph from "../../../assets/tutorial/4_Graph.webp";
+import CalendarIcon from "../../../assets/tutorial/3_Icon_3.webp";
+import DiaryIcon1 from "../../../assets/tutorial/3_Icon_1.webp";
+import DiaryIcon2 from "../../../assets/tutorial/3_Icon_2.webp";
+import DiaryIcon3 from "../../../assets/tutorial/3_Icon_3.webp";
+import DiaryIcon4 from "../../../assets/tutorial/3_Icon_4.webp";
+import DiaryIcon5 from "../../../assets/tutorial/3_Icon_5.webp";
+import DiaryIcon6 from "../../../assets/tutorial/3_Icon_6.webp";
+import GraphIcon from "../../../assets/tutorial/3_Icon_1_left.webp";
+import TutorialGraphTitle from "../../../assets/tutorial/4_GraphTitle.webp";
 
 const Tutorial = () => {
   const [position, setPosition] = useState<number>(0);
@@ -56,10 +64,11 @@ const Tutorial = () => {
             날마다 다른 감정을 귀여운 6가지 이모티콘으로 채우는 재미! 다양한
             색과 표정으로 기록하세요!
           </St.PointP>
+          <St.CalendarIcon src={CalendarIcon} position={position} />
           <St.Calendar src={TutorialCalender} position={position} />
         </St.CalenderBackground>
       </St.TutorialDiv>
-      <St.TutorialDiv>
+      <St.TutorialDiv style={{ overflow: "hidden" }}>
         <St.DrawingBackground position={position}>
           <St.PointBox>Point .2</St.PointBox>
           <St.PointTitleP>내 마음대로 꾸미는 그림일기</St.PointTitleP>
@@ -71,12 +80,25 @@ const Tutorial = () => {
             함께 볼 수 있어요 !
           </St.PointP>
           <St.Drawing src={TutorialDrawing} position={position} />
+          <div>
+            <St.DiaryIcon src={DiaryIcon1} position={position} />
+            <St.DiaryIcon src={DiaryIcon2} position={position} />
+            <St.DiaryIcon src={DiaryIcon3} position={position} />
+            <St.DiaryIcon src={DiaryIcon4} position={position} />
+            <St.DiaryIcon src={DiaryIcon5} position={position} />
+            <St.DiaryIcon src={DiaryIcon6} position={position} />
+          </div>
         </St.DrawingBackground>
       </St.TutorialDiv>
       <St.TutorialDiv>
         <St.GraphBackground position={position}>
           <St.PointBox>Point .3</St.PointBox>
-          <TutorialGraphTitle width="60vw" height="20vh" />
+          <St.TutorialGraphTitle
+            src={TutorialGraphTitle}
+            width="47vw"
+            height="20vh"
+          />
+          <St.GraphIcon src={GraphIcon} position={position} />
           <St.Graph src={TutorialGraph} position={position} />
         </St.GraphBackground>
       </St.TutorialDiv>

@@ -5,6 +5,7 @@ import { getCookie } from "../../../utils/cookies";
 import { useNavigate } from "react-router-dom";
 import useLikeComment from "../hooks/useLikeComment";
 import { HOME_PAGE } from "../../../data/routes/urls";
+import { themeColor } from "../../../utils/theme";
 
 interface LikeType {
   isLike: boolean | undefined;
@@ -57,7 +58,7 @@ const LikeComment = ({ isLike: hasLike, id, count }: LikeType) => {
 };
 
 const LikeTrue = styled.div`
-  color: red;
+  color: ${themeColor.main.red};
   font-size: 30px;
   display: flex;
   justify-content: center;
@@ -66,7 +67,7 @@ const LikeTrue = styled.div`
 `;
 
 const LikeFalse = styled.div`
-  color: gray;
+  color: ${themeColor.main.gray};
   font-size: 30px;
   display: contents;
   cursor: pointer;

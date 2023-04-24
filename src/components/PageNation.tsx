@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import * as Icon from "react-icons/md";
+import { themeColor } from "../utils/theme";
 
 const PageNation = (props: any) => {
   const { page, setPage, totalCount, size } = props;
@@ -16,13 +17,7 @@ const PageNation = (props: any) => {
     } else if (page === 1 || page === 2) {
       setPageArr([1, 2, 3, 4, 5]);
     } else if (page === lastPage - 1 || page === lastPage) {
-      setPageArr([
-        lastPage - 4,
-        lastPage - 3,
-        lastPage - 2,
-        lastPage - 1,
-        lastPage,
-      ]);
+      setPageArr([lastPage - 4, lastPage - 3, lastPage - 2, lastPage - 1, lastPage]);
     } else {
       setPageArr([page - 2, page - 1, page, page + 1, page + 2]);
     }
@@ -89,16 +84,17 @@ const PageBtn = styled.button<{ currentPage: boolean }>`
   height: 28px;
   cursor: ${(props) => (props.currentPage ? "auto" : "pointer")};
   font-size: 17px;
-  color: ${(props) => (props.currentPage ? "black" : "#6d6c6c")};
+  color: ${(props) =>
+    props.currentPage ? themeColor.main.black : themeColor.main.black};
   font-weight: ${(props) => props.currentPage && 800};
   &:hover {
-    background-color: ${(props) => !props.currentPage && "#D0BD95"};
-    color: ${(props) => !props.currentPage && "white"};
+    background-color: ${(props) => !props.currentPage && themeColor.main.coffemilk};
+    color: ${(props) => !props.currentPage && themeColor.main.white};
     font-weight: 800;
   }
   &:active {
-    background-color: ${(props) => !props.currentPage && "#DADADA"};
-    color: ${(props) => !props.currentPage && "white"};
+    background-color: ${(props) => !props.currentPage && themeColor.main.gray};
+    color: ${(props) => !props.currentPage && themeColor.main.white};
   }
 `;
 const ArrowBtn = styled.button`
@@ -108,6 +104,6 @@ const ArrowBtn = styled.button`
   font-size: 23px;
   display: flex;
   align-items: center;
-  color: #7d7d7d;
+  color: ${themeColor.main.gray};
 `;
 export default PageNation;

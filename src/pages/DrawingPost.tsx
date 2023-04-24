@@ -19,6 +19,7 @@ import Reboot from "../assets/Drawing/Reboot.png";
 import { StLabel, StScoreBox, StSubmitBox, StTextArea } from "./ImagePost";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
+import { themeColor } from "../utils/theme";
 
 export type InputValue = {
   draw: boolean;
@@ -79,7 +80,7 @@ const DrawingPost = () => {
 
   // 그림판 모드, 색깔 상태 관리
   const [mode, setMode] = useState<string>("pen");
-  const [selectedColor, setSelectedColor] = useState<string>("#000000");
+  const [selectedColor, setSelectedColor] = useState<string>(themeColor.main.black);
   const [selectPen, setSelectPen] = useState<boolean>(false);
   const [selectedSize, setSelectedSize] = useState<number>(5);
 
@@ -98,8 +99,12 @@ const DrawingPost = () => {
     };
   };
 
-  const { startPaint, paint, exitPaint, moveTouch, startTouch, endTouch } =
-    usePen(canvasRef, getCoordinates, selectedColor, selectedSize);
+  const { startPaint, paint, exitPaint, moveTouch, startTouch, endTouch } = usePen(
+    canvasRef,
+    getCoordinates,
+    selectedColor,
+    selectedSize
+  );
 
   const { startErase, erase, exitErase } = useEraser(canvasRef, getCoordinates);
 
@@ -113,9 +118,7 @@ const DrawingPost = () => {
   };
 
   // 지우개, 펜 모드 변경 함수
-  const switchModeHandler = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ): void => {
+  const switchModeHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
     const button = event.target as HTMLButtonElement;
     const value = button.value;
     if (value === "eraser") {
@@ -143,9 +146,7 @@ const DrawingPost = () => {
   };
 
   // useEffect + AddEventListener 대체 함수
-  const mouseDownHandler = (
-    event: React.MouseEvent<HTMLCanvasElement>
-  ): void => {
+  const mouseDownHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
     if (mode === "pen") {
       startPaint(event);
     } else if (mode === "eraser") {
@@ -153,9 +154,7 @@ const DrawingPost = () => {
     }
   };
 
-  const mouseMoveHandler = (
-    event: React.MouseEvent<HTMLCanvasElement>
-  ): void => {
+  const mouseMoveHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
     if (mode === "pen") {
       paint(event);
     } else if (mode === "eraser") {
@@ -170,9 +169,7 @@ const DrawingPost = () => {
       exitErase();
     }
   };
-  const mouseLeaveHandler = (
-    event: React.MouseEvent<HTMLCanvasElement>
-  ): void => {
+  const mouseLeaveHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
     if (mode === "pen") {
       exitPaint();
     } else if (mode === "eraser") {
@@ -184,13 +181,7 @@ const DrawingPost = () => {
   const emoIds: number[] = [1, 2, 3, 4, 5, 6];
 
   // 별점
-  const [clicked, setClicked] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
   const starArray: number[] = [1, 2, 3, 4, 5];
   const clickStarHandler = (index: number): void => {
     setClicked(clicked.map((_, i) => i <= index - 1));
@@ -336,7 +327,9 @@ const DrawingPost = () => {
                 <Star
                   key={score}
                   size="30"
-                  color={clicked[score - 1] ? "#FFDC82" : "#E5DFD3"}
+                  color={
+                    clicked[score - 1] ? themeColor.main.yellow : themeColor.main.paper
+                  }
                   onClick={() => changeStarHandler(score)}
                 />
               ))}
@@ -365,7 +358,10 @@ const DrawingPost = () => {
               </StLabel>
               {validPicture ? (
                 <Button
-                  style={{ backgroundColor: "#F89790", color: "white" }}
+                  style={{
+                    backgroundColor: themeColor.main.pink,
+                    color: themeColor.main.white,
+                  }}
                   size="large"
                   type="submit"
                 >
@@ -408,7 +404,7 @@ export const StEmoButton = styled.button<EmoButtonProps>`
   width: 55px;
   height: 55px;
   border: ${(props) =>
-    props.selected ? "5px solid grey" : "5px solid transparent"};
+    props.selected ? `5px solid ${themeColor.main.gray}` : "5px solid transparent"};
   background-color: transparent;
   border-radius: 50%;
   display: flex;
@@ -416,10 +412,10 @@ export const StEmoButton = styled.button<EmoButtonProps>`
   align-items: center;
   cursor: pointer;
   &:focus {
-    border: 5px solid grey;
+    border: 5px solid ${themeColor.main.gray};
   }
   &:hover {
-    border: 5px solid grey;
+    border: 5px solid ${themeColor.main.gray};
   }
 `;
 

@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import user from "../../../lib/api/user";
 import * as Sub from "../../../components/subModal";
 import { keys } from "../../../data/queryKeys/keys";
+import { themeColor } from "../../../utils/theme";
 
 const Report = ({ children, id, uri }: PropsWithChildren & Idtype & UriType) => {
   const [reason, setReason] = useState("");
@@ -85,8 +86,8 @@ const Report = ({ children, id, uri }: PropsWithChildren & Idtype & UriType) => 
 
 const Container = styled.div`
   width: 300px;
-  color: #a18585;
-  background-color: white;
+  color: ${themeColor.main.chocomilk};
+  background-color: ${themeColor.main.white};
   border-radius: 22px;
   display: flex;
   justify-content: flex-end;
@@ -94,7 +95,7 @@ const Container = styled.div`
   flex-direction: column;
   font-size: 20px;
   box-sizing: border-box;
-  box-shadow: 1px 1px 10px 5px #e2e2e2;
+  box-shadow: 1px 1px 10px 5px ${themeColor.main.gray};
   padding: 10% 2%;
   cursor: auto;
   height: 170px;
@@ -102,7 +103,7 @@ const Container = styled.div`
 
 const Text = styled.div`
   padding-bottom: 10%;
-  color: #6b5f5f;
+  color: ${themeColor.main.chocomilk};
 `;
 
 const CloseBtn = styled.div`

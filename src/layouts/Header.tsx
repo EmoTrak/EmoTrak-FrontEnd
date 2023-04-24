@@ -11,6 +11,7 @@ import {
 } from "../data/routes/urls";
 import EmoTrak from "../assets/logo/EmoTrakLogo.png";
 import { useState } from "react";
+import { themeColor } from "../utils/theme";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -46,12 +47,8 @@ const Header = () => {
         {payload?.auth === "ADMIN" ? (
           <NavWrapper>
             <Flex row gap={10}>
-              <PageButton onClick={() => navigate(`${ADMIN}`)}>
-                관리자페이지
-              </PageButton>
-              <PageButton onClick={() => navigate(`${MY_PAGE}`)}>
-                마이페이지
-              </PageButton>
+              <PageButton onClick={() => navigate(`${ADMIN}`)}>관리자페이지</PageButton>
+              <PageButton onClick={() => navigate(`${MY_PAGE}`)}>마이페이지</PageButton>
               <PageButton onClick={() => navigate(`${COMMUNITY_PAGE}`)}>
                 공유 페이지
               </PageButton>
@@ -65,9 +62,7 @@ const Header = () => {
         ) : token ? (
           <NavWrapper>
             <Flex row gap={10}>
-              <PageButton onClick={() => navigate(`${MY_PAGE}`)}>
-                마이페이지
-              </PageButton>
+              <PageButton onClick={() => navigate(`${MY_PAGE}`)}>마이페이지</PageButton>
               <PageButton onClick={() => navigate(`${COMMUNITY_PAGE}`)}>
                 공유 페이지
               </PageButton>
@@ -104,11 +99,11 @@ const StHeader = styled.header`
   padding: 10px;
   border: none;
   position: fixed;
-  box-shadow: 5px 5px 5px #e8e6e2;
+  box-shadow: 5px 5px 5px ${themeColor.main.oatmeal};
   z-index: 10;
   top: 0px;
   left: 0px;
-  background-color: white;
+  background-color: ${themeColor.main.white};
   font-family: inherit;
 `;
 

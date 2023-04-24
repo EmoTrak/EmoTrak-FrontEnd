@@ -28,13 +28,14 @@ const Router = () => {
   const token = getCookie("token");
   let payloadJson;
   let payload!: IPayload;
-  const [headerB64, payloadB64, signatureB64] = (token || "").split(".");
-  if (typeof atob !== undefined && payloadB64) {
+  const payloadB64 = (token || "").split(".")[1];
+  if (atob && payloadB64) {
     payloadJson = atob(payloadB64);
   }
-  if (payloadJson !== undefined) {
+  if (payloadJson) {
     payload = JSON.parse(payloadJson);
   }
+
   const pages = [
     {
       pathname: "/",

@@ -5,6 +5,7 @@ import Palette from "./Palette";
 import { usePen } from "../hooks/usePen";
 import { useEraser } from "../hooks/useEraser";
 import { ContentProps } from "./Contents";
+import { themeColor } from "../../../utils/theme";
 
 type CanvasProps = {
   width: number;
@@ -109,7 +110,7 @@ const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
           ref={canvasRef}
           height={height}
           width={width}
-          style={{ backgroundColor: "#f4f2ee" }}
+          style={{ backgroundColor: themeColor.main.oatmeal }}
           onMouseDown={mouseDownHandler}
           onMouseMove={mouseMoveHandler}
           onMouseUp={mouseUpHandler}

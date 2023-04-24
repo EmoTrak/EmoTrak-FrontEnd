@@ -5,6 +5,7 @@ import { InputValue } from "../../../pages/DrawingPost";
 import { StCanvasWrapper } from "./Canvas";
 import EmotionIcons from "../../../components/Icon/EmoticonIcons";
 import Star from "../../../components/Icon/Star";
+import { themeColor } from "../../../utils/theme";
 
 export type ContentProps = {
   newItem: InputValue;
@@ -23,13 +24,7 @@ const Contents = ({ newItem }: ContentProps) => {
   const emoIds: number[] = [1, 2, 3, 4, 5, 6];
 
   // 별점
-  const [clicked, setClicked] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
   const starArray: number[] = [1, 2, 3, 4, 5];
   const clickStarHandler = (index: number): void => {
     setClicked(clicked.map((_, i) => i <= index - 1));
@@ -49,11 +44,7 @@ const Contents = ({ newItem }: ContentProps) => {
                   value={item}
                   onClick={clickEmojiHandler}
                 >
-                  <EmotionIcons
-                    height="50"
-                    width="50"
-                    emotionTypes={`EMOTION_${item}`}
-                  />
+                  <EmotionIcons height="50" width="50" emotionTypes={`EMOTION_${item}`} />
                 </StEmoButton>
               </StList>
             ))}
@@ -64,7 +55,11 @@ const Contents = ({ newItem }: ContentProps) => {
             <Star
               key={score}
               size="30"
-              color={clicked[score - 1] ? "#FFDC82" : "#E5DFD3"}
+              color={
+                clicked[score - 1]
+                  ? `${themeColor.palette.yellow}`
+                  : `${themeColor.main.oatmeal}`
+              }
               onClick={() => clickStarHandler(score)}
             />
           ))}

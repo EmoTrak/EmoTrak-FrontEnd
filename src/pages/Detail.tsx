@@ -13,6 +13,7 @@ import styled from "styled-components";
 import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 import Button from "../components/Button";
 import Star from "../components/Icon/Star";
+import { themeColor } from "../utils/theme";
 
 export type DetailType = {
   id: number;
@@ -95,7 +96,7 @@ const Detail = () => {
                 <Button
                   icon
                   onClick={() => navigate(`${DETAIL_PAGE}/${otherItem.id}`)}
-                  style={{ fontSize: "30px", color: "#787878" }}
+                  style={{ fontSize: "30px", color: `${themeColor.main.gray}` }}
                 >
                   <AiOutlineLeft />
                 </Button>
@@ -108,7 +109,7 @@ const Detail = () => {
                 <Button
                   icon
                   onClick={() => navigate(`${DETAIL_PAGE}/${otherItem.id}`)}
-                  style={{ fontSize: "30px", color: "#787878" }}
+                  style={{ fontSize: "30px", color: `${themeColor.main.gray}` }}
                 >
                   <AiOutlineRight />
                 </Button>
@@ -145,9 +146,9 @@ const Detail = () => {
                     .fill(null)
                     .map((_, i) =>
                       i < targetItem?.star ? (
-                        <Star key={i} size="30" color={"#FFDC82"} />
+                        <Star key={i} size="30" color={`${themeColor.palette.yellow}`} />
                       ) : (
-                        <Star key={i} size="30" color={"#E5DFD3"} />
+                        <Star key={i} size="30" color={`${themeColor.main.oatmeal}`} />
                       )
                     )}
                 </h3>
@@ -168,7 +169,10 @@ const Detail = () => {
               </Button>
               <Button
                 size="x-large"
-                style={{ backgroundColor: "#F89790", color: "white" }}
+                style={{
+                  backgroundColor: `${themeColor.emoticon.pink}`,
+                  color: `${themeColor.main.white}`,
+                }}
               >
                 <DeleteConfirmModal itemId={targetItem?.id}>삭제</DeleteConfirmModal>
               </Button>
@@ -187,13 +191,13 @@ const DetailText = styled.div`
   justify-content: center;
   text-decoration: underline;
   text-underline-position: under;
-  text-decoration-color: #ae9898;
+  text-decoration-color: ${themeColor.main.chocomilk};
   height: 50vh;
 `;
 
 const Container = styled.div`
   display: flex;
-  background-color: white;
+  background-color: ${themeColor.main.white};
   margin-top: 100px;
   padding-top: 1%;
 `;
@@ -214,14 +218,14 @@ const DetailWrapper = styled.div`
   overflow-x: hidden;
   ::-webkit-scrollbar {
     /* 스크롤이 움직이는 영역  */
-    background-color: #fff;
+    background-color: ${themeColor.main.white};
   }
   ::-webkit-scrollbar-thumb {
     /*  스크롤  */
-    background-color: #f4f2ee;
+    background-color: ${themeColor.main.paper};
     border-radius: 30px;
   }
-  background-color: #fff;
+  background-color: ${themeColor.main.white};
   padding: 10px;
   width: 90%;
   font-size: 25px;

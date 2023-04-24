@@ -1,5 +1,6 @@
 import React, { ComponentPropsWithoutRef } from "react";
 import styled from "styled-components";
+import { themeColor } from "../utils/theme";
 
 const Checkbox = ({
   checked,
@@ -61,7 +62,8 @@ const StyledCheckBox = styled.div<CheckProps>`
   display: inline-block;
   width: 1.2vw;
   height: 1.2vw;
-  background: ${(props) => (props.checked ? "#d0bd95" : "white")};
+  background: ${(props) =>
+    props.checked ? themeColor.main.coffemilk : themeColor.main.white};
   border-radius: 0.4rem;
   transition: all 150ms;
 
