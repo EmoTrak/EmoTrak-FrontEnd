@@ -7,11 +7,11 @@ interface PositionProps {
 export const TutorialWrapper = styled.div`
   margin: 0;
   width: 100%;
-  border: 1px solid;
+  /* border: 1px solid; */
   overflow-x: hidden;
   overflow-y: auto;
   padding: 0;
-  min-height: 4000px;
+  min-height: 3000px;
 `;
 
 export const TutorialDiv = styled.div`
@@ -53,7 +53,7 @@ export const TutorialBackgroundBottom = styled.div<PositionProps>`
   background-size: 100% 100%;
   width: 100vw;
   height: 100%;
-  z-index: 3;
+  z-index: 4;
   background-position: ${({ position }) => `positionY(${position / 2})`};
   box-sizing: border-box;
   margin: 0;
@@ -62,15 +62,15 @@ export const TutorialBackgroundBottom = styled.div<PositionProps>`
 export const TutorialText = styled.img<PositionProps>`
   width: 100vw;
   position: relative;
-  top: 0;
+  top: 20vh;
   height: 100%;
   transition: transform 0.05s ease-in-out;
-  transform: ${({ position }) => `scale(${0.5 + position * 0.0003})`};
+  transform: ${({ position }) => `scale(${0.4 + position * 0.0003})`};
   z-index: 3;
 `;
 
 export const TutorialSun = styled.img<PositionProps>`
-  width: 50vw;
+  width: 35vw;
   height: 100%;
   position: relative;
   top: 20vh;
@@ -81,7 +81,7 @@ export const TutorialSun = styled.img<PositionProps>`
 `;
 
 export const TutorialIcon1 = styled.img<PositionProps>`
-  width: 18vw;
+  width: 10vw;
   height: 100%;
   position: relative;
   top: -5vh;
@@ -97,7 +97,7 @@ export const TutorialIcon1 = styled.img<PositionProps>`
   z-index: 4;
 `;
 export const TutorialIcon2 = styled.img<PositionProps>`
-  width: 18vw;
+  width: 10vw;
   height: 100%;
   position: relative;
   top: -1vh;
@@ -113,7 +113,7 @@ export const TutorialIcon2 = styled.img<PositionProps>`
   z-index: 4;
 `;
 export const TutorialIcon3 = styled.img<PositionProps>`
-  width: 18vw;
+  width: 10vw;
   height: 100%;
   position: relative;
   top: 1vh;
@@ -129,7 +129,7 @@ export const TutorialIcon3 = styled.img<PositionProps>`
   z-index: 4;
 `;
 export const TutorialIcon4 = styled.img<PositionProps>`
-  width: 18vw;
+  width: 10vw;
   height: 100%;
   position: relative;
   top: -1vh;
@@ -145,7 +145,7 @@ export const TutorialIcon4 = styled.img<PositionProps>`
   z-index: 4;
 `;
 export const TutorialIcon5 = styled.img<PositionProps>`
-  width: 18vw;
+  width: 10vw;
   height: 100%;
   position: relative;
   top: -5vh;
@@ -170,14 +170,14 @@ export const PointBox = styled.div`
     font-style: normal;
   }
   background-color: #c78ec0;
-  width: 10vw;
-  height: 7vh;
+  width: 8vw;
+  height: 6vh;
   border-radius: 25px;
   z-index: 6;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2vw;
+  font-size: 1.5vw;
   color: white;
   font-family: "Pretendard-Regular";
   font-weight: 900;
@@ -193,7 +193,7 @@ export const PointTitleP = styled.p`
     font-style: normal;
   }
   position: relative;
-  font-size: 3vw;
+  font-size: 2vw;
   color: #896767;
   z-index: 6;
   font-family: "yg-jalnan";
@@ -209,7 +209,7 @@ export const PointSubTitleP = styled.p`
     font-style: normal;
   }
   position: relative;
-  font-size: 2vw;
+  font-size: 1.7vw;
   color: #dacdb3;
   z-index: 6;
   font-family: "yg-jalnan";
@@ -225,12 +225,37 @@ export const PointP = styled.p`
     font-style: normal;
   }
   position: relative;
-  font-size: 1.7vw;
+  font-size: 1.1vw;
   color: #ae9898;
   z-index: 6;
   font-family: "Pretendard-Regular";
   margin: 1vh 0 0 0;
   font-weight: 600;
+`;
+
+export const Calendar = styled.img<PositionProps>`
+  width: 40vw;
+  border: 8px solid #d9d9d9;
+  border-radius: 3vh;
+  margin: 5vh;
+`;
+
+export const Drawing = styled.img<PositionProps>`
+  width: 40vw;
+  border: 8px solid #d9d9d9;
+  border-radius: 3vh;
+  margin: 5vh;
+`;
+
+export const Graph = styled.img<PositionProps>`
+  width: 40vw;
+  border: 8px solid #d9d9d9;
+  border-radius: 3vh;
+  margin: 5vh;
+`;
+
+export const GraphTitle = styled.img<PositionProps>`
+  width: 40vw;
 `;
 
 export const CalenderBackground = styled.div<PositionProps>`
@@ -243,33 +268,8 @@ export const CalenderBackground = styled.div<PositionProps>`
   background-color: #fbf3cc;
   background-size: 100%;
   width: 100vw;
-  height: 130vh;
-  z-index: 5;
-`;
-
-export const Calendar = styled.img<PositionProps>`
-  width: 60vw;
-  border: 10px solid #d9d9d9;
-  border-radius: 3vh;
-  margin: 5vh;
-`;
-
-export const Drawing = styled.img<PositionProps>`
-  width: 60vw;
-  border: 10px solid #d9d9d9;
-  border-radius: 3vh;
-  margin: 5vh;
-`;
-
-export const Graph = styled.img<PositionProps>`
-  width: 60vw;
-  border: 10px solid #d9d9d9;
-  border-radius: 3vh;
-  margin: 5vh;
-`;
-
-export const GraphTitle = styled.img<PositionProps>`
-  width: 40vw;
+  height: 110vh;
+  z-index: 2;
 `;
 
 export const DrawingBackground = styled.div<PositionProps>`
@@ -282,7 +282,7 @@ export const DrawingBackground = styled.div<PositionProps>`
   background-color: white;
   background-size: 100%;
   width: 100vw;
-  height: 130vh;
+  height: 110vh;
   z-index: 5;
 `;
 
@@ -296,6 +296,6 @@ export const GraphBackground = styled.div<PositionProps>`
   background-color: #fde5a7;
   background-size: 100%;
   width: 100vw;
-  height: 130vh;
+  height: 110vh;
   z-index: 5;
 `;
