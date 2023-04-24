@@ -35,7 +35,7 @@ user.interceptors.response.use(
     if (statusCode === 401) {
       switch (errorCode) {
         case "x-1001":
-          return alert("다시 로그인해주세요.");
+          return console.log("다시 로그인해주세요.");
         case "x-1002":
           const refreshToken = getCookie("refreshToken");
           const expire = getCookie("expire");

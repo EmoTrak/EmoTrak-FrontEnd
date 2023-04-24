@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { DETAIL_PAGE } from "../../../data/routes/urls";
 import ClickModalPost from "./ClickModalPost";
 import { MdArrowForwardIos } from "react-icons/md";
-import { themeColor } from "../../../utils/theme";
+import { device, themeColor } from "../../../utils/theme";
 
 const Sidebar = ({ side, setSide, data, diaryDay }: Partial<DayProps>) => {
   const navigate = useNavigate();
@@ -64,29 +64,74 @@ const OpenBox = keyframes`
   }
 `;
 
-const CloseBox = keyframes`
+const TabletOpenBox = keyframes`
   from {
-    right: 0%;
+    top: 150%;
   }
   to {
-    right: -100%;
+    top: 90%;
+  }
+`;
+
+const MobileOpenBox = keyframes`
+  from {
+    top: 150%;
+  }
+  to {
+    top: 75%;
+  }
+`;
+
+const MiniMobileOpenBox = keyframes`
+  from {
+    top: 150%;
+  }
+  to {
+    top: 60%;
   }
 `;
 
 const Wrap = styled.div`
   display: flex;
-  position: absolute;
-  right: ${({ side }: Partial<DayProps>) => (side ? "0%" : "-100%")};
-  animation: ${({ side }: Partial<DayProps>) => (side ? OpenBox : CloseBox)} 0.5s ease;
+  right: 0;
+  animation: ${({ side }: Partial<DayProps>) => side && OpenBox} 1s ease;
+  position: relative;
+  ${device.tablet} {
+    position: absolute;
+    flex-direction: column;
+    z-index: 10;
+    left: 0;
+    display: ${({ side }: Partial<DayProps>) => (side ? "content" : "none")};
+    top: ${({ side }: Partial<DayProps>) => (side ? "90%" : "150%")};
+    animation: ${({ side }: Partial<DayProps>) => side && TabletOpenBox} 1s ease;
+  }
+  ${device.mobile} {
+    top: ${({ side }: Partial<DayProps>) => (side ? "75%" : "150%")};
+    animation: ${({ side }: Partial<DayProps>) => side && MobileOpenBox} 1s ease;
+  }
+  ${device.miniMobile} {
+    top: ${({ side }: Partial<DayProps>) => (side ? "60%" : "150%")};
+    animation: ${({ side }: Partial<DayProps>) => side && MiniMobileOpenBox} 1s ease;
+  }
 `;
 const Container = styled.div`
   width: 27vw;
   height: 100vh;
-  background-color: ${themeColor.main.gray};
+  background-color: ${themeColor.main.oatmeal};
   box-sizing: border-box;
   padding: 60px 10px;
   display: flex;
   flex-direction: column;
+  ${device.tablet} {
+    padding: 30px 10px;
+    width: 100%;
+    height: 400px;
+    gap: 10px;
+  }
+  ${device.mobile} {
+    height: 400px;
+    flex-direction: column;
+  }
 `;
 
 const CloseBtn = styled.button`
@@ -94,20 +139,35 @@ const CloseBtn = styled.button`
   height: 60px;
   width: 35px;
   color: ${themeColor.main.white};
-  background-color: ${themeColor.main.gray};
+  background-color: ${themeColor.main.oatmeal};
   border-radius: 5px 0 0 5px;
   font-size: 30px;
   display: flex;
   align-items: center;
   cursor: pointer;
   border: none;
+  ${device.tablet} {
+    margin-left: 20px;
+    position: relative;
+    top: 13px;
+    transform: rotate(90deg);
+  }
 `;
+
 const ContentBox = styled.div`
   height: 50%;
   box-sizing: border-box;
   display: flex;
   justify-content: space-around;
   overflow: hidden;
+  ${device.tablet} {
+    justify-content: flex-start;
+    height: 100%;
+  }
+  ${device.mobile} {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const Content = styled.div`
@@ -115,21 +175,33 @@ const Content = styled.div`
   border-radius: 5px;
   padding: 5%;
   box-sizing: border-box;
-  max-width: 22vw;
+  /* max-width: 22vw; */
   width: 22vw;
   height: 80%;
   overflow: hidden;
   word-break: break-all;
   cursor: pointer;
-  color: ${themeColor.main.yellow};
+  color: ${themeColor.main.coffemilk};
+  ${device.tablet} {
+    width: 87vw;
+    height: 100%;
+  }
+  ${device.mobile} {
+    width: 83vw;
+  }
+  ${device.miniMobile} {
+    width: 73vw;
+  }
 `;
 
 const Imoticon = styled.div`
   border-radius: 50%;
+  position: relative;
   background-color: ${themeColor.main.white};
   padding: 5px;
   min-width: 40px;
   height: 40px;
+  margin-right: 10px;
 `;
 
 const PostContent = styled.div`
@@ -145,6 +217,16 @@ const PostContent = styled.div`
   font-weight: 700;
   cursor: pointer;
   color: ${themeColor.main.white};
+  ${device.tablet} {
+    width: 87vw;
+    height: 100%;
+  }
+  ${device.mobile} {
+    width: 83vw;
+  }
+  ${device.miniMobile} {
+    width: 73vw;
+  }
 `;
 
 export default Sidebar;

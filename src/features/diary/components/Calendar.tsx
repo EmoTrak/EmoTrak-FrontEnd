@@ -14,7 +14,7 @@ import { MdOutlineArrowDropDownCircle } from "react-icons/md";
 import Button from "../../../components/Button";
 import { getCookie } from "../../../utils/cookies";
 import { useNavigate } from "react-router-dom";
-import { themeColor } from "../../../utils/theme";
+import { device, themeColor } from "../../../utils/theme";
 
 const Calendar = () => {
   const token = getCookie("token");
@@ -93,7 +93,7 @@ const Calendar = () => {
         <MiniCalendar year={select.year} month={select.month + 1} />
       </Flex>
       <CalendarBox>
-        <CalendarWrap>
+        <SelectWrap>
           <NowDay>
             <span>
               {select.year}년 {select.month}월
@@ -117,7 +117,7 @@ const Calendar = () => {
               <AiOutlineRight />
             </Button>
           </CalendarBtn>
-        </CalendarWrap>
+        </SelectWrap>
         <TotalWeek>
           <Weeks style={{ color: "red" }}>SUN</Weeks>
           <Weeks>MON</Weeks>
@@ -201,19 +201,12 @@ const Calendar = () => {
         </DiaryDay>
       </CalendarBox>
 
-      {side ? (
-        <>
-          <Sidebar side={side} setSide={setSide} data={data} diaryDay={select} />
-          <SideImg> 여기에 이미지가 들어갑니다.</SideImg>
-        </>
-      ) : (
-        <SideImg> 여기에 이미지가 들어갑니다.</SideImg>
-      )}
+      {side && <Sidebar side={side} setSide={setSide} data={data} diaryDay={select} />}
     </Container>
   );
 };
 
-const CalendarWrap = styled.div`
+const SelectWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -227,6 +220,17 @@ const CalendarBtn = styled.div`
 const Container = styled.div`
   display: flex;
   background-color: ${themeColor.main.white};
+  height: 100vh;
+  ${device.tablet} {
+    padding-left: 10px;
+  }
+  ${device.mobile} {
+    padding-left: 5px;
+  }
+  ${device.miniMobile} {
+    padding-left: 5px;
+    height: 70vh;
+  }
 `;
 
 const NowDay = styled.div`
@@ -255,20 +259,27 @@ const SelectBtn = styled.button`
   border: 0;
   background-color: transparent;
   font-size: 20px;
-  color: ${themeColor.main.yellow};
+  color: ${themeColor.main.coffemilk};
   cursor: pointer;
 `;
 
 const CalendarBox = styled.div`
-  width: 50vw;
   margin-left: auto;
   margin-right: auto;
+
+  ${device.mobile} {
+    margin-left: 0px;
+    margin-right: 3px;
+  }
 `;
 
 const DiaryDay = styled.div`
   display: flex;
   flex-wrap: wrap;
-  height: 40vw;
+  height: 80%;
+  ${device.mobile} {
+    max-height: 65%;
+  }
 `;
 const TotalWeek = styled.div`
   min-width: calc(100% / 7);
@@ -285,6 +296,13 @@ const Weeks = styled.div`
   background-color: transparent;
   position: relative;
   font-family: "KyoboHand";
+
+  ${device.mobile} {
+    font-size: 13px;
+  }
+  ${device.miniMobile} {
+    font-size: 10px;
+  }
 `;
 const Day = styled.button`
   min-width: calc(100% / 7);
@@ -296,6 +314,13 @@ const Day = styled.button`
   position: relative;
   font-family: "KyoboHand";
   cursor: pointer;
+
+  ${device.mobile} {
+    font-size: 13px;
+  }
+  ${device.miniMobile} {
+    font-size: 10px;
+  }
 `;
 
 const Sunday = styled.button`
@@ -309,11 +334,20 @@ const Sunday = styled.button`
   font-family: "KyoboHand";
   cursor: pointer;
   color: ${themeColor.palette.red};
+
+  ${device.mobile} {
+    font-size: 13px;
+  }
+  ${device.miniMobile} {
+    font-size: 11px;
+  }
 `;
 
 const SideImg = styled.div`
   width: 21vw;
-  height: 100vh;
+  ${device.mobile} {
+    display: none;
+  }
 `;
 
 export default Calendar;

@@ -32,6 +32,7 @@ export const themeColor: DefaultTheme = {
 };
 
 export const device = {
+  miniMobile: `@media screen and (max-width: 500px)`,
   mobile: `@media screen and (max-width: 767px)`,
   tablet: `@media screen and (max-width: 1024px)`,
 };
