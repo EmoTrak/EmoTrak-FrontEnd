@@ -1,3 +1,4 @@
+import { HTMLProps } from "react";
 import styled, { StyledComponent } from "styled-components";
 interface PositionProps {
   position: number;
@@ -56,7 +57,7 @@ export const TutorialBackgroundBottom = styled.div<PositionProps>`
 
 export const TutorialText: StyledComponent<
   "img",
-  React.HTMLProps<HTMLImageElement>,
+  any,
   PositionProps
 > = styled.img.attrs<PositionProps>((props) => ({
   style: {
@@ -74,7 +75,7 @@ export const TutorialText: StyledComponent<
 
 export const TutorialSun: StyledComponent<
   "img",
-  React.HTMLProps<HTMLImageElement>,
+  any,
   PositionProps
 > = styled.img.attrs<PositionProps>((props) => ({
   style: {
@@ -103,7 +104,7 @@ export const TutorialGraphTitle = styled.img`
 
 export const TutorialIcon1: StyledComponent<
   "img",
-  React.HTMLProps<HTMLImageElement>,
+  any,
   PositionProps
 > = styled.img.attrs<PositionProps>((props) => ({
   style: {
@@ -127,7 +128,7 @@ export const TutorialIcon1: StyledComponent<
 
 export const TutorialIcon2: StyledComponent<
   "img",
-  React.HTMLProps<HTMLImageElement>,
+  any,
   PositionProps
 > = styled.img.attrs<PositionProps>((props) => ({
   style: {
@@ -151,7 +152,7 @@ export const TutorialIcon2: StyledComponent<
 
 export const TutorialIcon3: StyledComponent<
   "img",
-  React.HTMLProps<HTMLImageElement>,
+  any,
   PositionProps
 > = styled.img.attrs<PositionProps>((props) => ({
   style: {
@@ -175,7 +176,7 @@ export const TutorialIcon3: StyledComponent<
 
 export const TutorialIcon4: StyledComponent<
   "img",
-  React.HTMLProps<HTMLImageElement>,
+  any,
   PositionProps
 > = styled.img.attrs<PositionProps>((props) => ({
   style: {
@@ -198,7 +199,7 @@ export const TutorialIcon4: StyledComponent<
 `;
 export const TutorialIcon5: StyledComponent<
   "img",
-  React.HTMLProps<HTMLImageElement>,
+  any,
   PositionProps
 > = styled.img.attrs<PositionProps>((props) => ({
   style: {
@@ -230,7 +231,7 @@ export const DiaryIcon = styled.img<PositionProps>`
 
 export const CalendarIcon: StyledComponent<
   "img",
-  React.HTMLProps<HTMLImageElement>,
+  any,
   PositionProps
 > = styled.img.attrs<PositionProps>((props) => ({
   style: {
@@ -256,7 +257,7 @@ export const CalendarIcon: StyledComponent<
 
 export const GraphIcon: StyledComponent<
   "img",
-  React.HTMLProps<HTMLImageElement>,
+  any,
   PositionProps
 > = styled.img.attrs<PositionProps>((props) => ({
   style: {
@@ -279,13 +280,6 @@ export const GraphIcon: StyledComponent<
 `;
 
 export const PointBox = styled.div`
-  @font-face {
-    font-family: "Pretendard-Regular";
-    src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
-      format("woff");
-    font-weight: 400;
-    font-style: normal;
-  }
   background-color: #c78ec0;
   width: 8vw;
   height: 6vh;
@@ -302,13 +296,6 @@ export const PointBox = styled.div`
 `;
 
 export const PointTitleP = styled.p`
-  @font-face {
-    font-family: "yg-jalnan";
-    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff")
-      format("woff");
-    font-weight: normal;
-    font-style: normal;
-  }
   position: relative;
   font-size: 2vw;
   color: #896767;
@@ -318,13 +305,6 @@ export const PointTitleP = styled.p`
 `;
 
 export const PointSubTitleP = styled.p`
-  @font-face {
-    font-family: "yg-jalnan";
-    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff")
-      format("woff");
-    font-weight: normal;
-    font-style: normal;
-  }
   position: relative;
   font-size: 1.7vw;
   color: #dacdb3;
@@ -334,13 +314,6 @@ export const PointSubTitleP = styled.p`
 `;
 
 export const PointP = styled.p`
-  @font-face {
-    font-family: "Pretendard-Regular";
-    src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
-      format("woff");
-    font-weight: 400;
-    font-style: normal;
-  }
   position: relative;
   font-size: 1.1vw;
   color: #ae9898;
