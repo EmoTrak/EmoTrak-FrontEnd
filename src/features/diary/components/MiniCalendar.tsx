@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { date } from "../../../data/type/d1";
-import { themeColor } from "../../../utils/theme";
+import { device, themeColor } from "../../../utils/theme";
 
 const MiniCalendar = ({ year, month }: date) => {
   if (month === 13) {
@@ -55,6 +55,9 @@ const MiniCalendar = ({ year, month }: date) => {
 const CalendarBox = styled.div`
   width: 200px;
   margin: 50px 0 0 3vw;
+  ${device.tablet} {
+    display: none;
+  }
 `;
 
 const DiaryDay = styled.div`
