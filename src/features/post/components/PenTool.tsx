@@ -9,12 +9,7 @@ interface PenProps {
   setSelectPen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const PenTool = ({
-  color,
-  selectedSize,
-  onSizeSelect,
-  setSelectPen,
-}: PenProps) => {
+const PenTool = ({ color, selectedSize, onSizeSelect, setSelectPen }: PenProps) => {
   const sizeList: number[] = [20, 15, 10, 5];
 
   return (
@@ -52,8 +47,4 @@ const StButtonBox = styled.div<ButtonSize>`
   border: 1px solid transparent;
   background-color: ${({ color }) => `${color}`};
   border-radius: 50%;
-`;
-
-const StPenTool = styled.div`
-  display: flex;
 `;

@@ -8,13 +8,13 @@ import { ADMIN, COMMUNITY_PAGE } from "../../../data/routes/urls";
 import { IAdminData } from "../../../data/type/d2";
 import useAdminPost from "../hooks/useAdminPost";
 import PageNation from "../../../components/PageNation";
+import { themeColor } from "../../../utils/theme";
 
 const AdminPost = () => {
   const nav = useNavigate();
   const [page, setPage] = useState<number>(1);
 
-  const { adminPostData, adminDeleteData, onReportDelete, status } =
-    useAdminPost(page);
+  const { adminPostData, adminDeleteData, onReportDelete, status } = useAdminPost(page);
 
   return (
     <Wrapper>
@@ -60,9 +60,7 @@ const AdminPost = () => {
                       >
                         신고삭제
                       </button>
-                      <button
-                        onClick={() => nav(`${COMMUNITY_PAGE}/${item.id}`)}
-                      >
+                      <button onClick={() => nav(`${COMMUNITY_PAGE}/${item.id}`)}>
                         페이지이동
                       </button>
                     </td>
@@ -110,13 +108,13 @@ const H1 = styled.h1`
 `;
 const BackBtn = styled.button`
   background-color: transparent;
-  border: 1px solid #eee;
+  border: 1px solid ${themeColor.main.gray};
   margin: 30px;
   width: 30px;
   height: 30px;
   cursor: pointer;
   &:hover {
-    background-color: lightgray;
+    background-color: ${themeColor.main.gray};
   }
 `;
 const PageWrap = styled.div`

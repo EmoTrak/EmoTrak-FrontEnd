@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, createContext, useContext, useState } from "react";
 import { BooleanType, Position } from "../data/type/d1";
 import styled from "styled-components";
+import { themeColor } from "../utils/theme";
 
 const defaultValue = {
   open: false,
@@ -46,7 +47,7 @@ export const ModalContent = ({ children, top, left }: PropsWithChildren & Positi
 };
 
 const Content = styled.div<Position>`
-  background-color: #ffffff;
+  background-color: ${themeColor.main.white};
   position: fixed;
   border-radius: 30px;
   box-sizing: border-box;

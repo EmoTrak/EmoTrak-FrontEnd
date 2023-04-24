@@ -1,5 +1,6 @@
 import { PropsWithChildren } from "react";
 import styled from "styled-components";
+import { themeColor } from "../../../utils/theme";
 
 type InputListProps = {
   important?: boolean;
@@ -19,14 +20,14 @@ function InputList({ important, name, children }: InputListProps) {
 }
 
 const StAster = styled.span`
-  color: red;
+  color: ${themeColor.main.red};
 `;
 
 const ListWrapper = styled.div`
   width: 30vw;
   display: flex;
   padding: 2rem 0px;
-  border-bottom: 1px solid rgb(220, 219, 228);
+  border-bottom: 1px solid ${themeColor.main.gray};
   margin: 5px;
   position: relative;
 `;

@@ -3,6 +3,7 @@ import { CommentType, Idtype } from "../../../data/type/d1";
 import useAddComment from "../hooks/useAddComment";
 import styled from "styled-components";
 import Button from "../../../components/Button";
+import { themeColor } from "../../../utils/theme";
 
 const CreateComment = ({ id }: Idtype) => {
   const [input, setInput] = useState<CommentType>({
@@ -28,7 +29,11 @@ const CreateComment = ({ id }: Idtype) => {
       >
         <span>댓글</span>
         <CommentInput
-          style={{ width: "40vw", height: "50px", border: "1px solid #eee" }}
+          style={{
+            width: "40vw",
+            height: "50px",
+            border: `1px solid ${themeColor.main.gray}`,
+          }}
           value={input.comment}
           onChange={changeInputHandler}
           placeholder="댓글을 남겨보세요!"
@@ -52,7 +57,7 @@ const CommentInput = styled.textarea`
   resize: none;
   :focus {
     outline: none !important;
-    border-color: #e7e1d9;
-    box-shadow: 0 0 10px #e7e1d9;
+    border-color: ${themeColor.main.oatmeal};
+    box-shadow: 0 0 10px ${themeColor.main.oatmeal};
   }
 `;

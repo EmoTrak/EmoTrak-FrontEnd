@@ -12,6 +12,7 @@ import { getCookie } from "../../../utils/cookies";
 import InputList from "../../mypage/components/InputList";
 import { MyPageInput } from "../../../pages/Mypage";
 import SignupTitle from "../../../assets/Texts/Signup.svg";
+import { themeColor } from "../../../utils/theme";
 
 const SignupForm = () => {
   const navigate = useNavigate();
@@ -26,20 +27,12 @@ const SignupForm = () => {
 
   const { validEmail, checkEmail, emailValidation, setEmailValidation } =
     useEmailValidation();
-  const {
-    validNickname,
-    checkNickname,
-    nicknameValidation,
-    setNicknameValidation,
-  } = useNicknameValidation();
-  const { validPassword, checkPasswordHandler } = usePasswordCheck(
-    signInfo.password
-  );
+  const { validNickname, checkNickname, nicknameValidation, setNicknameValidation } =
+    useNicknameValidation();
+  const { validPassword, checkPasswordHandler } = usePasswordCheck(signInfo.password);
   const { signup } = useSignup();
 
-  const changeInputHandler = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
+  const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
     setSignInfo({ ...signInfo, [name]: value });
     if (name === "nickname") {
@@ -52,9 +45,7 @@ const SignupForm = () => {
     }
   };
 
-  const checkPasswordChangeHandler = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const checkPasswordChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setCheckPassword(value);
   };
@@ -81,11 +72,7 @@ const SignupForm = () => {
 
   const submitInfoHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (
-      emailValidation &&
-      nicknameValidation &&
-      validPassword(signInfo.password)
-    ) {
+    if (emailValidation && nicknameValidation && validPassword(signInfo.password)) {
       signup.mutate(signInfo);
     } else {
       alert("입력한 내용을 확인해주세요 !");
@@ -93,7 +80,7 @@ const SignupForm = () => {
   };
   useEffect(() => {
     if (token) {
-      navigate('/');
+      navigate("/");
     }
     const preventGoBack = () => {
       if (window.confirm("페이지를 나가시겠습니까?")) {
@@ -106,7 +93,7 @@ const SignupForm = () => {
     // 새로고침 막기 변수
     const preventClose = (e: BeforeUnloadEvent) => {
       e.preventDefault();
-      e.returnValue = ""; 
+      e.returnValue = "";
     };
 
     window.history.pushState(null, "", window.location.href);
@@ -147,9 +134,7 @@ const SignupForm = () => {
                     <StWarningMessage>중복확인이 필요합니다.</StWarningMessage>
                   )
                 ) : (
-                  <StWarningMessage>
-                    이메일 형식으로 입력해주세요.
-                  </StWarningMessage>
+                  <StWarningMessage>이메일 형식으로 입력해주세요.</StWarningMessage>
                 )}
               </SignFormContentBox>
             </label>
@@ -214,9 +199,7 @@ const SignupForm = () => {
                   checkPasswordHandler(checkPassword) ? (
                     <span>비밀번호가 일치합니다.</span>
                   ) : (
-                    <StWarningMessage>
-                      비밀번호가 일치하지 않습니다.
-                    </StWarningMessage>
+                    <StWarningMessage>비밀번호가 일치하지 않습니다.</StWarningMessage>
                   )
                 ) : (
                   <span>비밀번호를 다시 입력해주세요.</span>
@@ -234,7 +217,7 @@ const SignupForm = () => {
 export default SignupForm;
 
 const StWarningMessage = styled.span`
-  color: red;
+  color: ${themeColor.main.red};
 `;
 
 const SignFormContentBox = styled.div`

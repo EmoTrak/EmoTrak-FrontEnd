@@ -2,7 +2,7 @@ import { DayProps } from "../../../data/type/d1";
 import EmotionIcons from "../../../components/Icon/EmoticonIcons";
 import styled from "styled-components";
 
-const CalendarEmo = ({ data, item, today }: Partial<DayProps>) => {
+const CalendarEmo = ({ data, item }: Partial<DayProps>) => {
   const emoDate = data?.contents.find((e) => e.day === item?.date);
 
   return (

@@ -9,6 +9,7 @@ import { COMMUNITY_PAGE } from "../../../data/routes/urls";
 import useEmoSelect from "../hooks/useEmoSelect";
 import useInfinite from "../hooks/useInfinite";
 import EmotionIcons from "../../../components/Icon/EmoticonIcons";
+import { themeColor } from "../../../utils/theme";
 
 const Boards = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -150,7 +151,7 @@ const Container = styled.div`
 
 const SelectBar = styled.div`
   height: 70px;
-  background-color: #e5dfd3;
+  background-color: ${themeColor.main.oatmeal};
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -164,12 +165,14 @@ const StEmoButton = styled.button<{ isClick: boolean }>`
   width: 45px;
   height: 45px;
   border: 0;
-  background-color: ${(props) => (props.isClick ? "#D0BD95" : "transparent")};
+  background-color: ${(props) =>
+    props.isClick ? themeColor.main.coffemilk : "transparent"};
   margin-left: 15px;
   border-radius: 50%;
   cursor: pointer;
   &:hover {
-    background-color: ${(props) => (props.isClick ? "#D0BD95" : "#d1d0d0")};
+    background-color: ${(props) =>
+      props.isClick ? themeColor.main.coffemilk : themeColor.main.gray};
   }
 `;
 
@@ -186,7 +189,7 @@ const SelectTitle = styled.div`
 const Sort = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: white;
+  background-color: ${themeColor.main.white};
   border: 1px solid;
   border-radius: 10px;
   z-index: 5;
@@ -204,7 +207,7 @@ const SortListBtn = styled.button`
   cursor: pointer;
   font-family: "KyoboHand";
   &:hover {
-    background-color: lightgray;
+    background-color: ${themeColor.main.gray};
   }
 `;
 const ImageContainer = styled.div`
@@ -234,7 +237,7 @@ const ScrollOntop = styled.button`
   position: fixed;
   bottom: 50px;
   right: 10%;
-  background-color: white;
+  background-color: ${themeColor.main.white};
   border-radius: 50%;
   border: 0.5px solid;
   width: 30px;
