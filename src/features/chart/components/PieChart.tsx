@@ -10,7 +10,7 @@ function PieChart({ graphData, month }: PropsData) {
     return sum + cur;
   }, 0);
   useEffect(() => {
-    const matchedData = graphData.find((item) => item.month === Number(month));
+    const matchedData = graphData?.find((item) => item.month === Number(month));
     if (matchedData) {
       const test = matchedData.graph.map((item) => item.percentage);
       setBarCountArr(test);
@@ -36,7 +36,7 @@ function PieChart({ graphData, month }: PropsData) {
               themeColor.emoticon.purple,
             ],
             title: {
-              text: "EmoTrak PieChart",
+              text: "EmoTrak 한달 감정 평균",
               align: "center",
               margin: 30,
               style: {

@@ -11,7 +11,7 @@ const BarChart = ({ graphData, month }: PropsData) => {
   }, 0);
 
   useEffect(() => {
-    const matchedData = graphData.find((item) => item.month === Number(month));
+    const matchedData = graphData?.find((item) => item.month === Number(month));
     if (matchedData) {
       const test = matchedData.graph.map((item) => item.count);
       setBarCountArr(test);
@@ -55,7 +55,7 @@ const BarChart = ({ graphData, month }: PropsData) => {
               },
             },
             title: {
-              text: "EmoTrak BarChart",
+              text: "EmoTrak 한달 감정 개수",
               align: "center",
             },
 
