@@ -1,6 +1,7 @@
 import React, { ComponentPropsWithoutRef } from "react";
 import { ReactComponent as StarIcon } from "../../assets/emoticon/star.svg";
 import styled from "styled-components";
+import { themeColor } from "../../utils/theme";
 
 type Props = {
   size?: string;
@@ -10,12 +11,7 @@ type Props = {
 const Star = ({ size, color, onClick }: Props) => {
   return (
     <StStarButton type="button" onClick={onClick}>
-      <StarIcon
-        height={size}
-        width={size}
-        fill={`${color}`}
-        stroke={`${color}`}
-      />
+      <StarIcon height={size} width={size} fill={`${color}`} stroke={`${color}`} />
     </StStarButton>
   );
 };
@@ -29,8 +25,8 @@ const StStarButton = styled.button<Props>`
 
   svg {
     :hover {
-      fill: #ffdc82;
-      stroke: #ffdc82;
+      fill: ${themeColor.emoticon.yellow};
+      stroke: ${themeColor.emoticon.yellow};
     }
   }
 `;

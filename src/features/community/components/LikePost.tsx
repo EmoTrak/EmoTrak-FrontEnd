@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { getCookie } from "../../../utils/cookies";
 import { useNavigate } from "react-router-dom";
+import { themeColor } from "../../../utils/theme";
 
 interface LikeType {
   isLike: boolean | undefined;
@@ -77,14 +78,14 @@ const LikePost = ({ isLike, id, count }: LikeType) => {
 };
 
 const LikeTrue = styled.div`
-  color: red;
+  color: ${themeColor.main.red};
   font-size: 30px;
   display: contents;
   cursor: pointer;
 `;
 
 const LikeFalse = styled.div`
-  color: gray;
+  color: ${themeColor.main.gray};
   font-size: 30px;
   display: contents;
   cursor: pointer;

@@ -19,6 +19,7 @@ import Button from "../components/Button";
 import Star from "../components/Icon/Star";
 import Report from "../features/community/components/Report";
 import { GiSiren } from "react-icons/gi";
+import { themeColor } from "../utils/theme";
 
 const CommunityDetail = () => {
   const queryClient = useQueryClient();
@@ -134,9 +135,9 @@ const CommunityDetail = () => {
               .fill(null)
               .map((_, i) =>
                 i < data?.star ? (
-                  <Star key={i} size="30" color={"#FFDC82"} />
+                  <Star key={i} size="30" color={themeColor.palette.yellow} />
                 ) : (
-                  <Star key={i} size="30" color={"#E5DFD3"} />
+                  <Star key={i} size="30" color={themeColor.main.oatmeal} />
                 )
               )}
           </h1>

@@ -10,6 +10,7 @@ import InputList from "../features/mypage/components/InputList";
 import { getCookie } from "../utils/cookies";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
+import { themeColor } from "../utils/theme";
 
 type InfoType = {
   email: string;
@@ -32,15 +33,9 @@ const Mypage = () => {
     rePassword: "",
   });
 
-  const {
-    checkNickname,
-    validNickname,
-    setNicknameValidation,
-    nicknameValidation,
-  } = useNicknameValidation();
-  const { validPassword, checkPasswordHandler } = usePasswordCheck(
-    info.password
-  );
+  const { checkNickname, validNickname, setNicknameValidation, nicknameValidation } =
+    useNicknameValidation();
+  const { validPassword, checkPasswordHandler } = usePasswordCheck(info.password);
 
   const { changePassword } = useChangePassword();
   const { changeNickname } = useChangeNickname();
@@ -80,7 +75,7 @@ const Mypage = () => {
 
     if (!token && !refreshToken) {
       alert("로그인이 필요합니다!");
-      navigate('/');
+      navigate("/");
     }
   }, [userInfo]);
 
@@ -113,10 +108,7 @@ const Mypage = () => {
                 닉네임 변경
               </Button>
             ) : (
-              <Button
-                size="small"
-                onClick={() => checkNicknameHandler(info.nickname)}
-              >
+              <Button size="small" onClick={() => checkNicknameHandler(info.nickname)}>
                 중복확인
               </Button>
             )}
@@ -216,7 +208,8 @@ interface HelperText {
 }
 const MyPageHelperText = styled.span<HelperText>`
   margin: 0;
-  color: ${({ important }) => (important ? `red` : `black`)};
+  color: ${({ important }) =>
+    important ? `${themeColor.main.red}` : `${themeColor.main.black}`};
 `;
 
 const MyPageButtonBox = styled.div`
