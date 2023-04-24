@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { date } from "../../../data/type/d1";
+import { themeColor } from "../../../utils/theme";
 
 const MiniCalendar = ({ year, month }: date) => {
   if (month === 13) {
@@ -74,7 +75,7 @@ const Sunday = styled.button`
   border: 0;
   background-color: transparent;
   font-family: "KyoboHand";
-  color: red;
+  color: ${themeColor.main.red};
 `;
 
 const Saturday = styled.button`
@@ -82,7 +83,7 @@ const Saturday = styled.button`
   border: 0;
   background-color: transparent;
   font-family: "KyoboHand";
-  color: blue;
+  color: ${themeColor.palette.blue};
 `;
 
 export default MiniCalendar;

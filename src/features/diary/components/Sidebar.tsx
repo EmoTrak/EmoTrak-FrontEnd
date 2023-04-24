@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { DETAIL_PAGE } from "../../../data/routes/urls";
 import ClickModalPost from "./ClickModalPost";
 import { MdArrowForwardIos } from "react-icons/md";
+import { themeColor } from "../../../utils/theme";
 
 const Sidebar = ({ side, setSide, data, diaryDay }: Partial<DayProps>) => {
   const navigate = useNavigate();
@@ -81,7 +82,7 @@ const Wrap = styled.div`
 const Container = styled.div`
   width: 27vw;
   height: 100vh;
-  background-color: #e5dfd3;
+  background-color: ${themeColor.main.gray};
   box-sizing: border-box;
   padding: 60px 10px;
   display: flex;
@@ -92,8 +93,8 @@ const CloseBtn = styled.button`
   margin-top: 20px;
   height: 60px;
   width: 35px;
-  color: white;
-  background-color: #e5dfd3;
+  color: ${themeColor.main.white};
+  background-color: ${themeColor.main.gray};
   border-radius: 5px 0 0 5px;
   font-size: 30px;
   display: flex;
@@ -110,7 +111,7 @@ const ContentBox = styled.div`
 `;
 
 const Content = styled.div`
-  background-color: white;
+  background-color: ${themeColor.main.white};
   border-radius: 5px;
   padding: 5%;
   box-sizing: border-box;
@@ -120,19 +121,19 @@ const Content = styled.div`
   overflow: hidden;
   word-break: break-all;
   cursor: pointer;
-  color: #d0bd95;
+  color: ${themeColor.main.yellow};
 `;
 
 const Imoticon = styled.div`
   border-radius: 50%;
-  background-color: white;
+  background-color: ${themeColor.main.white};
   padding: 5px;
   min-width: 40px;
   height: 40px;
 `;
 
 const PostContent = styled.div`
-  background-color: white;
+  background-color: ${themeColor.main.white};
   border-radius: 5px;
   width: 22vw;
   height: 80%;
@@ -143,7 +144,7 @@ const PostContent = styled.div`
   font-size: 20px;
   font-weight: 700;
   cursor: pointer;
-  color: #e5dfd3;
+  color: ${themeColor.main.white};
 `;
 
 export default Sidebar;

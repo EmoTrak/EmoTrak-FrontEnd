@@ -4,6 +4,7 @@ import { AiFillGithub } from "react-icons/ai";
 import { RxNotionLogo } from "react-icons/rx";
 import { PRIVACY_POLICY } from "../data/routes/urls";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
+import { themeColor } from "../utils/theme";
 
 const Footer = () => {
   const nav = useNavigate();
@@ -28,11 +29,7 @@ const Footer = () => {
             만족도 조사
           </a>
           <div>
-            <a
-              href="https://github.com/EmoTrak"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href="https://github.com/EmoTrak" target="_blank" rel="noreferrer">
               <AiFillGithub />
             </a>
             <a
@@ -53,8 +50,8 @@ const Footer = () => {
           개인정보 처리방침 Privacy Policy
         </span>
         <br /> <br />
-        윤지현(FE) 양인서(FE) 박승우(FE) 이 진(BE) 홍다정(BE) 서영석(BE)
-        박문주(BE) 이수정(DE)
+        윤지현(FE) 양인서(FE) 박승우(FE) 이 진(BE) 홍다정(BE) 서영석(BE) 박문주(BE)
+        이수정(DE)
         <br />©{date.getFullYear()} TEAM EMOTRAK. ALL RIGHTS RESERVED
       </FooterSt>
     </Wrap>
@@ -64,29 +61,29 @@ const Footer = () => {
 export default Footer;
 
 const Wrap = styled.div`
-  background-color: #fffffc;
+  background-color: ${themeColor.main.white};
   position: relative;
 `;
 const FooterSt = styled.ul`
-  background-color: #fffffc;
+  background-color: ${themeColor.main.white};
   text-align: center;
   padding: 30px;
   font-size: 13px;
-  color: gray;
+  color: ${themeColor.main.gray};
   div {
     font-size: 25px;
     span {
-      color: gray;
+      color: ${themeColor.main.gray};
       cursor: pointer;
       :hover {
-        color: #0c0a0a;
+        color: ${themeColor.main.black};
       }
     }
     a {
       color: gray;
       text-decoration: none;
       :hover {
-        color: #0c0a0a;
+        color: ${themeColor.main.black};
       }
     }
     div {
@@ -96,7 +93,7 @@ const FooterSt = styled.ul`
       justify-content: center;
       a {
         text-decoration: none;
-        color: black;
+        color: ${themeColor.main.black};
         font-size: 35px;
       }
     }

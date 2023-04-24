@@ -1,5 +1,6 @@
 import React, { ComponentPropsWithoutRef } from "react";
 import styled, { css } from "styled-components";
+import { themeColor } from "../utils/theme";
 
 type ButtonProps = {
   icon?: boolean;
@@ -26,8 +27,8 @@ const StButton = styled.button<ButtonProps>`
   cursor: pointer;
   margin: 2px;
   border-radius: ${({ circle }) => (circle ? "50%" : "8px")};
-  background-color: ${({ icon }) => (icon ? "transparent" : "#e5dfd3")};
-  color: #ae9898;
+  background-color: ${({ icon }) => (icon ? "transparent" : themeColor.main.oatmeal)};
+  color: ${themeColor.main.chocomilk};
   font-family: inherit;
 
   ${({ size }) => {
@@ -71,18 +72,22 @@ const StButton = styled.button<ButtonProps>`
   }}
 
   &:hover {
-    background-color: ${({ icon }) => (icon ? "transparent" : "#d0bd95")};
-    color: ${({ icon }) => (icon ? "#AE9898" : "#ffffff")};
+    background-color: ${({ icon }) =>
+      icon ? "transparent" : `${themeColor.main.coffemilk}`};
+    color: ${({ icon }) =>
+      icon ? `${themeColor.main.chocomilk}` : `${themeColor.main.white}`};
   }
 
   &:active {
-    background-color: ${({ icon }) => (icon ? "transparent" : "#d0bd95")};
-    color: ${({ icon }) => (icon ? "#AE9898" : "#ffffff")};
+    background-color: ${({ icon }) =>
+      icon ? "transparent" : `${themeColor.main.coffemilk}`};
+    color: ${({ icon }) =>
+      icon ? `${themeColor.main.chocomilk}` : `${themeColor.main.white}`};
   }
 
   &:disabled {
-    background-color: ${({ icon }) => (icon ? "transparent" : "#dadada")};
-    color: #f4f2ee;
+    background-color: ${({ icon }) => (icon ? "transparent" : `${themeColor.main.gray}`)};
+    color: ${themeColor.main.paper};
     font-weight: 800;
     text-shadow: 0.5px 0.5px 0.5px grey;
   }

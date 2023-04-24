@@ -12,6 +12,7 @@ import Flex from "../components/Flex";
 import { getCookie } from "../utils/cookies";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
+import { themeColor } from "../utils/theme";
 
 const ImagePost = () => {
   const token = getCookie("token");
@@ -47,20 +48,13 @@ const ImagePost = () => {
     scoreStarHandler,
   } = useInput(editItem);
 
-  const { submitDiaryHandler, fileInputHandler, fileDropHandler, photo } =
-    usePost({
-      inputValue,
-    });
+  const { submitDiaryHandler, fileInputHandler, fileDropHandler, photo } = usePost({
+    inputValue,
+  });
   const { preview, previewUrl } = usePreview();
 
   // 별점
-  const [clicked, setClicked] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
   const clickStarHandler = (index: number): void => {
     setClicked(clicked.map((_, i) => i <= index - 1));
     scoreStarHandler(index);
@@ -74,16 +68,13 @@ const ImagePost = () => {
     event.stopPropagation();
   }, []);
 
-  const dropHandler = useCallback(
-    (event: React.DragEvent<HTMLLabelElement>): void => {
-      event.preventDefault();
-      event.stopPropagation();
+  const dropHandler = useCallback((event: React.DragEvent<HTMLLabelElement>): void => {
+    event.preventDefault();
+    event.stopPropagation();
 
-      fileDropHandler(event);
-      setValidPhoto(true);
-    },
-    []
-  );
+    fileDropHandler(event);
+    setValidPhoto(true);
+  }, []);
 
   const submitFormHandler = (event: React.FormEvent<HTMLFormElement>): void => {
     if (validPhoto && validEmoji && validStar) {
@@ -94,9 +85,7 @@ const ImagePost = () => {
     }
   };
 
-  const changeFileHandler = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
+  const changeFileHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setValidPhoto(true);
     fileInputHandler(event);
   };
@@ -106,9 +95,7 @@ const ImagePost = () => {
     setValidStar(true);
   };
 
-  const changeEmojiHandler = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ): void => {
+  const changeEmojiHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
     clickEmojiHandler(event);
     setValidEmoji(true);
   };
@@ -120,7 +107,7 @@ const ImagePost = () => {
   useEffect(() => {
     preview(photo);
     if (!token && !refreshToken) {
-      navigate('/');
+      navigate("/");
     }
     const preventGoBack = () => {
       if (window.confirm("페이지를 나가시겠습니까?")) {
@@ -159,11 +146,7 @@ const ImagePost = () => {
             ) : (
               <StPhotoInputContainer>
                 <StPhotoInputBox>
-                  <label
-                    ref={dragRef}
-                    onDragOver={dragOverHandler}
-                    onDrop={dropHandler}
-                  >
+                  <label ref={dragRef} onDragOver={dragOverHandler} onDrop={dropHandler}>
                     <StPhotoInput
                       type="file"
                       accept="image/jpeg image/png image/jpg image/gif"
@@ -201,7 +184,9 @@ const ImagePost = () => {
                 <Star
                   key={score}
                   size="2vw"
-                  color={clicked[score - 1] ? "#FFDC82" : "#E5DFD3"}
+                  color={
+                    clicked[score - 1] ? themeColor.main.yellow : themeColor.main.paper
+                  }
                   onClick={() => changeStarHandler(score)}
                 />
               ))}
@@ -241,18 +226,17 @@ const ImagePost = () => {
 
 export default ImagePost;
 
-
 export const StPhotoInputBox = styled.li`
   width: 40vw;
   height: 70vh;
   position: relative;
-  border: 1px solid rgb(230, 229, 239);
-  background: #e5dfd3;
+  border: 1px solid ${themeColor.main.paper};
+  background: ${themeColor.main.oatmeal};
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  color: rgb(155, 153, 169);
+  color: ${themeColor.main.gray};
   font-size: 1rem;
   border-radius: 30px;
   margin-right: 1rem;
@@ -305,19 +289,19 @@ export const StPhotoPreview = styled.div<StPreviewProps>`
 export const StDeletePhotoButton = styled.button`
   width: 2.5vw;
   height: 1.5vw;
-  border: 3px solid #d0bd95;
+  border: 3px solid ${themeColor.main.coffemilk};
   border-radius: 10px;
   margin: 20px;
-  background-color: #e5dfd3;
-  color: #ae9898;
+  background-color: ${themeColor.main.oatmeal};
+  color: ${themeColor.main.chocomilk};
   font-family: inherit;
   position: relative;
   cursor: pointer;
 
   &:hover {
-    background-color: #d0bd95;
-    color: #ffffff;
-    border: 3px solid #e5dfd3;
+    background-color: ${themeColor.main.coffemilk};
+    color: ${themeColor.main.white};
+    border: 3px solid ${themeColor.main.oatmeal};
   }
 `;
 

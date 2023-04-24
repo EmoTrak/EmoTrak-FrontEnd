@@ -1,23 +1,22 @@
+import { themeColor } from "../../../utils/theme";
+
 interface PaletteProps {
   selectedColor: string;
   onColorSelect(color: string): void;
   setSelectPen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Palette = ({
-  selectedColor,
-  onColorSelect,
-  setSelectPen,
-}: PaletteProps) => {
+const Palette = ({ selectedColor, onColorSelect, setSelectPen }: PaletteProps) => {
   const colorPalette = [
-    "#fed400e2",
-    "#f67269",
-    "#d67dcc",
-    "#787bca",
-    "#5dc0ed",
-    "#3ac66d",
-    "#000000",
-    "#ffffff",
+    `${themeColor.palette.yellow}`,
+    `${themeColor.palette.red}`,
+    `${themeColor.palette.purple}`,
+    `${themeColor.palette.yellow}`,
+    `${themeColor.palette.blue}`,
+    `${themeColor.palette.sky}`,
+    `${themeColor.palette.green}`,
+    `${themeColor.main.black}`,
+    `${themeColor.main.white}`,
   ];
 
   return (
@@ -33,7 +32,8 @@ const Palette = ({
               cursor: "pointer",
               marginRight: "10px",
               borderRadius: "50%",
-              border: color === selectedColor ? "2px solid grey" : "none",
+              border:
+                color === selectedColor ? `2px solid ${themeColor.main.gray}` : "none",
             }}
             onClick={() => {
               onColorSelect(color);

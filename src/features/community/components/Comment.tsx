@@ -10,6 +10,7 @@ import { getCookie } from "../../../utils/cookies";
 import { GiSiren } from "react-icons/gi";
 import Button from "../../../components/Button";
 import Flex from "../../../components/Flex";
+import { themeColor } from "../../../utils/theme";
 
 const Comment = ({ item }: Partial<CommentProps>) => {
   const [edit, setEdit] = useState<boolean>(false);
@@ -120,7 +121,7 @@ export default Comment;
 const CommentBox = styled.div`
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #ae9898;
+  border-bottom: 1px solid white;
   width: 40vw;
   padding: 4px;
 `;
@@ -134,7 +135,7 @@ const EditInput = styled.textarea`
   resize: none;
   :focus {
     outline: none;
-    border-color: #e7e1d9;
-    box-shadow: 0 0 10px #e7e1d9;
+    border-color: ${themeColor.main.oatmeal};
+    box-shadow: 0 0 10px ${themeColor.main.oatmeal};
   }
 `;

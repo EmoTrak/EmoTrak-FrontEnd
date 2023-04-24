@@ -9,12 +9,12 @@ import { IAdminData } from "../../../data/type/d2";
 import useAdminComment from "../hooks/useAdminComment";
 import useAdminPost from "../hooks/useAdminPost";
 import PageNation from "../../../components/PageNation";
+import { themeColor } from "../../../utils/theme";
 
 const AdminComment = () => {
   const [page, setPage] = useState<number>(1);
   const nav = useNavigate();
-  const { adminCommentData, adminCommentDelete, status } =
-    useAdminComment(page);
+  const { adminCommentData, adminCommentDelete, status } = useAdminComment(page);
   const { onReportDelete } = useAdminPost(page);
 
   return (
@@ -103,12 +103,12 @@ const H1 = styled.h1`
 `;
 const BackBtn = styled.button`
   background-color: transparent;
-  border: 1px solid #eee;
+  border: 1px solid ${themeColor.main.gray};
   margin: 30px;
   width: 30px;
   height: 30px;
   &:hover {
-    background-color: lightgray;
+    background-color: ${themeColor.main.gray};
   }
 `;
 

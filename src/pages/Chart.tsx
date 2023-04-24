@@ -10,6 +10,7 @@ import useChartData from "../features/chart/hooks/useChartData";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import useChartFn from "../features/chart/hooks/useChartFn";
 import { scrollOnTop } from "../utils/scollOnTop";
+import { themeColor } from "../utils/theme";
 
 const Chart = () => {
   const nav = useNavigate();
@@ -77,11 +78,7 @@ const Chart = () => {
           <StEmoList>
             {emoIds.map((item) => (
               <div key={item}>
-                <EmotionIcons
-                  height="50"
-                  width="50"
-                  emotionTypes={`EMOTION_${item}`}
-                />
+                <EmotionIcons height="50" width="50" emotionTypes={`EMOTION_${item}`} />
               </div>
             ))}
           </StEmoList>
@@ -132,15 +129,15 @@ const SelectMonth = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  background-color: #e5dfd3;
+  background-color: ${themeColor.main.oatmeal};
   border-radius: 5px;
 `;
 
 const MonthList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  background-color: white;
-  border: 1px solid #eee;
+  background-color: ${themeColor.main.white};
+  border: 1px solid ${themeColor.main.paper};
   border-radius: 1vw;
   z-index: 5;
   width: 17vw;
@@ -163,7 +160,7 @@ const MonthListBtn = styled.button`
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #eee;
+      background-color: ${themeColor.main.paper};
       border-radius: 50%;
       width: 100%;
       height: 60%;

@@ -2,6 +2,7 @@ import ApexCharts from "react-apexcharts";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { PropsData } from "../../../data/type/d2";
+import { themeColor } from "../../../utils/theme";
 
 function PieChart({ graphData, month }: PropsData) {
   const [pieCountArr, setBarCountArr] = useState<number[]>([]);
@@ -27,12 +28,12 @@ function PieChart({ graphData, month }: PropsData) {
           options={{
             labels: ["Fun", "Smile", "Calm", "Sad", "Angry", "Cry"],
             colors: [
-              "#73C7EE",
-              "#FEEC96",
-              "#85C99E",
-              "#8889C2",
-              "#F89790",
-              "#C78EC0",
+              themeColor.emoticon.sky,
+              themeColor.emoticon.yellow,
+              themeColor.emoticon.green,
+              themeColor.emoticon.blue,
+              themeColor.emoticon.pink,
+              themeColor.emoticon.purple,
             ],
             title: {
               text: "EmoTrak PieChart",
@@ -42,7 +43,7 @@ function PieChart({ graphData, month }: PropsData) {
                 fontSize: "14px",
                 fontWeight: "bold",
                 fontFamily: undefined,
-                color: "#263238",
+                color: themeColor.main.black,
               },
             },
             chart: {
@@ -66,7 +67,7 @@ const Wrapper = styled.div`
   width: 600px;
   text-align: center;
   margin-top: 50px;
-  box-shadow: 10px 5px 5px #eee;
+  box-shadow: 10px 5px 5px ${themeColor.main.gray};
   border-radius: 25px;
   h2 {
     letter-spacing: 5px;
