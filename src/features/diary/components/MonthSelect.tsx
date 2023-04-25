@@ -55,7 +55,7 @@ const Content = styled.div`
   border-radius: 30px;
   box-sizing: border-box;
   background-color: white;
-  box-shadow: 1px 1px 10px 5px ${themeColor.main.gray};
+  box-shadow: 1px 1px 10px 5px ${themeColor.main.oatmeal};
   padding: 35px;
   display: flex;
   flex-direction: column;
@@ -92,7 +92,7 @@ const ClickBtn = styled.button`
   border-radius: 50%;
   &:hover {
     cursor: pointer;
-    background-color: ${themeColor.main.gray};
+    background-color: ${themeColor.main.oatmeal};
     color: ${themeColor.main.white};
     font-weight: 800;
   }
