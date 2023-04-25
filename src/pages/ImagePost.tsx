@@ -265,7 +265,7 @@ const ImagePost = () => {
 
 export default ImagePost;
 
-const MobileStarWrap = styled.div`
+export const MobileStarWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -310,7 +310,7 @@ const ImageWrap = styled.div`
     margin: 0;
   }
 `;
-const StarWrap = styled.div`
+export const StarWrap = styled.div`
   display: flex;
   ${device.mobile} {
     display: none;
