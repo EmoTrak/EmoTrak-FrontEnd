@@ -15,6 +15,7 @@ import { useState } from "react";
 const Header = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
+  const refreshToken = getCookie("refreshToken");
   const token = getCookie("token");
 
   const logoutUserHandler = () => {
@@ -29,8 +30,8 @@ const Header = () => {
 
   let payloadJson;
   let payload;
-  const [headerB64, payloadB64, signatureB64] = (token || "").split(".");
-  if (typeof atob !== undefined && payloadB64) {
+  const payloadB64 = (token || "").split(".")[1];
+  if (atob && payloadB64) {
     payloadJson = atob(payloadB64);
   }
   if (payloadJson !== undefined) {
@@ -46,12 +47,8 @@ const Header = () => {
         {payload?.auth === "ADMIN" ? (
           <NavWrapper>
             <Flex row gap={10}>
-              <PageButton onClick={() => navigate(`${ADMIN}`)}>
-                관리자페이지
-              </PageButton>
-              <PageButton onClick={() => navigate(`${MY_PAGE}`)}>
-                마이페이지
-              </PageButton>
+              <PageButton onClick={() => navigate(`${ADMIN}`)}>관리자페이지</PageButton>
+              <PageButton onClick={() => navigate(`${MY_PAGE}`)}>마이페이지</PageButton>
               <PageButton onClick={() => navigate(`${COMMUNITY_PAGE}`)}>
                 공유 페이지
               </PageButton>
@@ -65,9 +62,7 @@ const Header = () => {
         ) : token ? (
           <NavWrapper>
             <Flex row gap={10}>
-              <PageButton onClick={() => navigate(`${MY_PAGE}`)}>
-                마이페이지
-              </PageButton>
+              <PageButton onClick={() => navigate(`${MY_PAGE}`)}>마이페이지</PageButton>
               <PageButton onClick={() => navigate(`${COMMUNITY_PAGE}`)}>
                 공유 페이지
               </PageButton>
