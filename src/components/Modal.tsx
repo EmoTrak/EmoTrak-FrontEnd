@@ -48,7 +48,7 @@ export const ModalContent = ({ children, top, left }: PropsWithChildren & Positi
 
 const Content = styled.div<Position>`
   background-color: ${themeColor.main.white};
-  position: fixed;
+  position: absolute;
   border-radius: 30px;
   box-sizing: border-box;
   top: ${({ top }) => top}%;

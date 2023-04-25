@@ -15,7 +15,7 @@ const MonthSelect = ({
   return (
     <UI.Modalroot>
       <UI.ModalTrigger>{children}</UI.ModalTrigger>
-      <UI.ModalContent top={18} left={38}>
+      <UI.ModalContent top={5} left={38}>
         <Content>
           <UI.ModalClose>
             <CloseBtn>

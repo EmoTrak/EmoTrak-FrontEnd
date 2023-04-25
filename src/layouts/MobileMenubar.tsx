@@ -23,7 +23,6 @@ const MobileMenubar = ({ children, logout }: PropsWithChildren & logout) => {
       <UI.Modalroot>
         <UI.ModalTrigger>
           <MenuButton>
-            {" "}
             <GoThreeBars />
           </MenuButton>
           <UI.ModalBackground />

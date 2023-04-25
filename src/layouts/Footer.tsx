@@ -4,7 +4,7 @@ import { AiFillGithub } from "react-icons/ai";
 import { RxNotionLogo } from "react-icons/rx";
 import { PRIVACY_POLICY } from "../data/routes/urls";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
-import { themeColor } from "../utils/theme";
+import { device, themeColor } from "../utils/theme";
 
 const Footer = () => {
   const nav = useNavigate();
@@ -14,13 +14,6 @@ const Footer = () => {
     <Wrap>
       <FooterSt>
         <div>
-          <span
-            onClick={() => {
-              nav("/");
-            }}
-          >
-            튜토리얼&nbsp; | &nbsp;
-          </span>
           <a href="" target="_blank" rel="noreferrer">
             오류 제보
           </a>
@@ -44,7 +37,7 @@ const Footer = () => {
         <br />
         <span
           onClick={() => {
-            nav(`${PRIVACY_POLICY}`);
+            nav(PRIVACY_POLICY);
           }}
         >
           개인정보 처리방침 Privacy Policy
@@ -73,18 +66,14 @@ const FooterSt = styled.ul`
   color: ${themeColor.main.gray};
   div {
     font-size: 25px;
-    span {
-      color: ${themeColor.main.gray};
-      cursor: pointer;
-      :hover {
-        color: ${themeColor.main.black};
-      }
-    }
     a {
       color: gray;
       text-decoration: none;
       :hover {
         color: ${themeColor.main.black};
+      }
+      ${device.miniMobile} {
+        font-size: 15px;
       }
     }
     div {
@@ -96,6 +85,9 @@ const FooterSt = styled.ul`
         text-decoration: none;
         color: ${themeColor.main.black};
         font-size: 35px;
+        ${device.miniMobile} {
+          font-size: 25px;
+        }
       }
     }
   }

@@ -10,11 +10,11 @@ import { getCookie } from "../../../utils/cookies";
 import { GiSiren } from "react-icons/gi";
 import Button from "../../../components/Button";
 import Flex from "../../../components/Flex";
-import { themeColor } from "../../../utils/theme";
+import { device, themeColor } from "../../../utils/theme";
 
 const Comment = ({ item }: Partial<CommentProps>) => {
   const [edit, setEdit] = useState<boolean>(false);
-  const token = getCookie("token");
+  const refreshToken = getCookie("refreshToken");
   const [editComment, setEditComment] = useState<string | undefined>(item?.comment);
 
   const changeInputHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -57,8 +57,9 @@ const Comment = ({ item }: Partial<CommentProps>) => {
       ) : (
         <>
           <div>
-            <h4 style={{ margin: "5px 0" }}>닉네임 : {item?.nickname}</h4>
-            <div style={{ margin: "5px 0" }}>댓글 : {item?.comment}</div>
+            <Nicname> {item?.nickname}</Nicname>
+            <div style={{ margin: "5px 0" }}>{item?.comment}</div>
+            <LikeComment isLike={item?.hasLike} id={item?.id} count={item?.likesCnt} />
           </div>
 
           <div>
@@ -81,31 +82,18 @@ const Comment = ({ item }: Partial<CommentProps>) => {
                 </Button>
               </div>
             ) : (
-              <div>
-                <LikeComment
-                  isLike={item?.hasLike}
-                  id={item?.id}
-                  count={item?.likesCnt}
-                />
-                <div>
-                  {token && (
-                    <Report id={item?.id} uri="comments/report">
-                      <Button
-                        icon
-                        style={{
-                          color: "red",
-                          fontSize: "30px",
-                        }}
-                      >
-                        <GiSiren />
-                      </Button>
-                    </Report>
-                  )}
-                </div>
-              </div>
+              refreshToken && (
+                <Report id={item?.id} uri="comments/report">
+                  <ReportBtn>
+                    <GiSiren />
+                  </ReportBtn>
+                </Report>
+              )
             )}
             {typeof item?.createdAt === "string" && (
-              <div style={{ display: "flex", justifyContent: "center" }}>
+              <div
+                style={{ display: "flex", justifyContent: "center", fontSize: "15px" }}
+              >
                 <PostDate date={item.createdAt} />
               </div>
             )}
@@ -124,6 +112,9 @@ const CommentBox = styled.div`
   border-bottom: 1px solid white;
   width: 40vw;
   padding: 4px;
+  ${device.mobile} {
+    width: 80vw;
+  }
 `;
 const EditInput = styled.textarea`
   width: 40vw;
@@ -138,4 +129,16 @@ const EditInput = styled.textarea`
     border-color: ${themeColor.main.oatmeal};
     box-shadow: 0 0 10px ${themeColor.main.oatmeal};
   }
+`;
+
+const Nicname = styled.div`
+  color: ${themeColor.main.coffemilk};
+  font-size: 15px;
+`;
+
+const ReportBtn = styled.button`
+  font-size: 30px;
+  border: 0;
+  background-color: transparent;
+  color: ${themeColor.main.red};
 `;

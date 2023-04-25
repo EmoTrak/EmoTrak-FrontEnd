@@ -28,10 +28,7 @@ export interface IAdminData {
 export interface IPayload {
   auth: string;
 }
-export interface IOption {
-  value: string;
-  month: string;
-}
+
 export type RouterProps = {
   token: string;
   isAuthenticated: boolean;
