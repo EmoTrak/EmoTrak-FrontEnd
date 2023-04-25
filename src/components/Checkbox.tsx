@@ -1,6 +1,6 @@
 import React, { ComponentPropsWithoutRef } from "react";
 import styled from "styled-components";
-import { themeColor } from "../utils/theme";
+import { device, themeColor } from "../utils/theme";
 
 const Checkbox = ({
   checked,
@@ -34,6 +34,7 @@ const CheckboxContainer = styled.div`
   margin: 5px;
   justify-content: center;
   align-items: center;
+  
 `;
 
 const HiddenCheckBox = styled.input`
@@ -69,5 +70,9 @@ const StyledCheckBox = styled.div<CheckProps>`
 
   ${Icon} {
     visibility: ${(props) => (props.checked ? "visible" : "hidden")};
+  }
+  ${device.mobile} {
+    width: 20px;
+    height: 20px;
   }
 `;
