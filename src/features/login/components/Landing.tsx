@@ -47,8 +47,6 @@ const Landing = () => {
     }
   };
 
-  console.log(index);
-
   return (
     <Slider onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       {index < 3 ? (
