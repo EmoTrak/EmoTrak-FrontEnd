@@ -11,7 +11,7 @@ import {
 } from "../data/routes/urls";
 import EmoTrak from "../assets/logo/EmoTrakLogo.png";
 import { useState } from "react";
-import { themeColor } from "../utils/theme";
+import { device, themeColor } from "../utils/theme";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -105,6 +105,15 @@ const StHeader = styled.header`
   left: 0px;
   background-color: ${themeColor.main.white};
   font-family: inherit;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  ${device.mobile} {
+    align-items: center;
+  }
+  ${device.miniMobile} {
+    padding: 5px;
+  }
 `;
 
 const PageButton = styled.button`

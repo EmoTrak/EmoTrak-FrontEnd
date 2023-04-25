@@ -63,6 +63,7 @@ export default Footer;
 const Wrap = styled.div`
   background-color: ${themeColor.main.white};
   position: relative;
+  width: 100vw;
 `;
 const FooterSt = styled.ul`
   background-color: ${themeColor.main.white};

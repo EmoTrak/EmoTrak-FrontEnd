@@ -19,7 +19,7 @@ import Button from "../components/Button";
 import Star from "../components/Icon/Star";
 import Report from "../features/community/components/Report";
 import { GiSiren } from "react-icons/gi";
-import { themeColor } from "../utils/theme";
+import { device, themeColor } from "../utils/theme";
 
 const CommunityDetail = () => {
   const queryClient = useQueryClient();
@@ -211,14 +211,17 @@ const Container = styled.div`
 `;
 const StCanvasWrapper = styled.div`
   position: relative;
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  position: sticky;
-  top: 150px;
-  left: 20px;
+  width: 50vw;
+  margin-top: 50px;
+  margin-bottom: 50px;
+
+  ${device.mobile} {
+    position: relative;
+    top: 30px;
+    left: 5%;
+    margin: 10px auto 50px auto;
+    width: 100%;
+  }
 `;
 
 const StPostDetailWrapper = styled.div`
