@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import styled from "styled-components";
-import { themeColor } from "../../../utils/theme";
+import { device, themeColor } from "../../../utils/theme";
 
 type InputListProps = {
   important?: boolean;
@@ -30,6 +30,14 @@ const ListWrapper = styled.div`
   border-bottom: 1px solid ${themeColor.main.gray};
   margin: 5px;
   position: relative;
+  justify-content: center;
+  align-items: center;
+  ${device.mobile} {
+    flex-direction: column;
+  }
+  ${device.miniMobile} {
+    flex-direction: column;
+  }
 `;
 
 const ListTitle = styled.div`
@@ -38,6 +46,16 @@ const ListTitle = styled.div`
   display: flex;
   justify-content: center;
   font-weight: 800;
+  ${device.mobile} {
+    width: 5vw;
+    font-size: 13px;
+    margin-right: 10px;
+  }
+  ${device.miniMobile} {
+    width: 5vw;
+    font-size: 10px;
+    font-size: 13px;
+  }
 `;
 
 const ListContent = styled.div`
