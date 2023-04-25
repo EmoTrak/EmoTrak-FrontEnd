@@ -14,7 +14,6 @@ import { useState } from "react";
 import { themeColor } from "../utils/theme";
 import { device } from "../utils/theme";
 import { IoIosArrowBack } from "react-icons/io";
-import { GoThreeBars } from "react-icons/go";
 import MobileMenubar from "./MobileMenubar";
 
 const Header = () => {
@@ -34,11 +33,11 @@ const Header = () => {
 
   let payloadJson;
   let payload;
-  const [headerB64, payloadB64, signatureB64] = (refreshToken || "").split(".");
-  if (typeof atob !== undefined && payloadB64) {
+  const payloadB64 = (refreshToken || "").split(".")[1];
+  if (atob && payloadB64) {
     payloadJson = atob(payloadB64);
   }
-  if (payloadJson !== undefined) {
+  if (payloadJson) {
     payload = JSON.parse(payloadJson);
   }
 
@@ -50,9 +49,7 @@ const Header = () => {
       <EmoTrakLogo onClick={() => navigate(HOME_PAGE)}>
         <LogoImg src={EmoTrak} alt="로고" />
       </EmoTrakLogo>
-      <MobileMenubar logout={logoutUserHandler}>
-        <GoThreeBars />
-      </MobileMenubar>
+      <MobileMenubar logout={logoutUserHandler} />
       {payload?.auth === "ADMIN" ? (
         <NavWrapper>
           <Flex row gap={10}>
@@ -117,6 +114,11 @@ const StHeader = styled.header`
   }
 `;
 
+const MobileHeader = styled.div`
+  ${device.mobile} {
+    width: 100%;
+  }
+`;
 const PageButton = styled.button`
   background-color: transparent;
   border: none;

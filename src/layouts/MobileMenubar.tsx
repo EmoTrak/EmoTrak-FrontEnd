@@ -12,42 +12,50 @@ import graph from "../assets/mobileMenubar/Combo Chart.png";
 import Logout from "../assets/mobileMenubar/Logout.png";
 import { useNavigate } from "react-router-dom";
 import { CHART_PAGE, COMMUNITY_PAGE, HOME_PAGE } from "../data/routes/urls";
+import { GoThreeBars } from "react-icons/go";
 
 type logout = { logout: () => void };
 const MobileMenubar = ({ children, logout }: PropsWithChildren & logout) => {
   const navigate = useNavigate();
 
   return (
-    <UI.Modalroot>
-      <UI.ModalTrigger>
-        <MenuButton>{children}</MenuButton>
-        <UI.ModalBackground />
-      </UI.ModalTrigger>
-      <UI.ModalContent top={12} left={0}>
-        <Content>
-          <SelectButton onClick={() => navigate(HOME_PAGE)}>
-            {/* <img src={Calendar} alt="달력" /> */}
-            <BsCalendarHeart />
-            <SelectText>달력</SelectText>
-          </SelectButton>
-          <SelectButton onClick={() => navigate(CHART_PAGE)}>
-            {/* <img src={graph} alt="차트" /> */}
-            <VscGraph />
-            <SelectText>차트</SelectText>
-          </SelectButton>
-          <SelectButton onClick={() => navigate(COMMUNITY_PAGE)}>
-            {/* <img src={board} alt="공유게시판" /> */}
-            <MdContentPaste />
-            <SelectText>공유</SelectText>
-          </SelectButton>
-          <SelectButton onClick={logout}>
-            {/* <img src={Logout} alt="로그아웃" /> */}
-            <RiLogoutBoxRLine />
-            <SelectText>로그아웃</SelectText>
-          </SelectButton>
-        </Content>
-      </UI.ModalContent>
-    </UI.Modalroot>
+    <div style={{ position: "absolute", right: "25px" }}>
+      <UI.Modalroot>
+        <UI.ModalTrigger>
+          <MenuButton>
+            {" "}
+            <GoThreeBars />
+          </MenuButton>
+          <UI.ModalBackground />
+        </UI.ModalTrigger>
+        <UI.ModalContent top={12} left={0}>
+          <UI.ModalTrigger>
+            <Content>
+              <SelectButton onClick={() => navigate(HOME_PAGE)}>
+                {/* <img src={Calendar} alt="달력" /> */}
+                <BsCalendarHeart />
+                <SelectText>달력</SelectText>
+              </SelectButton>
+              <SelectButton onClick={() => navigate(CHART_PAGE)}>
+                {/* <img src={graph} alt="차트" /> */}
+                <VscGraph />
+                <SelectText>차트</SelectText>
+              </SelectButton>
+              <SelectButton onClick={() => navigate(COMMUNITY_PAGE)}>
+                {/* <img src={board} alt="공유게시판" /> */}
+                <MdContentPaste />
+                <SelectText>공유</SelectText>
+              </SelectButton>
+              <SelectButton onClick={logout}>
+                {/* <img src={Logout} alt="로그아웃" /> */}
+                <RiLogoutBoxRLine />
+                <SelectText>로그아웃</SelectText>
+              </SelectButton>
+            </Content>
+          </UI.ModalTrigger>
+        </UI.ModalContent>
+      </UI.Modalroot>
+    </div>
   );
 };
 
@@ -55,7 +63,7 @@ export default MobileMenubar;
 
 const MenuButton = styled.div`
   display: none;
-  font-size: 30px;
+  font-size: 28px;
   ${device.mobile} {
     display: contents;
   }
