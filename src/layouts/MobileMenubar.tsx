@@ -5,14 +5,16 @@ import { device, themeColor } from "../utils/theme";
 import { BsCalendarHeart } from "react-icons/bs";
 import { VscGraph } from "react-icons/vsc";
 import { MdContentPaste } from "react-icons/md";
-import { RiLogoutBoxRLine } from "react-icons/ri";
+import { RiLogoutBoxRLine, RiLoginBoxLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { CHART_PAGE, COMMUNITY_PAGE, HOME_PAGE } from "../data/routes/urls";
 import { GoThreeBars } from "react-icons/go";
+import { getCookie } from "../utils/cookies";
 
 type logout = { logout: () => void };
 const MobileMenubar = ({ logout }: logout) => {
   const navigate = useNavigate();
+  const refreshToken = getCookie("refreshToken");
 
   return (
     <div style={{ position: "absolute", right: "25px" }}>
@@ -38,10 +40,17 @@ const MobileMenubar = ({ logout }: logout) => {
                 <MdContentPaste />
                 <SelectText>공유</SelectText>
               </SelectButton>
-              <SelectButton onClick={logout}>
-                <RiLogoutBoxRLine />
-                <SelectText>로그아웃</SelectText>
-              </SelectButton>
+              {refreshToken ? (
+                <SelectButton onClick={logout}>
+                  <RiLogoutBoxRLine />
+                  <SelectText>로그아웃</SelectText>
+                </SelectButton>
+              ) : (
+                <SelectButton onClick={() => navigate("/")}>
+                  <RiLoginBoxLine />
+                  <SelectText>로그인</SelectText>
+                </SelectButton>
+              )}
             </Content>
           </UI.ModalTrigger>
         </UI.ModalContent>

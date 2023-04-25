@@ -50,20 +50,13 @@ const ImagePost = () => {
     scoreStarHandler,
   } = useInput(editItem);
 
-  const { submitDiaryHandler, fileInputHandler, fileDropHandler, photo } =
-    usePost({
-      inputValue,
-    });
+  const { submitDiaryHandler, fileInputHandler, fileDropHandler, photo } = usePost({
+    inputValue,
+  });
   const { preview, previewUrl } = usePreview();
 
   // 별점
-  const [clicked, setClicked] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
   const clickStarHandler = (index: number): void => {
     setClicked(clicked.map((_, i) => i <= index - 1));
     scoreStarHandler(index);
@@ -77,16 +70,13 @@ const ImagePost = () => {
     event.stopPropagation();
   }, []);
 
-  const dropHandler = useCallback(
-    (event: React.DragEvent<HTMLLabelElement>): void => {
-      event.preventDefault();
-      event.stopPropagation();
+  const dropHandler = useCallback((event: React.DragEvent<HTMLLabelElement>): void => {
+    event.preventDefault();
+    event.stopPropagation();
 
-      fileDropHandler(event);
-      setValidPhoto(true);
-    },
-    []
-  );
+    fileDropHandler(event);
+    setValidPhoto(true);
+  }, []);
 
   const submitFormHandler = (event: React.FormEvent<HTMLFormElement>): void => {
     if (validPhoto && validEmoji && validStar) {
@@ -97,9 +87,7 @@ const ImagePost = () => {
     }
   };
 
-  const changeFileHandler = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
+  const changeFileHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setValidPhoto(true);
     fileInputHandler(event);
   };
@@ -109,9 +97,7 @@ const ImagePost = () => {
     setValidStar(true);
   };
 
-  const changeEmojiHandler = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ): void => {
+  const changeEmojiHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
     clickEmojiHandler(event);
     setValidEmoji(true);
   };
@@ -152,35 +138,18 @@ const ImagePost = () => {
     <>
       <form onSubmit={submitFormHandler}>
         <Wrapper>
-          <MobileStarWrap>
-            {[1, 2, 3, 4, 5].map((score) => (
-              <Star
-                key={score}
-                size="5vw"
-                color={
-                  clicked[score - 1]
-                    ? themeColor.palette.yellow
-                    : themeColor.main.oatmeal
-                }
-                onClick={() => changeStarHandler(score)}
-              />
-            ))}
-          </MobileStarWrap>
           <ImageWrap>
             {validPhoto ? (
-              <StPhotoPreview url={`${previewUrl}`}>
+              <PhotoPreview>
+                <StPhotoPreview src={`${previewUrl}`} />
                 <StDeletePhotoButton type="button" onClick={deletePhotoHandler}>
                   삭제
                 </StDeletePhotoButton>
-              </StPhotoPreview>
+              </PhotoPreview>
             ) : (
               <StPhotoInputContainer>
                 <StPhotoInputBox>
-                  <label
-                    ref={dragRef}
-                    onDragOver={dragOverHandler}
-                    onDrop={dropHandler}
-                  >
+                  <label ref={dragRef} onDragOver={dragOverHandler} onDrop={dropHandler}>
                     <StPhotoInput
                       type="file"
                       accept="image/jpeg image/png image/jpg image/gif"
@@ -197,28 +166,27 @@ const ImagePost = () => {
               <StScoreBox>
                 <StUnorderLi>
                   {[1, 2, 3, 4, 5, 6].map((item: number) => (
-                    <StList key={item}>
-                      <StEmoButton
-                        name="emoId"
-                        type="button"
-                        selected={inputValue.emoId === item ? true : false}
-                        value={item}
-                        onClick={changeEmojiHandler}
-                      >
-                        <EmotionIcons
-                          height="50"
-                          width="50vw"
-                          emotionTypes={`EMOTION_${item}`}
-                        />
-                      </StEmoButton>
-                    </StList>
+                    <StEmoButton
+                      name="emoId"
+                      type="button"
+                      key={item}
+                      selected={inputValue.emoId === item ? true : false}
+                      value={item}
+                      onClick={changeEmojiHandler}
+                    >
+                      <EmotionIcons
+                        height="100%"
+                        width="100%"
+                        emotionTypes={`EMOTION_${item}`}
+                      />
+                    </StEmoButton>
                   ))}
                 </StUnorderLi>
                 <StarWrap>
                   {[1, 2, 3, 4, 5].map((score) => (
                     <Star
                       key={score}
-                      size="2vw"
+                      size="30px"
                       color={
                         clicked[score - 1]
                           ? themeColor.palette.yellow
@@ -227,7 +195,7 @@ const ImagePost = () => {
                       onClick={() => changeStarHandler(score)}
                     />
                   ))}
-                  <p>{inputValue.star === 0 ? "?" : inputValue.star}</p>
+                  <p>{inputValue.star === 0 ? "별점을 매겨주세요" : inputValue.star}</p>
                 </StarWrap>
               </StScoreBox>
               <div>
@@ -269,8 +237,8 @@ export const MobileStarWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
   gap: 10px;
+
   @media screen and (min-width: 768px) {
     display: none;
   }
@@ -313,7 +281,8 @@ const ImageWrap = styled.div`
 export const StarWrap = styled.div`
   display: flex;
   ${device.mobile} {
-    display: none;
+    margin-bottom: 20px;
+    gap: 40px;
   }
 `;
 export const StPhotoInputBox = styled.li`
@@ -326,7 +295,7 @@ export const StPhotoInputBox = styled.li`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  color: ${themeColor.main.gray};
+  color: ${themeColor.main.coffemilk};
   font-size: 1rem;
   border-radius: 30px;
   margin-right: 1rem;
@@ -343,7 +312,7 @@ export const StPhotoInputBox = styled.li`
     justify-content: center;
     align-items: center;
     margin-bottom: 1rem;
-    font-size: 1.2vw;
+    font-size: 20px;
   }
 
   ${device.mobile} {
@@ -367,39 +336,44 @@ export const StPhotoInput = styled.input`
   font-size: 0px;
 `;
 
-export const StPhotoPreview = styled.div<StPreviewProps>`
-  width: 45vw;
-  height: 70vh;
+export const StPhotoPreview = styled.img`
+  width: 100%;
+  height: 100%;
   border-radius: 30px;
-  position: absolute;
   display: flex;
-  justify-content: flex-end;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+  position: relative;
   ${device.mobile} {
     position: unset;
     border-radius: 20px;
-    width: 80vw;
-    height: 50vh;
     padding: 20px;
     margin: 0;
   }
-  ${({ url }) => {
-    return `background-image:url(${url})`;
-  }}
 `;
 
+const PhotoPreview = styled.div`
+  width: 45vw;
+  margin-top: 50px;
+  max-height: 800px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  ${device.mobile} {
+    width: 90vw;
+  }
+`;
 export const StDeletePhotoButton = styled.button`
-  width: 4vw;
-  height: 2vw;
-  border: 3px solid ${themeColor.main.coffemilk};
+  width: 50px;
+  height: 30px;
+  border: 0px;
   border-radius: 10px;
   margin: 20px;
-  background-color: ${themeColor.main.oatmeal};
+  background-color: ${themeColor.main.paper};
   color: ${themeColor.main.chocomilk};
   font-family: inherit;
-  position: relative;
+  position: absolute;
   cursor: pointer;
+  top: 0;
+  right: 0;
 
   &:hover {
     background-color: ${themeColor.main.coffemilk};
@@ -407,9 +381,8 @@ export const StDeletePhotoButton = styled.button`
     border: 3px solid ${themeColor.main.oatmeal};
   }
   ${device.mobile} {
-    width: 10vw;
-    height: 6vw;
-    margin: 0;
+    top: 10px;
+    right: 10px;
   }
 `;
 
@@ -418,7 +391,6 @@ export const StScoreBox = styled.div`
   justify-content: space-evenly;
   align-items: center;
   width: 45vw;
-  height: 10vh;
   ${device.tablet} {
     display: flex;
     flex-direction: column;
