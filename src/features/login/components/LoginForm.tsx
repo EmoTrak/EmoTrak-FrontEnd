@@ -6,51 +6,72 @@ import {
   SIGN_UP_PAGE,
 } from "../../../data/routes/urls";
 import styled from "styled-components";
-import Flex from "../../../components/Flex";
 import { useLogin } from "../hooks/useLogin";
 import InputList from "../../mypage/components/InputList";
 import { MyPageInput } from "../../../pages/Mypage";
 import { IconProps } from "../../../pages/DrawingPost";
-import Kakao from "../../../assets/Social/Kakao.svg";
-import Naver from "../../../assets/Social/Naver.svg";
-import Google from "../../../assets/Social/Google.svg";
+import Kakao from "../../../assets/Social/Kakao.webp";
+import Naver from "../../../assets/Social/Naver.webp";
+import Google from "../../../assets/Social/Google.webp";
+import KakaoMobile from "../../../assets/Social/KakaoMobile.webp";
+import NaverMobile from "../../../assets/Social/NaverMobile.webp";
+import GoogleMobile from "../../../assets/Social/GoogleMobile.webp";
 import LoginTitle from "../../../assets/Texts/Login.svg";
 import Button from "../../../components/Button";
+import { device } from "../../../utils/theme";
+import { useEffect, useState } from "react";
 
 const LoginForm = () => {
   const navigate = useNavigate();
+
+  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const resizeHandler = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", resizeHandler);
+    return () => {
+      window.removeEventListener("resize", resizeHandler);
+    };
+  }, []);
+
+  const windowWidth = {
+    desktop: viewportWidth < 1920 && viewportWidth > 1024,
+    tablet: viewportWidth < 1024 && viewportWidth > 767,
+    mobile: viewportWidth < 768,
+  };
 
   const { loginInfo, submitFormHandler, changeInputHandler } = useLogin();
 
   return (
     <StFormWrapper>
-      <form id="login" onSubmit={submitFormHandler}>
-        <Flex gap={10}>
-          <FormTitle url={LoginTitle} size={5} />
-          <InputList name="ID">
-            <label>
-              <MyPageInput
-                type="text"
-                name="email"
-                value={loginInfo.email}
-                maxLength={25}
-                onChange={changeInputHandler}
-              />
-            </label>
-          </InputList>
-          <InputList name="PASSWORD">
-            <label>
-              <MyPageInput
-                type="password"
-                name="password"
-                value={loginInfo.password}
-                maxLength={15}
-                onChange={changeInputHandler}
-              />
-            </label>
-          </InputList>
-        </Flex>
-      </form>
+      <StForm id="login" onSubmit={submitFormHandler}>
+        <FormTitle url={LoginTitle} size={5} />
+        <InputList name="ID">
+          <label>
+            <MyPageInput
+              type="text"
+              name="email"
+              value={loginInfo.email}
+              maxLength={25}
+              onChange={changeInputHandler}
+            />
+          </label>
+        </InputList>
+        <InputList name="PASSWORD">
+          <label>
+            <MyPageInput
+              type="password"
+              name="password"
+              value={loginInfo.password}
+              maxLength={15}
+              onChange={changeInputHandler}
+            />
+          </label>
+        </InputList>
+      </StForm>
       <ButtonBox>
         <Button circle size="circle" type="submit" form="login">
           로그인
@@ -65,37 +86,75 @@ const LoginForm = () => {
         </Button>
       </ButtonBox>
       <ButtonBox>
-        <SocialButtonLabel>
-          <SocialLoginButton
-            url={Kakao}
-            size={12}
-            type="button"
-            style={{ margin: "0.5vh" }}
-            onClick={() => {
-              window.location.href = KAKAO_AUTH_URL;
-            }}
-          ></SocialLoginButton>
-        </SocialButtonLabel>
-        <SocialButtonLabel>
-          <SocialLoginButton
-            url={Naver}
-            size={12}
-            type="button"
-            onClick={() => {
-              window.location.href = NAVER_AUTH_URL;
-            }}
-          ></SocialLoginButton>
-        </SocialButtonLabel>
-        <SocialButtonLabel>
-          <SocialLoginButton
-            url={Google}
-            size={12}
-            type="button"
-            onClick={() => {
-              window.location.href = GOOGLE_AUTH_URL;
-            }}
-          ></SocialLoginButton>
-        </SocialButtonLabel>
+        {windowWidth.mobile || windowWidth.tablet ? (
+          <>
+            <SocialButtonLabel>
+              <SocialLoginButton
+                url={KakaoMobile}
+                size={13}
+                type="button"
+                style={{ margin: "0.5vh" }}
+                onClick={() => {
+                  window.location.href = KAKAO_AUTH_URL;
+                }}
+              ></SocialLoginButton>
+            </SocialButtonLabel>
+            <SocialButtonLabel>
+              <SocialLoginButton
+                url={NaverMobile}
+                size={13}
+                type="button"
+                onClick={() => {
+                  window.location.href = NAVER_AUTH_URL;
+                }}
+              ></SocialLoginButton>
+            </SocialButtonLabel>
+            <SocialButtonLabel>
+              <SocialLoginButton
+                url={GoogleMobile}
+                size={13}
+                type="button"
+                onClick={() => {
+                  window.location.href = GOOGLE_AUTH_URL;
+                }}
+              ></SocialLoginButton>
+            </SocialButtonLabel>
+          </>
+        ) : (
+          <>
+            {" "}
+            <SocialButtonLabel>
+              <SocialLoginButton
+                url={Kakao}
+                size={13}
+                type="button"
+                onClick={() => {
+                  window.location.href = KAKAO_AUTH_URL;
+                }}
+              ></SocialLoginButton>
+            </SocialButtonLabel>
+            <SocialButtonLabel>
+              <SocialLoginButton
+                url={Naver}
+                size={13}
+                type="button"
+                onClick={() => {
+                  window.location.href = NAVER_AUTH_URL;
+                }}
+              ></SocialLoginButton>
+            </SocialButtonLabel>
+            <SocialButtonLabel>
+              <SocialLoginButton
+                url={Google}
+                size={13}
+                type="button"
+                onClick={() => {
+                  window.location.href = GOOGLE_AUTH_URL;
+                }}
+              ></SocialLoginButton>
+            </SocialButtonLabel>
+          </>
+        )}
       </ButtonBox>
     </StFormWrapper>
   );
@@ -114,6 +173,15 @@ export const StFormWrapper = styled.div`
   overflow: visible;
 `;
 
+const StForm = styled.form`
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  gap: 10;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const SocialLoginButton = styled.button<IconProps>`
   background-image: ${({ url }) => `url(${url})`};
   background-color: transparent;
@@ -122,10 +190,29 @@ export const SocialLoginButton = styled.button<IconProps>`
   background-repeat: no-repeat;
   background-size: 100% 100%;
   width: ${({ size }) => `${size}vw`};
-  height: ${({ size }) => `${size}vh`};
+  height: 3.5vw;
+  /* height: ${({ size }) => `${size}vh`}; */
   display: flex;
   justify-content: center;
   align-items: center;
+  ${device.tablet} {
+    width: 20vw;
+    height: 20vw;
+    gap: 5;
+    margin: 0;
+  }
+  ${device.mobile} {
+    width: 20vw;
+    height: 20vw;
+    gap: 5;
+    margin: 0;
+  }
+  ${device.miniMobile} {
+    width: 30vw;
+    height: 30vw;
+    gap: 5;
+    margin: 0;
+  }
 `;
 
 export const ButtonBox = styled.div`
@@ -133,7 +220,7 @@ export const ButtonBox = styled.div`
   width: 50vw;
   justify-content: center;
   align-items: center;
-  gap: 1.7vw;
+  gap: 1vw;
   margin: 10px;
 `;
 
@@ -156,4 +243,10 @@ export const FormTitle = styled.div<IconProps>`
   justify-content: center;
   align-items: center;
   margin: 0.5vh 6vh;
+  ${device.mobile} {
+    width: 13vw;
+  }
+  ${device.miniMobile} {
+    width: 13vw;
+  }
 `;
