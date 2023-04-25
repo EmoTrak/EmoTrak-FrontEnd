@@ -108,17 +108,30 @@ const BannerImg = styled.img`
 
 const NextBtn = styled.button`
   border: 0px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 30px;
   background-color: transparent;
   position: absolute;
   z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
 `;
 
 const PrevBtn = styled.button`
   border: 0px;
+  width: 40px;
+  height: 40px;
+  font-size: 30px;
   background-color: transparent;
   position: absolute;
   left: 0;
   z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
 `;
