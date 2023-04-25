@@ -164,19 +164,21 @@ const ImageEdit = () => {
         <Flex row>
           <StCanvasWrapper>
             {exPhoto ? (
-              <StPhotoPreview url={`${targetItem?.imgUrl}`}>
+              <>
+                <StPhotoPreview src={`${targetItem?.imgUrl}`} />
                 <StDeletePhotoButton type="button" onClick={deleteExistingPhotoHandler}>
                   삭제
                 </StDeletePhotoButton>
-              </StPhotoPreview>
+              </>
             ) : validPhoto ? (
-              <StPhotoPreview url={`${previewUrl}`}>
+              <>
+                <StPhotoPreview src={`${previewUrl}`} />
                 {validPhoto ? (
                   <Button size="small" type="button" onClick={deletePhotoHandler}>
                     삭제
                   </Button>
                 ) : null}
-              </StPhotoPreview>
+              </>
             ) : (
               <StPhotoInputBox>
                 <label ref={dragRef} onDragOver={dragOverHandler} onDrop={dropHandler}>
