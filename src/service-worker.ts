@@ -78,13 +78,36 @@ self.addEventListener("message", (event) => {
   }
 });
 
+// self.addEventListener("beforeinstallprompt", (event) => {
+//   event.preventDefault();
+//   console.log("👍", "beforeinstallprompt", event);
+//   (window as any).deferredPrompt = event;
+//   // Remove the 'hidden' class from the install button container.
+//   divInstall.classList.toggle("hidden", false);
+// });
+
+self.addEventListener("push", (event) => {
+  const title = String(event.data?.text());
+
+  event.waitUntil(self.registration.showNotification(title));
+});
+
 self.addEventListener("install", function (e) {
-  console.log("[Service Worker] Install");
+  e.waitUntil(
+    caches.open("my-cache").then((cache) => {
+      return cache.addAll([
+        // 캐시할 파일 리스트 작성
+      ]);
+    })
+  );
 });
 
 self.addEventListener("fetch", function (e) {
-  console.log("[Service Worker] Fetched resource " + e.request.url);
+  e.respondWith(
+    caches.match(e.request).then((response) => {
+      return response || fetch(e.request);
+    })
+  );
 });
 
 // Any other custom service worker logic can go here.
-console.log("되냐?");
