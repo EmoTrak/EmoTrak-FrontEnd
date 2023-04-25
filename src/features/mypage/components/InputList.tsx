@@ -32,11 +32,23 @@ const ListWrapper = styled.div`
   position: relative;
   justify-content: center;
   align-items: center;
+  ${device.tablet} {
+    flex-direction: column;
+    width: 80vw;
+    border-bottom: none;
+    margin: 2px;
+  }
   ${device.mobile} {
     flex-direction: column;
+    width: 80vw;
+    border-bottom: none;
+    margin: 2px;
   }
   ${device.miniMobile} {
     flex-direction: column;
+    width: 80vw;
+    border-bottom: none;
+    margin: 2px;
   }
 `;
 
@@ -46,15 +58,29 @@ const ListTitle = styled.div`
   display: flex;
   justify-content: center;
   font-weight: 800;
-  ${device.mobile} {
-    width: 5vw;
-    font-size: 13px;
+  ${device.tablet} {
+    width: 100%;
+    font-size: 18px;
     margin-right: 10px;
+    justify-content: left;
+    align-items: flex-start;
+    color: ${themeColor.main.coffemilk};
+  }
+  ${device.mobile} {
+    width: 100%;
+    font-size: 18px;
+    margin-right: 10px;
+    justify-content: left;
+    align-items: flex-start;
+    color: ${themeColor.main.coffemilk};
   }
   ${device.miniMobile} {
-    width: 5vw;
-    font-size: 10px;
-    font-size: 13px;
+    width: 100%;
+    font-size: 18px;
+    justify-content: left;
+    margin-right: 10px;
+    align-items: flex-start;
+    color: ${themeColor.main.coffemilk};
   }
 `;
 

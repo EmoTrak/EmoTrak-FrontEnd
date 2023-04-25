@@ -85,7 +85,7 @@ const SelectWrap = styled.div`
 `;
 const ChartWrap = styled.div`
   display: flex;
-  gap: 50;
+  gap: 50px;
   h1 {
     margin: 0;
   }
@@ -154,7 +154,7 @@ const CheckBox = styled.input`
   width: 42px;
   height: 26px;
   &:checked + ${CheckBoxLabel} {
-    background: ${themeColor.palette.green};
+    background: ${themeColor.main.chocomilk};
     &::after {
       content: "";
       display: block;
