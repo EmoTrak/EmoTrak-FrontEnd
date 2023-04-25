@@ -20,6 +20,7 @@ const Chart = () => {
   const { select, setSelect, month } = useChartFn();
   const { chartData } = useChartData(select.year);
 
+
   const emoIds: number[] = [1, 2, 3, 4, 5, 6];
   return (
     <StWrapper>
@@ -36,6 +37,7 @@ const Chart = () => {
               </SelectBtn>
             </MonthSelect>
           </SelectWrap>
+
         </Flex>
         <div>
           <h2>나의 감정은?</h2>
@@ -51,6 +53,7 @@ const Chart = () => {
             <BarChart graphData={chartData} month={month} />
           )}
         </Wrapper>
+
         <Flex row gap={50}>
           <ChartWrap>
             <PieChart graphData={chartData} month={month} />
@@ -79,8 +82,10 @@ const SelectWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 10px;
   h1 {
     margin: 0;
+
   }
 `;
 const ChartWrap = styled.div`
@@ -125,6 +130,7 @@ const CheckBoxWrapper = styled.div`
 `;
 
 const CheckBoxLabel = styled.label`
+
   position: absolute;
   top: 0;
   left: 0;

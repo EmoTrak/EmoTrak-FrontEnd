@@ -15,7 +15,7 @@ const Layout = ({ children }: PropsWithChildren) => {
 };
 
 const Container = styled.div`
-  margin-top: 130px;
+  margin-top: 110px;
   margin-bottom: 10px;
   min-height: 90vh;
   position: relative;
