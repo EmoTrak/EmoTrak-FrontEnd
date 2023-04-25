@@ -176,9 +176,8 @@ const ContentBox = styled.div`
 const Content = styled.div`
   background-color: ${themeColor.main.white};
   border-radius: 5px;
-  padding: 5%;
+  padding: 20px;
   box-sizing: border-box;
-  /* max-width: 22vw; */
   width: 22vw;
   height: 80%;
   overflow: hidden;

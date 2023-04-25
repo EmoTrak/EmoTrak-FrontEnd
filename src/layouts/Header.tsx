@@ -19,6 +19,7 @@ const Header = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
   const refreshToken = getCookie("refreshToken");
+  const token = getCookie("token");
 
   const logoutUserHandler = () => {
     if (window.confirm("로그아웃하시겠습니까")) {
@@ -32,7 +33,7 @@ const Header = () => {
 
   let payloadJson;
   let payload;
-  const payloadB64 = (refreshToken || "").split(".")[1];
+  const payloadB64 = (token || "").split(".")[1];
   if (atob && payloadB64) {
     payloadJson = atob(payloadB64);
   }
@@ -114,11 +115,6 @@ const StHeader = styled.header`
   }
 `;
 
-const MobileHeader = styled.div`
-  ${device.mobile} {
-    width: 100%;
-  }
-`;
 const PageButton = styled.button`
   background-color: transparent;
   border: none;
