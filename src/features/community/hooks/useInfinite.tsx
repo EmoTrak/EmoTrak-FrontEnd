@@ -15,7 +15,7 @@ const useInfinite = (paramSort: string | null, paramEmo: string | null) => {
       const data = await user.get(`/boards?page=${pageParam}`, {
         params: {
           sort: paramSort,
-          size: 30,
+          size: 40,
           emo: paramEmo,
         },
       });

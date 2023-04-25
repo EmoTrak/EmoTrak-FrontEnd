@@ -4,7 +4,7 @@ import { AiFillGithub } from "react-icons/ai";
 import { RxNotionLogo } from "react-icons/rx";
 import { PRIVACY_POLICY } from "../data/routes/urls";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
-import { themeColor } from "../utils/theme";
+import { device, themeColor } from "../utils/theme";
 
 const Footer = () => {
   const nav = useNavigate();
@@ -44,7 +44,7 @@ const Footer = () => {
         <br />
         <span
           onClick={() => {
-            nav(`${PRIVACY_POLICY}`);
+            nav(PRIVACY_POLICY);
           }}
         >
           개인정보 처리방침 Privacy Policy
@@ -78,12 +78,18 @@ const FooterSt = styled.ul`
       :hover {
         color: ${themeColor.main.black};
       }
+      ${device.miniMobile} {
+        font-size: 15px;
+      }
     }
     a {
       color: gray;
       text-decoration: none;
       :hover {
         color: ${themeColor.main.black};
+      }
+      ${device.miniMobile} {
+        font-size: 15px;
       }
     }
     div {
@@ -95,6 +101,9 @@ const FooterSt = styled.ul`
         text-decoration: none;
         color: ${themeColor.main.black};
         font-size: 35px;
+        ${device.miniMobile} {
+          font-size: 25px;
+        }
       }
     }
   }

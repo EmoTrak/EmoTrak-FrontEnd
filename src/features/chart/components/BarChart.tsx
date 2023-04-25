@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ApexCharts from "react-apexcharts";
 import styled from "styled-components";
 import { PropsData } from "../../../data/type/d2";
-import { themeColor } from "../../../utils/theme";
+import { device, themeColor } from "../../../utils/theme";
 
 const BarChart = ({ graphData, month }: PropsData) => {
   const [barCountArr, setBarCountArr] = useState<number[]>([]);
@@ -22,8 +22,8 @@ const BarChart = ({ graphData, month }: PropsData) => {
     <Wrapper>
       {newBarCount > 0 ? (
         <ApexCharts
-          width="600px"
-          height="500px"
+          width="100%"
+          height="100%"
           type="bar"
           series={[
             {
@@ -87,8 +87,8 @@ const BarChart = ({ graphData, month }: PropsData) => {
 export default BarChart;
 
 const Wrapper = styled.div`
-  height: 500px;
-  width: 600px;
+  height: 55vh;
+  width: 30vw;
   text-align: center;
   margin-top: 50px;
   box-shadow: 10px 5px 5px ${themeColor.main.gray};
@@ -96,4 +96,9 @@ const Wrapper = styled.div`
   h2 {
     letter-spacing: 5px;
   }
+  ${device.mobile} {
+    height: 100vh;
+    width: 70vw;
+  }
+
 `;
