@@ -10,7 +10,7 @@ import InputList from "../features/mypage/components/InputList";
 import { getCookie } from "../utils/cookies";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
-import { themeColor } from "../utils/theme";
+import { device, themeColor } from "../utils/theme";
 
 type InfoType = {
   email: string;
@@ -33,9 +33,15 @@ const Mypage = () => {
     rePassword: "",
   });
 
-  const { checkNickname, validNickname, setNicknameValidation, nicknameValidation } =
-    useNicknameValidation();
-  const { validPassword, checkPasswordHandler } = usePasswordCheck(info.password);
+  const {
+    checkNickname,
+    validNickname,
+    setNicknameValidation,
+    nicknameValidation,
+  } = useNicknameValidation();
+  const { validPassword, checkPasswordHandler } = usePasswordCheck(
+    info.password
+  );
 
   const { changePassword } = useChangePassword();
   const { changeNickname } = useChangeNickname();
@@ -108,7 +114,10 @@ const Mypage = () => {
                 닉네임 변경
               </Button>
             ) : (
-              <Button size="small" onClick={() => checkNicknameHandler(info.nickname)}>
+              <Button
+                size="small"
+                onClick={() => checkNicknameHandler(info.nickname)}
+              >
                 중복확인
               </Button>
             )}
@@ -201,6 +210,15 @@ export const MyPageInput = styled.input`
   border-radius: 6px;
   padding: 5px 10px 5px 10px;
   font-size: 0.6vw;
+  ${device.mobile} {
+    width: 25vw;
+    font-size: 10px;
+    margin-right: 10px;
+  }
+  ${device.miniMobile} {
+    width: 25vw;
+    font-size: 10px;
+  }
 `;
 
 interface HelperText {

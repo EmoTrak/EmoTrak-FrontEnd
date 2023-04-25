@@ -20,12 +20,12 @@ const Login = () => {
 
   return (
     <StLoginPageWrapper>
-      {viewportWidth < 768 ? (
+      {viewportWidth < 1024 ? (
         <>
           <Landing />
         </>
       ) : null}
-      {viewportWidth >= 768 ? (
+      {viewportWidth >= 1024 ? (
         <>
           <Tutorial />
           <LoginForm />

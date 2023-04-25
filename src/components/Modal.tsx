@@ -33,26 +33,16 @@ const Background = styled.div`
   height: 100%;
 `;
 
-export const ModalContent = ({ children, top, left }: PropsWithChildren & Position) => {
+export const ModalContent = ({ children }: PropsWithChildren) => {
   const { open } = useContext(Context);
-  return (
-    <>
-      {open && (
-        <Content top={top} left={left}>
-          {children}
-        </Content>
-      )}
-    </>
-  );
+  return <>{open && <Content>{children}</Content>}</>;
 };
 
-const Content = styled.div<Position>`
+const Content = styled.div`
   background-color: ${themeColor.main.white};
-  position: fixed;
   border-radius: 30px;
   box-sizing: border-box;
-  top: ${({ top }) => top}%;
-  left: ${({ left }) => left}%;
+  position: relative;
   z-index: 10;
 `;
 
