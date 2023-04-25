@@ -50,20 +50,13 @@ const ImagePost = () => {
     scoreStarHandler,
   } = useInput(editItem);
 
-  const { submitDiaryHandler, fileInputHandler, fileDropHandler, photo } =
-    usePost({
-      inputValue,
-    });
+  const { submitDiaryHandler, fileInputHandler, fileDropHandler, photo } = usePost({
+    inputValue,
+  });
   const { preview, previewUrl } = usePreview();
 
   // 별점
-  const [clicked, setClicked] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
   const clickStarHandler = (index: number): void => {
     setClicked(clicked.map((_, i) => i <= index - 1));
     scoreStarHandler(index);
@@ -77,16 +70,13 @@ const ImagePost = () => {
     event.stopPropagation();
   }, []);
 
-  const dropHandler = useCallback(
-    (event: React.DragEvent<HTMLLabelElement>): void => {
-      event.preventDefault();
-      event.stopPropagation();
+  const dropHandler = useCallback((event: React.DragEvent<HTMLLabelElement>): void => {
+    event.preventDefault();
+    event.stopPropagation();
 
-      fileDropHandler(event);
-      setValidPhoto(true);
-    },
-    []
-  );
+    fileDropHandler(event);
+    setValidPhoto(true);
+  }, []);
 
   const submitFormHandler = (event: React.FormEvent<HTMLFormElement>): void => {
     if (validPhoto && validEmoji && validStar) {
@@ -97,9 +87,7 @@ const ImagePost = () => {
     }
   };
 
-  const changeFileHandler = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
+  const changeFileHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setValidPhoto(true);
     fileInputHandler(event);
   };
@@ -109,9 +97,7 @@ const ImagePost = () => {
     setValidStar(true);
   };
 
-  const changeEmojiHandler = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ): void => {
+  const changeEmojiHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
     clickEmojiHandler(event);
     setValidEmoji(true);
   };
@@ -158,9 +144,7 @@ const ImagePost = () => {
                 key={score}
                 size="5vw"
                 color={
-                  clicked[score - 1]
-                    ? themeColor.palette.yellow
-                    : themeColor.main.oatmeal
+                  clicked[score - 1] ? themeColor.palette.yellow : themeColor.main.oatmeal
                 }
                 onClick={() => changeStarHandler(score)}
               />
@@ -176,11 +160,7 @@ const ImagePost = () => {
             ) : (
               <StPhotoInputContainer>
                 <StPhotoInputBox>
-                  <label
-                    ref={dragRef}
-                    onDragOver={dragOverHandler}
-                    onDrop={dropHandler}
-                  >
+                  <label ref={dragRef} onDragOver={dragOverHandler} onDrop={dropHandler}>
                     <StPhotoInput
                       type="file"
                       accept="image/jpeg image/png image/jpg image/gif"
@@ -269,7 +249,6 @@ export const MobileStarWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
   gap: 10px;
   @media screen and (min-width: 768px) {
     display: none;
@@ -418,7 +397,6 @@ export const StScoreBox = styled.div`
   justify-content: space-evenly;
   align-items: center;
   width: 45vw;
-  height: 10vh;
   ${device.tablet} {
     display: flex;
     flex-direction: column;

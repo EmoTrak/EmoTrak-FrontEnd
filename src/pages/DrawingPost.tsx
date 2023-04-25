@@ -87,9 +87,7 @@ const DrawingPost = () => {
 
   // 그림판 모드, 색깔 상태 관리
   const [mode, setMode] = useState<string>("pen");
-  const [selectedColor, setSelectedColor] = useState<string>(
-    themeColor.main.black
-  );
+  const [selectedColor, setSelectedColor] = useState<string>(themeColor.main.black);
   const [selectPen, setSelectPen] = useState<boolean>(false);
   const [selectedSize, setSelectedSize] = useState<number>(5);
 
@@ -108,8 +106,12 @@ const DrawingPost = () => {
     };
   };
 
-  const { startPaint, paint, exitPaint, moveTouch, startTouch, endTouch } =
-    usePen(canvasRef, getCoordinates, selectedColor, selectedSize);
+  const { startPaint, paint, exitPaint, moveTouch, startTouch, endTouch } = usePen(
+    canvasRef,
+    getCoordinates,
+    selectedColor,
+    selectedSize
+  );
 
   const { startErase, erase, exitErase } = useEraser(canvasRef, getCoordinates);
 
@@ -123,9 +125,7 @@ const DrawingPost = () => {
   };
 
   // 지우개, 펜 모드 변경 함수
-  const switchModeHandler = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ): void => {
+  const switchModeHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
     const button = event.target as HTMLButtonElement;
     const value = button.value;
     if (value === "eraser") {
@@ -153,9 +153,7 @@ const DrawingPost = () => {
   };
 
   // useEffect + AddEventListener 대체 함수
-  const mouseDownHandler = (
-    event: React.MouseEvent<HTMLCanvasElement>
-  ): void => {
+  const mouseDownHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
     if (mode === "pen") {
       startPaint(event);
     } else if (mode === "eraser") {
@@ -163,9 +161,7 @@ const DrawingPost = () => {
     }
   };
 
-  const mouseMoveHandler = (
-    event: React.MouseEvent<HTMLCanvasElement>
-  ): void => {
+  const mouseMoveHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
     if (mode === "pen") {
       paint(event);
     } else if (mode === "eraser") {
@@ -180,9 +176,7 @@ const DrawingPost = () => {
       exitErase();
     }
   };
-  const mouseLeaveHandler = (
-    event: React.MouseEvent<HTMLCanvasElement>
-  ): void => {
+  const mouseLeaveHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
     if (mode === "pen") {
       exitPaint();
     } else if (mode === "eraser") {
@@ -194,13 +188,7 @@ const DrawingPost = () => {
   const emoIds: number[] = [1, 2, 3, 4, 5, 6];
 
   // 별점
-  const [clicked, setClicked] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
   const starArray: number[] = [1, 2, 3, 4, 5];
   const clickStarHandler = (index: number): void => {
     setClicked(clicked.map((_, i) => i <= index - 1));
@@ -257,23 +245,9 @@ const DrawingPost = () => {
   }, [token]);
 
   return (
-    <DrawPostWrap>
+    <>
       <form onSubmit={submitFormHandler}>
         <Wrapper>
-          <MobileStarWrap>
-            {[1, 2, 3, 4, 5].map((score) => (
-              <Star
-                key={score}
-                size="5vw"
-                color={
-                  clicked[score - 1]
-                    ? themeColor.palette.yellow
-                    : themeColor.main.oatmeal
-                }
-                onClick={() => changeStarHandler(score)}
-              />
-            ))}
-          </MobileStarWrap>
           <StDrawWrap>
             <StCanvas
               ref={canvasRef}
@@ -335,6 +309,20 @@ const DrawingPost = () => {
           <DrawingPostWrap>
             <StCanvasWrapper>
               <StScoreBox>
+                <MobileStarWrap>
+                  {[1, 2, 3, 4, 5].map((score) => (
+                    <Star
+                      key={score}
+                      size="5vw"
+                      color={
+                        clicked[score - 1]
+                          ? themeColor.palette.yellow
+                          : themeColor.main.oatmeal
+                      }
+                      onClick={() => changeStarHandler(score)}
+                    />
+                  ))}
+                </MobileStarWrap>
                 <StUnorderLi>
                   {emoIds.map((item: number) => (
                     <StList key={item}>
@@ -412,21 +400,14 @@ const DrawingPost = () => {
           </DrawingPostWrap>
         </Wrapper>
       </form>
-    </DrawPostWrap>
+    </>
   );
 };
 
 export default DrawingPost;
 
-const DrawPostWrap = styled.div`
-  height: 100vh;
-  ${device.mobile} {
-    overflow: auto;
-  }
-`;
 const DrawingPostWrap = styled.div`
   width: 50vw;
-  height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -434,7 +415,6 @@ const DrawingPostWrap = styled.div`
   ${device.mobile} {
     width: 100%;
     height: 50%;
-    overflow: auto;
     p {
       display: none;
     }
@@ -456,14 +436,12 @@ const Wrapper = styled.div`
 
 const StDrawWrap = styled.div`
   width: 50vw;
-  height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   ${device.mobile} {
     width: 100vw;
-    height: 50vh;
     margin: 0;
   }
 `;
@@ -491,9 +469,7 @@ export const StEmoButton = styled.button<EmoButtonProps>`
   width: 55px;
   height: 55px;
   border: ${(props) =>
-    props.selected
-      ? `5px solid ${themeColor.main.gray}`
-      : "5px solid transparent"};
+    props.selected ? `5px solid ${themeColor.main.gray}` : "5px solid transparent"};
   background-color: transparent;
   border-radius: 50%;
   display: flex;
