@@ -210,14 +210,25 @@ export const MyPageInput = styled.input`
   border-radius: 6px;
   padding: 5px 10px 5px 10px;
   font-size: 0.6vw;
+  ${device.tablet} {
+    width: 60vw;
+    height: 3vh;
+    font-size: 15px;
+    margin: 10px;
+    border-bottom: 1px solid ${themeColor.main.chocomilk};
+  }
   ${device.mobile} {
-    width: 25vw;
-    font-size: 10px;
-    margin-right: 10px;
+    width: 80vw;
+    height: 3vh;
+    font-size: 15px;
+    margin: 10px;
+    border-bottom: 1px solid ${themeColor.main.chocomilk};
   }
   ${device.miniMobile} {
-    width: 25vw;
-    font-size: 10px;
+    width: 80vw;
+    height: 3vh;
+    font-size: 15px;
+    margin: 10px;
   }
 `;
 

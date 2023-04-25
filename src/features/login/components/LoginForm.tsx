@@ -18,7 +18,7 @@ import NaverMobile from "../../../assets/Social/NaverMobile.webp";
 import GoogleMobile from "../../../assets/Social/GoogleMobile.webp";
 import LoginTitle from "../../../assets/Texts/Login.svg";
 import Button from "../../../components/Button";
-import { device } from "../../../utils/theme";
+import { device, themeColor } from "../../../utils/theme";
 import { useEffect, useState } from "react";
 
 const LoginForm = () => {
@@ -50,26 +50,22 @@ const LoginForm = () => {
       <StForm id="login" onSubmit={submitFormHandler}>
         <FormTitle url={LoginTitle} size={5} />
         <InputList name="ID">
-          <label>
-            <MyPageInput
-              type="text"
-              name="email"
-              value={loginInfo.email}
-              maxLength={25}
-              onChange={changeInputHandler}
-            />
-          </label>
+          <MyPageInput
+            type="text"
+            name="email"
+            value={loginInfo.email}
+            maxLength={25}
+            onChange={changeInputHandler}
+          />
         </InputList>
         <InputList name="PASSWORD">
-          <label>
-            <MyPageInput
-              type="password"
-              name="password"
-              value={loginInfo.password}
-              maxLength={15}
-              onChange={changeInputHandler}
-            />
-          </label>
+          <MyPageInput
+            type="password"
+            name="password"
+            value={loginInfo.password}
+            maxLength={15}
+            onChange={changeInputHandler}
+          />
         </InputList>
       </StForm>
       <ButtonBox>
@@ -85,77 +81,38 @@ const LoginForm = () => {
           회원가입
         </Button>
       </ButtonBox>
-      <ButtonBox>
-        {windowWidth.mobile || windowWidth.tablet ? (
-          <>
-            <SocialButtonLabel>
-              <SocialLoginButton
-                url={KakaoMobile}
-                size={13}
-                type="button"
-                style={{ margin: "0.5vh" }}
-                onClick={() => {
-                  window.location.href = KAKAO_AUTH_URL;
-                }}
-              ></SocialLoginButton>
-            </SocialButtonLabel>
-            <SocialButtonLabel>
-              <SocialLoginButton
-                url={NaverMobile}
-                size={13}
-                type="button"
-                onClick={() => {
-                  window.location.href = NAVER_AUTH_URL;
-                }}
-              ></SocialLoginButton>
-            </SocialButtonLabel>
-            <SocialButtonLabel>
-              <SocialLoginButton
-                url={GoogleMobile}
-                size={13}
-                type="button"
-                onClick={() => {
-                  window.location.href = GOOGLE_AUTH_URL;
-                }}
-              ></SocialLoginButton>
-            </SocialButtonLabel>
-          </>
-        ) : (
-          <>
-            {" "}
-            <SocialButtonLabel>
-              <SocialLoginButton
-                url={Kakao}
-                size={13}
-                type="button"
-                onClick={() => {
-                  window.location.href = KAKAO_AUTH_URL;
-                }}
-              ></SocialLoginButton>
-            </SocialButtonLabel>
-            <SocialButtonLabel>
-              <SocialLoginButton
-                url={Naver}
-                size={13}
-                type="button"
-                onClick={() => {
-                  window.location.href = NAVER_AUTH_URL;
-                }}
-              ></SocialLoginButton>
-            </SocialButtonLabel>
-            <SocialButtonLabel>
-              <SocialLoginButton
-                url={Google}
-                size={13}
-                type="button"
-                onClick={() => {
-                  window.location.href = GOOGLE_AUTH_URL;
-                }}
-              ></SocialLoginButton>
-            </SocialButtonLabel>
-          </>
-        )}
-      </ButtonBox>
+      <SocialButtonBox>
+        <SocialButtonLabel>
+          <SocialLoginButton
+            url={Kakao}
+            size={13}
+            type="button"
+            onClick={() => {
+              window.location.href = KAKAO_AUTH_URL;
+            }}
+          ></SocialLoginButton>
+        </SocialButtonLabel>
+        <SocialButtonLabel>
+          <SocialLoginButton
+            url={Naver}
+            size={13}
+            type="button"
+            onClick={() => {
+              window.location.href = NAVER_AUTH_URL;
+            }}
+          ></SocialLoginButton>
+        </SocialButtonLabel>
+        <SocialButtonLabel>
+          <SocialLoginButton
+            url={Google}
+            size={13}
+            type="button"
+            onClick={() => {
+              window.location.href = GOOGLE_AUTH_URL;
+            }}
+          ></SocialLoginButton>
+        </SocialButtonLabel>
+      </SocialButtonBox>
     </StFormWrapper>
   );
 };
@@ -171,6 +128,18 @@ export const StFormWrapper = styled.div`
   justify-content: center;
   align-items: center;
   overflow: visible;
+  ${device.tablet} {
+    height: 100vh;
+    background-color: ${themeColor.main.white};
+  }
+  ${device.mobile} {
+    height: 100vh;
+    background-color: ${themeColor.main.white};
+  }
+  ${device.miniMobile} {
+    height: 100vh;
+    background-color: ${themeColor.main.white};
+  }
 `;
 
 const StForm = styled.form`
@@ -180,6 +149,15 @@ const StForm = styled.form`
   gap: 10;
   justify-content: center;
   align-items: center;
+  ${device.tablet} {
+    gap: 5;
+  }
+  ${device.mobile} {
+    gap: 5;
+  }
+  ${device.miniMobile} {
+    gap: 5;
+  }
 `;
 
 export const SocialLoginButton = styled.button<IconProps>`
@@ -196,25 +174,24 @@ export const SocialLoginButton = styled.button<IconProps>`
   justify-content: center;
   align-items: center;
   ${device.tablet} {
-    width: 20vw;
-    height: 20vw;
+    width: 30vw;
+    height: 7vw;
     gap: 5;
     margin: 0;
   }
   ${device.mobile} {
-    width: 20vw;
-    height: 20vw;
+    width: 35vw;
+    height: 8.5vw;
     gap: 5;
     margin: 0;
   }
   ${device.miniMobile} {
-    width: 30vw;
-    height: 30vw;
+    width: 50vw;
+    height: 12.5vw;
     gap: 5;
     margin: 0;
   }
 `;
-
 export const ButtonBox = styled.div`
   display: flex;
   width: 50vw;
@@ -222,6 +199,24 @@ export const ButtonBox = styled.div`
   align-items: center;
   gap: 1vw;
   margin: 10px;
+`;
+
+export const SocialButtonBox = styled.div`
+  display: flex;
+  width: 50vw;
+  justify-content: center;
+  align-items: center;
+  gap: 1vw;
+  margin: 10px;
+  ${device.tablet} {
+    flex-direction: column;
+  }
+  ${device.mobile} {
+    flex-direction: column;
+  }
+  ${device.miniMobile} {
+    flex-direction: column;
+  }
 `;
 
 export const SocialButtonLabel = styled.label`
@@ -244,9 +239,11 @@ export const FormTitle = styled.div<IconProps>`
   align-items: center;
   margin: 0.5vh 6vh;
   ${device.mobile} {
-    width: 13vw;
+    width: 12vw;
+    height: 12vw;
   }
   ${device.miniMobile} {
-    width: 13vw;
+    width: 20vw;
+    height: 20vw;
   }
 `;
