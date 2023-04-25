@@ -11,10 +11,9 @@ import {
 } from "../data/routes/urls";
 import EmoTrak from "../assets/logo/EmoTrakLogo.png";
 import { useState } from "react";
-import { themeColor } from "../utils/theme";
-import { device } from "../utils/theme";
-import { IoIosArrowBack } from "react-icons/io";
+import { device, themeColor } from "../utils/theme";
 import MobileMenubar from "./MobileMenubar";
+import { IoIosArrowBack } from "react-icons/io";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -99,13 +98,14 @@ const StHeader = styled.header`
   border: none;
   position: fixed;
   box-shadow: 5px 5px 5px ${themeColor.main.oatmeal};
-  z-index: 10;
+  z-index: 50;
   top: 0px;
   left: 0px;
   background-color: ${themeColor.main.white};
   font-family: inherit;
   display: flex;
   justify-content: space-between;
+  box-sizing: border-box;
   ${device.mobile} {
     align-items: center;
   }

@@ -20,7 +20,7 @@ const ClickModalPost = ({ children, diaryDay }: PropsType & PropsWithChildren) =
     <Modalroot>
       <ModalBackground />
       <ModalTrigger>{children}</ModalTrigger>
-      <ModalContent top={30} left={40}>
+      <ModalContent>
         <PostContent>
           <ModalClose>
             <CloseBtn>
@@ -55,6 +55,10 @@ const ClickModalPost = ({ children, diaryDay }: PropsType & PropsWithChildren) =
 
 const PostContent = styled.div`
   width: 380px;
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, 50%);
   color: ${themeColor.main.chocomilk};
   background-color: ${themeColor.main.white};
   border-radius: 22px;
@@ -64,8 +68,8 @@ const PostContent = styled.div`
   flex-direction: column;
   font-size: 20px;
   box-sizing: border-box;
-  box-shadow: 1px 1px 10px 5px ${themeColor.main.gray};
-  padding: 10% 2% 5%;
+  box-shadow: 1px 1px 10px 5px ${themeColor.main.oatmeal};
+  padding: 60px 20px 40px;
   cursor: auto;
 `;
 const Text = styled.div`
@@ -74,7 +78,7 @@ const Text = styled.div`
 `;
 
 const ClickBtn = styled.div`
-  background-color: ${themeColor.main.gray};
+  background-color: ${themeColor.main.oatmeal};
   border-radius: 22px;
   display: flex;
   justify-content: center;
