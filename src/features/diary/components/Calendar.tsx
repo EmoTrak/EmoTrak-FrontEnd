@@ -226,10 +226,11 @@ const Container = styled.div`
   }
   ${device.mobile} {
     padding-left: 5px;
+    height: 90vh;
   }
   ${device.miniMobile} {
     padding-left: 5px;
-    height: 70vh;
+    height: 60vh;
   }
 `;
 
@@ -238,17 +239,17 @@ const NowDay = styled.div`
   display: flex;
   justify-content: center;
   span {
-    font-size: 25px;
+    font-size: 21px;
     position: relative;
     z-index: 3;
   }
   p {
     background-color: ${themeColor.emoticon.yellow};
     border-radius: 10px;
-    width: 130px;
+    width: 115px;
     height: 16px;
     position: absolute;
-    top: 13px;
+    top: 10px;
     z-index: 2;
   }
 `;
@@ -300,9 +301,6 @@ const Weeks = styled.div`
   ${device.mobile} {
     font-size: 13px;
   }
-  ${device.miniMobile} {
-    font-size: 10px;
-  }
 `;
 const Day = styled.button`
   min-width: calc(100% / 7);
@@ -317,9 +315,6 @@ const Day = styled.button`
 
   ${device.mobile} {
     font-size: 13px;
-  }
-  ${device.miniMobile} {
-    font-size: 10px;
   }
 `;
 
@@ -337,9 +332,6 @@ const Sunday = styled.button`
 
   ${device.mobile} {
     font-size: 13px;
-  }
-  ${device.miniMobile} {
-    font-size: 11px;
   }
 `;
 

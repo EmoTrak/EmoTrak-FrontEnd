@@ -54,6 +54,9 @@ const CommentInput = styled.textarea`
   height: 80px;
   ${device.mobile} {
     width: 80vw;
+    height: 60px;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 `;
 

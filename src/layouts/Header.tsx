@@ -53,43 +53,27 @@ const Header = () => {
       {payload?.auth === "ADMIN" ? (
         <NavWrapper>
           <Flex row gap={10}>
-            <PageButton onClick={() => navigate(ADMIN)}>
-              관리자페이지
-            </PageButton>
-            <PageButton onClick={() => navigate(MY_PAGE)}>
-              마이페이지
-            </PageButton>
-            <PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
-              공유 페이지
-            </PageButton>
+            <PageButton onClick={() => navigate(ADMIN)}>관리자페이지</PageButton>
+            <PageButton onClick={() => navigate(MY_PAGE)}>마이페이지</PageButton>
+            <PageButton onClick={() => navigate(COMMUNITY_PAGE)}>공유 페이지</PageButton>
 
-            <PageButton onClick={() => navigate(CHART_PAGE)}>
-              차트 페이지
-            </PageButton>
+            <PageButton onClick={() => navigate(CHART_PAGE)}>차트 페이지</PageButton>
             <PageButton onClick={logoutUserHandler}>로그아웃</PageButton>
           </Flex>
         </NavWrapper>
       ) : refreshToken ? (
         <NavWrapper>
           <Flex row gap={10}>
-            <PageButton onClick={() => navigate(MY_PAGE)}>
-              마이페이지
-            </PageButton>
-            <PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
-              공유 페이지
-            </PageButton>
-            <PageButton onClick={() => navigate(CHART_PAGE)}>
-              차트 페이지
-            </PageButton>
+            <PageButton onClick={() => navigate(MY_PAGE)}>마이페이지</PageButton>
+            <PageButton onClick={() => navigate(COMMUNITY_PAGE)}>공유 페이지</PageButton>
+            <PageButton onClick={() => navigate(CHART_PAGE)}>차트 페이지</PageButton>
             <PageButton onClick={logoutUserHandler}>로그아웃</PageButton>
           </Flex>
         </NavWrapper>
       ) : (
         <NavWrapper>
           <Flex row gap={10}>
-            <PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
-              공유 페이지
-            </PageButton>
+            <PageButton onClick={() => navigate(COMMUNITY_PAGE)}>공유 페이지</PageButton>
             <PageButton onClick={() => navigate("/")}>로그인</PageButton>
           </Flex>
         </NavWrapper>
@@ -161,6 +145,7 @@ const BackOfPage = styled.button`
   background-color: transparent;
   border: 0;
   position: absolute;
+  color: ${themeColor.main.chocomilk};
   ${device.mobile} {
     display: flex;
     align-items: center;
