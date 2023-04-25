@@ -67,7 +67,7 @@ const PostContent = styled.div`
   flex-direction: column;
   font-size: 20px;
   box-sizing: border-box;
-  box-shadow: 1px 1px 10px 5px ${themeColor.main.gray};
+  box-shadow: 1px 1px 10px 5px ${themeColor.main.oatmeal};
   padding: 60px 20px 40px;
   cursor: auto;
 `;
