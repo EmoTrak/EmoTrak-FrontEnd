@@ -245,9 +245,21 @@ const DrawingPost = () => {
   }, [token]);
 
   return (
-    <>
+    <DrawPostWrap>
       <form onSubmit={submitFormHandler}>
         <Wrapper>
+          <MobileStarWrap>
+            {[1, 2, 3, 4, 5].map((score) => (
+              <Star
+                key={score}
+                size="5vw"
+                color={
+                  clicked[score - 1] ? themeColor.palette.yellow : themeColor.main.oatmeal
+                }
+                onClick={() => changeStarHandler(score)}
+              />
+            ))}
+          </MobileStarWrap>
           <StDrawWrap>
             <StCanvas
               ref={canvasRef}
@@ -309,20 +321,6 @@ const DrawingPost = () => {
           <DrawingPostWrap>
             <StCanvasWrapper>
               <StScoreBox>
-                <MobileStarWrap>
-                  {[1, 2, 3, 4, 5].map((score) => (
-                    <Star
-                      key={score}
-                      size="5vw"
-                      color={
-                        clicked[score - 1]
-                          ? themeColor.palette.yellow
-                          : themeColor.main.oatmeal
-                      }
-                      onClick={() => changeStarHandler(score)}
-                    />
-                  ))}
-                </MobileStarWrap>
                 <StUnorderLi>
                   {emoIds.map((item: number) => (
                     <StList key={item}>
@@ -400,14 +398,21 @@ const DrawingPost = () => {
           </DrawingPostWrap>
         </Wrapper>
       </form>
-    </>
+    </DrawPostWrap>
   );
 };
 
 export default DrawingPost;
 
+const DrawPostWrap = styled.div`
+  height: 100vh;
+  ${device.mobile} {
+    overflow: auto;
+  }
+`;
 const DrawingPostWrap = styled.div`
   width: 50vw;
+  height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -415,6 +420,7 @@ const DrawingPostWrap = styled.div`
   ${device.mobile} {
     width: 100%;
     height: 50%;
+    overflow: auto;
     p {
       display: none;
     }
@@ -436,18 +442,20 @@ const Wrapper = styled.div`
 
 const StDrawWrap = styled.div`
   width: 50vw;
+  height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   ${device.mobile} {
     width: 100vw;
+    height: 50vh;
     margin: 0;
   }
 `;
 
 export const StUnorderLi = styled.ul`
-  gap: 10px;
+  min-width: 300px;
   list-style: none;
   padding: 0;
   display: flex;
