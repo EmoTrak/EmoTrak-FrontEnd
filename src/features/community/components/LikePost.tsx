@@ -14,7 +14,7 @@ interface LikeType {
 }
 
 const LikePost = ({ isLike, id, count }: LikeType) => {
-  const token = getCookie("token");
+  const refreshToken = getCookie("refreshToken");
   const navigate = useNavigate();
   const [like, setLike] = useState<Partial<LikeType>>({
     isLike: isLike,
@@ -54,7 +54,7 @@ const LikePost = ({ isLike, id, count }: LikeType) => {
       {like.isLike ? (
         <LikeTrue
           onClick={() =>
-            token
+            refreshToken
               ? likeMutate()
               : window.confirm("로그인 후 이용가능합니다") && navigate("/")
           }
@@ -64,7 +64,7 @@ const LikePost = ({ isLike, id, count }: LikeType) => {
       ) : (
         <LikeFalse
           onClick={() =>
-            token
+            refreshToken
               ? likeMutate()
               : window.confirm("로그인 후 이용가능합니다") && navigate("/")
           }
@@ -85,11 +85,14 @@ const LikeTrue = styled.div`
 `;
 
 const LikeFalse = styled.div`
-  color: ${themeColor.main.gray};
+  color: ${themeColor.main.chocomilk};
   font-size: 30px;
   display: contents;
   cursor: pointer;
 `;
 
-const LikeCount = styled.div``;
+const LikeCount = styled.div`
+  color: ${themeColor.main.chocomilk};
+  font-size: 15px;
+`;
 export default LikePost;
