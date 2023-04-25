@@ -2,13 +2,14 @@ import styled from "styled-components";
 import { BsCaretDownFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { FiChevronsUp } from "react-icons/fi";
+import { BiArrowToTop } from "react-icons/bi";
 import { scrollOnTop } from "../../../utils/scollOnTop";
 import { ImageType } from "../../../data/type/d1";
 import { COMMUNITY_PAGE } from "../../../data/routes/urls";
 import useEmoSelect from "../hooks/useEmoSelect";
 import useInfinite from "../hooks/useInfinite";
 import EmotionIcons from "../../../components/Icon/EmoticonIcons";
+import { device, themeColor } from "../../../utils/theme";
 
 const Boards = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -42,7 +43,7 @@ const Boards = () => {
   // 스크롤 위치가 바닥에 닿았을때 다음 페이지 정보를 불러오는 함수
   const onScroll = () => {
     const { scrollTop, offsetHeight } = document.documentElement;
-    if (hasNextPage && window.innerHeight + scrollTop + 1 >= offsetHeight) {
+    if (hasNextPage && window.innerHeight + scrollTop + 100 >= offsetHeight) {
       fetchNextPage({ cancelRefetch: false });
       saveScrollPosition();
     }
@@ -65,7 +66,7 @@ const Boards = () => {
     if (scrollPosition) {
       setTimeout(() => {
         window.scrollTo(0, Number(scrollPosition));
-      }, 50);
+      }, 70);
       sessionStorage.removeItem("scrollPosition");
     }
   }
@@ -138,38 +139,61 @@ const Boards = () => {
         ))}
       </ImageContainer>
       <ScrollOntop onClick={scrollOnTop}>
-        <FiChevronsUp />
+        <BiArrowToTop />
       </ScrollOntop>
     </Container>
   );
 };
 
 const Container = styled.div`
-  padding: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  ${device.tablet} {
+    padding: 0px;
+  }
 `;
 
 const SelectBar = styled.div`
   height: 70px;
-  background-color: #e5dfd3;
+  background-color: ${themeColor.main.oatmeal};
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  ${device.miniMobile} {
+    justify-content: space-around;
+    min-width: 320px;
+  }
 `;
 
 const ButtonBox = styled.div`
   margin-left: 30px;
+  ${device.miniMobile} {
+    margin-left: 0px;
+  }
 `;
 const StEmoButton = styled.button<{ isClick: boolean }>`
   width: 45px;
   height: 45px;
   border: 0;
-  background-color: ${(props) => (props.isClick ? "#D0BD95" : "transparent")};
+  background-color: ${(props) =>
+    props.isClick ? themeColor.main.coffemilk : "transparent"};
   margin-left: 15px;
   border-radius: 50%;
   cursor: pointer;
   &:hover {
-    background-color: ${(props) => (props.isClick ? "#D0BD95" : "#d1d0d0")};
+    background-color: ${(props) =>
+      props.isClick ? themeColor.main.coffemilk : themeColor.main.gray};
+  }
+  ${device.mobile} {
+    width: 45px;
+    height: 45px;
+    margin-left: 10px;
+  }
+  ${device.miniMobile} {
+    width: 36px;
+    height: 36px;
+    margin-left: 5px;
   }
 `;
 
@@ -181,12 +205,17 @@ const SelectTitle = styled.div`
   align-items: center;
   position: relative;
   cursor: pointer;
+  ${device.miniMobile} {
+    margin-left: 10px;
+    width: 50px;
+    font-size: 15px;
+  }
 `;
 
 const Sort = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: white;
+  background-color: ${themeColor.main.white};
   border: 1px solid;
   border-radius: 10px;
   z-index: 5;
@@ -204,7 +233,7 @@ const SortListBtn = styled.button`
   cursor: pointer;
   font-family: "KyoboHand";
   &:hover {
-    background-color: lightgray;
+    background-color: ${themeColor.main.gray};
   }
 `;
 const ImageContainer = styled.div`
@@ -213,8 +242,15 @@ const ImageContainer = styled.div`
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 40px;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 20px;
+  ${device.tablet} {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  ${device.mobile} {
+    grid-template-columns: repeat(3, 1fr);
+    min-width: 320px;
+  }
 `;
 
 const Image = styled.img`
@@ -232,14 +268,16 @@ const ImageBox = styled.div`
 
 const ScrollOntop = styled.button`
   position: fixed;
-  bottom: 50px;
-  right: 10%;
-  background-color: white;
+  bottom: 40px;
+  left: 50%;
+  z-index: 10;
+  background-color: ${themeColor.main.coffemilk};
+  color: ${themeColor.main.white};
   border-radius: 50%;
-  border: 0.5px solid;
-  width: 30px;
-  height: 30px;
-  font-size: 20px;
+  border: 0px;
+  width: 40px;
+  height: 40px;
+  font-size: 30px;
   display: flex;
   align-items: center;
   cursor: pointer;

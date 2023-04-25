@@ -12,7 +12,10 @@ import Flex from "../components/Flex";
 import { getCookie } from "../utils/cookies";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
-
+import { device, themeColor } from "../utils/theme";
+export type StPreviewProps = {
+  url: string;
+};
 const ImagePost = () => {
   const token = getCookie("token");
   const refreshToken = getCookie("refreshToken");
@@ -120,7 +123,7 @@ const ImagePost = () => {
   useEffect(() => {
     preview(photo);
     if (!token && !refreshToken) {
-      navigate('/');
+      navigate("/");
     }
     const preventGoBack = () => {
       if (window.confirm("페이지를 나가시겠습니까?")) {
@@ -148,8 +151,22 @@ const ImagePost = () => {
   return (
     <>
       <form onSubmit={submitFormHandler}>
-        <Flex row>
-          <StCanvasWrapper>
+        <Wrapper>
+          <MobileStarWrap>
+            {[1, 2, 3, 4, 5].map((score) => (
+              <Star
+                key={score}
+                size="5vw"
+                color={
+                  clicked[score - 1]
+                    ? themeColor.palette.yellow
+                    : themeColor.main.oatmeal
+                }
+                onClick={() => changeStarHandler(score)}
+              />
+            ))}
+          </MobileStarWrap>
+          <ImageWrap>
             {validPhoto ? (
               <StPhotoPreview url={`${previewUrl}`}>
                 <StDeletePhotoButton type="button" onClick={deletePhotoHandler}>
@@ -174,66 +191,73 @@ const ImagePost = () => {
                 </StPhotoInputBox>
               </StPhotoInputContainer>
             )}
-          </StCanvasWrapper>
-
-          <StCanvasWrapper>
-            <StScoreBox>
-              <StUnorderLi style={{ display: "flex", flexDirection: "row" }}>
-                {[1, 2, 3, 4, 5, 6].map((item: number) => (
-                  <StList key={item}>
-                    <StEmoButton
-                      name="emoId"
-                      type="button"
-                      selected={inputValue.emoId === item ? true : false}
-                      value={item}
-                      onClick={changeEmojiHandler}
-                    >
-                      <EmotionIcons
-                        height="50"
-                        width="50vw"
-                        emotionTypes={`EMOTION_${item}`}
-                      />
-                    </StEmoButton>
-                  </StList>
-                ))}
-              </StUnorderLi>
-              {[1, 2, 3, 4, 5].map((score) => (
-                <Star
-                  key={score}
-                  size="2vw"
-                  color={clicked[score - 1] ? "#FFDC82" : "#E5DFD3"}
-                  onClick={() => changeStarHandler(score)}
-                />
-              ))}
-              <p>{inputValue.star === 0 ? "?" : inputValue.star}</p>
-            </StScoreBox>
-            <div>
-              <label>
-                <StTextArea
-                  name="detail"
-                  required
-                  spellCheck={false}
-                  maxLength={1500}
-                  onChange={onChangeHandler}
-                ></StTextArea>
-              </label>
-            </div>
-            <StSubmitBox>
-              <StLabel>
-                공유여부
-                <Checkbox
-                  name="share"
-                  checked={inputValue.share === true}
-                  disabled={editItem?.restrict}
-                  onChange={onCheckHandler}
-                />
-              </StLabel>
-              <Button size="large" type="submit">
-                등록하기
-              </Button>
-            </StSubmitBox>
-          </StCanvasWrapper>
-        </Flex>
+          </ImageWrap>
+          <ImagePostWrap>
+            <StCanvasWrapper>
+              <StScoreBox>
+                <StUnorderLi>
+                  {[1, 2, 3, 4, 5, 6].map((item: number) => (
+                    <StList key={item}>
+                      <StEmoButton
+                        name="emoId"
+                        type="button"
+                        selected={inputValue.emoId === item ? true : false}
+                        value={item}
+                        onClick={changeEmojiHandler}
+                      >
+                        <EmotionIcons
+                          height="50"
+                          width="50vw"
+                          emotionTypes={`EMOTION_${item}`}
+                        />
+                      </StEmoButton>
+                    </StList>
+                  ))}
+                </StUnorderLi>
+                <StarWrap>
+                  {[1, 2, 3, 4, 5].map((score) => (
+                    <Star
+                      key={score}
+                      size="2vw"
+                      color={
+                        clicked[score - 1]
+                          ? themeColor.palette.yellow
+                          : themeColor.main.oatmeal
+                      }
+                      onClick={() => changeStarHandler(score)}
+                    />
+                  ))}
+                  <p>{inputValue.star === 0 ? "?" : inputValue.star}</p>
+                </StarWrap>
+              </StScoreBox>
+              <div>
+                <label>
+                  <StTextArea
+                    name="detail"
+                    required
+                    spellCheck={false}
+                    maxLength={1500}
+                    onChange={onChangeHandler}
+                  ></StTextArea>
+                </label>
+              </div>
+              <StSubmitBox>
+                <StLabel>
+                  공유여부
+                  <Checkbox
+                    name="share"
+                    checked={inputValue.share === true}
+                    disabled={editItem?.restrict}
+                    onChange={onCheckHandler}
+                  />
+                </StLabel>
+                <Button size="large" type="submit">
+                  등록하기
+                </Button>
+              </StSubmitBox>
+            </StCanvasWrapper>
+          </ImagePostWrap>
+        </Wrapper>
       </form>
     </>
   );
@@ -241,18 +265,68 @@ const ImagePost = () => {
 
 export default ImagePost;
 
-
+export const MobileStarWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  gap: 10px;
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+`;
+const Wrapper = styled.div`
+  display: flex;
+  ${device.mobile} {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+const ImagePostWrap = styled.div`
+  width: 50vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  ${device.mobile} {
+    width: 100%;
+    height: 50%;
+    p {
+      display: none;
+    }
+  }
+`;
+const ImageWrap = styled.div`
+  width: 50vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  ${device.mobile} {
+    width: 100%;
+    height: 50%;
+    margin: 0;
+  }
+`;
+export const StarWrap = styled.div`
+  display: flex;
+  ${device.mobile} {
+    display: none;
+  }
+`;
 export const StPhotoInputBox = styled.li`
   width: 40vw;
   height: 70vh;
   position: relative;
-  border: 1px solid rgb(230, 229, 239);
-  background: #e5dfd3;
+  border: 1px solid ${themeColor.main.paper};
+  background: ${themeColor.main.oatmeal};
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  color: rgb(155, 153, 169);
+  color: ${themeColor.main.gray};
   font-size: 1rem;
   border-radius: 30px;
   margin-right: 1rem;
@@ -271,6 +345,15 @@ export const StPhotoInputBox = styled.li`
     margin-bottom: 1rem;
     font-size: 1.2vw;
   }
+
+  ${device.mobile} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 85vw;
+    height: 50vh;
+    margin: 0;
+  }
 `;
 
 export const StPhotoInput = styled.input`
@@ -284,10 +367,6 @@ export const StPhotoInput = styled.input`
   font-size: 0px;
 `;
 
-export type StPreviewProps = {
-  url: string;
-};
-
 export const StPhotoPreview = styled.div<StPreviewProps>`
   width: 45vw;
   height: 70vh;
@@ -297,27 +376,40 @@ export const StPhotoPreview = styled.div<StPreviewProps>`
   justify-content: flex-end;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  ${device.mobile} {
+    position: unset;
+    border-radius: 20px;
+    width: 80vw;
+    height: 50vh;
+    padding: 20px;
+    margin: 0;
+  }
   ${({ url }) => {
     return `background-image:url(${url})`;
   }}
 `;
 
 export const StDeletePhotoButton = styled.button`
-  width: 2.5vw;
-  height: 1.5vw;
-  border: 3px solid #d0bd95;
+  width: 4vw;
+  height: 2vw;
+  border: 3px solid ${themeColor.main.coffemilk};
   border-radius: 10px;
   margin: 20px;
-  background-color: #e5dfd3;
-  color: #ae9898;
+  background-color: ${themeColor.main.oatmeal};
+  color: ${themeColor.main.chocomilk};
   font-family: inherit;
   position: relative;
   cursor: pointer;
 
   &:hover {
-    background-color: #d0bd95;
-    color: #ffffff;
-    border: 3px solid #e5dfd3;
+    background-color: ${themeColor.main.coffemilk};
+    color: ${themeColor.main.white};
+    border: 3px solid ${themeColor.main.oatmeal};
+  }
+  ${device.mobile} {
+    width: 10vw;
+    height: 6vw;
+    margin: 0;
   }
 `;
 
@@ -327,6 +419,14 @@ export const StScoreBox = styled.div`
   align-items: center;
   width: 45vw;
   height: 10vh;
+  ${device.tablet} {
+    display: flex;
+    flex-direction: column;
+  }
+  ${device.mobile} {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export const StTextArea = styled.textarea`
@@ -342,6 +442,17 @@ export const StTextArea = styled.textarea`
   line-height: 2;
   margin: 20px;
   padding: 10px;
+
+  ${device.mobile} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    width: 80vw;
+    height: 50vh;
+    padding: 20px;
+    margin: 0;
+  }
 `;
 
 export const StSubmitBox = styled.div`
@@ -349,12 +460,22 @@ export const StSubmitBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  ${device.mobile} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60vw;
+    height: 50vh;
+  }
 `;
 
 export const StPhotoInputContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  ${device.mobile} {
+    width: 100vw;
+  }
 `;
 
 export const StLabel = styled.label`
@@ -363,4 +484,13 @@ export const StLabel = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  ${device.mobile} {
+    width: 50vw;
+    font-size: 25px;
+  }
+  /* @media screen and (max-width: 320px) {
+    width: 100vw;
+    font-size: 25px;
+  } */
 `;

@@ -16,9 +16,17 @@ import { getCookie } from "../utils/cookies";
 import BallPointPen from "../assets/Drawing/Ball Point Pen.png";
 import Eraser from "../assets/Drawing/Erase.png";
 import Reboot from "../assets/Drawing/Reboot.png";
-import { StLabel, StScoreBox, StSubmitBox, StTextArea } from "./ImagePost";
+import {
+  MobileStarWrap,
+  StLabel,
+  StScoreBox,
+  StSubmitBox,
+  StTextArea,
+  StarWrap,
+} from "./ImagePost";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
+import { device, themeColor } from "../utils/theme";
 
 export type InputValue = {
   draw: boolean;
@@ -79,7 +87,9 @@ const DrawingPost = () => {
 
   // 그림판 모드, 색깔 상태 관리
   const [mode, setMode] = useState<string>("pen");
-  const [selectedColor, setSelectedColor] = useState<string>("#000000");
+  const [selectedColor, setSelectedColor] = useState<string>(
+    themeColor.main.black
+  );
   const [selectPen, setSelectPen] = useState<boolean>(false);
   const [selectedSize, setSelectedSize] = useState<number>(5);
 
@@ -221,7 +231,7 @@ const DrawingPost = () => {
 
   useEffect(() => {
     if (!token && !refreshToken) {
-      navigate('/');
+      navigate("/");
     }
     const preventGoBack = () => {
       if (window.confirm("페이지를 나가시겠습니까?")) {
@@ -247,10 +257,24 @@ const DrawingPost = () => {
   }, [token]);
 
   return (
-    <div style={{ height: "80vh" }}>
+    <DrawPostWrap>
       <form onSubmit={submitFormHandler}>
-        <Flex row gap={10}>
-          <StCanvasWrapper>
+        <Wrapper>
+          <MobileStarWrap>
+            {[1, 2, 3, 4, 5].map((score) => (
+              <Star
+                key={score}
+                size="5vw"
+                color={
+                  clicked[score - 1]
+                    ? themeColor.palette.yellow
+                    : themeColor.main.oatmeal
+                }
+                onClick={() => changeStarHandler(score)}
+              />
+            ))}
+          </MobileStarWrap>
+          <StDrawWrap>
             <StCanvas
               ref={canvasRef}
               height={700}
@@ -276,7 +300,6 @@ const DrawingPost = () => {
                   ) : null}
                 </StPenSizeTool>
                 <div>
-                  {" "}
                   {selectPen ? (
                     <>
                       <Palette
@@ -287,7 +310,6 @@ const DrawingPost = () => {
                     </>
                   ) : null}
                 </div>
-
                 <StPenButton
                   type="button"
                   value="pen"
@@ -309,91 +331,156 @@ const DrawingPost = () => {
                 onClick={clearCanvas}
               ></StRebootButton>
             </StToolBox>
-          </StCanvasWrapper>
-          <StCanvasWrapper>
-            <StScoreBox>
-              <StUnorderLi>
-                {emoIds.map((item: number) => (
-                  <StList key={item}>
-                    <StEmoButton
-                      name="emoId"
-                      type="button"
-                      selected={inputValue.emoId === item ? true : false}
-                      value={item}
-                      onClick={changeEmojiHandler}
-                    >
-                      <EmotionIcons
-                        height="50"
-                        width="50"
-                        emotionTypes={`EMOTION_${item}`}
-                      />
-                    </StEmoButton>
-                  </StList>
-                ))}
-              </StUnorderLi>
-
-              {starArray.map((score) => (
-                <Star
-                  key={score}
-                  size="30"
-                  color={clicked[score - 1] ? "#FFDC82" : "#E5DFD3"}
-                  onClick={() => changeStarHandler(score)}
-                />
-              ))}
-              <span>{inputValue.star === 0 ? "?" : inputValue.star}</span>
-            </StScoreBox>
-            <div>
-              <label>
-                <StTextArea
-                  name="detail"
-                  value={inputValue?.detail}
-                  spellCheck={false}
-                  required
-                  maxLength={1500}
-                  onChange={onChangeHandler}
-                ></StTextArea>
-              </label>
-            </div>
-            <StSubmitBox>
-              <StLabel>
-                공유여부
-                <Checkbox
-                  name="share"
-                  checked={inputValue?.share === true}
-                  onChange={onCheckHandler}
-                />
-              </StLabel>
-              {validPicture ? (
-                <Button size="large" type="submit">
-                  등록하기
-                </Button>
-              ) : (
-                <Button size="large" type="button" onClick={savePicture}>
-                  계속하기
-                </Button>
-              )}
-            </StSubmitBox>
-          </StCanvasWrapper>
-        </Flex>
+          </StDrawWrap>
+          <DrawingPostWrap>
+            <StCanvasWrapper>
+              <StScoreBox>
+                <StUnorderLi>
+                  {emoIds.map((item: number) => (
+                    <StList key={item}>
+                      <StEmoButton
+                        name="emoId"
+                        type="button"
+                        selected={inputValue.emoId === item ? true : false}
+                        value={item}
+                        onClick={changeEmojiHandler}
+                      >
+                        <EmotionIcons
+                          height="50"
+                          width="50"
+                          emotionTypes={`EMOTION_${item}`}
+                        />
+                      </StEmoButton>
+                    </StList>
+                  ))}
+                </StUnorderLi>
+                <StarWrap>
+                  {starArray.map((score) => (
+                    <Star
+                      key={score}
+                      size="30"
+                      color={
+                        clicked[score - 1]
+                          ? themeColor.palette.yellow
+                          : themeColor.main.oatmeal
+                      }
+                      onClick={() => changeStarHandler(score)}
+                    />
+                  ))}
+                  <p>{inputValue.star === 0 ? "?" : inputValue.star}</p>
+                </StarWrap>
+              </StScoreBox>
+              <div>
+                <label>
+                  <StTextArea
+                    name="detail"
+                    value={inputValue?.detail}
+                    spellCheck={false}
+                    required
+                    maxLength={1500}
+                    onChange={onChangeHandler}
+                  ></StTextArea>
+                </label>
+              </div>
+              <StSubmitBox>
+                <StLabel>
+                  공유여부
+                  <Checkbox
+                    name="share"
+                    checked={inputValue?.share === true}
+                    onChange={onCheckHandler}
+                  />
+                </StLabel>
+                {validPicture ? (
+                  <Button
+                    style={{
+                      backgroundColor: themeColor.main.pink,
+                      color: themeColor.main.white,
+                    }}
+                    size="large"
+                    type="submit"
+                  >
+                    등록하기
+                  </Button>
+                ) : (
+                  <Button size="large" type="button" onClick={savePicture}>
+                    그림저장
+                  </Button>
+                )}
+              </StSubmitBox>
+            </StCanvasWrapper>
+          </DrawingPostWrap>
+        </Wrapper>
       </form>
-    </div>
+    </DrawPostWrap>
   );
 };
 
 export default DrawingPost;
 
+const DrawPostWrap = styled.div`
+  height: 100vh;
+  ${device.mobile} {
+    overflow: auto;
+  }
+`;
+const DrawingPostWrap = styled.div`
+  width: 50vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  ${device.mobile} {
+    width: 100%;
+    height: 50%;
+    overflow: auto;
+    p {
+      display: none;
+    }
+  }
+`;
 export const StList = styled.li`
   list-style-type: none;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
+const Wrapper = styled.div`
+  display: flex;
+  ${device.mobile} {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+const StDrawWrap = styled.div`
+  width: 50vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  ${device.mobile} {
+    width: 100vw;
+    height: 50vh;
+    margin: 0;
+  }
+`;
 
 export const StUnorderLi = styled.ul`
-  gap: 20px;
+  gap: 10px;
   list-style: none;
   padding: 0;
   display: flex;
+  flex-direction: row;
+  ${device.tablet} {
+    margin-bottom: 0;
+    margin-top: 10px;
+  }
+  ${device.mobile} {
+    margin-bottom: 10px;
+  }
 `;
 
 type EmoButtonProps = {
@@ -404,7 +491,9 @@ export const StEmoButton = styled.button<EmoButtonProps>`
   width: 55px;
   height: 55px;
   border: ${(props) =>
-    props.selected ? "5px solid grey" : "5px solid transparent"};
+    props.selected
+      ? `5px solid ${themeColor.main.gray}`
+      : "5px solid transparent"};
   background-color: transparent;
   border-radius: 50%;
   display: flex;
@@ -412,15 +501,22 @@ export const StEmoButton = styled.button<EmoButtonProps>`
   align-items: center;
   cursor: pointer;
   &:focus {
-    border: 5px solid grey;
+    border: 5px solid ${themeColor.main.gray};
   }
   &:hover {
-    border: 5px solid grey;
+    border: 5px solid ${themeColor.main.gray};
   }
 `;
 
 export const StCanvas = styled.canvas`
-  position: relative;
+  position: unset;
+  background-color: ${themeColor.main.white};
+  width: 85%;
+  height: 90%;
+  ${device.mobile} {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export const StToolBox = styled.div`
@@ -429,6 +525,9 @@ export const StToolBox = styled.div`
   height: 7vh;
   justify-content: flex-end;
   align-items: center;
+  ${device.mobile} {
+    width: 80vw;
+  }
 `;
 
 export const StToolList = styled.li`
@@ -446,6 +545,14 @@ export const StPenSizeTool = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  ${device.tablet} {
+    top: -16vh;
+    right: -1.5vw;
+  }
+  ${device.mobile} {
+    top: -18vh;
+    right: -1.5vw;
+  }
 `;
 
 export interface IconProps {
@@ -460,6 +567,10 @@ export const StPenButton = styled.button<IconProps>`
   width: 1.5vw;
   height: 1.5vw;
   border: none;
+  ${device.mobile} {
+    width: 20px;
+    height: 20px;
+  }
 `;
 
 export const StEraserButton = styled.button<IconProps>`
@@ -470,6 +581,10 @@ export const StEraserButton = styled.button<IconProps>`
   height: 1.5vw;
   border: none;
   margin: 5px;
+  ${device.mobile} {
+    width: 20px;
+    height: 20px;
+  }
 `;
 
 export const StRebootButton = styled.button<IconProps>`
@@ -480,4 +595,8 @@ export const StRebootButton = styled.button<IconProps>`
   height: 1.2vw;
   border: none;
   margin: 5px;
+  ${device.mobile} {
+    width: 20px;
+    height: 20px;
+  }
 `;

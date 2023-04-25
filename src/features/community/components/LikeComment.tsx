@@ -5,6 +5,8 @@ import { getCookie } from "../../../utils/cookies";
 import { useNavigate } from "react-router-dom";
 import useLikeComment from "../hooks/useLikeComment";
 import { HOME_PAGE } from "../../../data/routes/urls";
+import { themeColor } from "../../../utils/theme";
+import Flex from "../../../components/Flex";
 
 interface LikeType {
   isLike: boolean | undefined;
@@ -13,7 +15,7 @@ interface LikeType {
 }
 
 const LikeComment = ({ isLike: hasLike, id, count }: LikeType) => {
-  const token = getCookie("token");
+  const refreshToken = getCookie("refreshToken");
   const navigate = useNavigate();
   const [like, setLike] = useState<Partial<LikeType>>({
     isLike: hasLike,
@@ -23,17 +25,11 @@ const LikeComment = ({ isLike: hasLike, id, count }: LikeType) => {
   const { likeMutate } = useLikeComment(setLike);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "5px",
-      }}
-    >
+    <LikeContainer>
       {like.isLike ? (
         <LikeTrue
           onClick={() =>
-            token
+            refreshToken
               ? likeMutate(id)
               : window.confirm("로그인 후 이용가능합니다") && navigate("/")
           }
@@ -43,7 +39,7 @@ const LikeComment = ({ isLike: hasLike, id, count }: LikeType) => {
       ) : (
         <LikeFalse
           onClick={() =>
-            token
+            refreshToken
               ? likeMutate(id)
               : window.confirm("로그인 후 이용가능합니다") && navigate("/")
           }
@@ -51,14 +47,19 @@ const LikeComment = ({ isLike: hasLike, id, count }: LikeType) => {
           <RiHeart3Line />
         </LikeFalse>
       )}
-      <LikeCount>{like.count}</LikeCount>
-    </div>
+      <LikeCount>좋아요 {like.count}</LikeCount>
+    </LikeContainer>
   );
 };
 
+const LikeContainer = styled.div`
+  display: flex;
+  gap: 5px;
+  margin-bottom: 20px;
+`;
 const LikeTrue = styled.div`
-  color: red;
-  font-size: 30px;
+  color: ${themeColor.main.red};
+  font-size: 18px;
   display: flex;
   justify-content: center;
 
@@ -66,8 +67,8 @@ const LikeTrue = styled.div`
 `;
 
 const LikeFalse = styled.div`
-  color: gray;
-  font-size: 30px;
+  color: ${themeColor.main.gray};
+  font-size: 17px;
   display: contents;
   cursor: pointer;
   display: flex;
@@ -78,5 +79,8 @@ const LikeCount = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  color: ${themeColor.main.gray};
+  font-size: 13px;
+  margin-bottom: 5px;
 `;
 export default LikeComment;

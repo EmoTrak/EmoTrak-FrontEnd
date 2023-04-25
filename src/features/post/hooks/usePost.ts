@@ -30,7 +30,9 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
   };
 
   // 이미지 파일 업로드 함수
-  const fileInputHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const fileInputHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     const target = event.currentTarget;
     const files = (target.files as FileList)[0];
     const imgBlob = new Blob([files], { type: "image/jpeg" });
@@ -55,6 +57,7 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
           queryKey: [keys.GET_BOARD],
         });
         const newItemId = data.data.data.id;
+        queryClient.invalidateQueries([`${keys.GET_DETAIL}`, newItemId]);
         navigate(`/detail/${newItemId}`);
       },
       onError() {
@@ -63,7 +66,9 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
     }
   );
 
-  const submitDiaryHandler = (event: React.FormEvent<HTMLFormElement>): void => {
+  const submitDiaryHandler = (
+    event: React.FormEvent<HTMLFormElement>
+  ): void => {
     event.preventDefault();
     const formData = new FormData();
     const dto = new Blob([JSON.stringify(inputValue)], {

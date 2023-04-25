@@ -1,23 +1,36 @@
-import { useEffect } from "react";
 import LoginForm from "../features/login/components/LoginForm";
 import Tutorial from "../features/login/components/Tutorial";
 import styled from "styled-components";
-import { getCookie } from "../utils/cookies";
-import { useNavigate } from "react-router-dom";
+import Landing from "../features/login/components/Landing";
+import { useEffect, useState } from "react";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const token = getCookie("token");
+  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+
   useEffect(() => {
-    if (token) {
-      navigate("/");
-    }
+    const resizeHandler = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", resizeHandler);
+    return () => {
+      window.removeEventListener("resize", resizeHandler);
+    };
   }, []);
 
   return (
     <StLoginPageWrapper>
-      <Tutorial />
-      <LoginForm />
+      {viewportWidth < 768 ? (
+        <>
+          <Landing />
+        </>
+      ) : null}
+      {viewportWidth >= 768 ? (
+        <>
+          <Tutorial />
+          <LoginForm />
+        </>
+      ) : null}
     </StLoginPageWrapper>
   );
 };

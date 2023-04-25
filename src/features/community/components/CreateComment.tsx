@@ -3,6 +3,7 @@ import { CommentType, Idtype } from "../../../data/type/d1";
 import useAddComment from "../hooks/useAddComment";
 import styled from "styled-components";
 import Button from "../../../components/Button";
+import { device, themeColor } from "../../../utils/theme";
 
 const CreateComment = ({ id }: Idtype) => {
   const [input, setInput] = useState<CommentType>({
@@ -21,25 +22,18 @@ const CreateComment = ({ id }: Idtype) => {
   };
 
   return (
-    <div style={{ margin: "10px 0 10px" }}>
-      <form
-        onSubmit={submitCommentHandler}
-        style={{ display: "flex", flexDirection: "column" }}
-      >
-        <span>댓글</span>
-        <CommentInput
-          style={{ width: "40vw", height: "50px", border: "1px solid #eee" }}
-          value={input.comment}
-          onChange={changeInputHandler}
-          placeholder="댓글을 남겨보세요!"
-        />
-        <div>
-          <Button size="small" type="submit">
-            댓글작성
-          </Button>
-        </div>
-      </form>
-    </div>
+    <CommentForm onSubmit={submitCommentHandler}>
+      <span> 댓글</span>
+      <CommentInput
+        value={input.comment}
+        onChange={changeInputHandler}
+        placeholder="댓글을 남겨보세요!"
+        spellCheck={false}
+      />
+      <Button size="small" type="submit">
+        댓글작성
+      </Button>
+    </CommentForm>
   );
 };
 
@@ -50,9 +44,22 @@ const CommentInput = styled.textarea`
   padding: 10px;
   border-radius: 10px;
   resize: none;
-  :focus {
-    outline: none !important;
-    border-color: #e7e1d9;
-    box-shadow: 0 0 10px #e7e1d9;
+  font-family: "KyoboHand";
+  letter-spacing: 1.5px;
+  font-size: 18px;
+  border: 0;
+  box-shadow: 0 0 10px ${themeColor.main.oatmeal};
+  outline: none !important;
+  width: 40vw;
+  height: 80px;
+  ${device.mobile} {
+    width: 80vw;
   }
+`;
+
+const CommentForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 20px;
 `;

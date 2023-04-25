@@ -15,6 +15,7 @@ export const OAUTH_GOOGLE = "/oauth/google";
 export const ADMIN = "/admin";
 export const ADMIN_POST = "/adminpost";
 export const ADMIN_COMMENT = "/admincomment";
+export const PRIVACY_POLICY = "/privacy-policy";
 
 // 카카오 소셜로그인 관련
 const KAKAO_REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
@@ -31,4 +32,3 @@ export const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 const GOOGLE_REDIRECT_URI = process.env.REACT_APP_GOOGLE_REDIRECT_URI;
 export const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
-

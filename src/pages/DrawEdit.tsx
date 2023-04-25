@@ -31,6 +31,8 @@ import Eraser from "../assets/Drawing/Erase.png";
 import Reboot from "../assets/Drawing/Reboot.png";
 import { StLabel, StScoreBox, StSubmitBox, StTextArea } from "./ImagePost";
 import Button from "../components/Button";
+import Checkbox from "../components/Checkbox";
+import { themeColor } from "../utils/theme";
 
 export type InputValue = {
   draw: boolean;
@@ -55,9 +57,10 @@ const DrawEdit = () => {
     return user.get(`daily/${dailyId}`);
   }, [dailyId]);
 
-  const { data } = useQuery([`${keys.GET_DETAIL}`], getDetail, {
-    retry: 0,
-  });
+  const { data, isLoading } = useQuery(
+    [`${keys.GET_DETAIL}`],
+    async () => await user.get(`daily/${dailyId}`)
+  );
 
   // 캔버스 상태
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -88,7 +91,7 @@ const DrawEdit = () => {
       alert("로그인이 필요합니다 !");
       navigate("/");
     }
-    getDetail();
+    // getDetail();
     const newClicked = clicked.map((_, index) =>
       index < targetItem?.star ? true : false
     );
@@ -96,7 +99,7 @@ const DrawEdit = () => {
     const canvas = canvasRef?.current;
     const ctx = canvas?.getContext("2d");
     const image = new Image();
-    image.src = `${targetItem.imgUrl}`; // S3 버킷 이미지 URL
+    image.src = `${targetItem?.imgUrl}`; // S3 버킷 이미지 URL
     image.crossOrigin = "Anonymous"; // tainted canvas 방지용
     image.onload = () => {
       // 이미지가 로드되었을 때 캔버스에 그리기
@@ -121,7 +124,7 @@ const DrawEdit = () => {
 
   // 그림판 모드, 색깔 상태 관리
   const [mode, setMode] = useState<string>("pen");
-  const [selectedColor, setSelectedColor] = useState<string>("#000000");
+  const [selectedColor, setSelectedColor] = useState<string>(themeColor.main.black);
   const [selectPen, setSelectPen] = useState<boolean>(false);
   const [selectedSize, setSelectedSize] = useState<number>(5);
 
@@ -273,7 +276,9 @@ const DrawEdit = () => {
       window.removeEventListener("beforeunload", preventClose);
     };
   }, [token]);
-
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div style={{ height: "80vh" }}>
       <form onSubmit={submitFormHandler}>
@@ -363,7 +368,9 @@ const DrawEdit = () => {
                 <Star
                   key={score}
                   size="30"
-                  color={clicked[score - 1] ? "#FFDC82" : "#E5DFD3"}
+                  color={
+                    clicked[score - 1] ? themeColor.main.yellow : themeColor.main.paper
+                  }
                   onClick={() => changeStarHandler(score)}
                 />
               ))}
@@ -387,7 +394,7 @@ const DrawEdit = () => {
             <StSubmitBox>
               <StLabel>
                 공유여부
-                <input
+                <Checkbox
                   name="share"
                   type="checkbox"
                   checked={inputValue?.share}
@@ -395,12 +402,19 @@ const DrawEdit = () => {
                 />
               </StLabel>
               {validPicture ? (
-                <Button size="large" type="submit">
+                <Button
+                  style={{
+                    backgroundColor: themeColor.main.pink,
+                    color: themeColor.main.white,
+                  }}
+                  size="large"
+                  type="submit"
+                >
                   등록하기
                 </Button>
               ) : (
                 <Button size="large" type="button" onClick={savePicture}>
-                  계속하기
+                  그림저장
                 </Button>
               )}
             </StSubmitBox>
@@ -428,7 +442,8 @@ type EmoButtonProps = {
 export const StEmoButton = styled.button<EmoButtonProps>`
   width: 55px;
   height: 55px;
-  border: ${(props) => (props.selected ? "5px solid grey" : "5px solid transparent")};
+  border: ${(props) =>
+    props.selected ? `5px solid ${themeColor.main.gray}` : "5px solid transparent"};
   background-color: transparent;
   border-radius: 50%;
   display: flex;
@@ -436,9 +451,9 @@ export const StEmoButton = styled.button<EmoButtonProps>`
   align-items: center;
   cursor: pointer;
   &:focus {
-    border: 5px solid grey;
+    border: 5px solid ${themeColor.main.gray};
   }
   &:hover {
-    border: 5px solid grey;
+    border: 5px solid ${themeColor.main.gray};
   }
 `;

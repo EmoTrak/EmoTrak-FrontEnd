@@ -10,10 +10,11 @@ import { getCookie } from "../../../utils/cookies";
 import { GiSiren } from "react-icons/gi";
 import Button from "../../../components/Button";
 import Flex from "../../../components/Flex";
+import { device, themeColor } from "../../../utils/theme";
 
 const Comment = ({ item }: Partial<CommentProps>) => {
   const [edit, setEdit] = useState<boolean>(false);
-  const token = getCookie("token");
+  const refreshToken = getCookie("refreshToken");
   const [editComment, setEditComment] = useState<string | undefined>(item?.comment);
 
   const changeInputHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -56,54 +57,43 @@ const Comment = ({ item }: Partial<CommentProps>) => {
       ) : (
         <>
           <div>
-            <h4 style={{ margin: "5px 0" }}>닉네임 : {item?.nickname}</h4>
-            <div style={{ margin: "5px 0" }}>댓글 : {item?.comment}</div>
-            <div>
-              <Button
-                size="x-small"
-                onClick={() =>
-                  edit
-                    ? updateComment(item?.id, {
-                        onSuccess: () => setEdit((pre) => !pre),
-                      })
-                    : setEdit((pre) => !pre)
-                }
-              >
-                {edit ? "수정완료" : "수정"}
-              </Button>
-              <Button size="x-small" onClick={() => deleteComment(item?.id)}>
-                삭제
-              </Button>
-            </div>
+            <Nicname> {item?.nickname}</Nicname>
+            <div style={{ margin: "5px 0" }}>{item?.comment}</div>
+            <LikeComment isLike={item?.hasLike} id={item?.id} count={item?.likesCnt} />
           </div>
 
           <div>
-            {!item?.hasAuth && (
+            {item?.hasAuth ? (
               <div>
-                <LikeComment
-                  isLike={item?.hasLike}
-                  id={item?.id}
-                  count={item?.likesCnt}
-                />
-                <div>
-                  {token && (
-                    <Report id={item?.id} uri="comments/report">
-                      <Button
-                        icon
-                        style={{
-                          color: "red",
-                          fontSize: "30px",
-                        }}
-                      >
-                        <GiSiren />
-                      </Button>
-                    </Report>
-                  )}
-                </div>
+                <Button
+                  size="x-small"
+                  onClick={() =>
+                    edit
+                      ? updateComment(item?.id, {
+                          onSuccess: () => setEdit((pre) => !pre),
+                        })
+                      : setEdit((pre) => !pre)
+                  }
+                >
+                  {edit ? "수정완료" : "수정"}
+                </Button>
+                <Button size="x-small" onClick={() => deleteComment(item?.id)}>
+                  삭제
+                </Button>
               </div>
+            ) : (
+              refreshToken && (
+                <Report id={item?.id} uri="comments/report">
+                  <ReportBtn>
+                    <GiSiren />
+                  </ReportBtn>
+                </Report>
+              )
             )}
             {typeof item?.createdAt === "string" && (
-              <div style={{ display: "flex", justifyContent: "center" }}>
+              <div
+                style={{ display: "flex", justifyContent: "center", fontSize: "15px" }}
+              >
                 <PostDate date={item.createdAt} />
               </div>
             )}
@@ -119,9 +109,12 @@ export default Comment;
 const CommentBox = styled.div`
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #ae9898;
+  border-bottom: 1px solid white;
   width: 40vw;
   padding: 4px;
+  ${device.mobile} {
+    width: 80vw;
+  }
 `;
 const EditInput = styled.textarea`
   width: 40vw;
@@ -133,7 +126,19 @@ const EditInput = styled.textarea`
   resize: none;
   :focus {
     outline: none;
-    border-color: #e7e1d9;
-    box-shadow: 0 0 10px #e7e1d9;
+    border-color: ${themeColor.main.oatmeal};
+    box-shadow: 0 0 10px ${themeColor.main.oatmeal};
   }
+`;
+
+const Nicname = styled.div`
+  color: ${themeColor.main.coffemilk};
+  font-size: 15px;
+`;
+
+const ReportBtn = styled.button`
+  font-size: 30px;
+  border: 0;
+  background-color: transparent;
+  color: ${themeColor.main.red};
 `;

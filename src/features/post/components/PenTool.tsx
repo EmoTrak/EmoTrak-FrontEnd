@@ -29,9 +29,7 @@ const PenTool = ({
               onSizeSelect(size);
               setSelectPen(false);
             }}
-          >
-            {" "}
-          </StButtonBox>
+          ></StButtonBox>
         ))}
       </Flex>
     </>
@@ -52,8 +50,4 @@ const StButtonBox = styled.div<ButtonSize>`
   border: 1px solid transparent;
   background-color: ${({ color }) => `${color}`};
   border-radius: 50%;
-`;
-
-const StPenTool = styled.div`
-  display: flex;
 `;

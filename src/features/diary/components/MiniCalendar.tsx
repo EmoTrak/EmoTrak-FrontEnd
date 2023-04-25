@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { date } from "../../../data/type/d1";
+import { device, themeColor } from "../../../utils/theme";
 
 const MiniCalendar = ({ year, month }: date) => {
   if (month === 13) {
@@ -54,6 +55,9 @@ const MiniCalendar = ({ year, month }: date) => {
 const CalendarBox = styled.div`
   width: 200px;
   margin: 50px 0 0 3vw;
+  ${device.tablet} {
+    display: none;
+  }
 `;
 
 const DiaryDay = styled.div`
@@ -74,7 +78,7 @@ const Sunday = styled.button`
   border: 0;
   background-color: transparent;
   font-family: "KyoboHand";
-  color: red;
+  color: ${themeColor.main.red};
 `;
 
 const Saturday = styled.button`
@@ -82,7 +86,7 @@ const Saturday = styled.button`
   border: 0;
   background-color: transparent;
   font-family: "KyoboHand";
-  color: blue;
+  color: ${themeColor.palette.blue};
 `;
 
 export default MiniCalendar;

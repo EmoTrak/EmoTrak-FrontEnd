@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { DateSelectType } from "../../../data/type/d1";
 import { IoMdClose } from "react-icons/io";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { themeColor } from "../../../utils/theme";
 
 const MonthSelect = ({
   children,
@@ -14,7 +15,7 @@ const MonthSelect = ({
   return (
     <UI.Modalroot>
       <UI.ModalTrigger>{children}</UI.ModalTrigger>
-      <UI.ModalContent top={18} left={38}>
+      <UI.ModalContent>
         <Content>
           <UI.ModalClose>
             <CloseBtn>
@@ -46,16 +47,19 @@ const MonthSelect = ({
   );
 };
 const Content = styled.div`
-  top: 10%;
+  transform: translate(-70%, 10%);
+  position: absolute;
   height: 300px;
   width: 300px;
-  color: #a18585;
+  color: ${themeColor.main.chocomilk};
   border-radius: 30px;
   box-sizing: border-box;
-  box-shadow: 1px 1px 10px 5px #e2e2e2;
-  padding: 10%;
+  background-color: white;
+  box-shadow: 1px 1px 10px 5px ${themeColor.main.gray};
+  padding: 35px;
   display: flex;
   flex-direction: column;
+  z-index: 5;
 `;
 const Year = styled.div`
   font-size: 20px;
@@ -65,7 +69,7 @@ const Year = styled.div`
     border: 0;
     background-color: transparent;
     margin: 5px;
-    color: #a18585;
+    color: ${themeColor.main.chocomilk};
     cursor: pointer;
   }
 `;
@@ -84,12 +88,12 @@ const ClickBtn = styled.button`
   font-family: "KyoboHand";
   font-size: 18px;
   border: 0;
-  color: #a18585;
+  color: ${themeColor.main.chocomilk};
   border-radius: 50%;
   &:hover {
     cursor: pointer;
-    background-color: #e5dfd3;
-    color: white;
+    background-color: ${themeColor.main.gray};
+    color: ${themeColor.main.white};
     font-weight: 800;
   }
 `;
@@ -98,7 +102,7 @@ const CloseBtn = styled.div`
   position: absolute;
   top: 10px;
   right: 10px;
-  color: #a18585;
+  color: ${themeColor.main.chocomilk};
   font-size: 25px;
 `;
 export default MonthSelect;

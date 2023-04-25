@@ -22,18 +22,20 @@ import * as PAGE from "../data/routes/urls";
 import { getCookie } from "../utils/cookies";
 import { IPayload } from "../data/type/d2";
 import { ProtectedRoute } from "./ProtectedRouter";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
 
 const Router = () => {
   const token = getCookie("token");
   let payloadJson;
   let payload!: IPayload;
-  const [headerB64, payloadB64, signatureB64] = (token || "").split(".");
-  if (typeof atob !== undefined && payloadB64) {
+  const payloadB64 = (token || "").split(".")[1];
+  if (atob && payloadB64) {
     payloadJson = atob(payloadB64);
   }
-  if (payloadJson !== undefined) {
+  if (payloadJson) {
     payload = JSON.parse(payloadJson);
   }
+
   const pages = [
     {
       pathname: "/",
@@ -43,10 +45,10 @@ const Router = () => {
       isAuthAdmin: false,
     },
     {
-      pathname: `${PAGE.HOME_PAGE}`,
-      element: <Home />,
-      isPublic: false,
-      isLogin: true,
+      pathname: `${PAGE.PRIVACY_POLICY}`,
+      element: <PrivacyPolicy />,
+      isPublic: true,
+      isLogin: false,
       isAuthAdmin: false,
     },
     {
@@ -54,6 +56,13 @@ const Router = () => {
       element: <Signup />,
       isPublic: true,
       isLogin: false,
+      isAuthAdmin: false,
+    },
+    {
+      pathname: `${PAGE.HOME_PAGE}`,
+      element: <Home />,
+      isPublic: false,
+      isLogin: true,
       isAuthAdmin: false,
     },
     {
@@ -109,14 +118,14 @@ const Router = () => {
       pathname: `${PAGE.COMMUNITY_PAGE}`,
       element: <Community />,
       isPublic: true,
-      isLogin: false,
+      isLogin: true,
       isAuthAdmin: false,
     },
     {
       pathname: `${PAGE.COMMUNITY_DETAIL}/:id`,
       element: <CommunityDetail />,
       isPublic: true,
-      isLogin: false,
+      isLogin: true,
       isAuthAdmin: false,
     },
     {
@@ -170,10 +179,16 @@ const Router = () => {
           {pages.map((page) => {
             const isAuthenticated = page.isPublic || token;
             const isAuthAdmin = page.isAuthAdmin;
+
             const isAdminAuthenticated =
               page.isAuthAdmin === true &&
               payload?.auth !== undefined &&
               payload?.auth === "ADMIN";
+
+            const AlreadyLogin =
+              page.isPublic === true &&
+              page.isLogin === false &&
+              page.isAuthAdmin === false;
 
             return (
               <Route
@@ -186,6 +201,7 @@ const Router = () => {
                     isAuthenticated={isAuthenticated}
                     isAdminAuthenticated={isAdminAuthenticated}
                     isAuthAdmin={isAuthAdmin}
+                    AlreadyLogin={AlreadyLogin}
                   >
                     {page.element}
                   </ProtectedRoute>

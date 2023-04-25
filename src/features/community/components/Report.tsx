@@ -7,11 +7,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import user from "../../../lib/api/user";
 import * as Sub from "../../../components/subModal";
 import { keys } from "../../../data/queryKeys/keys";
+import { themeColor } from "../../../utils/theme";
+import Button from "../../../components/Button";
 
 const Report = ({ children, id, uri }: PropsWithChildren & Idtype & UriType) => {
   const [reason, setReason] = useState("");
 
-  const changeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeInputHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReason(e.target.value);
   };
   const queryClient = useQueryClient();
@@ -30,7 +32,7 @@ const Report = ({ children, id, uri }: PropsWithChildren & Idtype & UriType) => 
     <UI.Modalroot>
       <UI.ModalBackground />
       <UI.ModalTrigger>{children}</UI.ModalTrigger>
-      <UI.ModalContent top={30} left={40}>
+      <UI.ModalContent>
         <Container>
           <CloseBtn>
             <UI.ModalClose>
@@ -39,43 +41,44 @@ const Report = ({ children, id, uri }: PropsWithChildren & Idtype & UriType) => 
           </CloseBtn>
           <Sub.SubModalroot>
             <Text>신고하기</Text>
-            <form
+            <ReportForm
               onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
                 e.preventDefault();
               }}
             >
-              이유 : <input type="text" value={reason} onChange={changeInputHandler} />
+              <span>사유</span>
+              <ReportInput value={reason} onChange={changeInputHandler} />
               <Sub.SubModalTrigger>
-                <button type="submit">신고</button>
+                <Button type="submit">신고</Button>
               </Sub.SubModalTrigger>
-              <Sub.SubModalContent top={30} left={40}>
-                <Container>
+              <Sub.SubModalContent>
+                <Container style={{ top: 0 }}>
                   {status === "idle" ? (
                     <>
                       <Text>정말 신고하시겠습니까?</Text>
-                      <button onClick={() => mutate(id)}>제출</button>
+                      <Button onClick={() => mutate(id)}>제출</Button>
                       <UI.ModalTrigger>
-                        <button>취소</button>
+                        <Button>취소</Button>
                       </UI.ModalTrigger>
                     </>
                   ) : status === "success" ? (
                     <>
                       <Text>신고되었습니다</Text>
                       <UI.ModalTrigger>
-                        <button onClick={reset}>완료</button>
+                        <Button onClick={reset}>완료</Button>
                       </UI.ModalTrigger>
                     </>
                   ) : (
                     <>
                       <Text>신고 실패하였습니다</Text>
                       <UI.ModalTrigger>
-                        <button onClick={reset}>완료</button>
+                        <Button onClick={reset}>완료</Button>
                       </UI.ModalTrigger>
                     </>
                   )}
                 </Container>
               </Sub.SubModalContent>
-            </form>
+            </ReportForm>
           </Sub.SubModalroot>
         </Container>
       </UI.ModalContent>
@@ -85,30 +88,53 @@ const Report = ({ children, id, uri }: PropsWithChildren & Idtype & UriType) => 
 
 const Container = styled.div`
   width: 300px;
-  color: #a18585;
-  background-color: white;
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%);
+  color: ${themeColor.main.chocomilk};
+  background-color: ${themeColor.main.white};
   border-radius: 22px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
   font-size: 20px;
   box-sizing: border-box;
-  box-shadow: 1px 1px 10px 5px #e2e2e2;
-  padding: 10% 2%;
+  box-shadow: 1px 1px 10px 5px ${themeColor.main.gray};
   cursor: auto;
-  height: 170px;
+  height: 250px;
 `;
 
 const Text = styled.div`
-  padding-bottom: 10%;
-  color: #6b5f5f;
+  padding-bottom: 10px;
+  color: ${themeColor.main.chocomilk};
 `;
 
 const CloseBtn = styled.div`
   position: absolute;
   top: 10px;
   right: 5px;
+`;
+
+const ReportForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+const ReportInput = styled.textarea`
+  /* margin: 5px 0 5px 0; */
+  padding: 10px;
+  border-radius: 10px;
+  resize: none;
+  font-family: "KyoboHand";
+  letter-spacing: 1.5px;
+  font-size: 18px;
+  border: 0;
+  box-shadow: 0 0 10px ${themeColor.main.oatmeal};
+  outline: none !important;
+  width: 200px;
+  height: 50px;
 `;
 
 export default Report;

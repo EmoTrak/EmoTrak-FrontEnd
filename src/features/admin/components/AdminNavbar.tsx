@@ -2,15 +2,14 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Flex from "../../../components/Flex";
 import { ADMIN_COMMENT, ADMIN_POST } from "../../../data/routes/urls";
+import { themeColor } from "../../../utils/theme";
 
 const AdminNavbar = () => {
   const nav = useNavigate();
   return (
     <Flex>
       <AdminPostBtn onClick={() => nav(`${ADMIN_POST}`)}>post</AdminPostBtn>
-      <AdminCommnetBtn onClick={() => nav(`${ADMIN_COMMENT}`)}>
-        Comment
-      </AdminCommnetBtn>
+      <AdminCommnetBtn onClick={() => nav(`${ADMIN_COMMENT}`)}>Comment</AdminCommnetBtn>
     </Flex>
   );
 };
@@ -25,7 +24,7 @@ const AdminPostBtn = styled.button`
   height: 50px;
   cursor: pointer;
   &:hover {
-    background-color: lightgray;
+    background-color: ${themeColor.main.gray};
   }
 `;
 const AdminCommnetBtn = styled.button`
@@ -36,6 +35,6 @@ const AdminCommnetBtn = styled.button`
   height: 50px;
   cursor: pointer;
   &:hover {
-    background-color: lightgray;
+    background-color: ${themeColor.main.gray};
   }
 `;

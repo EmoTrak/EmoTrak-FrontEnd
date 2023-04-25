@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, createContext, useContext, useState } from "react";
 import { BooleanType, Position } from "../data/type/d1";
 import styled from "styled-components";
+import { themeColor } from "../utils/theme";
 
 const defaultValue = {
   open: false,
@@ -32,26 +33,16 @@ const Background = styled.div`
   height: 100%;
 `;
 
-export const ModalContent = ({ children, top, left }: PropsWithChildren & Position) => {
+export const ModalContent = ({ children }: PropsWithChildren) => {
   const { open } = useContext(Context);
-  return (
-    <>
-      {open && (
-        <Content top={top} left={left}>
-          {children}
-        </Content>
-      )}
-    </>
-  );
+  return <>{open && <Content>{children}</Content>}</>;
 };
 
-const Content = styled.div<Position>`
-  background-color: #ffffff;
-  position: fixed;
+const Content = styled.div`
+  background-color: ${themeColor.main.white};
   border-radius: 30px;
   box-sizing: border-box;
-  top: ${({ top }) => top}%;
-  left: ${({ left }) => left}%;
+  position: relative;
   z-index: 10;
 `;
 
