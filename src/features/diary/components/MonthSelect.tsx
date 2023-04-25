@@ -15,7 +15,7 @@ const MonthSelect = ({
   return (
     <UI.Modalroot>
       <UI.ModalTrigger>{children}</UI.ModalTrigger>
-      <UI.ModalContent top={5} left={38}>
+      <UI.ModalContent>
         <Content>
           <UI.ModalClose>
             <CloseBtn>
@@ -47,16 +47,19 @@ const MonthSelect = ({
   );
 };
 const Content = styled.div`
-  top: 10%;
+  transform: translate(-70%, 10%);
+  position: absolute;
   height: 300px;
   width: 300px;
   color: ${themeColor.main.chocomilk};
   border-radius: 30px;
   box-sizing: border-box;
+  background-color: white;
   box-shadow: 1px 1px 10px 5px ${themeColor.main.gray};
-  padding: 10%;
+  padding: 35px;
   display: flex;
   flex-direction: column;
+  z-index: 5;
 `;
 const Year = styled.div`
   font-size: 20px;

@@ -22,6 +22,7 @@ import { RiAlarmWarningFill } from "react-icons/ri";
 import { themeColor } from "../utils/theme";
 import { device } from "../utils/theme";
 import Flex from "../components/Flex";
+import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 
 const CommunityDetail = () => {
   const queryClient = useQueryClient();
@@ -87,7 +88,7 @@ const CommunityDetail = () => {
         </Flex>
 
         {data?.hasAuth && (
-          <>
+          <Flex row>
             {data?.draw ? (
               <Button
                 size="x-small"
@@ -103,10 +104,10 @@ const CommunityDetail = () => {
                 수정
               </Button>
             )}
-            <Button size="x-small" onClick={() => deletePostHandler(data?.id)}>
-              삭제
-            </Button>
-          </>
+            <DeleteConfirmModal itemId={data?.id}>
+              <Button size="x-small">삭제</Button>
+            </DeleteConfirmModal>
+          </Flex>
         )}
         <Flex ai="center" row gap={5}>
           <Emoticon>

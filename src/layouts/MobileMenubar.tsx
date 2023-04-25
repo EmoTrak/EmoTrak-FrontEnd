@@ -6,16 +6,12 @@ import { BsCalendarHeart } from "react-icons/bs";
 import { VscGraph } from "react-icons/vsc";
 import { MdContentPaste } from "react-icons/md";
 import { RiLogoutBoxRLine } from "react-icons/ri";
-import Calendar from "../assets/mobileMenubar/Calendar.png";
-import board from "../assets/mobileMenubar/Paste.png";
-import graph from "../assets/mobileMenubar/Combo Chart.png";
-import Logout from "../assets/mobileMenubar/Logout.png";
 import { useNavigate } from "react-router-dom";
 import { CHART_PAGE, COMMUNITY_PAGE, HOME_PAGE } from "../data/routes/urls";
 import { GoThreeBars } from "react-icons/go";
 
 type logout = { logout: () => void };
-const MobileMenubar = ({ children, logout }: PropsWithChildren & logout) => {
+const MobileMenubar = ({ logout }: logout) => {
   const navigate = useNavigate();
 
   return (
@@ -27,26 +23,22 @@ const MobileMenubar = ({ children, logout }: PropsWithChildren & logout) => {
           </MenuButton>
           <UI.ModalBackground />
         </UI.ModalTrigger>
-        <UI.ModalContent top={12} left={0}>
+        <UI.ModalContent>
           <UI.ModalTrigger>
             <Content>
               <SelectButton onClick={() => navigate(HOME_PAGE)}>
-                {/* <img src={Calendar} alt="달력" /> */}
                 <BsCalendarHeart />
                 <SelectText>달력</SelectText>
               </SelectButton>
               <SelectButton onClick={() => navigate(CHART_PAGE)}>
-                {/* <img src={graph} alt="차트" /> */}
                 <VscGraph />
                 <SelectText>차트</SelectText>
               </SelectButton>
               <SelectButton onClick={() => navigate(COMMUNITY_PAGE)}>
-                {/* <img src={board} alt="공유게시판" /> */}
                 <MdContentPaste />
                 <SelectText>공유</SelectText>
               </SelectButton>
               <SelectButton onClick={logout}>
-                {/* <img src={Logout} alt="로그아웃" /> */}
                 <RiLogoutBoxRLine />
                 <SelectText>로그아웃</SelectText>
               </SelectButton>
@@ -69,17 +61,23 @@ const MenuButton = styled.div`
 `;
 
 const Content = styled.div`
-  background-color: ${themeColor.main.oatmeal};
-  width: 100vw;
-  margin-left: auto;
-  margin-right: auto;
-  height: 110px;
-  font-size: 18px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 3%;
-  box-sizing: border-box;
+  display: none;
+  ${device.mobile} {
+    position: fixed;
+    top: 90px;
+    left: 0;
+    background-color: ${themeColor.main.oatmeal};
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 110px;
+    font-size: 18px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 3%;
+    box-sizing: border-box;
+  }
 `;
 
 const SelectButton = styled.div`
@@ -98,7 +96,9 @@ const SelectButton = styled.div`
 `;
 
 const SelectText = styled.div`
-  color: ${themeColor.main.coffemilk};
-  font-size: 15px;
-  margin-top: 5px;
+  ${device.mobile} {
+    color: ${themeColor.main.coffemilk};
+    font-size: 15px;
+    margin-top: 5px;
+  }
 `;

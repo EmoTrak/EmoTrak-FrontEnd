@@ -98,7 +98,7 @@ const StHeader = styled.header`
   border: none;
   position: fixed;
   box-shadow: 5px 5px 5px ${themeColor.main.oatmeal};
-  z-index: 10;
+  z-index: 50;
   top: 0px;
   left: 0px;
   background-color: ${themeColor.main.white};
