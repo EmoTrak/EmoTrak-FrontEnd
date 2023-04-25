@@ -8,10 +8,15 @@ import useChartFn from "../features/chart/hooks/useChartFn";
 import { scrollOnTop } from "../utils/scollOnTop";
 import MonthSelect from "../features/diary/components/MonthSelect";
 import { MdOutlineArrowDropDownCircle } from "react-icons/md";
-import { themeColor } from "../utils/theme";
+import { device, themeColor } from "../utils/theme";
+import { useState } from "react";
 
 const Chart = () => {
   scrollOnTop();
+
+  const [isActive, setIsActive] = useState(false);
+  const toggleChart = () => setIsActive((prev) => !prev);
+
   const { select, setSelect, month } = useChartFn();
   const { chartData } = useChartData(select.year);
 
@@ -35,9 +40,22 @@ const Chart = () => {
         <div>
           <h2>나의 감정은?</h2>
         </div>
+        <Wrapper>
+          <CheckBoxWrapper>
+            <CheckBox onClick={toggleChart} id="checkbox" type="checkbox" />
+            <CheckBoxLabel htmlFor="checkbox" />
+          </CheckBoxWrapper>
+          {isActive ? (
+            <PieChart graphData={chartData} month={month} />
+          ) : (
+            <BarChart graphData={chartData} month={month} />
+          )}
+        </Wrapper>
         <Flex row gap={50}>
-          <PieChart graphData={chartData} month={month} />
-          <BarChart graphData={chartData} month={month} />
+          <ChartWrap>
+            <PieChart graphData={chartData} month={month} />
+            <BarChart graphData={chartData} month={month} />
+          </ChartWrap>
           <StEmoList>
             {emoIds.map((item) => (
               <div key={item}>
@@ -65,88 +83,103 @@ const SelectWrap = styled.div`
     margin: 0;
   }
 `;
-const MonthModal = styled.div`
-  position: relative;
+const ChartWrap = styled.div`
+  display: flex;
+  gap: 50;
+  h1 {
+    margin: 0;
+  }
+  ${device.mobile} {
+    display: none;
+  }
 `;
 const SelectBtn = styled.button`
   border: 0;
   background-color: transparent;
   font-size: 20px;
-  color: #d0bd95;
+  color: ${themeColor.main.coffemilk};
   cursor: pointer;
-`;
-const SliderBtn = styled.button`
-  border: none;
-  background-color: transparent;
-  height: 5vh;
-  cursor: pointer;
-  &:hover {
-    scale: 1.2;
-  }
 `;
 
 const StWrapper = styled.div`
   margin-top: 50px;
+  width: 100vw;
   height: 100vh;
-`;
-const BackGround = styled.div`
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
 `;
 const StEmoList = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
   gap: 20px;
+  ${device.mobile} {
+    display: none;
+  }
+  ${device.tablet} {
+    display: none;
+  }
 `;
 
-const YearWrap = styled.div`
+const CheckBoxWrapper = styled.div`
+  position: relative;
+  margin-top: 10px;
+`;
+
+const CheckBoxLabel = styled.label`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 42px;
+  height: 26px;
+  border-radius: 15px;
+  background: ${themeColor.main.gray};
+  margin-top: 10px;
+  cursor: pointer;
+  &::after {
+    content: "";
+    display: block;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    margin: 3px;
+    background: ${themeColor.main.white};
+    box-shadow: 1px 3px 3px 1px ${themeColor.main.black};
+    transition: 0.2s;
+  }
+`;
+
+const CheckBox = styled.input`
+  opacity: 0;
+  z-index: 1;
+  border-radius: 15px;
+  width: 42px;
+  height: 26px;
+  &:checked + ${CheckBoxLabel} {
+    background: ${themeColor.palette.green};
+    &::after {
+      content: "";
+      display: block;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      margin-left: 21px;
+      transition: 0.2s;
+    }
+  }
+`;
+
+const Wrapper = styled.header`
   display: flex;
-  justify-content: center;
-  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
-  background-color: #e5dfd3;
-  border-radius: 5px;
-`;
-
-const MonthList = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  background-color: ${themeColor.main.white};
-  border: 1px solid ${themeColor.main.paper};
-  border-radius: 1vw;
-  z-index: 5;
-  width: 17vw;
-  position: absolute;
-  margin-top: 5px;
-  left: -45px;
-`;
-
-const MonthListBtn = styled.button`
-  border: 0;
-  background-color: transparent;
-  width: 4vw;
-  height: 10vh;
-  padding: 0.5vw;
-  cursor: pointer;
-  font-family: "KyoboHand";
-
-  &:hover {
-    p {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: ${themeColor.main.paper};
-      border-radius: 50%;
-      width: 100%;
-      height: 60%;
-      margin: 0;
-    }
+  height: 60vh;
+  width: 100vw;
+  ${device.mobile} {
+    height: 60vh;
+    width: 100%;
+    overflow: hidden;
+  }
+  @media screen and (min-width: 768px) {
+    display: none;
   }
 `;
