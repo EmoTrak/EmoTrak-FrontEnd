@@ -14,13 +14,6 @@ const Footer = () => {
     <Wrap>
       <FooterSt>
         <div>
-          <span
-            onClick={() => {
-              nav("/");
-            }}
-          >
-            튜토리얼&nbsp; | &nbsp;
-          </span>
           <a href="" target="_blank" rel="noreferrer">
             오류 제보
           </a>
@@ -63,6 +56,7 @@ export default Footer;
 const Wrap = styled.div`
   background-color: ${themeColor.main.white};
   position: relative;
+  width: 100vw;
 `;
 const FooterSt = styled.ul`
   background-color: ${themeColor.main.white};
@@ -72,16 +66,6 @@ const FooterSt = styled.ul`
   color: ${themeColor.main.gray};
   div {
     font-size: 25px;
-    span {
-      color: ${themeColor.main.gray};
-      cursor: pointer;
-      :hover {
-        color: ${themeColor.main.black};
-      }
-      ${device.miniMobile} {
-        font-size: 15px;
-      }
-    }
     a {
       color: gray;
       text-decoration: none;

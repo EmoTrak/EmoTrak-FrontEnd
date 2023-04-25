@@ -124,13 +124,16 @@ const Container = styled.div`
   flex-direction: column;
   ${device.tablet} {
     padding: 30px 10px;
-    width: 100%;
+    width: 100vw;
     height: 400px;
     gap: 10px;
   }
   ${device.mobile} {
     height: 400px;
     flex-direction: column;
+  }
+  ${device.miniMobile} {
+    height: 500px;
   }
 `;
 
@@ -213,10 +216,10 @@ const PostContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 20px;
+  font-size: 50px;
   font-weight: 700;
   cursor: pointer;
-  color: ${themeColor.main.white};
+  color: ${themeColor.main.coffemilk};
   ${device.tablet} {
     width: 87vw;
     height: 100%;
