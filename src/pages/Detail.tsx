@@ -10,6 +10,7 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import {
   DETAIL_PAGE,
   DRAW_EDIT_PAGE,
+  HOME_PAGE,
   IMAGE_EDIT_PAGE,
 } from "../data/routes/urls";
 import styled from "styled-components";
@@ -42,12 +43,8 @@ const Detail = () => {
   const { data, isLoading } = useQuery([`${keys.GET_DETAIL}`], getDetail);
 
   const contents = data?.data.data.contents;
-  const otherItem = contents?.filter(
-    (item: DetailType) => item.id !== dailyId
-  )[0];
-  const targetItem = contents?.filter(
-    (item: DetailType) => item.id === dailyId
-  )[0];
+  const otherItem = contents?.filter((item: DetailType) => item.id !== dailyId)[0];
+  const targetItem = contents?.filter((item: DetailType) => item.id === dailyId)[0];
 
   const navigateEditHandler = () => {
     if (targetItem?.draw === true) {
@@ -65,7 +62,7 @@ const Detail = () => {
   return (
     <Container>
       <BackWrap>
-        <Button icon size="x-small" onClick={() => navigate(-1)}>
+        <Button icon size="x-small" onClick={() => navigate(HOME_PAGE)}>
           <AiOutlineLeft fontSize="40px" />
         </Button>
       </BackWrap>
@@ -118,25 +115,17 @@ const Detail = () => {
             </EmoIconWrap>
             <EmoScore>
               <h3>내 감정점수</h3>
-              <h3>
+              <EmoStar>
                 {Array(5)
                   .fill(null)
                   .map((_, i) =>
                     i < targetItem?.star ? (
-                      <Star
-                        key={i}
-                        size="30"
-                        color={`${themeColor.palette.yellow}`}
-                      />
+                      <Star key={i} size="30px" color={themeColor.palette.yellow} />
                     ) : (
-                      <Star
-                        key={i}
-                        size="30"
-                        color={`${themeColor.main.oatmeal}`}
-                      />
+                      <Star key={i} size="30px" color={themeColor.main.oatmeal} />
                     )
                   )}
-              </h3>
+              </EmoStar>
             </EmoScore>
           </DetailEmoWrap>
           <SharedWrap>
@@ -159,9 +148,7 @@ const Detail = () => {
                 color: `${themeColor.main.white}`,
               }}
             >
-              <DeleteConfirmModal itemId={targetItem?.id}>
-                삭제
-              </DeleteConfirmModal>
+              <DeleteConfirmModal itemId={targetItem?.id}>삭제</DeleteConfirmModal>
             </Button>
           </DetailBtnWrap>
         </Flex>
@@ -176,15 +163,15 @@ const Container = styled.div`
   display: flex;
   background-color: ${themeColor.main.white};
   padding-top: 1%;
-  height: 100vh;
+  height: 100%;
+  position: relative;
   ${device.mobile} {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100vw;
-    height: 100vh;
-    overflow: auto;
+    height: 100%;
   }
 `;
 const CanvasWrap = styled.div`
@@ -193,17 +180,15 @@ const CanvasWrap = styled.div`
   align-items: center;
   width: 50%;
   height: 100%;
-
+  position: relative;
   ${device.mobile} {
   }
 `;
 const Wrapper = styled.div`
   width: 48vw;
-  height: 80%;
   margin-top: 75px;
   ${device.mobile} {
     margin-top: 10px;
-    height: 50vh;
     width: 80vw;
   }
 `;
@@ -214,7 +199,11 @@ const DetailText = styled.div`
   text-decoration: underline;
   text-underline-position: under;
   text-decoration-color: ${themeColor.main.chocomilk};
-  height: 50vh;
+  min-height: 50vh;
+  ${device.mobile} {
+    min-height: 10vh;
+    height: 100%;
+  }
 `;
 
 const SharedWrap = styled.div`
@@ -229,6 +218,7 @@ const SharedWrap = styled.div`
 const BackWrap = styled.div`
   position: absolute;
   left: 2%;
+  z-index: 10;
   ${device.mobile} {
     display: none;
   }
@@ -237,17 +227,6 @@ const BackWrap = styled.div`
 const DetailWrapper = styled.div`
   background-size: cover;
   display: flex;
-  overflow: scroll;
-  overflow-x: hidden;
-  ::-webkit-scrollbar {
-    /* 스크롤이 움직이는 영역  */
-    background-color: ${themeColor.main.white};
-  }
-  ::-webkit-scrollbar-thumb {
-    /*  스크롤  */
-    background-color: ${themeColor.main.paper};
-    border-radius: 30px;
-  }
   background-color: ${themeColor.main.white};
   padding: 10px;
   width: 90%;
@@ -260,10 +239,10 @@ const StDefaultImage = styled.div`
 
 const StDetailImage = styled.img`
   width: 80%;
-  height: 80%;
+  top: 100px;
+  position: sticky;
   ${device.mobile} {
     width: 90vw;
-    height: 50vh;
     border-radius: 10px;
     border: 5px solid ${themeColor.main.oatmeal};
   }
@@ -275,8 +254,9 @@ const StDetailImageBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  margin-top: 50px;
   ${device.mobile} {
-    margin-top: 20px;
     width: 100vw;
     height: 100%;
   }
@@ -298,13 +278,9 @@ const DetailEmoWrap = styled.div`
 `;
 const DetailBtnWrap = styled.div`
   display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+  justify-content: center;
   width: 100%;
-  z-index: 10;
-  ${device.mobile} {
-    margin-bottom: 10px;
-  }
+  margin-bottom: 50px;
 `;
 const EmoMoveBtn = styled.div`
   display: flex;
@@ -322,17 +298,15 @@ const EmoScore = styled.div`
     justify-content: center;
     font-size: 30px;
   }
-  ${device.mobile} {
-    div {
-      display: flex;
-      justify-content: center;
-      font-size: 30px;
-    }
-  }
-  @media screen and (max-width: 320px) {
-    display: flex;
+  ${device.miniMobile} {
     flex-direction: column;
   }
+`;
+
+const EmoStar = styled.div`
+  display: flex;
+  gap: 15px;
+  min-width: 160px;
 `;
 const EmoIconWrap = styled.div`
   display: flex;
