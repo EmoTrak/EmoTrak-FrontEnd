@@ -18,13 +18,15 @@ import PageNation from "../components/PageNation";
 import Button from "../components/Button";
 import Star from "../components/Icon/Star";
 import Report from "../features/community/components/Report";
-import { GiSiren } from "react-icons/gi";
+import { RiAlarmWarningFill } from "react-icons/ri";
 import { themeColor } from "../utils/theme";
+import { device } from "../utils/theme";
+import Flex from "../components/Flex";
 
 const CommunityDetail = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const token = getCookie("token");
+  const refreshToken = getCookie("refreshToken");
   const [page, setPage] = useState<number>(1);
   const { deletePost } = useDelete();
   const { data, isError, status, remove } = useAddCommunityDetail(page);
@@ -53,43 +55,39 @@ const CommunityDetail = () => {
 
   return (
     <Container>
-      <StCanvasWrapper>
+      <ImageWrapper>
         {data?.imgUrl ? (
           <Img src={data?.imgUrl} />
         ) : (
-          <img
+          <Img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTy4_1Wwmqj8b6SlMR0zLTqg1peTC9-_nHJaQ&usqp=CAU"
             alt="이미지가 없습니다."
           />
         )}
-      </StCanvasWrapper>
-      <StPostDetailWrapper>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
+      </ImageWrapper>
+
+      <PostDetailWrapper>
+        <Flex row ai="center">
           {status === "success" && (
             <LikePost isLike={data.hasLike} id={data.id} count={data.likesCnt} />
           )}
-          {!data?.hasReport && !data?.hasAuth && token && (
+          {!data?.hasReport && !data?.hasAuth && refreshToken && (
             <Report id={data?.id} uri="report">
               <Button
                 icon
                 style={{
                   color: "red",
-                  fontSize: "30px",
+                  fontSize: "25px",
                 }}
               >
-                <GiSiren />
+                <RiAlarmWarningFill />
               </Button>
             </Report>
           )}
-        </div>
+        </Flex>
 
         {data?.hasAuth && (
-          <div>
+          <>
             {data?.draw ? (
               <Button
                 size="x-small"
@@ -108,78 +106,40 @@ const CommunityDetail = () => {
             <Button size="x-small" onClick={() => deletePostHandler(data?.id)}>
               삭제
             </Button>
-          </div>
+          </>
         )}
-        <div
-          style={{
-            display: "flex",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              height: "100px",
-            }}
-          >
+        <Flex ai="center" row gap={5}>
+          <Emoticon>
             <EmotionIcons
-              height="50"
-              width="50"
+              height="100%"
+              width="100%"
               emotionTypes={`EMOTION_${data?.emoId}`}
             />
-          </div>
-          <h1>
-            감정점수
+          </Emoticon>
+          <EmotionalScore>감정점수</EmotionalScore>
+          <EmotionStar>
             {Array(5)
               .fill(null)
               .map((_, i) =>
                 i < data?.star ? (
-                  <Star key={i} size="30" color={themeColor.palette.yellow} />
+                  <Star key={i} size="20" color={themeColor.palette.yellow} />
                 ) : (
-                  <Star key={i} size="30" color={themeColor.main.oatmeal} />
+                  <Star key={i} size="20" color={themeColor.main.oatmeal} />
                 )
               )}
-          </h1>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
-          >
-            {status === "success" && <PostDate date={data.date} />}
-          </div>
-        </div>
-        <h2
+          </EmotionStar>
+        </Flex>
+        <div
           style={{
-            display: "flex",
-            justifyContent: "center",
-            fontSize: "30px",
+            fontSize: "25px",
           }}
         >
           닉네임 :{data?.nickname}
-        </h2>
-        <div
-          style={{
-            display: "flex",
-            fontSize: "20px",
-            border: "1px solid lightgray",
-          }}
-        >
-          <p
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              fontSize: "20px",
-              width: "40vw",
-            }}
-          >
-            {data?.detail}
-          </p>
         </div>
+        {status === "success" && <PostDate date={data.date} />}
+        <PostContent>{data?.detail}</PostContent>
 
-        {token && <CreateComment id={data?.id} />}
+        {refreshToken && <CreateComment id={data?.id} />}
 
         {status === "success" && (
           <>
@@ -194,7 +154,7 @@ const CommunityDetail = () => {
             />
           </>
         )}
-      </StPostDetailWrapper>
+      </PostDetailWrapper>
     </Container>
   );
 };
@@ -202,33 +162,72 @@ const CommunityDetail = () => {
 export default CommunityDetail;
 
 const Container = styled.div`
-  width: 100%;
+  width: 100vw;
   display: flex;
-  justify-content: space-evenly;
-  align-items: flex-start;
   position: relative;
-  height: 100%;
+  justify-content: space-around;
+  background-color: ${themeColor.main.white};
+  ${device.mobile} {
+    flex-direction: column;
+  }
 `;
-const StCanvasWrapper = styled.div`
+const ImageWrapper = styled.div`
   position: relative;
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  position: sticky;
-  top: 150px;
-  left: 20px;
+  width: 50vw;
+  margin-top: 50px;
+  margin-bottom: 50px;
+
+  ${device.mobile} {
+    position: relative;
+    top: 30px;
+    left: 5%;
+    margin: 10px auto 50px auto;
+    width: 100%;
+  }
+  ${device.miniMobile} {
+    left: 1%;
+  }
 `;
 
-const StPostDetailWrapper = styled.div`
+const PostDetailWrapper = styled.div`
   width: 40vw;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
+  ${device.mobile} {
+    width: 100vw;
+  }
 `;
 
 const Img = styled.img`
+  top: 150px;
+  left: 20px;
   width: 90%;
+  border-radius: 10%;
+  position: sticky;
+`;
+
+const Emoticon = styled.div`
+  width: 25px;
+`;
+
+const EmotionalScore = styled.div`
+  font-size: 18px;
+`;
+
+const EmotionStar = styled.div`
+  min-width: 160px;
+`;
+
+const PostContent = styled.div`
+  width: 40vw;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-decoration: underline;
+  text-underline-position: under;
+  text-decoration-color: ${themeColor.main.chocomilk};
+  ${device.mobile} {
+    width: 80%;
+  }
 `;

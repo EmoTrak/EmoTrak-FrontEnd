@@ -11,7 +11,7 @@ const useAddComment = (id: number | undefined) => {
       await user.post(`/boards/${id}/comments`, payload);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries([keys.GET_BOARD]);
+      queryClient.invalidateQueries([keys.GET_BOARD_DETAIL]);
     },
   });
 

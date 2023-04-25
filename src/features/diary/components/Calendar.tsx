@@ -343,11 +343,4 @@ const Sunday = styled.button`
   }
 `;
 
-const SideImg = styled.div`
-  width: 21vw;
-  ${device.mobile} {
-    display: none;
-  }
-`;
-
 export default Calendar;
