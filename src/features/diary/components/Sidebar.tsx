@@ -69,7 +69,7 @@ const TabletOpenBox = keyframes`
     top: 150%;
   }
   to {
-    top: 90%;
+    top: 80%;
   }
 `;
 
@@ -87,7 +87,7 @@ const MiniMobileOpenBox = keyframes`
     top: 150%;
   }
   to {
-    top: 60%;
+    top: 65%;
   }
 `;
 
@@ -102,15 +102,15 @@ const Wrap = styled.div`
     z-index: 10;
     left: 0;
     display: ${({ side }: Partial<DayProps>) => (side ? "content" : "none")};
-    top: ${({ side }: Partial<DayProps>) => (side ? "90%" : "150%")};
+    top: ${({ side }: Partial<DayProps>) => (side ? "80%" : "150%")};
     animation: ${({ side }: Partial<DayProps>) => side && TabletOpenBox} 1s ease;
   }
   ${device.mobile} {
-    top: ${({ side }: Partial<DayProps>) => (side ? "75%" : "150%")};
+    top: ${({ side }: Partial<DayProps>) => (side ? "70%" : "150%")};
     animation: ${({ side }: Partial<DayProps>) => side && MobileOpenBox} 1s ease;
   }
   ${device.miniMobile} {
-    top: ${({ side }: Partial<DayProps>) => (side ? "60%" : "150%")};
+    top: ${({ side }: Partial<DayProps>) => (side ? "65%" : "150%")};
     animation: ${({ side }: Partial<DayProps>) => side && MiniMobileOpenBox} 1s ease;
   }
 `;
@@ -129,11 +129,12 @@ const Container = styled.div`
     gap: 10px;
   }
   ${device.mobile} {
-    height: 400px;
+    height: 450px;
     flex-direction: column;
   }
   ${device.miniMobile} {
-    height: 500px;
+    height: 350px;
+    flex-direction: column;
   }
 `;
 
@@ -150,9 +151,11 @@ const CloseBtn = styled.button`
   cursor: pointer;
   border: none;
   ${device.tablet} {
+    width: 30px;
+    height: 60px;
     margin-left: 20px;
     position: relative;
-    top: 13px;
+    top: 20px;
     transform: rotate(90deg);
   }
 `;
@@ -165,11 +168,10 @@ const ContentBox = styled.div`
   overflow: hidden;
   ${device.tablet} {
     justify-content: flex-start;
-    height: 100%;
+    height: 50%;
   }
   ${device.mobile} {
     width: 100%;
-    height: 100%;
   }
 `;
 
@@ -215,7 +217,7 @@ const PostContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 50px;
+  font-size: 40px;
   font-weight: 700;
   cursor: pointer;
   color: ${themeColor.main.coffemilk};

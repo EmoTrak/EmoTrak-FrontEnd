@@ -13,6 +13,7 @@ import { getCookie } from "../utils/cookies";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
 import { device, themeColor } from "../utils/theme";
+import { HOME_PAGE } from "../data/routes/urls";
 export type StPreviewProps = {
   url: string;
 };
@@ -113,7 +114,7 @@ const ImagePost = () => {
     }
     const preventGoBack = () => {
       if (window.confirm("페이지를 나가시겠습니까?")) {
-        navigate(-1);
+        navigate(HOME_PAGE);
       } else {
         window.history.pushState(null, "", window.location.href);
       }
@@ -214,7 +215,7 @@ const ImagePost = () => {
                   공유여부
                   <Checkbox
                     name="share"
-                    checked={inputValue.share === true}
+                    checked={inputValue.share}
                     disabled={editItem?.restrict}
                     onChange={onCheckHandler}
                   />
@@ -359,6 +360,8 @@ const PhotoPreview = styled.div`
   justify-content: center;
   ${device.mobile} {
     width: 90vw;
+    margin-top: 0px;
+    overflow-y: hidden;
   }
 `;
 export const StDeletePhotoButton = styled.button`
@@ -409,7 +412,7 @@ export const StTextArea = styled.textarea`
   height: 50vh;
   white-space: pre-wrap;
   overflow-wrap: break-word;
-  font-size: 2vh;
+  font-size: 20px;
   font-family: inherit;
   line-height: 2;
   margin: 20px;
@@ -461,8 +464,4 @@ export const StLabel = styled.label`
     width: 50vw;
     font-size: 25px;
   }
-  /* @media screen and (max-width: 320px) {
-    width: 100vw;
-    font-size: 25px;
-  } */
 `;
