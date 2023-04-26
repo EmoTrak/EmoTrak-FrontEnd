@@ -46,34 +46,56 @@ const Header = () => {
       <BackOfPage onClick={() => navigate(-1)}>
         <IoIosArrowBack />
       </BackOfPage>
-      <EmoTrakLogo onClick={() => navigate(HOME_PAGE)}>
-        <LogoImg src={EmoTrak} alt="로고" />
-      </EmoTrakLogo>
+      {refreshToken ? (
+        <EmoTrakLogo onClick={() => navigate(HOME_PAGE)}>
+          <LogoImg src={EmoTrak} alt="로고" />
+        </EmoTrakLogo>
+      ) : (
+        <EmoTrakLogo>
+          <LogoImg src={EmoTrak} alt="로고" />
+        </EmoTrakLogo>
+      )}
       <MobileMenubar logout={logoutUserHandler} />
       {payload?.auth === "ADMIN" ? (
         <NavWrapper>
           <Flex row gap={10}>
-            <PageButton onClick={() => navigate(ADMIN)}>관리자페이지</PageButton>
-            <PageButton onClick={() => navigate(MY_PAGE)}>마이페이지</PageButton>
-            <PageButton onClick={() => navigate(COMMUNITY_PAGE)}>공유 페이지</PageButton>
+            <PageButton onClick={() => navigate(ADMIN)}>
+              관리자페이지
+            </PageButton>
+            <PageButton onClick={() => navigate(MY_PAGE)}>
+              마이페이지
+            </PageButton>
+            <PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
+              공유 페이지
+            </PageButton>
 
-            <PageButton onClick={() => navigate(CHART_PAGE)}>차트 페이지</PageButton>
+            <PageButton onClick={() => navigate(CHART_PAGE)}>
+              차트 페이지
+            </PageButton>
             <PageButton onClick={logoutUserHandler}>로그아웃</PageButton>
           </Flex>
         </NavWrapper>
       ) : refreshToken ? (
         <NavWrapper>
           <Flex row gap={10}>
-            <PageButton onClick={() => navigate(MY_PAGE)}>마이페이지</PageButton>
-            <PageButton onClick={() => navigate(COMMUNITY_PAGE)}>공유 페이지</PageButton>
-            <PageButton onClick={() => navigate(CHART_PAGE)}>차트 페이지</PageButton>
+            <PageButton onClick={() => navigate(MY_PAGE)}>
+              마이페이지
+            </PageButton>
+            <PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
+              공유 페이지
+            </PageButton>
+            <PageButton onClick={() => navigate(CHART_PAGE)}>
+              차트 페이지
+            </PageButton>
             <PageButton onClick={logoutUserHandler}>로그아웃</PageButton>
           </Flex>
         </NavWrapper>
       ) : (
         <NavWrapper>
           <Flex row gap={10}>
-            <PageButton onClick={() => navigate(COMMUNITY_PAGE)}>공유 페이지</PageButton>
+            <PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
+              공유 페이지
+            </PageButton>
             <PageButton onClick={() => navigate("/")}>로그인</PageButton>
           </Flex>
         </NavWrapper>
