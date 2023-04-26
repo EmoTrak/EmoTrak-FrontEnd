@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import Calender from "../../../assets/tutorial/5_Calender.webp";
 import Canvas from "../../../assets/tutorial/5_Canvas.webp";
 import Graph from "../../../assets/tutorial/5_Graph.webp";
-import styled from "styled-components";
 import LoginForm from "../../../features/login/components/LoginForm";
-import { themeColor } from "../../../utils/theme";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
-import { BannerProps } from "../../../data/type/type";
+import * as St from "../styles/LandingStyle";
 
 const Landing = () => {
   const [index, setIndex] = useState<number>(0);
@@ -49,86 +47,29 @@ const Landing = () => {
   };
 
   return (
-    <Slider onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+    <St.Slider onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       {index < 3 ? (
-        <Banner index={index}>
-          <BannerImg src={images[index]} alt="landing image" />
+        <St.Banner index={index}>
+          <St.BannerImg src={images[index]} alt="landing image" />
           {index > 0 && index < 4 ? (
-            <PrevBtn onClick={prevContent}>
+            <St.PrevBtn onClick={prevContent}>
               <IoIosArrowBack />
-            </PrevBtn>
+            </St.PrevBtn>
           ) : null}
           {index < 3 ? (
-            <NextBtn onClick={nextContent}>
+            <St.NextBtn onClick={nextContent}>
               <IoIosArrowForward />
-            </NextBtn>
+            </St.NextBtn>
           ) : null}
-        </Banner>
+        </St.Banner>
       ) : (
-        <Banner index={index}> {index === 3 ? <LoginForm /> : null}</Banner>
+        <St.Banner index={index}>
+          {" "}
+          {index === 3 ? <LoginForm /> : null}
+        </St.Banner>
       )}
-    </Slider>
+    </St.Slider>
   );
 };
 
 export default Landing;
-
-const Slider = styled.div`
-  position: relative;
-  width: 100vw;
-`;
-
-const Banner = styled.div<BannerProps>`
-  width: 100vw;
-  height: 80vh;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: row-reverse;
-  position: relative;
-  background-color: ${({ index }) =>
-    index === 0
-      ? themeColor.landing.yellow
-      : index === 1
-      ? themeColor.landing.white
-      : index === 2
-      ? themeColor.landing.orange
-      : null};
-`;
-const BannerImg = styled.img`
-  width: 100%;
-  max-height: 100%;
-  z-index: 0;
-  transition: all 0.3s ease-in-out;
-  transform: translateX(1000);
-`;
-
-const NextBtn = styled.button`
-  border: 0px;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 30px;
-  background-color: transparent;
-  position: absolute;
-  z-index: 3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
-
-const PrevBtn = styled.button`
-  border: 0px;
-  width: 40px;
-  height: 40px;
-  font-size: 30px;
-  background-color: transparent;
-  position: absolute;
-  left: 0;
-  z-index: 3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;

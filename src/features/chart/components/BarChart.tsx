@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import ApexCharts from "react-apexcharts";
-import styled from "styled-components";
 import { PropsData } from "../../../data/type/type";
-import { device, themeColor } from "../../../utils/theme";
+import { themeColor } from "../../../utils/theme";
+import * as St from "../styles/ChartStyle";
 
 const BarChart = ({ graphData, month }: PropsData) => {
   const [barCountArr, setBarCountArr] = useState<number[]>([]);
@@ -19,7 +19,7 @@ const BarChart = ({ graphData, month }: PropsData) => {
   }, [graphData, month]);
 
   return (
-    <Wrapper>
+    <St.Wrapper>
       {newBarCount > 0 ? (
         <ApexCharts
           width="100%"
@@ -80,25 +80,8 @@ const BarChart = ({ graphData, month }: PropsData) => {
       ) : (
         <h2>데이터가 없습니다!</h2>
       )}
-    </Wrapper>
+    </St.Wrapper>
   );
 };
 
 export default BarChart;
-
-const Wrapper = styled.div`
-  height: 55vh;
-  width: 30vw;
-  text-align: center;
-  margin-top: 50px;
-  background-color: ${themeColor.main.white};
-  box-shadow: 10px 5px 5px ${themeColor.main.gray};
-  border-radius: 25px;
-  h2 {
-    letter-spacing: 5px;
-  }
-  ${device.mobile} {
-    height: 100vh;
-    width: 70vw;
-  }
-`;

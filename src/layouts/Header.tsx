@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { getCookie, removeCookie } from "../utils/cookies";
 import Flex from "../components/Flex";
@@ -10,14 +9,12 @@ import {
   MY_PAGE,
 } from "../data/routes/urls";
 import EmoTrak from "../assets/logo/EmoTrakLogo.png";
-import { useState } from "react";
-import { device, themeColor } from "../utils/theme";
 import MobileMenubar from "./MobileMenubar";
 import { IoIosArrowBack } from "react-icons/io";
+import * as St from "../layouts/LayoutStyle";
 
 const Header = () => {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(false);
   const refreshToken = getCookie("refreshToken");
   const token = getCookie("token");
 
@@ -27,7 +24,6 @@ const Header = () => {
       removeCookie("refreshToken", { path: "/" });
       removeCookie("expire", { path: "/" });
       navigate("/");
-      setIsLogin(true);
     }
   };
 
@@ -42,134 +38,66 @@ const Header = () => {
   }
 
   return (
-    <StHeader>
-      <BackOfPage onClick={() => navigate(-1)}>
+    <St.Header>
+      <St.BackOfPage onClick={() => navigate(-1)}>
         <IoIosArrowBack />
-      </BackOfPage>
+      </St.BackOfPage>
       {refreshToken ? (
-        <EmoTrakLogo onClick={() => navigate(HOME_PAGE)}>
-          <LogoImg src={EmoTrak} alt="로고" />
-        </EmoTrakLogo>
+        <St.EmoTrakLogo onClick={() => navigate(HOME_PAGE)}>
+          <St.LogoImg src={EmoTrak} alt="로고" />
+        </St.EmoTrakLogo>
       ) : (
-        <EmoTrakLogo>
-          <LogoImg src={EmoTrak} alt="로고" />
-        </EmoTrakLogo>
+        <St.EmoTrakLogo>
+          <St.LogoImg src={EmoTrak} alt="로고" />
+        </St.EmoTrakLogo>
       )}
       <MobileMenubar logout={logoutUserHandler} />
       {payload?.auth === "ADMIN" ? (
-        <NavWrapper>
+        <St.NavWrapper>
           <Flex row gap={10}>
-            <PageButton onClick={() => navigate(ADMIN)}>
+            <St.PageButton onClick={() => navigate(ADMIN)}>
               관리자페이지
-            </PageButton>
-            <PageButton onClick={() => navigate(MY_PAGE)}>
+            </St.PageButton>
+            <St.PageButton onClick={() => navigate(MY_PAGE)}>
               마이페이지
-            </PageButton>
-            <PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
+            </St.PageButton>
+            <St.PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
               공유 페이지
-            </PageButton>
+            </St.PageButton>
 
-            <PageButton onClick={() => navigate(CHART_PAGE)}>
+            <St.PageButton onClick={() => navigate(CHART_PAGE)}>
               차트 페이지
-            </PageButton>
-            <PageButton onClick={logoutUserHandler}>로그아웃</PageButton>
+            </St.PageButton>
+            <St.PageButton onClick={logoutUserHandler}>로그아웃</St.PageButton>
           </Flex>
-        </NavWrapper>
+        </St.NavWrapper>
       ) : refreshToken ? (
-        <NavWrapper>
+        <St.NavWrapper>
           <Flex row gap={10}>
-            <PageButton onClick={() => navigate(MY_PAGE)}>
+            <St.PageButton onClick={() => navigate(MY_PAGE)}>
               마이페이지
-            </PageButton>
-            <PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
+            </St.PageButton>
+            <St.PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
               공유 페이지
-            </PageButton>
-            <PageButton onClick={() => navigate(CHART_PAGE)}>
+            </St.PageButton>
+            <St.PageButton onClick={() => navigate(CHART_PAGE)}>
               차트 페이지
-            </PageButton>
-            <PageButton onClick={logoutUserHandler}>로그아웃</PageButton>
+            </St.PageButton>
+            <St.PageButton onClick={logoutUserHandler}>로그아웃</St.PageButton>
           </Flex>
-        </NavWrapper>
+        </St.NavWrapper>
       ) : (
-        <NavWrapper>
+        <St.NavWrapper>
           <Flex row gap={10}>
-            <PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
+            <St.PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
               공유 페이지
-            </PageButton>
-            <PageButton onClick={() => navigate("/")}>로그인</PageButton>
+            </St.PageButton>
+            <St.PageButton onClick={() => navigate("/")}>로그인</St.PageButton>
           </Flex>
-        </NavWrapper>
+        </St.NavWrapper>
       )}
-    </StHeader>
+    </St.Header>
   );
 };
 
 export default Header;
-
-const EmoTrakLogo = styled.div`
-  margin-left: 50px;
-  cursor: pointer;
-  ${device.mobile} {
-    margin-left: auto;
-    margin-right: auto;
-  }
-`;
-
-const StHeader = styled.header`
-  width: 100vw;
-  padding: 10px;
-  border: none;
-  position: fixed;
-  box-shadow: 5px 5px 5px ${themeColor.main.oatmeal};
-  z-index: 50;
-  top: 0px;
-  left: 0px;
-  background-color: ${themeColor.main.white};
-  font-family: inherit;
-  display: flex;
-  justify-content: space-between;
-  box-sizing: border-box;
-  ${device.mobile} {
-    align-items: center;
-  }
-`;
-
-const PageButton = styled.button`
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  margin: 20px;
-  font-family: "KyoboHand";
-  letter-spacing: 0.5px;
-  font-size: 18px;
-  &:last-child {
-    margin-right: 50px;
-  }
-`;
-const NavWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  ${device.mobile} {
-    display: none;
-  }
-`;
-
-const LogoImg = styled.img`
-  width: 90px;
-  ${device.miniMobile} {
-    width: 80px;
-  }
-`;
-
-const BackOfPage = styled.button`
-  display: none;
-  font-size: 30px;
-  background-color: transparent;
-  border: 0;
-  position: absolute;
-  color: ${themeColor.main.chocomilk};
-  ${device.mobile} {
-    display: flex;
-    align-items: center;
-  }
-`;

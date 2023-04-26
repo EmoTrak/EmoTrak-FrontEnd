@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { CommentType, Idtype } from "../../../data/type/type";
 import useAddComment from "../hooks/useAddComment";
-import styled from "styled-components";
 import Button from "../../../components/Button";
-import { device, themeColor } from "../../../utils/theme";
+import * as St from "../styles/CreateCommentStyle";
 
 const CreateComment = ({ id }: Idtype) => {
   const [input, setInput] = useState<CommentType>({
@@ -22,9 +21,9 @@ const CreateComment = ({ id }: Idtype) => {
   };
 
   return (
-    <CommentForm onSubmit={submitCommentHandler}>
+    <St.CommentForm onSubmit={submitCommentHandler}>
       <span> 댓글</span>
-      <CommentInput
+      <St.CommentInput
         value={input.comment}
         onChange={changeInputHandler}
         placeholder="댓글을 남겨보세요!"
@@ -33,36 +32,8 @@ const CreateComment = ({ id }: Idtype) => {
       <Button size="small" type="submit">
         댓글작성
       </Button>
-    </CommentForm>
+    </St.CommentForm>
   );
 };
 
 export default CreateComment;
-
-const CommentInput = styled.textarea`
-  margin: 5px 0 5px 0;
-  padding: 10px;
-  border-radius: 10px;
-  resize: none;
-  font-family: "KyoboHand";
-  letter-spacing: 1.5px;
-  font-size: 18px;
-  border: 0;
-  box-shadow: 0 0 10px ${themeColor.main.oatmeal};
-  outline: none !important;
-  width: 40vw;
-  height: 80px;
-  ${device.mobile} {
-    width: 80vw;
-    height: 60px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-`;
-
-const CommentForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-bottom: 20px;
-`;

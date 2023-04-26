@@ -1,5 +1,5 @@
 import styled, { StyledComponent } from "styled-components";
-import { PositionProps, UrlType } from "../../data/type/type";
+import { PositionProps, UrlType } from "../../../data/type/type";
 
 export const TutorialWrapper = styled.div`
   margin: 0;

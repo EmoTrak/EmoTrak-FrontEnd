@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { StEmoButton, StList, StUnorderLi } from "./DrawingPost";
 import user from "../lib/api/user";
 import { keys } from "../data/queryKeys/keys";
 import { useQuery } from "@tanstack/react-query";
@@ -9,16 +8,6 @@ import { useEdit } from "../features/detail/hooks/useEdit";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
 import Star from "../components/Icon/Star";
-import {
-  StDeletePhotoButton,
-  StLabel,
-  StPhotoInput,
-  StPhotoInputBox,
-  StPhotoPreview,
-  StScoreBox,
-  StSubmitBox,
-  StTextArea,
-} from "./ImagePost";
 import { usePreview } from "../features/post/hooks/usePreview";
 import { getCookie } from "../utils/cookies";
 import Flex from "../components/Flex";
@@ -26,6 +15,12 @@ import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
 import { themeColor } from "../utils/theme";
 import { DetailType, InputValue } from "../data/type/type";
+import * as St from "../features/post/styles/ImageStyle";
+import {
+  EmoButton,
+  List,
+  UnorderLi,
+} from "../features/post/styles/DrawingStyle";
 
 const ImageEdit = () => {
   const params = useParams();
@@ -184,17 +179,17 @@ const ImageEdit = () => {
           <StCanvasWrapper>
             {exPhoto ? (
               <>
-                <StPhotoPreview src={`${targetItem?.imgUrl}`} />
-                <StDeletePhotoButton
+                <St.PhotoPreviewImg src={`${targetItem?.imgUrl}`} />
+                <St.DeletePhotoButton
                   type="button"
                   onClick={deleteExistingPhotoHandler}
                 >
                   삭제
-                </StDeletePhotoButton>
+                </St.DeletePhotoButton>
               </>
             ) : validPhoto ? (
               <>
-                <StPhotoPreview src={`${previewUrl}`} />
+                <St.PhotoPreviewImg src={`${previewUrl}`} />
                 {validPhoto ? (
                   <Button
                     size="small"
@@ -206,28 +201,28 @@ const ImageEdit = () => {
                 ) : null}
               </>
             ) : (
-              <StPhotoInputBox>
+              <St.PhotoInputBox>
                 <label
                   ref={dragRef}
                   onDragOver={dragOverHandler}
                   onDrop={dropHandler}
                 >
-                  <StPhotoInput
+                  <St.PhotoInput
                     type="file"
                     accept="image/jpeg image/png image/jpg image/gif"
                     onChange={changeFileHandler}
                     required
                   />
                 </label>
-              </StPhotoInputBox>
+              </St.PhotoInputBox>
             )}
           </StCanvasWrapper>
           <StCanvasWrapper>
-            <StScoreBox>
-              <StUnorderLi>
+            <St.ScoreBox>
+              <UnorderLi>
                 {emoIds.map((item: number) => (
-                  <StList key={item}>
-                    <StEmoButton
+                  <List key={item}>
+                    <EmoButton
                       name="emoId"
                       type="button"
                       value={item}
@@ -239,10 +234,10 @@ const ImageEdit = () => {
                         width="50"
                         emotionTypes={`EMOTION_${item}`}
                       />
-                    </StEmoButton>
-                  </StList>
+                    </EmoButton>
+                  </List>
                 ))}
-              </StUnorderLi>
+              </UnorderLi>
 
               {starArray.map((score) => (
                 <Star
@@ -257,11 +252,11 @@ const ImageEdit = () => {
                 />
               ))}
               <span>{inputValue?.star === 0 ? "?" : inputValue?.star}</span>
-            </StScoreBox>
+            </St.ScoreBox>
             <div>
               <label>
                 내용
-                <StTextArea
+                <St.TextArea
                   name="detail"
                   value={inputValue?.detail}
                   cols={30}
@@ -269,11 +264,11 @@ const ImageEdit = () => {
                   spellCheck={false}
                   required
                   onChange={onChangeHandler}
-                ></StTextArea>
+                ></St.TextArea>
               </label>
             </div>
-            <StSubmitBox>
-              <StLabel>
+            <St.SubmitBox>
+              <St.Label>
                 공유여부
                 <Checkbox
                   name="share"
@@ -281,11 +276,11 @@ const ImageEdit = () => {
                   disabled={editItem?.restrict}
                   onChange={onCheckHandler}
                 />
-              </StLabel>
+              </St.Label>
               <Button size="large" type="submit">
                 등록하기
               </Button>
-            </StSubmitBox>
+            </St.SubmitBox>
           </StCanvasWrapper>
         </Flex>
       </form>

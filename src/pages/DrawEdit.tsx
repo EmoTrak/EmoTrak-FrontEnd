@@ -8,12 +8,7 @@ import Star from "../components/Icon/Star";
 import Palette from "../features/post/components/Palette";
 import { usePen } from "../features/post/hooks/usePen";
 import { useEraser } from "../features/post/hooks/useEraser";
-import {
-  Coordinate,
-  DetailType,
-  EmoButtonProps,
-  InputValue,
-} from "../data/type/type";
+import { Coordinate, DetailType, InputValue } from "../data/type/type";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
 import PenTool from "../features/post/components/PenTool";
 import { getCookie } from "../utils/cookies";
@@ -21,22 +16,20 @@ import user from "../lib/api/user";
 import { useQuery } from "@tanstack/react-query";
 import { keys } from "../data/queryKeys/keys";
 import { useEdit } from "../features/detail/hooks/useEdit";
-import {
-  StCanvas,
-  StEraserButton,
-  StPenButton,
-  StToolList,
-  StToolBox,
-  StPenSizeTool,
-  StRebootButton,
-} from "./DrawingPost";
+
 import BallPointPen from "../assets/Drawing/Ball Point Pen.png";
 import Eraser from "../assets/Drawing/Erase.png";
 import Reboot from "../assets/Drawing/Reboot.png";
-import { StLabel, StScoreBox, StSubmitBox, StTextArea } from "./ImagePost";
 import Button from "../components/Button";
 import Checkbox from "../components/Checkbox";
 import { themeColor } from "../utils/theme";
+import * as St from "../features/post/styles/DrawingStyle";
+import {
+  Label,
+  ScoreBox,
+  SubmitBox,
+  TextArea,
+} from "../features/post/styles/ImageStyle";
 
 const DrawEdit = () => {
   const navigate = useNavigate();
@@ -289,7 +282,7 @@ const DrawEdit = () => {
       <form onSubmit={submitFormHandler}>
         <Flex row gap={10}>
           <StCanvasWrapper>
-            <StCanvas
+            <St.Canvas
               ref={canvasRef}
               height={700}
               width={800}
@@ -300,11 +293,11 @@ const DrawEdit = () => {
               onTouchStart={startTouch}
               onTouchMove={moveTouch}
               onTouchEnd={endTouch}
-            ></StCanvas>
+            ></St.Canvas>
 
-            <StToolBox>
-              <StToolList>
-                <StPenSizeTool>
+            <St.ToolBox>
+              <St.ToolList>
+                <St.PenSizeTool>
                   {selectPen ? (
                     <PenTool
                       color={selectedColor}
@@ -313,7 +306,7 @@ const DrawEdit = () => {
                       setSelectPen={setSelectPen}
                     />
                   ) : null}
-                </StPenSizeTool>
+                </St.PenSizeTool>
                 <div>
                   {selectPen ? (
                     <>
@@ -326,34 +319,34 @@ const DrawEdit = () => {
                   ) : null}
                 </div>
 
-                <StPenButton
+                <St.PenButton
                   type="button"
                   value="pen"
                   url={BallPointPen}
                   onClick={switchModeHandler}
-                ></StPenButton>
-              </StToolList>
-              <StToolList>
-                <StEraserButton
+                ></St.PenButton>
+              </St.ToolList>
+              <St.ToolList>
+                <St.EraserButton
                   url={Eraser}
                   type="button"
                   value="eraser"
                   onClick={switchModeHandler}
-                ></StEraserButton>
-              </StToolList>
-              <StRebootButton
+                ></St.EraserButton>
+              </St.ToolList>
+              <St.RebootButton
                 type="button"
                 url={Reboot}
                 onClick={clearCanvas}
-              ></StRebootButton>
-            </StToolBox>
+              ></St.RebootButton>
+            </St.ToolBox>
           </StCanvasWrapper>
           <StCanvasWrapper>
-            <StScoreBox>
-              <StUnorderLi style={{ display: "flex", flexDirection: "row" }}>
+            <ScoreBox>
+              <St.UnorderLi>
                 {emoIds.map((item: number) => (
-                  <StList key={item}>
-                    <StEmoButton
+                  <St.List key={item}>
+                    <St.EmoButton
                       name="emoId"
                       type="button"
                       selected={inputValue.emoId === item ? true : false}
@@ -365,28 +358,28 @@ const DrawEdit = () => {
                         width="50"
                         emotionTypes={`EMOTION_${item}`}
                       />
-                    </StEmoButton>
-                  </StList>
+                    </St.EmoButton>
+                  </St.List>
                 ))}
-              </StUnorderLi>{" "}
+              </St.UnorderLi>
               {starArray.map((score) => (
                 <Star
                   key={score}
                   size="30"
                   color={
                     clicked[score - 1]
-                      ? themeColor.main.yellow
-                      : themeColor.main.paper
+                      ? themeColor.palette.yellow
+                      : themeColor.main.oatmeal
                   }
                   onClick={() => changeStarHandler(score)}
                 />
               ))}
               <span>{inputValue.star === 0 ? null : inputValue.star}</span>
-            </StScoreBox>
+            </ScoreBox>
             <div>
               <label>
                 내용
-                <StTextArea
+                <TextArea
                   name="detail"
                   value={inputValue?.detail}
                   required
@@ -395,11 +388,11 @@ const DrawEdit = () => {
                   rows={10}
                   maxLength={1500}
                   onChange={onChangeHandler}
-                ></StTextArea>
+                ></TextArea>
               </label>
             </div>
-            <StSubmitBox>
-              <StLabel>
+            <SubmitBox>
+              <Label>
                 공유여부
                 <Checkbox
                   name="share"
@@ -407,7 +400,7 @@ const DrawEdit = () => {
                   checked={inputValue?.share}
                   onChange={onCheckHandler}
                 />
-              </StLabel>
+              </Label>
               {validPicture ? (
                 <Button
                   style={{
@@ -424,7 +417,7 @@ const DrawEdit = () => {
                   그림저장
                 </Button>
               )}
-            </StSubmitBox>
+            </SubmitBox>
           </StCanvasWrapper>
         </Flex>
       </form>
@@ -433,32 +426,3 @@ const DrawEdit = () => {
 };
 
 export default DrawEdit;
-
-export const StList = styled.li`
-  list-style-type: none;
-`;
-
-export const StUnorderLi = styled.ul`
-  gap: 20px;
-`;
-
-export const StEmoButton = styled.button<EmoButtonProps>`
-  width: 55px;
-  height: 55px;
-  border: ${(props) =>
-    props.selected
-      ? `5px solid ${themeColor.main.gray}`
-      : "5px solid transparent"};
-  background-color: transparent;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  &:focus {
-    border: 5px solid ${themeColor.main.gray};
-  }
-  &:hover {
-    border: 5px solid ${themeColor.main.gray};
-  }
-`;

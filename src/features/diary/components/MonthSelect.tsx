@@ -5,6 +5,7 @@ import { DateSelectType } from "../../../data/type/type";
 import { IoMdClose } from "react-icons/io";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { device, themeColor } from "../../../utils/theme";
+import * as St from "../styles/MonthSelectStyle";
 
 const MonthSelect = ({
   children,
@@ -16,13 +17,13 @@ const MonthSelect = ({
     <UI.Modalroot>
       <UI.ModalTrigger>{children}</UI.ModalTrigger>
       <UI.ModalContent>
-        <Content>
+        <St.Content>
           <UI.ModalClose>
-            <CloseBtn>
+            <St.CloseBtn>
               <IoMdClose />
-            </CloseBtn>
+            </St.CloseBtn>
           </UI.ModalClose>
-          <Year>
+          <St.Year>
             <button
               onClick={() => setSelect({ ...select, year: select.year - 1 })}
             >
@@ -35,85 +36,22 @@ const MonthSelect = ({
             >
               <AiOutlineRight />
             </button>
-          </Year>
-          <SelectMonth>
+          </St.Year>
+          <St.SelectMonth>
             {month.map((_, i) => (
               <UI.ModalClose key={i}>
-                <ClickBtn
+                <St.ClickBtn
                   onClick={() => setSelect({ ...select, month: i + 1 })}
                 >
                   {i + 1}
-                </ClickBtn>
+                </St.ClickBtn>
               </UI.ModalClose>
             ))}
-          </SelectMonth>
-        </Content>
+          </St.SelectMonth>
+        </St.Content>
       </UI.ModalContent>
     </UI.Modalroot>
   );
 };
-const Content = styled.div`
-  transform: translate(-70%, 10%);
-  position: absolute;
-  height: 300px;
-  width: 300px;
-  color: ${themeColor.main.chocomilk};
-  border-radius: 30px;
-  box-sizing: border-box;
-  background-color: white;
-  box-shadow: 1px 1px 10px 5px ${themeColor.main.oatmeal};
-  padding: 35px;
-  display: flex;
-  flex-direction: column;
-  z-index: 5;
-  ${device.mobile} {
-    height: 250px;
-    width: 250px;
-    padding: 18px 25px;
-  }
-`;
-const Year = styled.div`
-  font-size: 20px;
-  margin-left: auto;
-  margin-right: auto;
-  button {
-    border: 0;
-    background-color: transparent;
-    margin: 5px;
-    color: ${themeColor.main.chocomilk};
-    cursor: pointer;
-  }
-`;
 
-const SelectMonth = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  margin-top: 40px;
-  grid-gap: 25px;
-`;
-
-const ClickBtn = styled.button`
-  width: 30px;
-  height: 30px;
-  background-color: transparent;
-  font-family: "KyoboHand";
-  font-size: 20px;
-  border: 0;
-  color: ${themeColor.main.chocomilk};
-  border-radius: 50%;
-  &:hover {
-    cursor: pointer;
-    background-color: ${themeColor.main.oatmeal};
-    color: ${themeColor.main.white};
-    font-weight: 800;
-  }
-`;
-
-const CloseBtn = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color: ${themeColor.main.chocomilk};
-  font-size: 25px;
-`;
 export default MonthSelect;

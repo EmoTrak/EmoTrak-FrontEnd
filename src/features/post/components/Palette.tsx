@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { device, themeColor } from "../../../utils/theme";
+import { themeColor } from "../../../utils/theme";
 import { PaletteProps } from "../../../data/type/type";
+import * as St from "../styles/PaletteStyle";
 
 const Palette = ({
   selectedColor,
@@ -20,9 +20,9 @@ const Palette = ({
   ];
 
   return (
-    <PaletteWrap>
+    <St.PaletteWrap>
       {colorPalette.map((color) => (
-        <PaletteColor
+        <St.PaletteColor
           key={color}
           style={{
             backgroundColor: color,
@@ -37,35 +37,8 @@ const Palette = ({
           }}
         />
       ))}
-    </PaletteWrap>
+    </St.PaletteWrap>
   );
 };
 
 export default Palette;
-
-const PaletteWrap = styled.div`
-  display: flex;
-  ${device.mobile} {
-    margin-top: 15px;
-  }
-`;
-
-const PaletteColor = styled.div`
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  margin-right: 10px;
-  border-radius: 50%;
-  ${device.tablet} {
-    width: 25px;
-    height: 25px;
-  }
-  ${device.mobile} {
-    width: 30px;
-    height: 30px;
-  }
-  ${device.miniMobile} {
-    width: 20px;
-    height: 20px;
-  }
-`;
