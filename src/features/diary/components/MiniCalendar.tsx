@@ -1,6 +1,5 @@
-import styled from "styled-components";
 import { DateType } from "../../../data/type/type";
-import { device, themeColor } from "../../../utils/theme";
+import * as St from "../styles/MiniCalendarStyle";
 
 const MiniCalendar = ({ year, month }: DateType) => {
   if (month === 13) {
@@ -22,77 +21,34 @@ const MiniCalendar = ({ year, month }: DateType) => {
     })
   );
   return (
-    <CalendarBox>
-      <Month>{month}월</Month>
+    <St.CalendarBox>
+      <St.Month>{month}월</St.Month>
 
       <div>
-        <Sunday>일</Sunday>
-        <Day>월</Day>
-        <Day>화</Day>
-        <Day>수</Day>
-        <Day>목</Day>
-        <Day>금</Day>
-        <Saturday>토</Saturday>
+        <St.Sunday>일</St.Sunday>
+        <St.Day>월</St.Day>
+        <St.Day>화</St.Day>
+        <St.Day>수</St.Day>
+        <St.Day>목</St.Day>
+        <St.Day>금</St.Day>
+        <St.Saturday>토</St.Saturday>
       </div>
-      <DiaryDay>
+      <St.DiaryDay>
         {new Array(firstDay).fill(null).map((e, i) => (
-          <Day key={i}></Day>
+          <St.Day key={i}></St.Day>
         ))}
         {date.map((item) =>
           item.day === 0 ? (
-            <Sunday key={item.date}>{item.date}</Sunday>
+            <St.Sunday key={item.date}>{item.date}</St.Sunday>
           ) : item.day === 6 ? (
-            <Saturday key={item.date}>{item.date}</Saturday>
+            <St.Saturday key={item.date}>{item.date}</St.Saturday>
           ) : (
-            <Day key={item.date}>{item.date}</Day>
+            <St.Day key={item.date}>{item.date}</St.Day>
           )
         )}
-      </DiaryDay>
-    </CalendarBox>
+      </St.DiaryDay>
+    </St.CalendarBox>
   );
 };
-
-const CalendarBox = styled.div`
-  width: 200px;
-  margin: 50px 0 0 3vw;
-  color: #767676;
-  ${device.tablet} {
-    display: none;
-  }
-`;
-
-const Month = styled.div`
-  margin-left: 10px;
-  margin-bottom: 10px;
-`;
-const DiaryDay = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  height: 150px;
-`;
-
-const Day = styled.button`
-  min-width: calc(100% / 7);
-  border: 0;
-  background-color: transparent;
-  font-family: "KyoboHand";
-  color: #767676;
-`;
-
-const Sunday = styled.button`
-  min-width: calc(100% / 7);
-  border: 0;
-  background-color: transparent;
-  font-family: "KyoboHand";
-  color: ${themeColor.main.red};
-`;
-
-const Saturday = styled.button`
-  min-width: calc(100% / 7);
-  border: 0;
-  background-color: transparent;
-  font-family: "KyoboHand";
-  color: ${themeColor.palette.blue};
-`;
 
 export default MiniCalendar;
