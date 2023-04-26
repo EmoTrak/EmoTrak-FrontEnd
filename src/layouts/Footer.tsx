@@ -22,7 +22,11 @@ const Footer = () => {
             만족도 조사
           </a>
           <div>
-            <a href="https://github.com/EmoTrak" target="_blank" rel="noreferrer">
+            <a
+              href="https://github.com/EmoTrak"
+              target="_blank"
+              rel="noreferrer"
+            >
               <AiFillGithub />
             </a>
             <a
@@ -34,7 +38,6 @@ const Footer = () => {
             </a>
           </div>
         </div>
-        <br />
         <span
           onClick={() => {
             nav(PRIVACY_POLICY);
@@ -42,9 +45,10 @@ const Footer = () => {
         >
           개인정보 처리방침 Privacy Policy
         </span>
-        <br /> <br />
-        윤지현(FE) 양인서(FE) 박승우(FE) 이 진(BE) 홍다정(BE) 서영석(BE) 박문주(BE)
-        이수정(DE)
+        <br />
+        <br />
+        윤지현(FE) 양인서(FE) 박승우(FE) 이 진(BE) 홍다정(BE) 서영석(BE)
+        박문주(BE) 이수정(DE)
         <br />©{date.getFullYear()} TEAM EMOTRAK. ALL RIGHTS RESERVED
       </FooterSt>
     </Wrap>
@@ -61,7 +65,8 @@ const Wrap = styled.div`
 const FooterSt = styled.ul`
   background-color: ${themeColor.main.white};
   text-align: center;
-  padding: 30px;
+  padding: 20px;
+  margin: 0;
   font-size: 13px;
   color: ${themeColor.main.gray};
   div {
@@ -77,11 +82,13 @@ const FooterSt = styled.ul`
       }
     }
     div {
-      margin-top: 10px;
       display: flex;
       gap: 10px;
       justify-content: center;
+      align-items: center;
       a {
+        display: flex;
+        margin: 5px 0 10px 0;
         text-decoration: none;
         color: ${themeColor.main.black};
         font-size: 35px;
