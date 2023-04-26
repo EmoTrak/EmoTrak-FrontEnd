@@ -210,7 +210,7 @@ export interface Coordinate {
   y: number;
 }
 
-export interface PositionProps extends UrlType {
+export interface PositionProps {
   position: number;
 }
 
@@ -252,6 +252,9 @@ export interface HelperText {
 
 export interface UrlType {
   url: string;
+}
+export interface SrcType {
+  src: string;
 }
 
 export interface IconProps extends UrlType {
