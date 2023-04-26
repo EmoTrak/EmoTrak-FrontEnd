@@ -86,17 +86,21 @@ self.addEventListener("message", (event) => {
 //   divInstall.classList.toggle("hidden", false);
 // });
 
-self.addEventListener("push", (event) => {
-  const title = String(event.data?.text());
+// self.addEventListener("push", (event) => {
+//   const title = String(event.data?.text());
 
-  event.waitUntil(self.registration.showNotification(title));
-});
+//   event.waitUntil(self.registration.showNotification(title));
+// });
+
+const CACHE_NAME = "v1";
 
 self.addEventListener("install", function (e) {
   e.waitUntil(
-    caches.open("my-cache").then((cache) => {
+    caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll([
         // 캐시할 파일 리스트 작성
+        "/js/main.15617907.js",
+        "/index.html",
       ]);
     })
   );
@@ -109,5 +113,35 @@ self.addEventListener("fetch", function (e) {
     })
   );
 });
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.keys().then((keyList) =>
+      Promise.all(
+        keyList.map((key) => {
+          if (CACHE_NAME !== key) return caches.delete(key);
+          return key;
+        })
+      )
+    )
+  );
+});
+
+// self.addEventListener("activate", (event) => {
+//   // delete any unexpected caches
+//   event.waitUntil(
+//     caches.keys().then((keys) => {
+//       return Promise.all(
+//         keys
+//           .filter((key) => {
+//             return key === cacheName;
+//           })
+//           .map((key) => {
+//             return caches.delete(key);
+//           })
+//       );
+//     })
+//   );
+// });
 
 // Any other custom service worker logic can go here.
