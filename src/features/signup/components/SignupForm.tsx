@@ -8,7 +8,7 @@ import { useSignup } from "../hooks/useSignup";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../../utils/cookies";
 import InputList from "../../mypage/components/InputList";
-import { MyPageInput } from "../../../pages/Mypage";
+import { MyPageInput } from "../../mypage/styles/MypageStyle";
 import SignupTitle from "../../../assets/Texts/Signup.svg";
 import Button from "../../../components/Button";
 import { SignInfo } from "../../../data/type/type";
@@ -138,7 +138,7 @@ const SignupForm = () => {
                   name="email"
                   value={signInfo.email}
                   maxLength={25}
-                  onChange={(e) => changeInputHandler(e)}
+                  onChange={changeInputHandler}
                 />
                 <Button
                   type="button"
@@ -171,7 +171,7 @@ const SignupForm = () => {
                   name="nickname"
                   value={signInfo.nickname}
                   maxLength={8}
-                  onChange={(e) => changeInputHandler(e)}
+                  onChange={changeInputHandler}
                 />
                 <Button
                   type="button"
@@ -202,7 +202,7 @@ const SignupForm = () => {
                   name="password"
                   value={signInfo.password}
                   maxLength={15}
-                  onChange={(e) => changeInputHandler(e)}
+                  onChange={changeInputHandler}
                 />
                 {7 < Number(signInfo.password.length) ? null : (
                   <St.WarningMessage>
@@ -219,7 +219,7 @@ const SignupForm = () => {
                   type="password"
                   value={checkPassword}
                   maxLength={15}
-                  onChange={(e) => checkPasswordChangeHandler(e)}
+                  onChange={checkPasswordChangeHandler}
                 />
                 {checkPassword ? (
                   checkPasswordHandler(checkPassword) ? (

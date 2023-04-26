@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDelete } from "../features/detail/hooks/useDelete";
-import styled from "styled-components";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
 import { getCookie } from "../utils/cookies";
 import { CommentData } from "../data/type/type";
@@ -24,9 +23,9 @@ import Star from "../components/Icon/Star";
 import Report from "../features/community/components/Report";
 import { RiAlarmWarningFill } from "react-icons/ri";
 import { themeColor } from "../utils/theme";
-import { device } from "../utils/theme";
 import Flex from "../components/Flex";
 import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
+import * as St from "../features/community/styles/CommunityDetailStyle";
 
 const CommunityDetail = () => {
   const queryClient = useQueryClient();
@@ -59,19 +58,19 @@ const CommunityDetail = () => {
   }
 
   return (
-    <Container>
-      <ImageWrapper>
+    <St.Container>
+      <St.ImageWrapper>
         {data?.imgUrl ? (
-          <Img src={data?.imgUrl} />
+          <St.Img src={data?.imgUrl} />
         ) : (
-          <Img
+          <St.Img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTy4_1Wwmqj8b6SlMR0zLTqg1peTC9-_nHJaQ&usqp=CAU"
             alt="이미지가 없습니다."
           />
         )}
-      </ImageWrapper>
+      </St.ImageWrapper>
 
-      <PostDetailWrapper>
+      <St.PostDetailWrapper>
         <Flex row ai="center">
           {status === "success" && (
             <LikePost
@@ -118,15 +117,15 @@ const CommunityDetail = () => {
           </Flex>
         )}
         <Flex ai="center" row gap={5}>
-          <Emoticon>
+          <St.Emoticon>
             <EmotionIcons
               height="100%"
               width="100%"
               emotionTypes={`EMOTION_${data?.emoId}`}
             />
-          </Emoticon>
-          <EmotionalScore>감정점수</EmotionalScore>
-          <EmotionStar>
+          </St.Emoticon>
+          <St.EmotionalScore>감정점수</St.EmotionalScore>
+          <St.EmotionStar>
             {Array(5)
               .fill(null)
               .map((_, i) =>
@@ -136,7 +135,7 @@ const CommunityDetail = () => {
                   <Star key={i} size="25px" color={themeColor.main.oatmeal} />
                 )
               )}
-          </EmotionStar>
+          </St.EmotionStar>
         </Flex>
         <div
           style={{
@@ -146,7 +145,7 @@ const CommunityDetail = () => {
           닉네임 :{data?.nickname}
         </div>
         {status === "success" && <PostDate date={data.date} />}
-        <PostContent>{data?.detail}</PostContent>
+        <St.PostContent>{data?.detail}</St.PostContent>
 
         {refreshToken && <CreateComment id={data?.id} />}
 
@@ -163,81 +162,9 @@ const CommunityDetail = () => {
             />
           </>
         )}
-      </PostDetailWrapper>
-    </Container>
+      </St.PostDetailWrapper>
+    </St.Container>
   );
 };
 
 export default CommunityDetail;
-
-const Container = styled.div`
-  width: 100%;
-  display: flex;
-  position: relative;
-  justify-content: space-around;
-  box-sizing: border-box;
-  background-color: ${themeColor.main.white};
-  color: ${themeColor.main.chocomilk};
-  ${device.mobile} {
-    flex-direction: column;
-  }
-`;
-const ImageWrapper = styled.div`
-  position: relative;
-  width: 50vw;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  box-sizing: border-box;
-  ${device.mobile} {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    position: relative;
-    width: 100%;
-  }
-`;
-
-const PostDetailWrapper = styled.div`
-  width: 40vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  ${device.mobile} {
-    width: 100%;
-  }
-`;
-
-const Img = styled.img`
-  top: 150px;
-  left: 20px;
-  width: 90%;
-  border-radius: 10%;
-  position: sticky;
-`;
-
-const Emoticon = styled.div`
-  width: 23px;
-`;
-
-const EmotionalScore = styled.div`
-  font-size: 18px;
-`;
-
-const EmotionStar = styled.div`
-  /* min-width: 100px; */
-  display: flex;
-  gap: 15px;
-`;
-
-const PostContent = styled.div`
-  width: 40vw;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  text-decoration: underline;
-  text-underline-position: under;
-  text-decoration-color: ${themeColor.main.chocomilk};
-  box-sizing: border-box;
-  ${device.mobile} {
-    width: 80%;
-  }
-`;

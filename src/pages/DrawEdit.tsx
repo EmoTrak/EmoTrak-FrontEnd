@@ -368,8 +368,8 @@ const DrawEdit = () => {
                   size="30"
                   color={
                     clicked[score - 1]
-                      ? themeColor.main.yellow
-                      : themeColor.main.paper
+                      ? themeColor.palette.yellow
+                      : themeColor.main.oatmeal
                   }
                   onClick={() => changeStarHandler(score)}
                 />

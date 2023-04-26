@@ -7,7 +7,7 @@ import {
 } from "../../../data/routes/urls";
 import { useLogin } from "../hooks/useLogin";
 import InputList from "../../mypage/components/InputList";
-import { MyPageInput } from "../../../pages/Mypage";
+import { MyPageInput } from "../../mypage/styles/MypageStyle";
 import Kakao from "../../../assets/Social/Kakao.webp";
 import Naver from "../../../assets/Social/Naver.webp";
 import Google from "../../../assets/Social/Google.webp";
