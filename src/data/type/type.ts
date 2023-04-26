@@ -1,20 +1,37 @@
-import {
-  ComponentPropsWithoutRef,
-  PropsWithChildren,
-  ReactElement,
-} from "react";
+import { ComponentPropsWithoutRef, PropsWithChildren } from "react";
 
 export interface Idtype {
   id: number;
 }
 
-export interface date {
+export interface DateType {
   year: number;
   month: number;
   date?: number;
   day?: number;
 }
 
+interface DataType {
+  day: number;
+  emoId: number;
+  star: number;
+  detail: string;
+  restrict: boolean;
+  share: boolean;
+  draw: boolean;
+}
+
+export type DetailType = ImageType & DataType;
+
+export interface ImageType extends Idtype {
+  imgUrl: string;
+}
+
+export interface InputValue extends DataType {
+  year: number;
+  month: number;
+  deleteImg: boolean;
+}
 export interface PostDateType {
   date: string;
 }
@@ -32,9 +49,9 @@ export interface DayProps extends PropsWithChildren {
     month: number;
     contents: DataDetail[];
   };
-  diaryDay: Partial<date>;
-  item: Partial<date>;
-  today: date;
+  diaryDay: Partial<DateType>;
+  item: Partial<DateType>;
+  today: DateType;
 }
 
 export interface KeyType {
@@ -42,7 +59,7 @@ export interface KeyType {
 }
 
 export interface PropsType {
-  diaryDay?: Partial<date>;
+  diaryDay?: Partial<DateType>;
 }
 
 export interface BooleanType {
@@ -51,10 +68,6 @@ export interface BooleanType {
 }
 
 export type ModalState = BooleanType[];
-
-export interface ImageType extends Idtype {
-  imgUrl: string;
-}
 
 export interface SelectType {
   emo: string;
@@ -68,14 +81,13 @@ export interface CommentType {
 
 export interface CommentProps extends Idtype {
   paramId: number;
-  commentData: commentData[];
+  commentData: CommentData[];
   index: number;
-  item: commentData;
+  item: CommentData;
 }
 
-export interface commentData {
+export interface CommentData extends CommentType {
   likesCnt: number;
-  comment: string;
   createdAt: string;
   email: string;
   hasAuth: boolean;
@@ -90,15 +102,14 @@ export interface UriType extends Idtype {
 }
 
 export interface DateSelectType {
-  select: date;
-  setSelect: React.Dispatch<React.SetStateAction<date>>;
+  select: DateType;
+  setSelect: React.Dispatch<React.SetStateAction<DateType>>;
 }
 
 export interface Position {
   top: number;
   left: number;
 }
-// parking
 export interface ContentProps {
   newItem: InputValue;
 }
@@ -121,6 +132,7 @@ export interface StarProps extends ComponentPropsWithoutRef<"button"> {
   size?: string;
   color?: string;
 }
+
 export interface IProps {
   emotionTypes: string;
   height: string;
@@ -144,7 +156,7 @@ export interface CheckProps {
   checked: boolean;
 }
 export interface PropsData {
-  month: number | string;
+  month: number;
   graphData: graphDataType[];
 }
 
@@ -180,24 +192,12 @@ export interface RouterProps extends PropsWithChildren {
   refreshToken: string;
 }
 
-// 1nxeo
-
-export interface LoginInfo {
-  email: string;
-  password: string;
-}
-
 export type SignInfo = LoginInfo & { nickname: string };
 
 export interface PostInput {
   inputValue: InputValue;
   dailyId?: number;
   canvasRef?: React.RefObject<HTMLCanvasElement> | null;
-}
-export interface Validation {
-  email: boolean;
-  nickname: boolean;
-  password: boolean;
 }
 
 export interface CookieOption {
@@ -228,22 +228,19 @@ export interface PaletteProps {
   setSelectPen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export interface DetailType extends Idtype {
-  day: number;
-  emoId: number;
-  star: number;
-  detail: string;
-  imgUrl: string | null;
-  restrict: boolean;
-  share: boolean;
-  draw: boolean;
+export interface LoginInfo {
+  email: string;
+  password: string;
 }
 
-export interface InfoType {
-  email: string;
+export interface InfoType extends LoginInfo {
   nickname: string;
-  password: string;
   rePassword: string;
+}
+export interface Validation {
+  email: boolean;
+  nickname: boolean;
+  password: boolean;
 }
 
 export interface HelperText {
@@ -257,36 +254,23 @@ export interface SrcType {
   src: string;
 }
 
-export interface IconProps extends UrlType {
-  size?: number;
+export interface SizeType {
+  size: number;
 }
 
 export interface EmoButtonProps {
   selected: boolean;
 }
 
-export interface InputValue {
-  draw: boolean;
-  year: number;
-  month: number;
-  day: number;
-  emoId: number;
-  star: number;
-  detail: string;
-  deleteImg: boolean;
-  share: boolean;
-  restrict: boolean;
-}
-
-export interface PenProps {
-  color: string;
+export interface PenProps extends ColorType {
   selectedSize: number;
   onSizeSelect(size: number): void;
   setSelectPen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export interface ButtonSize {
-  size: number;
+export type ButtonSize = SizeType & ColorType;
+
+export interface ColorType {
   color: string;
 }
 

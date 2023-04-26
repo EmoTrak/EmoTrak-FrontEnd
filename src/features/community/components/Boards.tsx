@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { BiArrowToTop } from "react-icons/bi";
 import { scrollOnTop } from "../../../utils/scollOnTop";
-import { ImageType } from "../../../data/type/type";
+import { ImageType, UrlType } from "../../../data/type/type";
 import { COMMUNITY_PAGE } from "../../../data/routes/urls";
 import useEmoSelect from "../hooks/useEmoSelect";
 import useInfinite from "../hooks/useInfinite";

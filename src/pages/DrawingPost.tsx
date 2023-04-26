@@ -11,8 +11,9 @@ import { useEraser } from "../features/post/hooks/useEraser";
 import {
   Coordinate,
   EmoButtonProps,
-  IconProps,
+  SizeType,
   InputValue,
+  UrlType,
 } from "../data/type/type";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
 import PenTool from "../features/post/components/PenTool";
@@ -542,7 +543,7 @@ export const StPenSizeTool = styled.div`
   }
 `;
 
-export const StPenButton = styled.button<IconProps>`
+export const StPenButton = styled.button<UrlType>`
   background-image: ${({ url }) => `url(${url})`};
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -555,7 +556,7 @@ export const StPenButton = styled.button<IconProps>`
   }
 `;
 
-export const StEraserButton = styled.button<IconProps>`
+export const StEraserButton = styled.button<UrlType>`
   background-image: ${({ url }) => `url(${url})`};
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -569,7 +570,7 @@ export const StEraserButton = styled.button<IconProps>`
   }
 `;
 
-export const StRebootButton = styled.button<IconProps>`
+export const StRebootButton = styled.button<UrlType>`
   background-image: ${({ url }) => `url(${url})`};
   background-repeat: no-repeat;
   background-size: 100% 100%;

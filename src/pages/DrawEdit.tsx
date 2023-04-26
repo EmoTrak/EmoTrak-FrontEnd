@@ -330,7 +330,7 @@ const DrawEdit = () => {
                   type="button"
                   value="pen"
                   url={BallPointPen}
-                  onClick={(e) => switchModeHandler(e)}
+                  onClick={switchModeHandler}
                 ></StPenButton>
               </StToolList>
               <StToolList>
@@ -338,7 +338,7 @@ const DrawEdit = () => {
                   url={Eraser}
                   type="button"
                   value="eraser"
-                  onClick={(e) => switchModeHandler(e)}
+                  onClick={switchModeHandler}
                 ></StEraserButton>
               </StToolList>
               <StRebootButton

@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 
-import { date } from "../../../data/type/type";
+import { DateType } from "../../../data/type/type";
 
 const useChartFn = () => {
-  const today: date = {
+  const today: DateType = {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
     date: new Date().getDate(),
     day: new Date().getDay(),
   };
 
-  const [select, setSelect] = useState<date>({
+  const [select, setSelect] = useState<DateType>({
     year: today.year,
     month: today.month,
     date: today.date,

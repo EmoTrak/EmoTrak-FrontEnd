@@ -4,7 +4,7 @@ import { useDelete } from "../features/detail/hooks/useDelete";
 import styled from "styled-components";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
 import { getCookie } from "../utils/cookies";
-import { commentData } from "../data/type/type";
+import { CommentData } from "../data/type/type";
 import LikePost from "../features/community/components/LikePost";
 import CreateComment from "../features/community/components/CreateComment";
 import Comment from "../features/community/components/Comment";
@@ -152,7 +152,7 @@ const CommunityDetail = () => {
 
         {status === "success" && (
           <>
-            {data.comments.map((item: commentData, i: number) => (
+            {data.comments.map((item: CommentData, i: number) => (
               <Comment item={item} key={i} />
             ))}
             <PageNation
