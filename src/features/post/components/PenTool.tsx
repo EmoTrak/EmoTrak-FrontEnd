@@ -1,7 +1,7 @@
 import React from "react";
-import styled from "styled-components";
 import Flex from "../../../components/Flex";
-import { ButtonSize, PenProps } from "../../../data/type/type";
+import { PenProps } from "../../../data/type/type";
+import * as St from "../styles/PenToolStyle";
 
 const PenTool = ({
   color,
@@ -15,7 +15,7 @@ const PenTool = ({
     <>
       <Flex ai="center" jc="center">
         {sizeList.map((size) => (
-          <StButtonBox
+          <St.ButtonBox
             key={size}
             size={size}
             color={color}
@@ -23,7 +23,7 @@ const PenTool = ({
               onSizeSelect(size);
               setSelectPen(false);
             }}
-          ></StButtonBox>
+          ></St.ButtonBox>
         ))}
       </Flex>
     </>
@@ -31,12 +31,3 @@ const PenTool = ({
 };
 
 export default PenTool;
-
-const StButtonBox = styled.div<ButtonSize>`
-  height: ${({ size }) => `${size + 10}px`};
-  width: ${({ size }) => `${size + 10}px`};
-  margin: 5px;
-  border: 1px solid transparent;
-  background-color: ${({ color }) => `${color}`};
-  border-radius: 50%;
-`;

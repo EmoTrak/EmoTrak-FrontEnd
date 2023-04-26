@@ -2,36 +2,30 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { usePost } from "../features/post/hooks/usePost";
 import { useInput } from "../features/post/hooks/useInput";
-import styled from "styled-components";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
 import Star from "../components/Icon/Star";
 import Palette from "../features/post/components/Palette";
 import { usePen } from "../features/post/hooks/usePen";
 import { useEraser } from "../features/post/hooks/useEraser";
-import {
-  Coordinate,
-  EmoButtonProps,
-  SizeType,
-  InputValue,
-  UrlType,
-} from "../data/type/type";
+import { Coordinate, InputValue } from "../data/type/type";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
 import PenTool from "../features/post/components/PenTool";
 import { getCookie } from "../utils/cookies";
 import BallPointPen from "../assets/Drawing/Ball Point Pen.png";
 import Eraser from "../assets/Drawing/Erase.png";
 import Reboot from "../assets/Drawing/Reboot.png";
-import {
-  MobileStarWrap,
-  StLabel,
-  StScoreBox,
-  StSubmitBox,
-  StTextArea,
-  StarWrap,
-} from "./ImagePost";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
-import { device, themeColor } from "../utils/theme";
+import { themeColor } from "../utils/theme";
+import * as St from "../features/post/styles/DrawingStyle";
+import {
+  MobileStarWrap,
+  StarWrap,
+  Label,
+  ScoreBox,
+  TextArea,
+  SubmitBox,
+} from "../features/post/styles/ImageStyle";
 
 const DrawingPost = () => {
   const token = getCookie("token");
@@ -249,9 +243,9 @@ const DrawingPost = () => {
   }, [token]);
 
   return (
-    <DrawPostWrap>
+    <St.DrawPostWrap>
       <form onSubmit={submitFormHandler}>
-        <Wrapper>
+        <St.Wrapper>
           <MobileStarWrap>
             {[1, 2, 3, 4, 5].map((score) => (
               <Star
@@ -266,8 +260,8 @@ const DrawingPost = () => {
               />
             ))}
           </MobileStarWrap>
-          <StDrawWrap>
-            <StCanvas
+          <St.DrawWrap>
+            <St.Canvas
               ref={canvasRef}
               height={700}
               width={800}
@@ -278,10 +272,10 @@ const DrawingPost = () => {
               onTouchStart={startTouch}
               onTouchMove={moveTouch}
               onTouchEnd={endTouch}
-            ></StCanvas>
-            <StToolBox>
-              <StToolList>
-                <StPenSizeTool>
+            ></St.Canvas>
+            <St.ToolBox>
+              <St.ToolList>
+                <St.PenSizeTool>
                   {selectPen ? (
                     <PenTool
                       color={selectedColor}
@@ -290,7 +284,7 @@ const DrawingPost = () => {
                       setSelectPen={setSelectPen}
                     />
                   ) : null}
-                </StPenSizeTool>
+                </St.PenSizeTool>
                 <div>
                   {selectPen ? (
                     <>
@@ -302,35 +296,35 @@ const DrawingPost = () => {
                     </>
                   ) : null}
                 </div>
-                <StPenButton
+                <St.PenButton
                   type="button"
                   value="pen"
                   url={BallPointPen}
                   onClick={switchModeHandler}
-                ></StPenButton>
-              </StToolList>
-              <StToolList>
-                <StEraserButton
+                ></St.PenButton>
+              </St.ToolList>
+              <St.ToolList>
+                <St.EraserButton
                   url={Eraser}
                   type="button"
                   value="eraser"
                   onClick={switchModeHandler}
-                ></StEraserButton>
-              </StToolList>
-              <StRebootButton
+                ></St.EraserButton>
+              </St.ToolList>
+              <St.RebootButton
                 type="button"
                 url={Reboot}
                 onClick={clearCanvas}
-              ></StRebootButton>
-            </StToolBox>
-          </StDrawWrap>
-          <DrawingPostWrap>
+              ></St.RebootButton>
+            </St.ToolBox>
+          </St.DrawWrap>
+          <St.DrawingPostWrap>
             <StCanvasWrapper>
-              <StScoreBox>
-                <StUnorderLi>
+              <ScoreBox>
+                <St.UnorderLi>
                   {emoIds.map((item: number) => (
-                    <StList key={item}>
-                      <StEmoButton
+                    <St.List key={item}>
+                      <St.EmoButton
                         name="emoId"
                         type="button"
                         selected={inputValue.emoId === item ? true : false}
@@ -342,10 +336,10 @@ const DrawingPost = () => {
                           width="50"
                           emotionTypes={`EMOTION_${item}`}
                         />
-                      </StEmoButton>
-                    </StList>
+                      </St.EmoButton>
+                    </St.List>
                   ))}
-                </StUnorderLi>
+                </St.UnorderLi>
                 <StarWrap>
                   {starArray.map((score) => (
                     <Star
@@ -361,28 +355,28 @@ const DrawingPost = () => {
                   ))}
                   <p>{inputValue.star === 0 ? "?" : inputValue.star}</p>
                 </StarWrap>
-              </StScoreBox>
+              </ScoreBox>
               <div>
                 <label>
-                  <StTextArea
+                  <TextArea
                     name="detail"
                     value={inputValue?.detail}
                     spellCheck={false}
                     required
                     maxLength={1500}
                     onChange={onChangeHandler}
-                  ></StTextArea>
+                  ></TextArea>
                 </label>
               </div>
-              <StSubmitBox>
-                <StLabel>
+              <SubmitBox>
+                <Label>
                   공유여부
                   <Checkbox
                     name="share"
                     checked={inputValue?.share === true}
                     onChange={onCheckHandler}
                   />
-                </StLabel>
+                </Label>
                 {validPicture ? (
                   <Button
                     style={{
@@ -399,187 +393,13 @@ const DrawingPost = () => {
                     그림저장
                   </Button>
                 )}
-              </StSubmitBox>
+              </SubmitBox>
             </StCanvasWrapper>
-          </DrawingPostWrap>
-        </Wrapper>
+          </St.DrawingPostWrap>
+        </St.Wrapper>
       </form>
-    </DrawPostWrap>
+    </St.DrawPostWrap>
   );
 };
 
 export default DrawingPost;
-
-const DrawPostWrap = styled.div`
-  height: 100vh;
-  ${device.mobile} {
-    overflow: auto;
-  }
-`;
-const DrawingPostWrap = styled.div`
-  width: 50vw;
-  height: 80vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  ${device.mobile} {
-    width: 100%;
-    height: 50%;
-    overflow: auto;
-    p {
-      display: none;
-    }
-  }
-`;
-export const StList = styled.li`
-  list-style-type: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const Wrapper = styled.div`
-  display: flex;
-  ${device.mobile} {
-    display: flex;
-    flex-direction: column;
-  }
-`;
-
-const StDrawWrap = styled.div`
-  width: 50vw;
-  height: 80vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  ${device.mobile} {
-    width: 100vw;
-    height: 50vh;
-    margin: 0;
-  }
-`;
-
-export const StUnorderLi = styled.ul`
-  min-width: 300px;
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-direction: row;
-  ${device.tablet} {
-    margin-bottom: 0;
-    margin-top: 10px;
-  }
-  ${device.mobile} {
-    margin-bottom: 10px;
-  }
-`;
-
-export const StEmoButton = styled.button<EmoButtonProps>`
-  width: 55px;
-  height: 55px;
-  border: ${(props) =>
-    props.selected
-      ? `5px solid ${themeColor.main.gray}`
-      : "5px solid transparent"};
-  background-color: transparent;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  &:focus {
-    border: 5px solid ${themeColor.main.gray};
-  }
-  &:hover {
-    border: 5px solid ${themeColor.main.gray};
-  }
-`;
-
-export const StCanvas = styled.canvas`
-  position: unset;
-  background-color: ${themeColor.main.white};
-  width: 85%;
-  height: 90%;
-  ${device.mobile} {
-    display: flex;
-    flex-direction: column;
-  }
-`;
-
-export const StToolBox = styled.div`
-  display: flex;
-  width: 40vw;
-  height: 7vh;
-  justify-content: flex-end;
-  align-items: center;
-  ${device.mobile} {
-    width: 80vw;
-  }
-`;
-
-export const StToolList = styled.li`
-  list-style: none;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const StPenSizeTool = styled.div`
-  position: absolute;
-  top: -16vh;
-  right: -0.5vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  ${device.tablet} {
-    top: -16vh;
-    right: -1.5vw;
-  }
-  ${device.mobile} {
-    top: -18vh;
-    right: -1.5vw;
-  }
-`;
-
-export const StPenButton = styled.button<UrlType>`
-  background-image: ${({ url }) => `url(${url})`};
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  width: 1.5vw;
-  height: 1.5vw;
-  border: none;
-  ${device.mobile} {
-    width: 20px;
-    height: 20px;
-  }
-`;
-
-export const StEraserButton = styled.button<UrlType>`
-  background-image: ${({ url }) => `url(${url})`};
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  width: 1.5vw;
-  height: 1.5vw;
-  border: none;
-  margin: 5px;
-  ${device.mobile} {
-    width: 20px;
-    height: 20px;
-  }
-`;
-
-export const StRebootButton = styled.button<UrlType>`
-  background-image: ${({ url }) => `url(${url})`};
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  width: 1.2vw;
-  height: 1.2vw;
-  border: none;
-  margin: 5px;
-  ${device.mobile} {
-    width: 20px;
-    height: 20px;
-  }
-`;
