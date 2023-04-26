@@ -60,3 +60,11 @@ export const MyPageButtonBox = styled.div`
   align-items: center;
   width: 15vw;
 `;
+
+export const MyPageLabel = styled.label`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 15vw;
+`;

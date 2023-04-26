@@ -1,21 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { InfoType } from "../data/type/type";
 import { useAuth } from "../features/mypage/hooks/useAuth";
 import { usePasswordCheck } from "../features/signup/hooks/usePasswordCheck";
 import { useNicknameValidation } from "../features/signup/hooks/useNicknameValidation";
 import { useChangePassword } from "../features/mypage/hooks/useChangePassword";
 import { useChangeNickname } from "../features/mypage/hooks/useChangeNickname";
 import { useWithdrawal } from "../features/mypage/hooks/useWithdrawal";
-import InputList from "../features/mypage/components/InputList";
-import { getCookie } from "../utils/cookies";
-import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
-import { InfoType } from "../data/type/type";
+import InputList from "../features/mypage/components/InputList";
 import * as St from "../features/mypage/styles/MypageStyle";
+import { themeColor } from "../utils/theme";
 
 const Mypage = () => {
-  const navigate = useNavigate();
-  const token = getCookie("token");
-  const refreshToken = getCookie("refreshToken");
   const { isLoading, userInfo } = useAuth();
   const { withdraw } = useWithdrawal();
 
@@ -39,13 +35,11 @@ const Mypage = () => {
   const { changePassword } = useChangePassword();
   const { changeNickname } = useChangeNickname();
 
-  const checkNicknameHandler = (item: string) => {
-    if (validNickname(item)) {
-      checkNickname.mutate(item);
+  const checkNicknameHandler = (nickname: string) => {
+    if (validNickname(nickname)) {
+      checkNickname.mutate(nickname);
     } else {
-      setInfo({ ...info, nickname: "" });
       setNicknameValidation(false);
-      alert("8글자 이하로 입력해주세요.");
     }
   };
 
@@ -53,13 +47,12 @@ const Mypage = () => {
     const { name, value } = event.target;
     setInfo({ ...info, [name]: value });
     if (name === "nickname") {
-      setInfo({ ...info, [name]: value });
       setNicknameValidation(false);
     }
   };
 
   const withdrawUserHandler = () => {
-    withdraw.mutate();
+    window.confirm("정말 삭제하시겠습니까?") && withdraw.mutate();
   };
 
   useEffect(() => {
@@ -71,11 +64,6 @@ const Mypage = () => {
         rePassword: "",
       });
     }
-
-    if (!token && !refreshToken) {
-      alert("로그인이 필요합니다!");
-      navigate("/");
-    }
   }, [userInfo]);
 
   if (isLoading) {
@@ -86,28 +74,39 @@ const Mypage = () => {
     <St.MyPageWrapper>
       <St.MyPageContentWrapper>
         <InputList name="이메일">
-          <label>
-            <St.MyPageInput
-              type="text"
-              name="email"
-              value={info.email}
-              disabled
-            />
-          </label>
+          <St.MyPageInput
+            type="text"
+            name="email"
+            value={info.email}
+            disabled
+          />
         </InputList>
         <InputList name="닉네임">
           <St.MyPageInput
             type="text"
             name="nickname"
+            maxLength={8}
             value={info.nickname}
             onChange={changeInputHandler}
           />
+          <div>
+            {nicknameValidation ? (
+              <St.MyPageHelperText>
+                닉네임을 변경하시겠습니까?
+              </St.MyPageHelperText>
+            ) : (
+              <St.MyPageHelperText important>
+                닉네임은 8글자 이하여야합니다.
+              </St.MyPageHelperText>
+            )}
+          </div>
           <St.MyPageButtonBox>
             {nicknameValidation ? (
               <Button
                 size="small"
                 disabled={!nicknameValidation}
                 onClick={() => changeNickname.mutate(info.nickname)}
+                style={{ backgroundColor: themeColor.main.red, color: "white" }}
               >
                 닉네임 변경
               </Button>
@@ -122,14 +121,17 @@ const Mypage = () => {
           </St.MyPageButtonBox>
         </InputList>
         <InputList name="비밀번호">
-          <label>변경 비밀번호 </label>
-          <St.MyPageInput
-            name="password"
-            type="password"
-            value={info.password}
-            onChange={changeInputHandler}
-            disabled={userInfo?.hasSocial}
-          />
+          <St.MyPageLabel>
+            변경 비밀번호
+            <St.MyPageInput
+              name="password"
+              type="password"
+              maxLength={15}
+              value={info.password}
+              onChange={changeInputHandler}
+              disabled={userInfo?.hasSocial}
+            />
+          </St.MyPageLabel>
           <div>
             {validPassword(info.password) ? null : (
               <St.MyPageHelperText important>
@@ -137,14 +139,17 @@ const Mypage = () => {
               </St.MyPageHelperText>
             )}
           </div>
-          <label>변경 비밀번호 확인 </label>
-          <St.MyPageInput
-            name="rePassword"
-            type="password"
-            value={info.rePassword}
-            onChange={changeInputHandler}
-            disabled={userInfo?.hasSocial}
-          />
+          <St.MyPageLabel>
+            변경 비밀번호 확인
+            <St.MyPageInput
+              name="rePassword"
+              type="password"
+              maxLength={15}
+              value={info.rePassword}
+              onChange={changeInputHandler}
+              disabled={userInfo?.hasSocial}
+            />
+          </St.MyPageLabel>
           <div>
             {info.password ? (
               checkPasswordHandler(info.rePassword) ? (

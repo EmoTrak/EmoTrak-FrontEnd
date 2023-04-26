@@ -130,110 +130,98 @@ const SignupForm = () => {
       <Form onSubmit={submitInfoHandler}>
         <Flex>
           <FormTitle url={SignupTitle} size={6} />
-          <InputList name="이메일" important>
-            <label>
-              <St.SignFormContentBox>
-                <MyPageInput
-                  type="text"
-                  name="email"
-                  value={signInfo.email}
-                  maxLength={25}
-                  onChange={changeInputHandler}
-                />
-                <Button
-                  type="button"
-                  onClick={() => checkEmailHandler(signInfo.email)}
-                  disabled={emailValidation}
-                >
-                  중복확인
-                </Button>
-                {signInfo.email ? (
-                  emailValidation ? (
-                    <span>사용할 수 있는 아이디입니다.</span>
-                  ) : (
-                    <St.WarningMessage>
-                      중복확인이 필요합니다.
-                    </St.WarningMessage>
-                  )
+          <InputList name="이메일">
+            <St.SignFormContentBox>
+              <MyPageInput
+                type="text"
+                name="email"
+                value={signInfo.email}
+                maxLength={25}
+                onChange={changeInputHandler}
+              />
+              <Button
+                type="button"
+                onClick={() => checkEmailHandler(signInfo.email)}
+                disabled={emailValidation}
+              >
+                중복확인
+              </Button>
+              {signInfo.email ? (
+                emailValidation ? (
+                  <span>사용할 수 있는 아이디입니다.</span>
                 ) : (
-                  <St.WarningMessage>
-                    이메일 형식으로 입력해주세요.
-                  </St.WarningMessage>
-                )}
-              </St.SignFormContentBox>
-            </label>
+                  <St.WarningMessage>중복확인이 필요합니다.</St.WarningMessage>
+                )
+              ) : (
+                <St.WarningMessage>
+                  이메일 형식으로 입력해주세요.
+                </St.WarningMessage>
+              )}
+            </St.SignFormContentBox>
           </InputList>
-          <InputList name="닉네임" important>
-            <label>
-              <St.SignFormContentBox>
-                <MyPageInput
-                  type="text"
-                  name="nickname"
-                  value={signInfo.nickname}
-                  maxLength={8}
-                  onChange={changeInputHandler}
-                />
-                <Button
-                  type="button"
-                  onClick={() => checkNicknameHandler(signInfo.nickname)}
-                  disabled={nicknameValidation}
-                >
-                  중복확인
-                </Button>
-                {signInfo.nickname ? (
-                  nicknameValidation ? (
-                    <span>사용할 수 있는 닉네임입니다.</span>
-                  ) : (
-                    <St.WarningMessage>
-                      중복확인이 필요합니다.
-                    </St.WarningMessage>
-                  )
+          <InputList name="닉네임">
+            <St.SignFormContentBox>
+              <MyPageInput
+                type="text"
+                name="nickname"
+                value={signInfo.nickname}
+                maxLength={8}
+                onChange={changeInputHandler}
+              />
+              <Button
+                type="button"
+                onClick={() => checkNicknameHandler(signInfo.nickname)}
+                disabled={nicknameValidation}
+              >
+                중복확인
+              </Button>
+              {signInfo.nickname ? (
+                nicknameValidation ? (
+                  <span>사용할 수 있는 닉네임입니다.</span>
                 ) : (
-                  <span></span>
-                )}
-              </St.SignFormContentBox>
-            </label>
+                  <St.WarningMessage>중복확인이 필요합니다.</St.WarningMessage>
+                )
+              ) : (
+                <span></span>
+              )}
+            </St.SignFormContentBox>
           </InputList>
-          <InputList name="비밀번호" important>
-            <label>
-              <St.SignFormContentBox>
-                <MyPageInput
-                  type="password"
-                  name="password"
-                  value={signInfo.password}
-                  maxLength={15}
-                  onChange={changeInputHandler}
-                />
-                {7 < Number(signInfo.password.length) ? null : (
-                  <St.WarningMessage>
-                    영소문자, 숫자를 포함하는 8~15자리이어야합니다.
-                  </St.WarningMessage>
-                )}
-              </St.SignFormContentBox>
-            </label>
+          <InputList name="비밀번호">
+            <St.SignFormContentBox>
+              <MyPageInput
+                type="password"
+                name="password"
+                value={signInfo.password}
+                maxLength={15}
+                onChange={changeInputHandler}
+              />
+              {7 < Number(signInfo.password.length) ? null : (
+                <St.WarningMessage>
+                  영소문자, 숫자를 포함하는 8~15자리이어야합니다.
+                </St.WarningMessage>
+              )}
+            </St.SignFormContentBox>
           </InputList>
           <InputList name="비밀번호 확인">
-            <label>
-              <St.SignFormContentBox>
-                <MyPageInput
-                  type="password"
-                  value={checkPassword}
-                  maxLength={15}
-                  onChange={checkPasswordChangeHandler}
-                />
-                {checkPassword ? (
-                  checkPasswordHandler(checkPassword) ? (
-                    <span>비밀번호가 일치합니다.</span>
-                  ) : (
-                    <St.WarningMessage>
-                      비밀번호가 일치하지 않습니다.
-                    </St.WarningMessage>
-                  )
+            <St.SignFormContentBox>
+              <MyPageInput
+                type="password"
+                value={checkPassword}
+                maxLength={15}
+                onChange={checkPasswordChangeHandler}
+              />
+              {checkPassword ? (
+                checkPasswordHandler(checkPassword) ? (
+                  <span>비밀번호가 일치합니다.</span>
                 ) : (
-                  <span>비밀번호를 다시 입력해주세요.</span>
-                )}
-              </St.SignFormContentBox>
-            </label>
+                  <St.WarningMessage>
+                    비밀번호가 일치하지 않습니다.
+                  </St.WarningMessage>
+                )
+              ) : (
+                <span>비밀번호를 다시 입력해주세요.</span>
+              )}
+            </St.SignFormContentBox>
           </InputList>
           <ButtonBox>
             <Button size="large" type="submit">
