@@ -7,6 +7,7 @@ import LoginForm from "../../../features/login/components/LoginForm";
 import { themeColor } from "../../../utils/theme";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
+import { BannerProps } from "../../../data/type/type";
 
 const Landing = () => {
   const [index, setIndex] = useState<number>(0);
@@ -76,10 +77,6 @@ const Slider = styled.div`
   position: relative;
   width: 100vw;
 `;
-
-interface BannerProps {
-  index: number;
-}
 
 const Banner = styled.div<BannerProps>`
   width: 100vw;

@@ -8,14 +8,18 @@ import Star from "../components/Icon/Star";
 import Palette from "../features/post/components/Palette";
 import { usePen } from "../features/post/hooks/usePen";
 import { useEraser } from "../features/post/hooks/useEraser";
-import { Coordinate } from "../data/type/d3";
+import {
+  Coordinate,
+  DetailType,
+  EmoButtonProps,
+  InputValue,
+} from "../data/type/type";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
 import PenTool from "../features/post/components/PenTool";
 import { getCookie } from "../utils/cookies";
 import user from "../lib/api/user";
 import { useQuery } from "@tanstack/react-query";
 import { keys } from "../data/queryKeys/keys";
-import { DetailType } from "./Detail";
 import { useEdit } from "../features/detail/hooks/useEdit";
 import {
   StCanvas,
@@ -33,19 +37,6 @@ import { StLabel, StScoreBox, StSubmitBox, StTextArea } from "./ImagePost";
 import Button from "../components/Button";
 import Checkbox from "../components/Checkbox";
 import { themeColor } from "../utils/theme";
-
-export type InputValue = {
-  draw: boolean;
-  year: number;
-  month: number;
-  day: number;
-  emoId: number;
-  star: number;
-  detail: string;
-  deleteImg: boolean;
-  share: boolean;
-  restrict: boolean;
-};
 
 const DrawEdit = () => {
   const navigate = useNavigate();
@@ -71,7 +62,9 @@ const DrawEdit = () => {
   const year = data?.data.data.year;
   const month = data?.data.data.month;
   const contents = data?.data.data.contents;
-  const targetItem = contents?.filter((item: DetailType) => item.id === dailyId)[0];
+  const targetItem = contents?.filter(
+    (item: DetailType) => item.id === dailyId
+  )[0];
 
   const editItem: InputValue = {
     year,
@@ -124,7 +117,9 @@ const DrawEdit = () => {
 
   // 그림판 모드, 색깔 상태 관리
   const [mode, setMode] = useState<string>("pen");
-  const [selectedColor, setSelectedColor] = useState<string>(themeColor.main.black);
+  const [selectedColor, setSelectedColor] = useState<string>(
+    themeColor.main.black
+  );
   const [selectPen, setSelectPen] = useState<boolean>(false);
   const [selectedSize, setSelectedSize] = useState<number>(5);
 
@@ -143,12 +138,8 @@ const DrawEdit = () => {
     };
   };
 
-  const { startPaint, paint, exitPaint, moveTouch, startTouch, endTouch } = usePen(
-    canvasRef,
-    getCoordinates,
-    selectedColor,
-    selectedSize
-  );
+  const { startPaint, paint, exitPaint, moveTouch, startTouch, endTouch } =
+    usePen(canvasRef, getCoordinates, selectedColor, selectedSize);
 
   const { startErase, erase, exitErase } = useEraser(canvasRef, getCoordinates);
 
@@ -162,7 +153,9 @@ const DrawEdit = () => {
   };
 
   // 지우개, 펜 모드 변경 함수
-  const switchModeHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
+  const switchModeHandler = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): void => {
     const button = event.target as HTMLButtonElement;
     const value = button.value;
     if (value === "eraser") {
@@ -193,7 +186,9 @@ const DrawEdit = () => {
   };
 
   // useEffect + AddEventListener 대체 함수
-  const mouseDownHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
+  const mouseDownHandler = (
+    event: React.MouseEvent<HTMLCanvasElement>
+  ): void => {
     if (mode === "pen") {
       startPaint(event);
     } else if (mode === "eraser") {
@@ -201,7 +196,9 @@ const DrawEdit = () => {
     }
   };
 
-  const mouseMoveHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
+  const mouseMoveHandler = (
+    event: React.MouseEvent<HTMLCanvasElement>
+  ): void => {
     if (mode === "pen") {
       paint(event);
     } else if (mode === "eraser") {
@@ -216,7 +213,9 @@ const DrawEdit = () => {
       exitErase();
     }
   };
-  const mouseLeaveHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
+  const mouseLeaveHandler = (
+    event: React.MouseEvent<HTMLCanvasElement>
+  ): void => {
     if (mode === "pen") {
       exitPaint();
     } else if (mode === "eraser") {
@@ -228,7 +227,13 @@ const DrawEdit = () => {
   const emoIds: number[] = [1, 2, 3, 4, 5, 6];
 
   // 별점
-  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
+  const [clicked, setClicked] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
   const starArray: number[] = [1, 2, 3, 4, 5];
   const clickStarHandler = (index: number): void => {
     setClicked(clicked.map((_, i) => i <= index - 1));
@@ -325,7 +330,7 @@ const DrawEdit = () => {
                   type="button"
                   value="pen"
                   url={BallPointPen}
-                  onClick={(e) => switchModeHandler(e)}
+                  onClick={switchModeHandler}
                 ></StPenButton>
               </StToolList>
               <StToolList>
@@ -333,7 +338,7 @@ const DrawEdit = () => {
                   url={Eraser}
                   type="button"
                   value="eraser"
-                  onClick={(e) => switchModeHandler(e)}
+                  onClick={switchModeHandler}
                 ></StEraserButton>
               </StToolList>
               <StRebootButton
@@ -369,7 +374,9 @@ const DrawEdit = () => {
                   key={score}
                   size="30"
                   color={
-                    clicked[score - 1] ? themeColor.main.yellow : themeColor.main.paper
+                    clicked[score - 1]
+                      ? themeColor.main.yellow
+                      : themeColor.main.paper
                   }
                   onClick={() => changeStarHandler(score)}
                 />
@@ -435,15 +442,13 @@ export const StUnorderLi = styled.ul`
   gap: 20px;
 `;
 
-type EmoButtonProps = {
-  selected: boolean;
-};
-
 export const StEmoButton = styled.button<EmoButtonProps>`
   width: 55px;
   height: 55px;
   border: ${(props) =>
-    props.selected ? `5px solid ${themeColor.main.gray}` : "5px solid transparent"};
+    props.selected
+      ? `5px solid ${themeColor.main.gray}`
+      : "5px solid transparent"};
   background-color: transparent;
   border-radius: 50%;
   display: flex;

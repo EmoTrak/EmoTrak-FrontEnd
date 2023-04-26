@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 
-import { date } from "../../../data/type/d1";
+import { DateType } from "../../../data/type/type";
 
 const useChartFn = () => {
-  const today: date = {
+  const today: DateType = {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
     date: new Date().getDate(),
     day: new Date().getDay(),
   };
 
-  const [select, setSelect] = useState<date>({
+  const [select, setSelect] = useState<DateType>({
     year: today.year,
     month: today.month,
     date: today.date,
   });
-
 
   const [isShow, setIsShow] = useState<boolean>(false);
 
@@ -31,7 +30,6 @@ const useChartFn = () => {
   const nextYear = () => {
     if (Number(select.year) < 2200) {
       return setSelect({ ...select, year: Number(select.year) + 1 });
-
     }
   };
   const onMonthClick = (e: React.MouseEvent<HTMLButtonElement>) => {

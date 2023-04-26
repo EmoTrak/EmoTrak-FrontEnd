@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import Flex from "../components/Flex";
 import { useNavigate, useParams } from "react-router-dom";
 import { usePost } from "../features/post/hooks/usePost";
 import { useInput } from "../features/post/hooks/useInput";
@@ -9,7 +8,13 @@ import Star from "../components/Icon/Star";
 import Palette from "../features/post/components/Palette";
 import { usePen } from "../features/post/hooks/usePen";
 import { useEraser } from "../features/post/hooks/useEraser";
-import { Coordinate } from "../data/type/d3";
+import {
+  Coordinate,
+  EmoButtonProps,
+  SizeType,
+  InputValue,
+  UrlType,
+} from "../data/type/type";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
 import PenTool from "../features/post/components/PenTool";
 import { getCookie } from "../utils/cookies";
@@ -27,19 +32,6 @@ import {
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
 import { device, themeColor } from "../utils/theme";
-
-export type InputValue = {
-  draw: boolean;
-  year: number;
-  month: number;
-  day: number;
-  emoId: number;
-  star: number;
-  detail: string;
-  deleteImg: boolean;
-  share: boolean;
-  restrict: boolean;
-};
 
 const DrawingPost = () => {
   const token = getCookie("token");
@@ -87,7 +79,9 @@ const DrawingPost = () => {
 
   // 그림판 모드, 색깔 상태 관리
   const [mode, setMode] = useState<string>("pen");
-  const [selectedColor, setSelectedColor] = useState<string>(themeColor.main.black);
+  const [selectedColor, setSelectedColor] = useState<string>(
+    themeColor.main.black
+  );
   const [selectPen, setSelectPen] = useState<boolean>(false);
   const [selectedSize, setSelectedSize] = useState<number>(5);
 
@@ -106,12 +100,8 @@ const DrawingPost = () => {
     };
   };
 
-  const { startPaint, paint, exitPaint, moveTouch, startTouch, endTouch } = usePen(
-    canvasRef,
-    getCoordinates,
-    selectedColor,
-    selectedSize
-  );
+  const { startPaint, paint, exitPaint, moveTouch, startTouch, endTouch } =
+    usePen(canvasRef, getCoordinates, selectedColor, selectedSize);
 
   const { startErase, erase, exitErase } = useEraser(canvasRef, getCoordinates);
 
@@ -125,7 +115,9 @@ const DrawingPost = () => {
   };
 
   // 지우개, 펜 모드 변경 함수
-  const switchModeHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
+  const switchModeHandler = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): void => {
     const button = event.target as HTMLButtonElement;
     const value = button.value;
     if (value === "eraser") {
@@ -153,7 +145,9 @@ const DrawingPost = () => {
   };
 
   // useEffect + AddEventListener 대체 함수
-  const mouseDownHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
+  const mouseDownHandler = (
+    event: React.MouseEvent<HTMLCanvasElement>
+  ): void => {
     if (mode === "pen") {
       startPaint(event);
     } else if (mode === "eraser") {
@@ -161,7 +155,9 @@ const DrawingPost = () => {
     }
   };
 
-  const mouseMoveHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
+  const mouseMoveHandler = (
+    event: React.MouseEvent<HTMLCanvasElement>
+  ): void => {
     if (mode === "pen") {
       paint(event);
     } else if (mode === "eraser") {
@@ -176,7 +172,9 @@ const DrawingPost = () => {
       exitErase();
     }
   };
-  const mouseLeaveHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
+  const mouseLeaveHandler = (
+    event: React.MouseEvent<HTMLCanvasElement>
+  ): void => {
     if (mode === "pen") {
       exitPaint();
     } else if (mode === "eraser") {
@@ -188,7 +186,13 @@ const DrawingPost = () => {
   const emoIds: number[] = [1, 2, 3, 4, 5, 6];
 
   // 별점
-  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
+  const [clicked, setClicked] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
   const starArray: number[] = [1, 2, 3, 4, 5];
   const clickStarHandler = (index: number): void => {
     setClicked(clicked.map((_, i) => i <= index - 1));
@@ -254,7 +258,9 @@ const DrawingPost = () => {
                 key={score}
                 size="5vw"
                 color={
-                  clicked[score - 1] ? themeColor.palette.yellow : themeColor.main.oatmeal
+                  clicked[score - 1]
+                    ? themeColor.palette.yellow
+                    : themeColor.main.oatmeal
                 }
                 onClick={() => changeStarHandler(score)}
               />
@@ -300,7 +306,7 @@ const DrawingPost = () => {
                   type="button"
                   value="pen"
                   url={BallPointPen}
-                  onClick={(e) => switchModeHandler(e)}
+                  onClick={switchModeHandler}
                 ></StPenButton>
               </StToolList>
               <StToolList>
@@ -308,7 +314,7 @@ const DrawingPost = () => {
                   url={Eraser}
                   type="button"
                   value="eraser"
-                  onClick={(e) => switchModeHandler(e)}
+                  onClick={switchModeHandler}
                 ></StEraserButton>
               </StToolList>
               <StRebootButton
@@ -469,15 +475,13 @@ export const StUnorderLi = styled.ul`
   }
 `;
 
-type EmoButtonProps = {
-  selected: boolean;
-};
-
 export const StEmoButton = styled.button<EmoButtonProps>`
   width: 55px;
   height: 55px;
   border: ${(props) =>
-    props.selected ? `5px solid ${themeColor.main.gray}` : "5px solid transparent"};
+    props.selected
+      ? `5px solid ${themeColor.main.gray}`
+      : "5px solid transparent"};
   background-color: transparent;
   border-radius: 50%;
   display: flex;
@@ -539,12 +543,7 @@ export const StPenSizeTool = styled.div`
   }
 `;
 
-export interface IconProps {
-  url?: string;
-  size?: number;
-}
-
-export const StPenButton = styled.button<IconProps>`
+export const StPenButton = styled.button<UrlType>`
   background-image: ${({ url }) => `url(${url})`};
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -557,7 +556,7 @@ export const StPenButton = styled.button<IconProps>`
   }
 `;
 
-export const StEraserButton = styled.button<IconProps>`
+export const StEraserButton = styled.button<UrlType>`
   background-image: ${({ url }) => `url(${url})`};
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -571,7 +570,7 @@ export const StEraserButton = styled.button<IconProps>`
   }
 `;
 
-export const StRebootButton = styled.button<IconProps>`
+export const StRebootButton = styled.button<UrlType>`
   background-image: ${({ url }) => `url(${url})`};
   background-repeat: no-repeat;
   background-size: 100% 100%;

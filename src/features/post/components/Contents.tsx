@@ -1,15 +1,11 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { useInput } from "../hooks/useInput";
-import { InputValue } from "../../../pages/DrawingPost";
 import { StCanvasWrapper } from "./Canvas";
 import EmotionIcons from "../../../components/Icon/EmoticonIcons";
 import Star from "../../../components/Icon/Star";
 import { themeColor } from "../../../utils/theme";
-
-export type ContentProps = {
-  newItem: InputValue;
-};
+import { ContentProps } from "../../../data/type/type";
 
 const Contents = ({ newItem }: ContentProps) => {
   const {
@@ -24,7 +20,13 @@ const Contents = ({ newItem }: ContentProps) => {
   const emoIds: number[] = [1, 2, 3, 4, 5, 6];
 
   // 별점
-  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
+  const [clicked, setClicked] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
   const starArray: number[] = [1, 2, 3, 4, 5];
   const clickStarHandler = (index: number): void => {
     setClicked(clicked.map((_, i) => i <= index - 1));
@@ -44,7 +46,11 @@ const Contents = ({ newItem }: ContentProps) => {
                   value={item}
                   onClick={clickEmojiHandler}
                 >
-                  <EmotionIcons height="50" width="50" emotionTypes={`EMOTION_${item}`} />
+                  <EmotionIcons
+                    height="50"
+                    width="50"
+                    emotionTypes={`EMOTION_${item}`}
+                  />
                 </StEmoButton>
               </StList>
             ))}

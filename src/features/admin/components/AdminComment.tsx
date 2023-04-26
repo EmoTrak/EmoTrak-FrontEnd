@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { BiArrowBack } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { ADMIN } from "../../../data/routes/urls";
-import { IAdminData } from "../../../data/type/d2";
+import { IAdminData } from "../../../data/type/type";
 import useAdminComment from "../hooks/useAdminComment";
 import useAdminPost from "../hooks/useAdminPost";
 import PageNation from "../../../components/PageNation";
@@ -14,7 +14,8 @@ import { themeColor } from "../../../utils/theme";
 const AdminComment = () => {
   const [page, setPage] = useState<number>(1);
   const nav = useNavigate();
-  const { adminCommentData, adminCommentDelete, status } = useAdminComment(page);
+  const { adminCommentData, adminCommentDelete, status } =
+    useAdminComment(page);
   const { onReportDelete } = useAdminPost(page);
 
   return (

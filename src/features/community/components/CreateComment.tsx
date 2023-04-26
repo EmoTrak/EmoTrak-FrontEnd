@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CommentType, Idtype } from "../../../data/type/d1";
+import { CommentType, Idtype } from "../../../data/type/type";
 import useAddComment from "../hooks/useAddComment";
 import styled from "styled-components";
 import Button from "../../../components/Button";

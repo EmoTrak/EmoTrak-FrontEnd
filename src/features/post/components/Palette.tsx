@@ -1,11 +1,6 @@
 import styled from "styled-components";
 import { device, themeColor } from "../../../utils/theme";
-
-interface PaletteProps {
-  selectedColor: string;
-  onColorSelect(color: string): void;
-  setSelectPen: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { PaletteProps } from "../../../data/type/type";
 
 const Palette = ({
   selectedColor,

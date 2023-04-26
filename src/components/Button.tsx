@@ -1,12 +1,7 @@
 import React, { ComponentPropsWithoutRef } from "react";
 import styled, { css } from "styled-components";
 import { themeColor } from "../utils/theme";
-
-type ButtonProps = {
-  icon?: boolean;
-  circle?: boolean;
-  size?: string;
-} & ComponentPropsWithoutRef<"button">;
+import { ButtonProps } from "../data/type/type";
 
 const Button = ({ children, icon, size, ...restProps }: ButtonProps) => {
   return (
@@ -27,7 +22,8 @@ const StButton = styled.button<ButtonProps>`
   cursor: pointer;
   margin: 2px;
   border-radius: ${({ circle }) => (circle ? "50%" : "8px")};
-  background-color: ${({ icon }) => (icon ? "transparent" : themeColor.main.oatmeal)};
+  background-color: ${({ icon }) =>
+    icon ? "transparent" : themeColor.main.oatmeal};
   color: ${themeColor.main.chocomilk};
   font-family: inherit;
 
@@ -86,7 +82,8 @@ const StButton = styled.button<ButtonProps>`
   }
 
   &:disabled {
-    background-color: ${({ icon }) => (icon ? "transparent" : `${themeColor.main.gray}`)};
+    background-color: ${({ icon }) =>
+      icon ? "transparent" : `${themeColor.main.gray}`};
     color: ${themeColor.main.paper};
     font-weight: 800;
     text-shadow: 0.5px 0.5px 0.5px grey;

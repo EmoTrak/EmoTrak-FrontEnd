@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { InputValue, StEmoButton, StList, StUnorderLi } from "./DrawingPost";
+import { StEmoButton, StList, StUnorderLi } from "./DrawingPost";
 import user from "../lib/api/user";
 import { keys } from "../data/queryKeys/keys";
 import { useQuery } from "@tanstack/react-query";
-import { DetailType } from "./Detail";
 import { useInput } from "../features/post/hooks/useInput";
 import { useEdit } from "../features/detail/hooks/useEdit";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
@@ -26,6 +25,7 @@ import Flex from "../components/Flex";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
 import { themeColor } from "../utils/theme";
+import { DetailType, InputValue } from "../data/type/type";
 
 const ImageEdit = () => {
   const params = useParams();
@@ -52,13 +52,18 @@ const ImageEdit = () => {
     preview(photo);
   }, [token]);
 
-  const { data, status, isLoading } = useQuery([`${keys.GET_DETAIL}`], getDetail);
+  const { data, status, isLoading } = useQuery(
+    [`${keys.GET_DETAIL}`],
+    getDetail
+  );
   const { preview, previewUrl } = usePreview();
 
   const year = data?.data.data.year;
   const month = data?.data.data.month;
   const contents = data?.data.data.contents;
-  const targetItem = contents?.filter((item: DetailType) => item.id === dailyId)[0];
+  const targetItem = contents?.filter(
+    (item: DetailType) => item.id === dailyId
+  )[0];
   console.log(targetItem);
   const editItem: InputValue = {
     year,
@@ -82,10 +87,11 @@ const ImageEdit = () => {
     setInputValue,
   } = useInput(editItem);
 
-  const { editDiaryHandler, fileInputHandler, fileDropHandler, photo } = useEdit({
-    inputValue,
-    dailyId,
-  });
+  const { editDiaryHandler, fileInputHandler, fileDropHandler, photo } =
+    useEdit({
+      inputValue,
+      dailyId,
+    });
 
   // 드래그앤 드랍
   const dragRef = useRef<HTMLLabelElement | null>(null);
@@ -98,16 +104,21 @@ const ImageEdit = () => {
     }
   }, []);
 
-  const dropHandler = useCallback((event: React.DragEvent<HTMLLabelElement>): void => {
-    event.preventDefault();
-    event.stopPropagation();
+  const dropHandler = useCallback(
+    (event: React.DragEvent<HTMLLabelElement>): void => {
+      event.preventDefault();
+      event.stopPropagation();
 
-    fileDropHandler(event);
-    setValidPhoto(true);
-  }, []);
+      fileDropHandler(event);
+      setValidPhoto(true);
+    },
+    []
+  );
 
   // 기존 이미지 state 설정
-  const [exPhoto, setExPhoto] = useState<string | undefined>(targetItem?.imgUrl);
+  const [exPhoto, setExPhoto] = useState<string | undefined>(
+    targetItem?.imgUrl
+  );
 
   useEffect(() => {
     preview(photo);
@@ -117,9 +128,17 @@ const ImageEdit = () => {
   const emoIds: number[] = [1, 2, 3, 4, 5, 6];
 
   // 별점
-  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
+  const [clicked, setClicked] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
   const starArray: number[] = [1, 2, 3, 4, 5];
-  const itemStar = clicked.map((item, i) => (i < targetItem?.star ? true : false));
+  const itemStar = clicked.map((item, i) =>
+    i < targetItem?.star ? true : false
+  );
 
   const [editStar, setEditStar] = useState<boolean[]>(itemStar);
 
@@ -166,7 +185,10 @@ const ImageEdit = () => {
             {exPhoto ? (
               <>
                 <StPhotoPreview src={`${targetItem?.imgUrl}`} />
-                <StDeletePhotoButton type="button" onClick={deleteExistingPhotoHandler}>
+                <StDeletePhotoButton
+                  type="button"
+                  onClick={deleteExistingPhotoHandler}
+                >
                   삭제
                 </StDeletePhotoButton>
               </>
@@ -174,14 +196,22 @@ const ImageEdit = () => {
               <>
                 <StPhotoPreview src={`${previewUrl}`} />
                 {validPhoto ? (
-                  <Button size="small" type="button" onClick={deletePhotoHandler}>
+                  <Button
+                    size="small"
+                    type="button"
+                    onClick={deletePhotoHandler}
+                  >
                     삭제
                   </Button>
                 ) : null}
               </>
             ) : (
               <StPhotoInputBox>
-                <label ref={dragRef} onDragOver={dragOverHandler} onDrop={dropHandler}>
+                <label
+                  ref={dragRef}
+                  onDragOver={dragOverHandler}
+                  onDrop={dropHandler}
+                >
                   <StPhotoInput
                     type="file"
                     accept="image/jpeg image/png image/jpg image/gif"
@@ -219,7 +249,9 @@ const ImageEdit = () => {
                   key={score}
                   size="30"
                   color={
-                    editStar[score - 1] ? themeColor.main.yellow : themeColor.main.paper
+                    editStar[score - 1]
+                      ? themeColor.main.yellow
+                      : themeColor.main.paper
                   }
                   onClick={() => clickStarHandler(score)}
                 />

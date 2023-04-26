@@ -6,12 +6,7 @@ import { useState } from "react";
 import { getCookie } from "../../../utils/cookies";
 import { useNavigate } from "react-router-dom";
 import { themeColor } from "../../../utils/theme";
-
-interface LikeType {
-  isLike: boolean | undefined;
-  id: number | undefined;
-  count: number | undefined;
-}
+import { LikeType } from "../../../data/type/type";
 
 const LikePost = ({ isLike, id, count }: LikeType) => {
   const refreshToken = getCookie("refreshToken");

@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { date } from "../../../data/type/d1";
+import { DateType } from "../../../data/type/type";
 import { device, themeColor } from "../../../utils/theme";
 
-const MiniCalendar = ({ year, month }: date) => {
+const MiniCalendar = ({ year, month }: DateType) => {
   if (month === 13) {
     month = 1;
   } else if (month === 0) {
@@ -14,7 +14,7 @@ const MiniCalendar = ({ year, month }: date) => {
 
   // 날짜 변환 함수
   const date = new Array(lastDate).fill(null).map(
-    (e, i): date => ({
+    (e, i): DateType => ({
       year: year,
       month: month,
       date: i + 1,

@@ -1,5 +1,5 @@
 import Cookies from "universal-cookie";
-import { CookieOption } from "../data/type/d3";
+import { CookieOption } from "../data/type/type";
 
 export const cookies = new Cookies();
 

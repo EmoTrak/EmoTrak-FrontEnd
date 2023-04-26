@@ -5,7 +5,7 @@ import Flex from "../../../components/Flex";
 import { useQuery } from "@tanstack/react-query";
 import { keys } from "../../../data/queryKeys/keys";
 import user from "../../../lib/api/user";
-import { date } from "../../../data/type/d1";
+import { DateType } from "../../../data/type/type";
 import CalendarEmo from "./CalendarEmo";
 import MiniCalendar from "./MiniCalendar";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
@@ -21,7 +21,7 @@ const Calendar = () => {
   const navigate = useNavigate();
 
   const [side, setSide] = useState(false);
-  const today: date = {
+  const today: DateType = {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
     date: new Date().getDate(),
@@ -29,7 +29,7 @@ const Calendar = () => {
   };
 
   // 날짜 선택
-  const [select, setSelect] = useState<date>({
+  const [select, setSelect] = useState<DateType>({
     year: today.year,
     month: today.month,
     date: today.date,
@@ -46,7 +46,7 @@ const Calendar = () => {
 
   // 날짜 변환 함수
   const date = new Array(lastDate).fill(null).map(
-    (_, i): date => ({
+    (_, i): DateType => ({
       year: select.year,
       month: select.month,
       date: i + 1,

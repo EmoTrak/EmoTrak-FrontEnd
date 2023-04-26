@@ -1,4 +1,4 @@
-import { DayProps } from "../../../data/type/d1";
+import { DayProps } from "../../../data/type/type";
 import EmotionIcons from "../../../components/Icon/EmoticonIcons";
 import styled from "styled-components";
 import { device } from "../../../utils/theme";
@@ -15,7 +15,11 @@ const CalendarEmo = ({ data, item }: Partial<DayProps>) => {
           emotionTypes={`EMOTION_${emoDate?.emoId}`}
         />
       ) : (
-        <EmotionIcons height="100%" width="100%" emotionTypes={`EMOTION_${7}`} />
+        <EmotionIcons
+          height="100%"
+          width="100%"
+          emotionTypes={`EMOTION_${7}`}
+        />
       )}
     </Imoticon>
   );

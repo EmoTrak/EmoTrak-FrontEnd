@@ -9,17 +9,14 @@ import styled from "styled-components";
 import { useLogin } from "../hooks/useLogin";
 import InputList from "../../mypage/components/InputList";
 import { MyPageInput } from "../../../pages/Mypage";
-import { IconProps } from "../../../pages/DrawingPost";
 import Kakao from "../../../assets/Social/Kakao.webp";
 import Naver from "../../../assets/Social/Naver.webp";
 import Google from "../../../assets/Social/Google.webp";
-import KakaoMobile from "../../../assets/Social/KakaoMobile.webp";
-import NaverMobile from "../../../assets/Social/NaverMobile.webp";
-import GoogleMobile from "../../../assets/Social/GoogleMobile.webp";
 import LoginTitle from "../../../assets/Texts/Login.svg";
 import Button from "../../../components/Button";
 import { device, themeColor } from "../../../utils/theme";
 import { useEffect, useState } from "react";
+import { SizeType, UrlType } from "../../../data/type/type";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -159,7 +156,7 @@ export const StForm = styled.form`
   }
 `;
 
-export const SocialLoginButton = styled.button<IconProps>`
+export const SocialLoginButton = styled.button<SizeType & UrlType>`
   background-image: ${({ url }) => `url(${url})`};
   background-color: transparent;
   border: none;
@@ -225,7 +222,7 @@ export const SocialButtonLabel = styled.label`
   align-items: center;
 `;
 
-export const FormTitle = styled.div<IconProps>`
+export const FormTitle = styled.div<SizeType & UrlType>`
   background-image: ${({ url }) => `url(${url})`};
   background-color: transparent;
   border: none;

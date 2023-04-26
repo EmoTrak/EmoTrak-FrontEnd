@@ -7,14 +7,9 @@ import useLikeComment from "../hooks/useLikeComment";
 import { HOME_PAGE } from "../../../data/routes/urls";
 import { themeColor } from "../../../utils/theme";
 import Flex from "../../../components/Flex";
+import { LikeType } from "../../../data/type/type";
 
-interface LikeType {
-  isLike: boolean | undefined;
-  id: number | undefined;
-  count: number | undefined;
-}
-
-const LikeComment = ({ isLike: hasLike, id, count }: LikeType) => {
+const LikeComment = ({ isLike: hasLike, id, count }: Partial<LikeType>) => {
   const refreshToken = getCookie("refreshToken");
   const navigate = useNavigate();
   const [like, setLike] = useState<Partial<LikeType>>({

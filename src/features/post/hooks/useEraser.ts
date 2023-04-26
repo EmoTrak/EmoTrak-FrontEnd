@@ -1,13 +1,14 @@
 import { useCallback, useState } from "react";
-import { Coordinate } from "../../../data/type/d3";
+import { Coordinate } from "../../../data/type/type";
 
 export const useEraser = (
   ref: React.RefObject<HTMLCanvasElement>,
   action: Function
 ) => {
   const [isErasing, setIsErasing] = useState<boolean>(false);
-  const [mousePosition, setMousePosition] =
-    useState<Coordinate | undefined>(undefined);
+  const [mousePosition, setMousePosition] = useState<Coordinate | undefined>(
+    undefined
+  );
   // canvas에 선긋는 함수
   const eraseLine = (originalMousePosition: Coordinate): void => {
     if (!ref.current) {
@@ -42,8 +43,8 @@ export const useEraser = (
 
   const erase = useCallback(
     (event: React.MouseEvent<HTMLCanvasElement>): void => {
-      event.preventDefault(); 
-      event.stopPropagation(); 
+      event.preventDefault();
+      event.stopPropagation();
 
       if (isErasing) {
         const newMousePosition = action(event);

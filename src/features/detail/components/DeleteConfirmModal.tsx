@@ -13,11 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { device, themeColor } from "../../../utils/theme";
 import { keys } from "../../../data/queryKeys/keys";
 import { useQueryClient } from "@tanstack/react-query";
-
-interface DeleteModalProps {
-  children: React.ReactNode;
-  itemId: number;
-}
+import { DeleteModalProps } from "../../../data/type/type";
 
 const DeleteConfirmModal = ({ children, itemId }: DeleteModalProps) => {
   const queryClient = useQueryClient();
@@ -48,7 +44,9 @@ const DeleteConfirmModal = ({ children, itemId }: DeleteModalProps) => {
           <ClickBtn>
             <ModalClose>아니오</ModalClose>
           </ClickBtn>
-          <ClickBtn onClick={() => deletePostHandler(itemId)}>삭제하기</ClickBtn>
+          <ClickBtn onClick={() => deletePostHandler(itemId)}>
+            삭제하기
+          </ClickBtn>
         </PostContent>
       </ModalContent>
     </Modalroot>
