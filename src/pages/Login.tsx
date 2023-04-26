@@ -3,6 +3,7 @@ import Tutorial from "../features/login/components/Tutorial";
 import styled from "styled-components";
 import Landing from "../features/login/components/Landing";
 import { useEffect, useState } from "react";
+import { device } from "../utils/theme";
 
 const Login = () => {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
@@ -40,5 +41,15 @@ export default Login;
 export const StLoginPageWrapper = styled.div`
   width: 100%;
   margin: 0 auto;
+  height: 100%;
   justify-content: center;
+  ${device.tablet} {
+    height: 100vh;
+  }
+  ${device.mobile} {
+    height: 100vh;
+  }
+  ${device.miniMobile} {
+    height: 100vh;
+  }
 `;

@@ -79,12 +79,6 @@ const Calendar = () => {
       return data.data.data;
     },
   });
-  useEffect(() => {
-    if (!token) {
-      alert("로그인이 필요한 서비스입니다.");
-      navigate("/");
-    }
-  }, []);
 
   return (
     <Container>
@@ -135,14 +129,20 @@ const Calendar = () => {
             // 전년도일때
             if (item.year < today.year && item.day === 0) {
               return (
-                <Sunday key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Sunday
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Sunday>
               );
             } else if (item.year < today.year) {
               return (
-                <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Day
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Day>
@@ -155,14 +155,20 @@ const Calendar = () => {
               item.day === 0
             ) {
               return (
-                <Sunday key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Sunday
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Sunday>
               );
             } else if (item.year === today.year && item.month < today.month) {
               return (
-                <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Day
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Day>
@@ -176,7 +182,10 @@ const Calendar = () => {
               item.day === 0
             ) {
               return (
-                <Sunday key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Sunday
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Sunday>
@@ -187,7 +196,10 @@ const Calendar = () => {
               Number(item.date) <= Number(today.date)
             ) {
               return (
-                <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Day
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Day>
@@ -201,7 +213,9 @@ const Calendar = () => {
         </DiaryDay>
       </CalendarBox>
 
-      {side && <Sidebar side={side} setSide={setSide} data={data} diaryDay={select} />}
+      {side && (
+        <Sidebar side={side} setSide={setSide} data={data} diaryDay={select} />
+      )}
     </Container>
   );
 };

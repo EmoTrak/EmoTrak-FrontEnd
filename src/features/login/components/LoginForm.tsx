@@ -123,26 +123,28 @@ export const StFormWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+  position: relative;
   width: 100%;
-  height: 82vh;
+  height: 100%;
   justify-content: center;
   align-items: center;
-  overflow: visible;
+  overflow: scroll;
+  padding: 10px;
   ${device.tablet} {
-    height: 100vh;
+    height: 120vh;
     background-color: ${themeColor.main.white};
   }
   ${device.mobile} {
-    height: 100vh;
+    height: 120vh;
     background-color: ${themeColor.main.white};
   }
   ${device.miniMobile} {
-    height: 100vh;
+    height: 120vh;
     background-color: ${themeColor.main.white};
   }
 `;
 
-const StForm = styled.form`
+export const StForm = styled.form`
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -153,9 +155,6 @@ const StForm = styled.form`
     gap: 5;
   }
   ${device.mobile} {
-    gap: 5;
-  }
-  ${device.miniMobile} {
     gap: 5;
   }
 `;
@@ -194,7 +193,7 @@ export const SocialLoginButton = styled.button<IconProps>`
 `;
 export const ButtonBox = styled.div`
   display: flex;
-  width: 50vw;
+  width: 100%;
   justify-content: center;
   align-items: center;
   gap: 1vw;
@@ -203,7 +202,7 @@ export const ButtonBox = styled.div`
 
 export const SocialButtonBox = styled.div`
   display: flex;
-  width: 50vw;
+  width: 100vw;
   justify-content: center;
   align-items: center;
   gap: 1vw;
@@ -238,12 +237,19 @@ export const FormTitle = styled.div<IconProps>`
   justify-content: center;
   align-items: center;
   margin: 0.5vh 6vh;
+  ${device.tablet} {
+    width: 12vw;
+    height: 12vw;
+    margin-top: 25vh;
+  }
   ${device.mobile} {
     width: 12vw;
     height: 12vw;
+    margin-top: 20vh;
   }
   ${device.miniMobile} {
     width: 20vw;
     height: 20vw;
+    margin-top: 20vh;
   }
 `;
