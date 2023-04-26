@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { CommentProps } from "../../../data/type/type";
-import styled from "styled-components";
 import useDeleteComment from "../hooks/useDeleteComment";
 import useUpdateComment from "../hooks/useUpdateComment";
 import LikeComment from "./LikeComment";
@@ -9,7 +8,7 @@ import PostDate from "./PostDate";
 import { getCookie } from "../../../utils/cookies";
 import { GiSiren } from "react-icons/gi";
 import Button from "../../../components/Button";
-import { device, themeColor } from "../../../utils/theme";
+import * as St from "../styles/CommentStyle";
 
 const Comment = ({ item }: Partial<CommentProps>) => {
   const [edit, setEdit] = useState<boolean>(false);
@@ -26,7 +25,7 @@ const Comment = ({ item }: Partial<CommentProps>) => {
   const { deleteComment } = useDeleteComment();
 
   return (
-    <CommentBox>
+    <St.CommentBox>
       {edit ? (
         <div
           style={{
@@ -36,7 +35,7 @@ const Comment = ({ item }: Partial<CommentProps>) => {
             flexDirection: "column",
           }}
         >
-          <EditInput value={editComment} onChange={changeInputHandler} />
+          <St.EditInput value={editComment} onChange={changeInputHandler} />
           <div>
             <Button
               size="x-small"
@@ -61,7 +60,7 @@ const Comment = ({ item }: Partial<CommentProps>) => {
       ) : (
         <>
           <div>
-            <Nicname> {item?.nickname}</Nicname>
+            <St.Nicname> {item?.nickname}</St.Nicname>
             <div style={{ margin: "5px 0" }}>{item?.comment}</div>
             <LikeComment
               isLike={item?.hasLike}
@@ -92,9 +91,9 @@ const Comment = ({ item }: Partial<CommentProps>) => {
             ) : (
               refreshToken && (
                 <Report id={item?.id} uri="comments/report">
-                  <ReportBtn>
+                  <St.ReportBtn>
                     <GiSiren />
-                  </ReportBtn>
+                  </St.ReportBtn>
                 </Report>
               )
             )}
@@ -112,45 +111,8 @@ const Comment = ({ item }: Partial<CommentProps>) => {
           </div>
         </>
       )}
-    </CommentBox>
+    </St.CommentBox>
   );
 };
 
 export default Comment;
-
-const CommentBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid white;
-  width: 40vw;
-  padding: 4px;
-  ${device.mobile} {
-    width: 80vw;
-  }
-`;
-const EditInput = styled.textarea`
-  width: 40vw;
-  height: 50px;
-  margin: 5px 0;
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  resize: none;
-  :focus {
-    outline: none;
-    border-color: ${themeColor.main.oatmeal};
-    box-shadow: 0 0 10px ${themeColor.main.oatmeal};
-  }
-`;
-
-const Nicname = styled.div`
-  color: ${themeColor.main.coffemilk};
-  font-size: 15px;
-`;
-
-const ReportBtn = styled.button`
-  font-size: 30px;
-  border: 0;
-  background-color: transparent;
-  color: ${themeColor.main.red};
-`;

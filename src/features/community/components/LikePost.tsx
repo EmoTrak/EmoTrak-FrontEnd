@@ -7,6 +7,7 @@ import { getCookie } from "../../../utils/cookies";
 import { useNavigate } from "react-router-dom";
 import { themeColor } from "../../../utils/theme";
 import { LikeType } from "../../../data/type/type";
+import * as St from "../styles/LikePostStyle";
 
 const LikePost = ({ isLike, id, count }: LikeType) => {
   const refreshToken = getCookie("refreshToken");
@@ -47,7 +48,7 @@ const LikePost = ({ isLike, id, count }: LikeType) => {
   return (
     <>
       {like.isLike ? (
-        <LikeTrue
+        <St.LikeTrue
           onClick={() =>
             refreshToken
               ? likeMutate()
@@ -55,9 +56,9 @@ const LikePost = ({ isLike, id, count }: LikeType) => {
           }
         >
           <RiHeart3Fill />
-        </LikeTrue>
+        </St.LikeTrue>
       ) : (
-        <LikeFalse
+        <St.LikeFalse
           onClick={() =>
             refreshToken
               ? likeMutate()
@@ -65,29 +66,11 @@ const LikePost = ({ isLike, id, count }: LikeType) => {
           }
         >
           <RiHeart3Line />
-        </LikeFalse>
+        </St.LikeFalse>
       )}
-      <LikeCount>{like.count}명이 좋아합니다</LikeCount>
+      <St.LikeCount>{like.count}명이 좋아합니다</St.LikeCount>
     </>
   );
 };
 
-const LikeTrue = styled.div`
-  color: ${themeColor.main.red};
-  font-size: 30px;
-  display: contents;
-  cursor: pointer;
-`;
-
-const LikeFalse = styled.div`
-  color: ${themeColor.main.chocomilk};
-  font-size: 30px;
-  display: contents;
-  cursor: pointer;
-`;
-
-const LikeCount = styled.div`
-  color: ${themeColor.main.chocomilk};
-  font-size: 15px;
-`;
 export default LikePost;
