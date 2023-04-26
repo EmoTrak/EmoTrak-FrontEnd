@@ -9,9 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { CHART_PAGE, COMMUNITY_PAGE, HOME_PAGE } from "../data/routes/urls";
 import { GoThreeBars } from "react-icons/go";
 import { getCookie } from "../utils/cookies";
+import { Logout } from "../data/type/type";
 
-type logout = { logout: () => void };
-const MobileMenubar = ({ logout }: logout) => {
+const MobileMenubar = ({ logout }: Logout) => {
   const navigate = useNavigate();
   const refreshToken = getCookie("refreshToken");
 

@@ -1,7 +1,7 @@
 import ApexCharts from "react-apexcharts";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { PropsData } from "../../../data/type/d2";
+import { PropsData } from "../../../data/type/type";
 import { device, themeColor } from "../../../utils/theme";
 
 function PieChart({ graphData, month }: PropsData) {
@@ -71,7 +71,7 @@ const Wrapper = styled.div`
   width: 30vw;
   text-align: center;
   margin-top: 50px;
-  
+
   background-color: ${themeColor.main.white};
   box-shadow: 10px 5px 5px ${themeColor.main.gray};
   border-radius: 25px;

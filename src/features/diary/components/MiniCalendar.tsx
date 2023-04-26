@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { date } from "../../../data/type/d1";
+import { date } from "../../../data/type/type";
 import { device, themeColor } from "../../../utils/theme";
 
 const MiniCalendar = ({ year, month }: date) => {

@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { Coordinate } from "../../../data/type/d3";
+import { Coordinate } from "../../../data/type/type";
 
 export const usePen = (
   ref: React.RefObject<HTMLCanvasElement>,
@@ -8,8 +8,9 @@ export const usePen = (
   penSize: number
 ) => {
   const [isPainting, setIsPainting] = useState<boolean>(false);
-  const [mousePosition, setMousePosition] =
-    useState<Coordinate | undefined>(undefined);
+  const [mousePosition, setMousePosition] = useState<Coordinate | undefined>(
+    undefined
+  );
 
   // canvas에 선긋는 함수
   const drawLine = (
@@ -57,7 +58,7 @@ export const usePen = (
   const moveTouch = useCallback(
     (event: React.TouchEvent<HTMLCanvasElement>) => {
       event.preventDefault();
-      event.stopPropagation(); 
+      event.stopPropagation();
 
       if (!ref.current) {
         return;
@@ -107,8 +108,8 @@ export const usePen = (
 
   const paint = useCallback(
     (event: React.MouseEvent<HTMLCanvasElement>): void => {
-      event.preventDefault(); 
-      event.stopPropagation(); 
+      event.preventDefault();
+      event.stopPropagation();
 
       if (isPainting) {
         const newMousePosition = action(event);

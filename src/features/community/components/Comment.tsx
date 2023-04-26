@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CommentProps } from "../../../data/type/d1";
+import { CommentProps } from "../../../data/type/type";
 import styled from "styled-components";
 import useDeleteComment from "../hooks/useDeleteComment";
 import useUpdateComment from "../hooks/useUpdateComment";
@@ -9,13 +9,14 @@ import PostDate from "./PostDate";
 import { getCookie } from "../../../utils/cookies";
 import { GiSiren } from "react-icons/gi";
 import Button from "../../../components/Button";
-import Flex from "../../../components/Flex";
 import { device, themeColor } from "../../../utils/theme";
 
 const Comment = ({ item }: Partial<CommentProps>) => {
   const [edit, setEdit] = useState<boolean>(false);
   const refreshToken = getCookie("refreshToken");
-  const [editComment, setEditComment] = useState<string | undefined>(item?.comment);
+  const [editComment, setEditComment] = useState<string | undefined>(
+    item?.comment
+  );
 
   const changeInputHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEditComment(e.target.value);
@@ -49,7 +50,10 @@ const Comment = ({ item }: Partial<CommentProps>) => {
             >
               수정완료
             </Button>
-            <Button size="x-small" onClick={() => edit && setEdit((pre) => !pre)}>
+            <Button
+              size="x-small"
+              onClick={() => edit && setEdit((pre) => !pre)}
+            >
               취소
             </Button>
           </div>
@@ -59,7 +63,11 @@ const Comment = ({ item }: Partial<CommentProps>) => {
           <div>
             <Nicname> {item?.nickname}</Nicname>
             <div style={{ margin: "5px 0" }}>{item?.comment}</div>
-            <LikeComment isLike={item?.hasLike} id={item?.id} count={item?.likesCnt} />
+            <LikeComment
+              isLike={item?.hasLike}
+              id={item?.id}
+              count={item?.likesCnt}
+            />
           </div>
 
           <div>
@@ -92,7 +100,11 @@ const Comment = ({ item }: Partial<CommentProps>) => {
             )}
             {typeof item?.createdAt === "string" && (
               <div
-                style={{ display: "flex", justifyContent: "center", fontSize: "15px" }}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "15px",
+                }}
               >
                 <PostDate date={item.createdAt} />
               </div>

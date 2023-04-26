@@ -5,7 +5,7 @@ import Flex from "../../../components/Flex";
 import { useQuery } from "@tanstack/react-query";
 import { keys } from "../../../data/queryKeys/keys";
 import user from "../../../lib/api/user";
-import { date } from "../../../data/type/d1";
+import { date } from "../../../data/type/type";
 import CalendarEmo from "./CalendarEmo";
 import MiniCalendar from "./MiniCalendar";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";

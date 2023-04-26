@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ApexCharts from "react-apexcharts";
 import styled from "styled-components";
-import { PropsData } from "../../../data/type/d2";
+import { PropsData } from "../../../data/type/type";
 import { device, themeColor } from "../../../utils/theme";
 
 const BarChart = ({ graphData, month }: PropsData) => {
@@ -101,5 +101,4 @@ const Wrapper = styled.div`
     height: 100vh;
     width: 70vw;
   }
-
 `;

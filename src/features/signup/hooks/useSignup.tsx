@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
-import { SignInfo } from "../../../data/type/d3";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { SignInfo } from "../../../data/type/type";
 
 export const useSignup = () => {
   const navigate = useNavigate();

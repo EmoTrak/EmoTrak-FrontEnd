@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { DayProps } from "../../../data/type/d1";
+import { DayProps } from "../../../data/type/type";
 import EmotionIcons from "../../../components/Icon/EmoticonIcons";
 import { useNavigate } from "react-router-dom";
 import { DETAIL_PAGE } from "../../../data/routes/urls";
@@ -34,7 +34,10 @@ const Sidebar = ({ side, setSide, data, diaryDay }: Partial<DayProps>) => {
                   emotionTypes={`EMOTION_${e.emoId}`}
                 />
               </Imoticon>
-              <Content key={i} onClick={() => navigate(`${DETAIL_PAGE}/${e.id}`)}>
+              <Content
+                key={i}
+                onClick={() => navigate(`${DETAIL_PAGE}/${e.id}`)}
+              >
                 {e.detail}
               </Content>
             </ContentBox>
@@ -42,7 +45,11 @@ const Sidebar = ({ side, setSide, data, diaryDay }: Partial<DayProps>) => {
           {Number(detailData?.length) < 2 && (
             <ContentBox>
               <Imoticon>
-                <EmotionIcons height="100%" width="100%" emotionTypes={"EMOTION_7"} />
+                <EmotionIcons
+                  height="100%"
+                  width="100%"
+                  emotionTypes={"EMOTION_7"}
+                />
               </Imoticon>
               <ClickModalPost diaryDay={diaryDay}>
                 <PostContent>+</PostContent>
@@ -111,7 +118,8 @@ const Wrap = styled.div`
   }
   ${device.miniMobile} {
     top: ${({ side }: Partial<DayProps>) => (side ? "65%" : "150%")};
-    animation: ${({ side }: Partial<DayProps>) => side && MiniMobileOpenBox} 1s ease;
+    animation: ${({ side }: Partial<DayProps>) => side && MiniMobileOpenBox} 1s
+      ease;
   }
 `;
 const Container = styled.div`

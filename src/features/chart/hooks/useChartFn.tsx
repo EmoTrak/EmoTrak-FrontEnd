@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { date } from "../../../data/type/d1";
+import { date } from "../../../data/type/type";
 
 const useChartFn = () => {
   const today: date = {
@@ -16,7 +16,6 @@ const useChartFn = () => {
     date: today.date,
   });
 
-
   const [isShow, setIsShow] = useState<boolean>(false);
 
   const ToggleHandler = () => {
@@ -31,7 +30,6 @@ const useChartFn = () => {
   const nextYear = () => {
     if (Number(select.year) < 2200) {
       return setSelect({ ...select, year: Number(select.year) + 1 });
-
     }
   };
   const onMonthClick = (e: React.MouseEvent<HTMLButtonElement>) => {

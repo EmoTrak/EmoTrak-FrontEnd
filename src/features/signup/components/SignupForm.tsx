@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Flex from "../../../components/Flex";
-import { SignInfo } from "../../../data/type/d3";
 import { useEmailValidation } from "../hooks/useEmailValidation";
 import { useNicknameValidation } from "../hooks/useNicknameValidation";
 import { usePasswordCheck } from "../hooks/usePasswordCheck";
@@ -19,6 +18,7 @@ import { MyPageInput } from "../../../pages/Mypage";
 import SignupTitle from "../../../assets/Texts/Signup.svg";
 import { themeColor } from "../../../utils/theme";
 import Button from "../../../components/Button";
+import { SignInfo } from "../../../data/type/type";
 
 const SignupForm = () => {
   const navigate = useNavigate();

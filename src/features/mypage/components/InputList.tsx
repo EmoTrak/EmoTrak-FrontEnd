@@ -1,11 +1,6 @@
-import { PropsWithChildren } from "react";
 import styled from "styled-components";
 import { device, themeColor } from "../../../utils/theme";
-
-type InputListProps = {
-  important?: boolean;
-  name: string;
-} & PropsWithChildren;
+import { InputListProps } from "../../../data/type/type";
 
 function InputList({ important, name, children }: InputListProps) {
   return (

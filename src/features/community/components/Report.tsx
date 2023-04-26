@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useState } from "react";
-import { Idtype, UriType } from "../../../data/type/d1";
+import { Idtype, UriType } from "../../../data/type/type";
 import * as UI from "../../../components/Modal";
 import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
@@ -10,7 +10,11 @@ import { keys } from "../../../data/queryKeys/keys";
 import { themeColor } from "../../../utils/theme";
 import Button from "../../../components/Button";
 
-const Report = ({ children, id, uri }: PropsWithChildren & Idtype & UriType) => {
+const Report = ({
+  children,
+  id,
+  uri,
+}: PropsWithChildren & Partial<UriType>) => {
   const [reason, setReason] = useState("");
 
   const changeInputHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

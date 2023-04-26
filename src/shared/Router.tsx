@@ -20,9 +20,9 @@ import RedirectNaver from "../pages/RedirectNaver";
 import RedirectGoogle from "../pages/RedirectGoogle";
 import * as PAGE from "../data/routes/urls";
 import { getCookie } from "../utils/cookies";
-import { IPayload } from "../data/type/d2";
 import { ProtectedRoute } from "./ProtectedRouter";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
+import { IPayload } from "../data/type/type";
 
 const Router = () => {
   const token = getCookie("token");

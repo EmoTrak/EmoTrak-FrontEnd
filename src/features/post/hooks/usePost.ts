@@ -1,14 +1,9 @@
 import { useState } from "react";
-import { InputValue } from "../../../pages/DrawingPost";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import user from "../../../lib/api/user";
 import { useNavigate } from "react-router-dom";
 import { keys } from "../../../data/queryKeys/keys";
-
-interface PostInput {
-  inputValue: InputValue;
-  canvasRef?: React.RefObject<HTMLCanvasElement> | null;
-}
+import { PostInput } from "../../../data/type/type";
 
 export const usePost = ({ inputValue, canvasRef }: PostInput) => {
   const queryClient = useQueryClient();

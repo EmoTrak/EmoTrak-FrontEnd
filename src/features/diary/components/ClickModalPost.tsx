@@ -6,14 +6,17 @@ import {
   ModalTrigger,
   Modalroot,
 } from "../../../components/Modal";
-import { PropsType } from "../../../data/type/d1";
+import { PropsType } from "../../../data/type/type";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { DRAW_POST_PAGE, IMAGE_POST_PAGE } from "../../../data/routes/urls";
 import { IoMdClose } from "react-icons/io";
 import { device, themeColor } from "../../../utils/theme";
 
-const ClickModalPost = ({ children, diaryDay }: PropsType & PropsWithChildren) => {
+const ClickModalPost = ({
+  children,
+  diaryDay,
+}: PropsType & PropsWithChildren) => {
   const navigate = useNavigate();
 
   return (

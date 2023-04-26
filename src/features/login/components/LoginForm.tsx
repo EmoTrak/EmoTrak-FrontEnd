@@ -9,7 +9,6 @@ import styled from "styled-components";
 import { useLogin } from "../hooks/useLogin";
 import InputList from "../../mypage/components/InputList";
 import { MyPageInput } from "../../../pages/Mypage";
-import { IconProps } from "../../../pages/DrawingPost";
 import Kakao from "../../../assets/Social/Kakao.webp";
 import Naver from "../../../assets/Social/Naver.webp";
 import Google from "../../../assets/Social/Google.webp";
@@ -20,6 +19,7 @@ import LoginTitle from "../../../assets/Texts/Login.svg";
 import Button from "../../../components/Button";
 import { device, themeColor } from "../../../utils/theme";
 import { useEffect, useState } from "react";
+import { IconProps } from "../../../data/type/type";
 
 const LoginForm = () => {
   const navigate = useNavigate();

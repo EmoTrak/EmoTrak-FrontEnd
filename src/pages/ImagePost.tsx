@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { StCanvasWrapper } from "../features/post/components/Canvas";
-import { InputValue, StEmoButton, StList, StUnorderLi } from "./DrawingPost";
 import Star from "../components/Icon/Star";
 import { useInput } from "../features/post/hooks/useInput";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
@@ -8,15 +7,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { usePost } from "../features/post/hooks/usePost";
 import styled from "styled-components";
 import { usePreview } from "../features/post/hooks/usePreview";
-import Flex from "../components/Flex";
 import { getCookie } from "../utils/cookies";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
 import { device, themeColor } from "../utils/theme";
 import { HOME_PAGE } from "../data/routes/urls";
-export type StPreviewProps = {
-  url: string;
-};
+import { InputValue } from "../data/type/type";
+import { StEmoButton, StUnorderLi } from "./DrawingPost";
+
 const ImagePost = () => {
   const token = getCookie("token");
   const refreshToken = getCookie("refreshToken");
@@ -51,13 +49,20 @@ const ImagePost = () => {
     scoreStarHandler,
   } = useInput(editItem);
 
-  const { submitDiaryHandler, fileInputHandler, fileDropHandler, photo } = usePost({
-    inputValue,
-  });
+  const { submitDiaryHandler, fileInputHandler, fileDropHandler, photo } =
+    usePost({
+      inputValue,
+    });
   const { preview, previewUrl } = usePreview();
 
   // 별점
-  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
+  const [clicked, setClicked] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
   const clickStarHandler = (index: number): void => {
     setClicked(clicked.map((_, i) => i <= index - 1));
     scoreStarHandler(index);
@@ -71,13 +76,16 @@ const ImagePost = () => {
     event.stopPropagation();
   }, []);
 
-  const dropHandler = useCallback((event: React.DragEvent<HTMLLabelElement>): void => {
-    event.preventDefault();
-    event.stopPropagation();
+  const dropHandler = useCallback(
+    (event: React.DragEvent<HTMLLabelElement>): void => {
+      event.preventDefault();
+      event.stopPropagation();
 
-    fileDropHandler(event);
-    setValidPhoto(true);
-  }, []);
+      fileDropHandler(event);
+      setValidPhoto(true);
+    },
+    []
+  );
 
   const submitFormHandler = (event: React.FormEvent<HTMLFormElement>): void => {
     if (validPhoto && validEmoji && validStar) {
@@ -88,7 +96,9 @@ const ImagePost = () => {
     }
   };
 
-  const changeFileHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const changeFileHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     setValidPhoto(true);
     fileInputHandler(event);
   };
@@ -98,7 +108,9 @@ const ImagePost = () => {
     setValidStar(true);
   };
 
-  const changeEmojiHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
+  const changeEmojiHandler = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): void => {
     clickEmojiHandler(event);
     setValidEmoji(true);
   };
@@ -150,7 +162,11 @@ const ImagePost = () => {
             ) : (
               <StPhotoInputContainer>
                 <StPhotoInputBox>
-                  <label ref={dragRef} onDragOver={dragOverHandler} onDrop={dropHandler}>
+                  <label
+                    ref={dragRef}
+                    onDragOver={dragOverHandler}
+                    onDrop={dropHandler}
+                  >
                     <StPhotoInput
                       type="file"
                       accept="image/jpeg image/png image/jpg image/gif"
@@ -196,7 +212,11 @@ const ImagePost = () => {
                       onClick={() => changeStarHandler(score)}
                     />
                   ))}
-                  <p>{inputValue.star === 0 ? "별점을 매겨주세요" : inputValue.star}</p>
+                  <p>
+                    {inputValue.star === 0
+                      ? "별점을 매겨주세요"
+                      : inputValue.star}
+                  </p>
                 </StarWrap>
               </StScoreBox>
               <div>

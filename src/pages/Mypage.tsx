@@ -11,13 +11,7 @@ import { getCookie } from "../utils/cookies";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { device, themeColor } from "../utils/theme";
-
-type InfoType = {
-  email: string;
-  nickname: string;
-  password: string;
-  rePassword: string;
-};
+import { HelperText, InfoType } from "../data/type/type";
 
 const Mypage = () => {
   const navigate = useNavigate();
@@ -232,9 +226,6 @@ export const MyPageInput = styled.input`
   }
 `;
 
-interface HelperText {
-  important?: boolean;
-}
 const MyPageHelperText = styled.span<HelperText>`
   margin: 0;
   color: ${({ important }) =>

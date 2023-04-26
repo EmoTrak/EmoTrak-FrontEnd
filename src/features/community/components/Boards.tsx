@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { BiArrowToTop } from "react-icons/bi";
 import { scrollOnTop } from "../../../utils/scollOnTop";
-import { ImageType } from "../../../data/type/d1";
+import { ImageType } from "../../../data/type/type";
 import { COMMUNITY_PAGE } from "../../../data/routes/urls";
 import useEmoSelect from "../hooks/useEmoSelect";
 import useInfinite from "../hooks/useInfinite";
@@ -100,7 +100,9 @@ const Boards = () => {
   return (
     <Container>
       <SelectBar>
-        <SelectTitle onClick={(): void => setListOpen((pre: boolean): boolean => !pre)}>
+        <SelectTitle
+          onClick={(): void => setListOpen((pre: boolean): boolean => !pre)}
+        >
           {paramSort === "popular" ? "인기순" : "최신순"}
           <BsCaretDownFill />
           {listOpen && (
@@ -133,7 +135,10 @@ const Boards = () => {
       </SelectBar>
       <ImageContainer>
         {postData.map((item: ImageType, i: number) => (
-          <ImageBox key={i} onClick={() => navigate(`${COMMUNITY_PAGE}/${item.id}`)}>
+          <ImageBox
+            key={i}
+            onClick={() => navigate(`${COMMUNITY_PAGE}/${item.id}`)}
+          >
             <Image src={item.imgUrl} />
           </ImageBox>
         ))}

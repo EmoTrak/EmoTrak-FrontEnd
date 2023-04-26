@@ -1,9 +1,6 @@
 import { HTMLProps } from "react";
 import styled, { StyledComponent } from "styled-components";
-interface PositionProps {
-  position: number;
-  url?: string;
-}
+import { PositionProps } from "../../data/type/type";
 
 export const TutorialWrapper = styled.div`
   margin: 0;

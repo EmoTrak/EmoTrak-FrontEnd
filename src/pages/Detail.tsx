@@ -18,18 +18,7 @@ import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal
 import Button from "../components/Button";
 import Star from "../components/Icon/Star";
 import { device, themeColor } from "../utils/theme";
-
-export type DetailType = {
-  id: number;
-  day: number;
-  emoId: number;
-  star: number;
-  detail: string;
-  imgUrl: string | null;
-  restrict: boolean;
-  share: boolean;
-  draw: boolean;
-};
+import { DetailType } from "../data/type/type";
 
 const Detail = () => {
   const params = useParams();
@@ -43,8 +32,12 @@ const Detail = () => {
   const { data, isLoading } = useQuery([`${keys.GET_DETAIL}`], getDetail);
 
   const contents = data?.data.data.contents;
-  const otherItem = contents?.filter((item: DetailType) => item.id !== dailyId)[0];
-  const targetItem = contents?.filter((item: DetailType) => item.id === dailyId)[0];
+  const otherItem = contents?.filter(
+    (item: DetailType) => item.id !== dailyId
+  )[0];
+  const targetItem = contents?.filter(
+    (item: DetailType) => item.id === dailyId
+  )[0];
 
   const navigateEditHandler = () => {
     if (targetItem?.draw === true) {
@@ -120,9 +113,17 @@ const Detail = () => {
                   .fill(null)
                   .map((_, i) =>
                     i < targetItem?.star ? (
-                      <Star key={i} size="30px" color={themeColor.palette.yellow} />
+                      <Star
+                        key={i}
+                        size="30px"
+                        color={themeColor.palette.yellow}
+                      />
                     ) : (
-                      <Star key={i} size="30px" color={themeColor.main.oatmeal} />
+                      <Star
+                        key={i}
+                        size="30px"
+                        color={themeColor.main.oatmeal}
+                      />
                     )
                   )}
               </EmoStar>
@@ -148,7 +149,9 @@ const Detail = () => {
                 color: `${themeColor.main.white}`,
               }}
             >
-              <DeleteConfirmModal itemId={targetItem?.id}>삭제</DeleteConfirmModal>
+              <DeleteConfirmModal itemId={targetItem?.id}>
+                삭제
+              </DeleteConfirmModal>
             </Button>
           </DetailBtnWrap>
         </Flex>

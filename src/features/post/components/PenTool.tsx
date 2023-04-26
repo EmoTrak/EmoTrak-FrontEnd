@@ -1,13 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Flex from "../../../components/Flex";
-
-interface PenProps {
-  color: string;
-  selectedSize: number;
-  onSizeSelect(size: number): void;
-  setSelectPen: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { ButtonSize, PenProps } from "../../../data/type/type";
 
 const PenTool = ({
   color,
@@ -37,11 +31,6 @@ const PenTool = ({
 };
 
 export default PenTool;
-
-interface ButtonSize {
-  size: number;
-  color: string;
-}
 
 const StButtonBox = styled.div<ButtonSize>`
   height: ${({ size }) => `${size + 10}px`};

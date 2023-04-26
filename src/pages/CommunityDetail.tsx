@@ -4,7 +4,7 @@ import { useDelete } from "../features/detail/hooks/useDelete";
 import styled from "styled-components";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
 import { getCookie } from "../utils/cookies";
-import { commentData } from "../data/type/d1";
+import { commentData } from "../data/type/type";
 import LikePost from "../features/community/components/LikePost";
 import CreateComment from "../features/community/components/CreateComment";
 import Comment from "../features/community/components/Comment";
@@ -13,7 +13,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { keys } from "../data/queryKeys/keys";
 import { scrollOnTop } from "../utils/scollOnTop";
 import PostDate from "../features/community/components/PostDate";
-import { COMMUNITY_PAGE, DRAW_EDIT_PAGE, IMAGE_EDIT_PAGE } from "../data/routes/urls";
+import {
+  COMMUNITY_PAGE,
+  DRAW_EDIT_PAGE,
+  IMAGE_EDIT_PAGE,
+} from "../data/routes/urls";
 import PageNation from "../components/PageNation";
 import Button from "../components/Button";
 import Star from "../components/Icon/Star";
@@ -70,7 +74,11 @@ const CommunityDetail = () => {
       <PostDetailWrapper>
         <Flex row ai="center">
           {status === "success" && (
-            <LikePost isLike={data.hasLike} id={data.id} count={data.likesCnt} />
+            <LikePost
+              isLike={data.hasLike}
+              id={data.id}
+              count={data.likesCnt}
+            />
           )}
           {!data?.hasReport && !data?.hasAuth && refreshToken && (
             <Report id={data?.id} uri="report">

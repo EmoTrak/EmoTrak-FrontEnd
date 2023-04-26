@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { InputValue } from "../../../pages/DrawingPost";
+import { InputValue } from "../../../data/type/type";
 
 export const useInput = (initialValue: InputValue) => {
   const [inputValue, setInputValue] = useState<InputValue>(initialValue);

@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 import * as UI from "../../../components/Modal";
 import styled from "styled-components";
-import { DateSelectType } from "../../../data/type/d1";
+import { DateSelectType } from "../../../data/type/type";
 import { IoMdClose } from "react-icons/io";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { device, themeColor } from "../../../utils/theme";
@@ -23,19 +23,25 @@ const MonthSelect = ({
             </CloseBtn>
           </UI.ModalClose>
           <Year>
-            <button onClick={() => setSelect({ ...select, year: select.year - 1 })}>
+            <button
+              onClick={() => setSelect({ ...select, year: select.year - 1 })}
+            >
               <AiOutlineLeft />
             </button>
 
             {select.year}
-            <button onClick={() => setSelect({ ...select, year: select.year + 1 })}>
+            <button
+              onClick={() => setSelect({ ...select, year: select.year + 1 })}
+            >
               <AiOutlineRight />
             </button>
           </Year>
           <SelectMonth>
             {month.map((_, i) => (
               <UI.ModalClose key={i}>
-                <ClickBtn onClick={() => setSelect({ ...select, month: i + 1 })}>
+                <ClickBtn
+                  onClick={() => setSelect({ ...select, month: i + 1 })}
+                >
                   {i + 1}
                 </ClickBtn>
               </UI.ModalClose>

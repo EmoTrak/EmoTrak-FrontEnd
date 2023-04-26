@@ -1,5 +1,10 @@
-import React, { PropsWithChildren, createContext, useContext, useState } from "react";
-import { BooleanType, Position } from "../data/type/d1";
+import React, {
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useState,
+} from "react";
+import { BooleanType, Position } from "../data/type/type";
 import styled from "styled-components";
 import { themeColor } from "../utils/theme";
 
@@ -12,7 +17,11 @@ const SubContext = createContext<BooleanType>(defaultValue);
 
 export const SubModalroot = ({ children }: PropsWithChildren) => {
   const [open, setOpen] = useState<boolean>(false);
-  return <SubContext.Provider value={{ open, setOpen }}>{children}</SubContext.Provider>;
+  return (
+    <SubContext.Provider value={{ open, setOpen }}>
+      {children}
+    </SubContext.Provider>
+  );
 };
 
 export const SubModalTrigger = ({ children }: PropsWithChildren) => {
