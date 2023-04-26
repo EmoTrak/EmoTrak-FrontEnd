@@ -10,6 +10,7 @@ export const ProtectedRoute = ({
   isAuthAdmin,
   children,
   AlreadyLogin,
+  refreshToken,
 }: RouterProps): ReactElement | null => {
   const nav = useNavigate();
   let payloadJson;
@@ -27,7 +28,7 @@ export const ProtectedRoute = ({
       alert("권한이없습니다.");
       nav(`/`);
     }
-    if (AlreadyLogin && token) {
+    if (AlreadyLogin && refreshToken) {
       nav(`${HOME_PAGE}`);
     }
     if (!isAuthenticated) {

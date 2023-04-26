@@ -36,6 +36,8 @@ const Router = () => {
     payload = JSON.parse(payloadJson);
   }
 
+  const refreshToken = getCookie("refreshToken");
+
   const pages = [
     {
       pathname: "/",
@@ -177,7 +179,7 @@ const Router = () => {
       <Layout>
         <Routes>
           {pages.map((page) => {
-            const isAuthenticated = page.isPublic || token;
+            const isAuthenticated = page.isPublic || refreshToken;
             const isAuthAdmin = page.isAuthAdmin;
 
             const isAdminAuthenticated =
@@ -197,6 +199,7 @@ const Router = () => {
                 element={
                   <ProtectedRoute
                     token={token}
+                    refreshToken={refreshToken}
                     pathname={page.pathname}
                     isAuthenticated={isAuthenticated}
                     isAdminAuthenticated={isAdminAuthenticated}

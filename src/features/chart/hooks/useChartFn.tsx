@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import { date } from "../../../data/type/d1";
 
 const useChartFn = () => {
@@ -15,6 +16,7 @@ const useChartFn = () => {
     date: today.date,
   });
 
+
   const [isShow, setIsShow] = useState<boolean>(false);
 
   const ToggleHandler = () => {
@@ -29,11 +31,13 @@ const useChartFn = () => {
   const nextYear = () => {
     if (Number(select.year) < 2200) {
       return setSelect({ ...select, year: Number(select.year) + 1 });
+
     }
   };
   const onMonthClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const button: HTMLButtonElement = e.currentTarget;
     setSelect({ ...select, month: Number(button.value) });
+
     setIsShow((prev) => !prev);
   };
 

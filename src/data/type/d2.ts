@@ -37,4 +37,5 @@ export type RouterProps = {
   children: ReactElement;
   isAuthAdmin: boolean;
   AlreadyLogin: boolean;
+  refreshToken: string;
 };
