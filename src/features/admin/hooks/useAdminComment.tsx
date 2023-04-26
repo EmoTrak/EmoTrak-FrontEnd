@@ -11,23 +11,20 @@ const useAdminComment = (page: number) => {
       const { data } = await user.get("/admin/comments", { params: { page } });
       return data.data;
     },
-    refetchOnWindowFocus: false,
   });
 
   const { mutate } = useMutation({
     mutationFn: async (payload: number) => {
-      const { data } = await user.delete(`/boards/comments/${payload}`);
-      return data;
+      await user.delete(`/boards/comments/${payload}`);
     },
     onSuccess: () => {
-      alert("삭제완료");
       queryClient.invalidateQueries({ queryKey: [keys.GET_ADMIN] });
     },
   });
 
   return {
     adminCommentData: data,
-    adminCommentDelete: mutate,
+    adminDeleteWrongReport: mutate,
     status,
   };
 };
