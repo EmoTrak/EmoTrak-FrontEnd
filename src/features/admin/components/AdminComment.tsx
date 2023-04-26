@@ -8,18 +8,18 @@ import { IAdminData } from "../../../data/type/type";
 import useAdminComment from "../hooks/useAdminComment";
 import useAdminPost from "../hooks/useAdminPost";
 import PageNation from "../../../components/PageNation";
-import * as St from "../styles/AdminContentStyle";
+import * as St from "../styles/AdminStyle";
 
 const AdminComment = () => {
   const [page, setPage] = useState<number>(1);
-  const nav = useNavigate();
-  const { adminCommentData, adminCommentDelete, status } =
+  const navigate = useNavigate();
+  const { adminCommentData, adminDeleteWrongReport, status } =
     useAdminComment(page);
   const { onReportDelete } = useAdminPost(page);
 
   return (
     <St.Wrapper>
-      <St.BackBtn onClick={() => nav(`${ADMIN}`)}>
+      <St.BackBtn onClick={() => navigate(ADMIN)}>
         <BiArrowBack />
       </St.BackBtn>
       <Flex>
@@ -48,7 +48,7 @@ const AdminComment = () => {
                   <td>
                     <button
                       onClick={() => {
-                        adminCommentDelete(item.id);
+                        adminDeleteWrongReport(item.id);
                       }}
                     >
                       <RiDeleteBin6Line />
@@ -67,7 +67,7 @@ const AdminComment = () => {
           </St.Tbody>
         </St.Table>
       </Flex>
-      <St.PageWrap>
+      <Flex row jc="center">
         {status === "success" && (
           <PageNation
             page={page}
@@ -76,7 +76,7 @@ const AdminComment = () => {
             size={15}
           />
         )}
-      </St.PageWrap>
+      </Flex>
     </St.Wrapper>
   );
 };

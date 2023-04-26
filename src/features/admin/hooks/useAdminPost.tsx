@@ -13,41 +13,29 @@ const useAdminPost = (page: number) => {
       });
       return data.data;
     },
-    refetchOnWindowFocus: false,
   });
 
-  //신고된 게시물 공유해제
-  const { mutate } = useMutation({
+  const { mutate: restrictShare } = useMutation({
     mutationFn: async (payload: number) => {
-      const { data } = await user.patch(`/admin/restrict/${payload}`);
-      return data;
+      await user.patch(`/admin/restrict/${payload}`);
     },
     onSuccess: () => {
-      alert("공유해제완료");
       queryClient.invalidateQueries({ queryKey: [keys.GET_ADMIN] });
-    },
-    onError: (err) => {
-      alert(err);
     },
   });
-  // 신고된 게시물, 댓글 삭제
+
   const { mutate: onReportDelete } = useMutation({
     mutationFn: async (payload: number) => {
-      const { data } = await user.delete(`/admin/report/${payload}`);
-      return data;
+      await user.delete(`/admin/report/${payload}`);
     },
-    onSuccess: (res) => {
-      alert("잘못된 신고 삭제완료");
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [keys.GET_ADMIN] });
-    },
-    onError: (err) => {
-      alert(err);
     },
   });
 
   return {
     adminPostData: data,
-    adminDeleteData: mutate,
+    restrictShare,
     onReportDelete,
     status,
   };

@@ -7,13 +7,13 @@ import { ADMIN, COMMUNITY_PAGE } from "../../../data/routes/urls";
 import useAdminPost from "../hooks/useAdminPost";
 import PageNation from "../../../components/PageNation";
 import { IAdminData } from "../../../data/type/type";
-import * as St from "../styles/AdminContentStyle";
+import * as St from "../styles/AdminStyle";
 
 const AdminPost = () => {
   const nav = useNavigate();
   const [page, setPage] = useState<number>(1);
 
-  const { adminPostData, adminDeleteData, onReportDelete, status } =
+  const { adminPostData, restrictShare, onReportDelete, status } =
     useAdminPost(page);
 
   return (
@@ -48,7 +48,7 @@ const AdminPost = () => {
                     <td>
                       <button
                         onClick={() => {
-                          adminDeleteData(item.id);
+                          restrictShare(item.id);
                         }}
                       >
                         <TbShareOff />
@@ -73,7 +73,7 @@ const AdminPost = () => {
           </St.Table>
         </div>
       </Flex>
-      <St.PageWrap>
+      <Flex row jc="center">
         {status === "success" && (
           <PageNation
             page={page}
@@ -82,7 +82,7 @@ const AdminPost = () => {
             size={15}
           />
         )}
-      </St.PageWrap>
+      </Flex>
     </St.Wrapper>
   );
 };
