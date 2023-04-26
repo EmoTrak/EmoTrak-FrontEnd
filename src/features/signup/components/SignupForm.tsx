@@ -4,21 +4,21 @@ import { useEmailValidation } from "../hooks/useEmailValidation";
 import { useNicknameValidation } from "../hooks/useNicknameValidation";
 import { usePasswordCheck } from "../hooks/usePasswordCheck";
 import { useSignup } from "../hooks/useSignup";
-import {
-  ButtonBox,
-  FormTitle,
-  StForm,
-  StFormWrapper,
-} from "../../login/components/LoginForm";
-import styled from "styled-components";
+
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../../utils/cookies";
 import InputList from "../../mypage/components/InputList";
 import { MyPageInput } from "../../../pages/Mypage";
 import SignupTitle from "../../../assets/Texts/Signup.svg";
-import { themeColor } from "../../../utils/theme";
 import Button from "../../../components/Button";
 import { SignInfo } from "../../../data/type/type";
+import * as St from "../styles/SignupFormStyle";
+import {
+  ButtonBox,
+  Form,
+  FormTitle,
+  FormWrapper,
+} from "../../login/styles/LoginFormStyle";
 
 const SignupForm = () => {
   const navigate = useNavigate();
@@ -126,13 +126,13 @@ const SignupForm = () => {
   }, [token]);
 
   return (
-    <StFormWrapper>
-      <StForm onSubmit={submitInfoHandler}>
+    <FormWrapper>
+      <Form onSubmit={submitInfoHandler}>
         <Flex>
           <FormTitle url={SignupTitle} size={6} />
           <InputList name="이메일" important>
             <label>
-              <SignFormContentBox>
+              <St.SignFormContentBox>
                 <MyPageInput
                   type="text"
                   name="email"
@@ -151,19 +151,21 @@ const SignupForm = () => {
                   emailValidation ? (
                     <span>사용할 수 있는 아이디입니다.</span>
                   ) : (
-                    <StWarningMessage>중복확인이 필요합니다.</StWarningMessage>
+                    <St.WarningMessage>
+                      중복확인이 필요합니다.
+                    </St.WarningMessage>
                   )
                 ) : (
-                  <StWarningMessage>
+                  <St.WarningMessage>
                     이메일 형식으로 입력해주세요.
-                  </StWarningMessage>
+                  </St.WarningMessage>
                 )}
-              </SignFormContentBox>
+              </St.SignFormContentBox>
             </label>
           </InputList>
           <InputList name="닉네임" important>
             <label>
-              <SignFormContentBox>
+              <St.SignFormContentBox>
                 <MyPageInput
                   type="text"
                   name="nickname"
@@ -182,17 +184,19 @@ const SignupForm = () => {
                   nicknameValidation ? (
                     <span>사용할 수 있는 닉네임입니다.</span>
                   ) : (
-                    <StWarningMessage>중복확인이 필요합니다.</StWarningMessage>
+                    <St.WarningMessage>
+                      중복확인이 필요합니다.
+                    </St.WarningMessage>
                   )
                 ) : (
                   <span></span>
                 )}
-              </SignFormContentBox>
+              </St.SignFormContentBox>
             </label>
           </InputList>
           <InputList name="비밀번호" important>
             <label>
-              <SignFormContentBox>
+              <St.SignFormContentBox>
                 <MyPageInput
                   type="password"
                   name="password"
@@ -201,16 +205,16 @@ const SignupForm = () => {
                   onChange={(e) => changeInputHandler(e)}
                 />
                 {7 < Number(signInfo.password.length) ? null : (
-                  <StWarningMessage>
+                  <St.WarningMessage>
                     영소문자, 숫자를 포함하는 8~15자리이어야합니다.
-                  </StWarningMessage>
+                  </St.WarningMessage>
                 )}
-              </SignFormContentBox>
+              </St.SignFormContentBox>
             </label>
           </InputList>
           <InputList name="비밀번호 확인">
             <label>
-              <SignFormContentBox>
+              <St.SignFormContentBox>
                 <MyPageInput
                   type="password"
                   value={checkPassword}
@@ -221,14 +225,14 @@ const SignupForm = () => {
                   checkPasswordHandler(checkPassword) ? (
                     <span>비밀번호가 일치합니다.</span>
                   ) : (
-                    <StWarningMessage>
+                    <St.WarningMessage>
                       비밀번호가 일치하지 않습니다.
-                    </StWarningMessage>
+                    </St.WarningMessage>
                   )
                 ) : (
                   <span>비밀번호를 다시 입력해주세요.</span>
                 )}
-              </SignFormContentBox>
+              </St.SignFormContentBox>
             </label>
           </InputList>
           <ButtonBox>
@@ -237,21 +241,9 @@ const SignupForm = () => {
             </Button>
           </ButtonBox>
         </Flex>
-      </StForm>
-    </StFormWrapper>
+      </Form>
+    </FormWrapper>
   );
 };
 
 export default SignupForm;
-
-const StWarningMessage = styled.span`
-  color: ${themeColor.main.red};
-`;
-
-const SignFormContentBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1vh;
-`;
