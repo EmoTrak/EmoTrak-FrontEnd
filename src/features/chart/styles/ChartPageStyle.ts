@@ -38,9 +38,6 @@ export const EmoList = styled.div`
   justify-content: center;
   flex-direction: column;
   gap: 20px;
-  ${device.mobile} {
-    display: none;
-  }
   ${device.tablet} {
     display: none;
   }
@@ -94,19 +91,21 @@ export const CheckBox = styled.input`
   }
 `;
 
-export const Wrapper = styled.header`
-  display: flex;
+export const Container = styled.div`
+  margin-top: 50px;
+  width: 100vw;
+  height: 100vh;
+`;
+
+export const MobileWrapper = styled.header`
+  display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 60vh;
   width: 100vw;
   ${device.mobile} {
-    height: 60vh;
-    width: 100%;
+    display: flex;
     overflow: hidden;
-  }
-  @media screen and (min-width: 768px) {
-    display: none;
   }
 `;

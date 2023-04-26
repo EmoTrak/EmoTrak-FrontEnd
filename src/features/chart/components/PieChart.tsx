@@ -5,28 +5,28 @@ import { PropsData } from "../../../data/type/type";
 
 import { themeColor } from "../../../utils/theme";
 import * as St from "../styles/ChartStyle";
+import { useMatchData } from "../hooks/useMatchData";
 
 function PieChart({ graphData, month }: PropsData) {
-  const [pieCountArr, setBarCountArr] = useState<number[]>([]);
-  const newPieCount = pieCountArr.reduce((sum: number, cur: number) => {
-    return sum + cur;
-  }, 0);
+  const { countArr, newChartCount, matchedData, setCountArr } = useMatchData({
+    graphData,
+    month,
+  });
   useEffect(() => {
-    const matchedData = graphData?.find((item) => item.month === Number(month));
     if (matchedData) {
-      const test = matchedData.graph.map((item) => item.percentage);
-      setBarCountArr(test);
+      const percentArr = matchedData.graph.map((item) => item.percentage);
+      setCountArr(percentArr);
     }
   }, [graphData, month]);
 
   return (
     <St.Wrapper>
-      {newPieCount > 0 ? (
+      {newChartCount ? (
         <ApexCharts
           width="100%"
           height="100%"
           type="pie"
-          series={pieCountArr}
+          series={countArr}
           options={{
             legend: {
               show: true,
@@ -42,17 +42,17 @@ function PieChart({ graphData, month }: PropsData) {
               themeColor.emoticon.purple,
             ],
             title: {
-              text: "EmoTrak 한달 감정 평균",
+              text: "한 달 감정 평균",
               align: "center",
-              margin: 30,
               style: {
-                fontSize: "14px",
+                fontSize: "20px",
                 fontWeight: "bold",
-                fontFamily: undefined,
                 color: themeColor.main.black,
               },
             },
             chart: {
+              fontFamily: "inherit",
+              height: 600,
               background: "transparent,",
               toolbar: { show: false },
               zoom: { autoScaleYaxis: true },

@@ -1,26 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ApexCharts from "react-apexcharts";
 import { PropsData } from "../../../data/type/type";
 import { themeColor } from "../../../utils/theme";
 import * as St from "../styles/ChartStyle";
+import { useMatchData } from "../hooks/useMatchData";
 
 const BarChart = ({ graphData, month }: PropsData) => {
-  const [barCountArr, setBarCountArr] = useState<number[]>([]);
-  const newBarCount = barCountArr.reduce((sum: number, cur: number) => {
-    return sum + cur;
-  }, 0);
-
+  const { countArr, newChartCount, matchedData, setCountArr } = useMatchData({
+    graphData,
+    month,
+  });
   useEffect(() => {
-    const matchedData = graphData?.find((item) => item.month === Number(month));
     if (matchedData) {
-      const test = matchedData.graph.map((item) => item.count);
-      setBarCountArr(test);
+      const numberArr = matchedData.graph.map((item) => item.count);
+      setCountArr(numberArr);
     }
   }, [graphData, month]);
 
   return (
     <St.Wrapper>
-      {newBarCount > 0 ? (
+      {newChartCount ? (
         <ApexCharts
           width="100%"
           height="100%"
@@ -28,12 +27,15 @@ const BarChart = ({ graphData, month }: PropsData) => {
           series={[
             {
               name: "count",
-              data: barCountArr,
+              data: countArr,
             },
           ]}
           options={{
+            legend: {
+              show: false,
+            },
             chart: {
-              height: 350,
+              fontFamily: "inherit",
               toolbar: { show: false },
               zoom: {
                 enabled: false,
@@ -55,19 +57,22 @@ const BarChart = ({ graphData, month }: PropsData) => {
               },
             },
             title: {
-              text: "EmoTrak 한달 감정 개수",
+              text: "한 달 감정 개수",
               align: "center",
+              style: {
+                fontSize: "20px",
+                fontWeight: "bold",
+                color: themeColor.main.black,
+              },
             },
-
             grid: {
               row: {
-                colors: [themeColor.main.gray, "transparent"],
-                opacity: 0.5,
+                colors: [themeColor.main.coffemilk, "transparent"],
+                opacity: 0.2,
               },
             },
             xaxis: {
               categories: ["Fun", "Smile", "Calm", "Sad", "Angry", "Cry"],
-
               labels: {
                 show: true,
               },
