@@ -1,14 +1,13 @@
 import { InputListProps } from "../../../data/type/type";
 import * as St from "../styles/InputListStyle";
 
-function InputList({ important, name, children }: InputListProps) {
+function InputList({ name, children }: InputListProps) {
   return (
     <St.ListWrapper>
       <St.ListTitle>
         {name}
-        {important ? <St.Aster>*</St.Aster> : null}
+        <St.ListContent>{children}</St.ListContent>
       </St.ListTitle>
-      <St.ListContent>{children}</St.ListContent>
     </St.ListWrapper>
   );
 }

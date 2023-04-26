@@ -119,7 +119,6 @@ export interface CanvasProps {
 }
 
 export interface InputListProps extends PropsWithChildren {
-  important?: boolean;
   name: string;
 }
 

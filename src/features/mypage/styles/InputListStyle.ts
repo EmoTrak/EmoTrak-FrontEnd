@@ -33,8 +33,8 @@ export const ListWrapper = styled.div`
   }
 `;
 
-export const ListTitle = styled.div`
-  width: 7vw;
+export const ListTitle = styled.label`
+  width: 40vw;
   font-size: 18px;
   display: flex;
   justify-content: center;
