@@ -123,9 +123,9 @@ const CommunityDetail = () => {
               .fill(null)
               .map((_, i) =>
                 i < data?.star ? (
-                  <Star key={i} size="20" color={themeColor.palette.yellow} />
+                  <Star key={i} size="25px" color={themeColor.palette.yellow} />
                 ) : (
-                  <Star key={i} size="20" color={themeColor.main.oatmeal} />
+                  <Star key={i} size="25px" color={themeColor.main.oatmeal} />
                 )
               )}
           </EmotionStar>
@@ -163,11 +163,13 @@ const CommunityDetail = () => {
 export default CommunityDetail;
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   display: flex;
   position: relative;
   justify-content: space-around;
+  box-sizing: border-box;
   background-color: ${themeColor.main.white};
+  color: ${themeColor.main.chocomilk};
   ${device.mobile} {
     flex-direction: column;
   }
@@ -177,12 +179,11 @@ const ImageWrapper = styled.div`
   width: 50vw;
   margin-top: 50px;
   margin-bottom: 50px;
-
+  box-sizing: border-box;
   ${device.mobile} {
+    margin-top: 10px;
+    margin-bottom: 10px;
     position: relative;
-    top: 30px;
-    left: 5%;
-    margin: 10px auto 50px auto;
     width: 100%;
   }
 `;
@@ -194,7 +195,7 @@ const PostDetailWrapper = styled.div`
   align-items: center;
   position: relative;
   ${device.mobile} {
-    width: 100vw;
+    width: 100%;
   }
 `;
 
@@ -207,7 +208,7 @@ const Img = styled.img`
 `;
 
 const Emoticon = styled.div`
-  width: 25px;
+  width: 23px;
 `;
 
 const EmotionalScore = styled.div`
@@ -215,7 +216,9 @@ const EmotionalScore = styled.div`
 `;
 
 const EmotionStar = styled.div`
-  min-width: 160px;
+  /* min-width: 100px; */
+  display: flex;
+  gap: 15px;
 `;
 
 const PostContent = styled.div`
@@ -225,6 +228,7 @@ const PostContent = styled.div`
   text-decoration: underline;
   text-underline-position: under;
   text-decoration-color: ${themeColor.main.chocomilk};
+  box-sizing: border-box;
   ${device.mobile} {
     width: 80%;
   }

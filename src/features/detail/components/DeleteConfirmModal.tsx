@@ -10,7 +10,9 @@ import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
 import { useDelete } from "../hooks/useDelete";
 import { useNavigate } from "react-router-dom";
-import { themeColor } from "../../../utils/theme";
+import { device, themeColor } from "../../../utils/theme";
+import { keys } from "../../../data/queryKeys/keys";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface DeleteModalProps {
   children: React.ReactNode;
@@ -18,12 +20,14 @@ interface DeleteModalProps {
 }
 
 const DeleteConfirmModal = ({ children, itemId }: DeleteModalProps) => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { deletePost } = useDelete();
   const deletePostHandler = (id: number) => {
     deletePost.mutate(id, {
       onSuccess: () => {
         navigate(-1);
+        queryClient.resetQueries({ queryKey: [keys.GET_BOARD] });
       },
     });
   };
@@ -70,6 +74,10 @@ const PostContent = styled.div`
   box-shadow: 1px 1px 10px 5px ${themeColor.main.oatmeal};
   padding: 60px 20px 40px;
   cursor: auto;
+  ${device.mobile} {
+    width: 280px;
+    padding: 30px 20px 20px;
+  }
 `;
 const Text = styled.div`
   padding-bottom: 10%;
@@ -86,6 +94,11 @@ const ClickBtn = styled.div`
   height: 70px;
   margin: 10px;
   cursor: pointer;
+  ${device.mobile} {
+    width: 180px;
+    height: 65px;
+    margin: 5px;
+  }
 `;
 
 const CloseBtn = styled.div`

@@ -209,7 +209,7 @@ export const MyPageInput = styled.input`
   border: none;
   border-radius: 6px;
   padding: 5px 10px 5px 10px;
-  font-size: 0.6vw;
+  font-size: 15px;
   ${device.tablet} {
     width: 60vw;
     height: 3vh;

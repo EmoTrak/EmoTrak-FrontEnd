@@ -11,7 +11,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { DRAW_POST_PAGE, IMAGE_POST_PAGE } from "../../../data/routes/urls";
 import { IoMdClose } from "react-icons/io";
-import { themeColor } from "../../../utils/theme";
+import { device, themeColor } from "../../../utils/theme";
 
 const ClickModalPost = ({ children, diaryDay }: PropsType & PropsWithChildren) => {
   const navigate = useNavigate();
@@ -71,6 +71,9 @@ const PostContent = styled.div`
   box-shadow: 1px 1px 10px 5px ${themeColor.main.oatmeal};
   padding: 60px 20px 40px;
   cursor: auto;
+  ${device.mobile} {
+    width: 300px;
+  }
 `;
 const Text = styled.div`
   padding-bottom: 10%;
@@ -85,6 +88,9 @@ const ClickBtn = styled.div`
   padding: 10% 15%;
   margin: 2%;
   cursor: pointer;
+  ${device.mobile} {
+    padding: 10% 13%;
+  }
 `;
 
 const CloseBtn = styled.div`

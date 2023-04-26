@@ -1,4 +1,3 @@
-import React, { PropsWithChildren } from "react";
 import * as UI from "../components/Modal";
 import styled from "styled-components";
 import { device, themeColor } from "../utils/theme";
@@ -64,6 +63,7 @@ export default MobileMenubar;
 const MenuButton = styled.div`
   display: none;
   font-size: 25px;
+  color: ${themeColor.main.chocomilk};
   ${device.mobile} {
     display: contents;
   }
@@ -76,10 +76,12 @@ const Content = styled.div`
     top: 90px;
     left: 0;
     background-color: ${themeColor.main.oatmeal};
+    box-shadow: 3px 3px 5px ${themeColor.main.oatmeal};
+    border-radius: 0 0 5% 5%;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    height: 110px;
+    height: 100px;
     font-size: 18px;
     display: flex;
     justify-content: space-around;
@@ -95,6 +97,7 @@ const SelectButton = styled.div`
   height: 75px;
   border-radius: 25%;
   color: ${themeColor.main.chocomilk};
+  box-shadow: 1px 1px 5px ${themeColor.main.chocomilk};
   padding: 2%;
   box-sizing: border-box;
   font-size: 25px;

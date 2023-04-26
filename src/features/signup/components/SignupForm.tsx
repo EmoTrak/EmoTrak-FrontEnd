@@ -5,7 +5,12 @@ import { useEmailValidation } from "../hooks/useEmailValidation";
 import { useNicknameValidation } from "../hooks/useNicknameValidation";
 import { usePasswordCheck } from "../hooks/usePasswordCheck";
 import { useSignup } from "../hooks/useSignup";
-import { FormTitle, StFormWrapper } from "../../login/components/LoginForm";
+import {
+  ButtonBox,
+  FormTitle,
+  StForm,
+  StFormWrapper,
+} from "../../login/components/LoginForm";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../../utils/cookies";
@@ -13,6 +18,7 @@ import InputList from "../../mypage/components/InputList";
 import { MyPageInput } from "../../../pages/Mypage";
 import SignupTitle from "../../../assets/Texts/Signup.svg";
 import { themeColor } from "../../../utils/theme";
+import Button from "../../../components/Button";
 
 const SignupForm = () => {
   const navigate = useNavigate();
@@ -27,12 +33,20 @@ const SignupForm = () => {
 
   const { validEmail, checkEmail, emailValidation, setEmailValidation } =
     useEmailValidation();
-  const { validNickname, checkNickname, nicknameValidation, setNicknameValidation } =
-    useNicknameValidation();
-  const { validPassword, checkPasswordHandler } = usePasswordCheck(signInfo.password);
+  const {
+    validNickname,
+    checkNickname,
+    nicknameValidation,
+    setNicknameValidation,
+  } = useNicknameValidation();
+  const { validPassword, checkPasswordHandler } = usePasswordCheck(
+    signInfo.password
+  );
   const { signup } = useSignup();
 
-  const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const changeInputHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     const { name, value } = event.target;
     setSignInfo({ ...signInfo, [name]: value });
     if (name === "nickname") {
@@ -45,7 +59,9 @@ const SignupForm = () => {
     }
   };
 
-  const checkPasswordChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const checkPasswordChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { value } = event.target;
     setCheckPassword(value);
   };
@@ -72,7 +88,11 @@ const SignupForm = () => {
 
   const submitInfoHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (emailValidation && nicknameValidation && validPassword(signInfo.password)) {
+    if (
+      emailValidation &&
+      nicknameValidation &&
+      validPassword(signInfo.password)
+    ) {
       signup.mutate(signInfo);
     } else {
       alert("입력한 내용을 확인해주세요 !");
@@ -107,7 +127,7 @@ const SignupForm = () => {
 
   return (
     <StFormWrapper>
-      <form onSubmit={submitInfoHandler}>
+      <StForm onSubmit={submitInfoHandler}>
         <Flex>
           <FormTitle url={SignupTitle} size={6} />
           <InputList name="이메일" important>
@@ -120,13 +140,13 @@ const SignupForm = () => {
                   maxLength={25}
                   onChange={(e) => changeInputHandler(e)}
                 />
-                <button
+                <Button
                   type="button"
                   onClick={() => checkEmailHandler(signInfo.email)}
                   disabled={emailValidation}
                 >
                   중복확인
-                </button>
+                </Button>
                 {signInfo.email ? (
                   emailValidation ? (
                     <span>사용할 수 있는 아이디입니다.</span>
@@ -134,7 +154,9 @@ const SignupForm = () => {
                     <StWarningMessage>중복확인이 필요합니다.</StWarningMessage>
                   )
                 ) : (
-                  <StWarningMessage>이메일 형식으로 입력해주세요.</StWarningMessage>
+                  <StWarningMessage>
+                    이메일 형식으로 입력해주세요.
+                  </StWarningMessage>
                 )}
               </SignFormContentBox>
             </label>
@@ -149,13 +171,13 @@ const SignupForm = () => {
                   maxLength={8}
                   onChange={(e) => changeInputHandler(e)}
                 />
-                <button
+                <Button
                   type="button"
                   onClick={() => checkNicknameHandler(signInfo.nickname)}
                   disabled={nicknameValidation}
                 >
                   중복확인
-                </button>
+                </Button>
                 {signInfo.nickname ? (
                   nicknameValidation ? (
                     <span>사용할 수 있는 닉네임입니다.</span>
@@ -199,7 +221,9 @@ const SignupForm = () => {
                   checkPasswordHandler(checkPassword) ? (
                     <span>비밀번호가 일치합니다.</span>
                   ) : (
-                    <StWarningMessage>비밀번호가 일치하지 않습니다.</StWarningMessage>
+                    <StWarningMessage>
+                      비밀번호가 일치하지 않습니다.
+                    </StWarningMessage>
                   )
                 ) : (
                   <span>비밀번호를 다시 입력해주세요.</span>
@@ -207,9 +231,13 @@ const SignupForm = () => {
               </SignFormContentBox>
             </label>
           </InputList>
-          <button type="submit">가입하기</button>
+          <ButtonBox>
+            <Button size="large" type="submit">
+              가입하기
+            </Button>
+          </ButtonBox>
         </Flex>
-      </form>
+      </StForm>
     </StFormWrapper>
   );
 };

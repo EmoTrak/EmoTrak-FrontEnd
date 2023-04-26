@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { DateSelectType } from "../../../data/type/d1";
 import { IoMdClose } from "react-icons/io";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import { themeColor } from "../../../utils/theme";
+import { device, themeColor } from "../../../utils/theme";
 
 const MonthSelect = ({
   children,
@@ -60,6 +60,11 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   z-index: 5;
+  ${device.mobile} {
+    height: 250px;
+    width: 250px;
+    padding: 18px 25px;
+  }
 `;
 const Year = styled.div`
   font-size: 20px;
@@ -86,7 +91,7 @@ const ClickBtn = styled.button`
   height: 30px;
   background-color: transparent;
   font-family: "KyoboHand";
-  font-size: 18px;
+  font-size: 20px;
   border: 0;
   color: ${themeColor.main.chocomilk};
   border-radius: 50%;

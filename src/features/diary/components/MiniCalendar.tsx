@@ -23,7 +23,7 @@ const MiniCalendar = ({ year, month }: date) => {
   );
   return (
     <CalendarBox>
-      <div>{month}월</div>
+      <Month>{month}월</Month>
 
       <div>
         <Sunday>일</Sunday>
@@ -55,11 +55,16 @@ const MiniCalendar = ({ year, month }: date) => {
 const CalendarBox = styled.div`
   width: 200px;
   margin: 50px 0 0 3vw;
+  color: #767676;
   ${device.tablet} {
     display: none;
   }
 `;
 
+const Month = styled.div`
+  margin-left: 10px;
+  margin-bottom: 10px;
+`;
 const DiaryDay = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -71,6 +76,7 @@ const Day = styled.button`
   border: 0;
   background-color: transparent;
   font-family: "KyoboHand";
+  color: #767676;
 `;
 
 const Sunday = styled.button`
