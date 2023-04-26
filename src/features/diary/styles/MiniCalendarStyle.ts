@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { device, themeColor } from "../../../utils/theme";
+import { device } from "../../../utils/theme";
 
 export const CalendarBox = styled.div`
   width: 200px;
@@ -20,26 +20,8 @@ export const DiaryDay = styled.div`
   height: 150px;
 `;
 
-export const Day = styled.button`
+export const Day = styled.div<{ day?: number }>`
   min-width: calc(100% / 7);
-  border: 0;
-  background-color: transparent;
-  font-family: "KyoboHand";
-  color: #767676;
-`;
-
-export const Sunday = styled.button`
-  min-width: calc(100% / 7);
-  border: 0;
-  background-color: transparent;
-  font-family: "KyoboHand";
-  color: ${themeColor.main.red};
-`;
-
-export const Saturday = styled.button`
-  min-width: calc(100% / 7);
-  border: 0;
-  background-color: transparent;
-  font-family: "KyoboHand";
-  color: ${themeColor.palette.blue};
+  color: ${({ day }) => (day === 0 ? "red" : day === 6 ? "blue" : "#767676")};
+  font-size: 12px;
 `;

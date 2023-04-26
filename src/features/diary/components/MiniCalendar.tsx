@@ -1,4 +1,6 @@
 import { DateType } from "../../../data/type/type";
+import { useDate } from "../hooks/useDate";
+import Flex from "../../../components/Flex";
 import * as St from "../styles/MiniCalendarStyle";
 
 const MiniCalendar = ({ year, month }: DateType) => {
@@ -8,44 +10,30 @@ const MiniCalendar = ({ year, month }: DateType) => {
     month = 12;
   }
 
-  const lastDate: number = new Date(year, month, 0).getDate();
-  const firstDay: number = new Date(year, month - 1, 1).getDay();
+  const { firstDay, date } = useDate(year, month);
 
-  // 날짜 변환 함수
-  const date = new Array(lastDate).fill(null).map(
-    (e, i): DateType => ({
-      year: year,
-      month: month,
-      date: i + 1,
-      day: new Date(year, month - 1, i + 1).getDay(),
-    })
-  );
   return (
     <St.CalendarBox>
       <St.Month>{month}월</St.Month>
 
-      <div>
-        <St.Sunday>일</St.Sunday>
+      <Flex row>
+        <St.Day day={0}>일</St.Day>
         <St.Day>월</St.Day>
         <St.Day>화</St.Day>
         <St.Day>수</St.Day>
         <St.Day>목</St.Day>
         <St.Day>금</St.Day>
-        <St.Saturday>토</St.Saturday>
-      </div>
+        <St.Day day={6}>토</St.Day>
+      </Flex>
       <St.DiaryDay>
-        {new Array(firstDay).fill(null).map((e, i) => (
+        {new Array(firstDay).fill(null).map((_, i) => (
           <St.Day key={i}></St.Day>
         ))}
-        {date.map((item) =>
-          item.day === 0 ? (
-            <St.Sunday key={item.date}>{item.date}</St.Sunday>
-          ) : item.day === 6 ? (
-            <St.Saturday key={item.date}>{item.date}</St.Saturday>
-          ) : (
-            <St.Day key={item.date}>{item.date}</St.Day>
-          )
-        )}
+        {date.map((item) => (
+          <St.Day key={item.date} day={item.day}>
+            {item.date}
+          </St.Day>
+        ))}
       </St.DiaryDay>
     </St.CalendarBox>
   );

@@ -1,10 +1,8 @@
 import { PropsWithChildren } from "react";
-import * as UI from "../../../components/Modal";
-import styled from "styled-components";
-import { DateSelectType } from "../../../data/type/type";
 import { IoMdClose } from "react-icons/io";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import { device, themeColor } from "../../../utils/theme";
+import { DateSelectType } from "../../../data/type/type";
+import * as UI from "../../../components/Modal";
 import * as St from "../styles/MonthSelectStyle";
 
 const MonthSelect = ({
@@ -13,6 +11,7 @@ const MonthSelect = ({
   setSelect,
 }: PropsWithChildren & DateSelectType) => {
   const month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
   return (
     <UI.Modalroot>
       <UI.ModalTrigger>{children}</UI.ModalTrigger>
@@ -29,7 +28,6 @@ const MonthSelect = ({
             >
               <AiOutlineLeft />
             </button>
-
             {select.year}
             <button
               onClick={() => setSelect({ ...select, year: select.year + 1 })}
@@ -38,12 +36,12 @@ const MonthSelect = ({
             </button>
           </St.Year>
           <St.SelectMonth>
-            {month.map((_, i) => (
-              <UI.ModalClose key={i}>
+            {month.map((item) => (
+              <UI.ModalClose key={item}>
                 <St.ClickBtn
-                  onClick={() => setSelect({ ...select, month: i + 1 })}
+                  onClick={() => setSelect({ ...select, month: item })}
                 >
-                  {i + 1}
+                  {item}
                 </St.ClickBtn>
               </UI.ModalClose>
             ))}
