@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { device, themeColor } from "../../../utils/theme";
 
 export const Content = styled.div`

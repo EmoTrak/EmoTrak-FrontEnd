@@ -15,17 +15,10 @@ export const CalendarBtn = styled.div`
 export const Container = styled.div`
   display: flex;
   background-color: ${themeColor.main.white};
-  height: 100vh;
+  height: 100%;
   ${device.tablet} {
-    padding-left: 10px;
-  }
-  ${device.mobile} {
-    padding-left: 5px;
-    height: 90vh;
-  }
-  ${device.miniMobile} {
-    padding-left: 5px;
-    height: 60vh;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
@@ -51,7 +44,7 @@ export const NowDay = styled.div`
 
 export const SelectBtn = styled.button`
   position: absolute;
-  top: 20px;
+  top: 18px;
   border: 0;
   background-color: transparent;
   font-size: 20px;
@@ -72,7 +65,10 @@ export const CalendarBox = styled.div`
 export const DiaryDay = styled.div`
   display: flex;
   flex-wrap: wrap;
-  height: 80%;
+  width: 50vw;
+  ${device.tablet} {
+    width: 90vw;
+  }
   ${device.mobile} {
     max-height: 65%;
   }
@@ -97,35 +93,23 @@ export const Weeks = styled.div`
     font-size: 13px;
   }
 `;
-export const Day = styled.button`
-  min-width: calc(100% / 7);
+export const Day = styled.button<{ day?: number }>`
+  width: calc(100% / 7);
+  height: 15vh;
   display: flex;
   border: 0;
   font-size: 18px;
   box-sizing: border-box;
   background-color: transparent;
   position: relative;
-  font-family: "KyoboHand";
+  font-family: inherit;
   cursor: pointer;
-
+  color: ${({ day }) => (day === 0 ? "red" : day === 6 ? "blue" : "black")};
   ${device.mobile} {
     font-size: 13px;
+    height: 11vh;
   }
-`;
-
-export const Sunday = styled.button`
-  min-width: calc(100% / 7);
-  border: 0;
-  display: flex;
-  font-size: 18px;
-  box-sizing: border-box;
-  background-color: transparent;
-  position: relative;
-  font-family: "KyoboHand";
-  cursor: pointer;
-  color: ${themeColor.palette.red};
-
-  ${device.mobile} {
-    font-size: 13px;
+  ${device.miniMobile} {
+    height: 8vh;
   }
 `;

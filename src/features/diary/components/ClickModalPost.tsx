@@ -1,9 +1,9 @@
 import { PropsWithChildren } from "react";
-import * as UI from "../../../components/Modal";
-import { PropsType } from "../../../data/type/type";
 import { useNavigate } from "react-router-dom";
-import { DRAW_POST_PAGE, IMAGE_POST_PAGE } from "../../../data/routes/urls";
 import { IoMdClose } from "react-icons/io";
+import { PropsType } from "../../../data/type/type";
+import { DRAW_POST_PAGE, IMAGE_POST_PAGE } from "../../../data/routes/urls";
+import * as UI from "../../../components/Modal";
 import * as St from "../styles/ClickModalPostStyle";
 
 const ClickModalPost = ({
