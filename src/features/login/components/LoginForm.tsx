@@ -157,9 +157,6 @@ export const StForm = styled.form`
   ${device.mobile} {
     gap: 5;
   }
-  ${device.miniMobile} {
-    gap: 5;
-  }
 `;
 
 export const SocialLoginButton = styled.button<IconProps>`
