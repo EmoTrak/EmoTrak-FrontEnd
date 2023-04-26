@@ -148,6 +148,7 @@ const Boards = () => {
 const Container = styled.div`
   padding-left: 20px;
   padding-right: 20px;
+  margin-top: 50px;
   ${device.tablet} {
     padding: 0px;
   }
@@ -163,6 +164,7 @@ const SelectBar = styled.div`
   ${device.miniMobile} {
     justify-content: space-around;
     min-width: 320px;
+    height: 50px;
   }
 `;
 
@@ -270,6 +272,7 @@ const ScrollOntop = styled.button`
   position: fixed;
   bottom: 40px;
   left: 50%;
+  transform: translate(-50%);
   z-index: 10;
   background-color: ${themeColor.main.coffemilk};
   color: ${themeColor.main.white};

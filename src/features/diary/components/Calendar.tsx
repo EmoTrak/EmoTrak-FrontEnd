@@ -79,12 +79,6 @@ const Calendar = () => {
       return data.data.data;
     },
   });
-  useEffect(() => {
-    if (!token) {
-      alert("로그인이 필요한 서비스입니다.");
-      navigate("/");
-    }
-  }, []);
 
   return (
     <Container>
@@ -135,14 +129,20 @@ const Calendar = () => {
             // 전년도일때
             if (item.year < today.year && item.day === 0) {
               return (
-                <Sunday key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Sunday
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Sunday>
               );
             } else if (item.year < today.year) {
               return (
-                <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Day
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Day>
@@ -155,14 +155,20 @@ const Calendar = () => {
               item.day === 0
             ) {
               return (
-                <Sunday key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Sunday
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Sunday>
               );
             } else if (item.year === today.year && item.month < today.month) {
               return (
-                <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Day
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Day>
@@ -176,7 +182,10 @@ const Calendar = () => {
               item.day === 0
             ) {
               return (
-                <Sunday key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Sunday
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Sunday>
@@ -187,7 +196,10 @@ const Calendar = () => {
               Number(item.date) <= Number(today.date)
             ) {
               return (
-                <Day key={item.date} onClick={() => clickDayBtn(Number(item.date))}>
+                <Day
+                  key={item.date}
+                  onClick={() => clickDayBtn(Number(item.date))}
+                >
                   {item.date}
                   <CalendarEmo data={data} item={item} today={today} />
                 </Day>
@@ -201,7 +213,9 @@ const Calendar = () => {
         </DiaryDay>
       </CalendarBox>
 
-      {side && <Sidebar side={side} setSide={setSide} data={data} diaryDay={select} />}
+      {side && (
+        <Sidebar side={side} setSide={setSide} data={data} diaryDay={select} />
+      )}
     </Container>
   );
 };
@@ -226,10 +240,11 @@ const Container = styled.div`
   }
   ${device.mobile} {
     padding-left: 5px;
+    height: 90vh;
   }
   ${device.miniMobile} {
     padding-left: 5px;
-    height: 70vh;
+    height: 60vh;
   }
 `;
 
@@ -238,17 +253,17 @@ const NowDay = styled.div`
   display: flex;
   justify-content: center;
   span {
-    font-size: 25px;
+    font-size: 21px;
     position: relative;
     z-index: 3;
   }
   p {
     background-color: ${themeColor.emoticon.yellow};
     border-radius: 10px;
-    width: 130px;
+    width: 115px;
     height: 16px;
     position: absolute;
-    top: 13px;
+    top: 10px;
     z-index: 2;
   }
 `;
@@ -300,9 +315,6 @@ const Weeks = styled.div`
   ${device.mobile} {
     font-size: 13px;
   }
-  ${device.miniMobile} {
-    font-size: 10px;
-  }
 `;
 const Day = styled.button`
   min-width: calc(100% / 7);
@@ -317,9 +329,6 @@ const Day = styled.button`
 
   ${device.mobile} {
     font-size: 13px;
-  }
-  ${device.miniMobile} {
-    font-size: 10px;
   }
 `;
 
@@ -337,9 +346,6 @@ const Sunday = styled.button`
 
   ${device.mobile} {
     font-size: 13px;
-  }
-  ${device.miniMobile} {
-    font-size: 11px;
   }
 `;
 

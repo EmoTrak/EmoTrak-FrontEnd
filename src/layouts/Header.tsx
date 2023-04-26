@@ -46,9 +46,15 @@ const Header = () => {
       <BackOfPage onClick={() => navigate(-1)}>
         <IoIosArrowBack />
       </BackOfPage>
-      <EmoTrakLogo onClick={() => navigate(HOME_PAGE)}>
-        <LogoImg src={EmoTrak} alt="로고" />
-      </EmoTrakLogo>
+      {refreshToken ? (
+        <EmoTrakLogo onClick={() => navigate(HOME_PAGE)}>
+          <LogoImg src={EmoTrak} alt="로고" />
+        </EmoTrakLogo>
+      ) : (
+        <EmoTrakLogo>
+          <LogoImg src={EmoTrak} alt="로고" />
+        </EmoTrakLogo>
+      )}
       <MobileMenubar logout={logoutUserHandler} />
       {payload?.auth === "ADMIN" ? (
         <NavWrapper>
@@ -161,6 +167,7 @@ const BackOfPage = styled.button`
   background-color: transparent;
   border: 0;
   position: absolute;
+  color: ${themeColor.main.chocomilk};
   ${device.mobile} {
     display: flex;
     align-items: center;
