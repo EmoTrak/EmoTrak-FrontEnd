@@ -1,6 +1,15 @@
 import styled from "styled-components";
 import { device, themeColor } from "../../../utils/theme";
 
+export const CanvasWrapper = styled.div`
+  width: 50vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const MobileStarWrap = styled.div`
   display: flex;
   justify-content: center;

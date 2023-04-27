@@ -96,7 +96,7 @@ export const usePen = (
   }, []);
 
   const startPaint = useCallback(
-    (event: React.MouseEvent<HTMLCanvasElement>): void => {
+    (event: React.MouseEvent<HTMLCanvasElement>) => {
       const coordinates = action(event);
       if (coordinates) {
         setIsPainting(true);
@@ -107,7 +107,7 @@ export const usePen = (
   );
 
   const paint = useCallback(
-    (event: React.MouseEvent<HTMLCanvasElement>): void => {
+    (event: React.MouseEvent<HTMLCanvasElement>) => {
       event.preventDefault();
       event.stopPropagation();
 
@@ -122,7 +122,7 @@ export const usePen = (
     [isPainting, mousePosition]
   );
 
-  const exitPaint = useCallback((): void => {
+  const exitPaint = useCallback(() => {
     setIsPainting(false);
   }, []);
 

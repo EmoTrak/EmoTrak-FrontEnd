@@ -41,9 +41,7 @@ export const useEdit = ({ inputValue, dailyId, canvasRef }: PostInput) => {
   };
 
   // 이미지 파일 업로드 함수
-  const fileInputHandler = async (
-    event: React.ChangeEvent<HTMLInputElement> | null
-  ) => {
+  const fileInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event?.currentTarget;
     const files = (target?.files as FileList)[0];
     const imgBlob = new Blob([files], { type: "image/jpeg" });
@@ -51,7 +49,7 @@ export const useEdit = ({ inputValue, dailyId, canvasRef }: PostInput) => {
   };
 
   // 이미지 파일 드래그앤드랍 업로드 함수
-  const fileDropHandler = async (event: React.DragEvent<HTMLLabelElement>) => {
+  const fileDropHandler = (event: React.DragEvent<HTMLLabelElement>) => {
     const files = (event.dataTransfer.files as FileList)[0];
     const imgBlob = new Blob([files], { type: "image/jpeg" });
     setPhoto(imgBlob);
