@@ -10,7 +10,7 @@ const useDeleteComment = () => {
       await user.delete(`/boards/comments/${id}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries([keys.GET_BOARD]);
+      queryClient.invalidateQueries([keys.GET_BOARD_DETAIL]);
     },
   });
   return { deleteComment };

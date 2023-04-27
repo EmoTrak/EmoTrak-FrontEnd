@@ -1,37 +1,31 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { StCanvasWrapper } from "../features/post/components/Canvas";
-import { InputValue, StEmoButton, StList, StUnorderLi } from "./DrawingPost";
-import Star from "../components/Icon/Star";
-import { useInput } from "../features/post/hooks/useInput";
-import EmotionIcons from "../components/Icon/EmoticonIcons";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { HOME_PAGE } from "../data/routes/urls";
+import { InputValue } from "../data/type/type";
+import { useInput } from "../features/post/hooks/useInput";
 import { usePost } from "../features/post/hooks/usePost";
-import styled from "styled-components";
 import { usePreview } from "../features/post/hooks/usePreview";
-import Flex from "../components/Flex";
-import { getCookie } from "../utils/cookies";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
-import { device, themeColor } from "../utils/theme";
-import { HOME_PAGE } from "../data/routes/urls";
-export type StPreviewProps = {
-  url: string;
-};
+import StarScore from "../features/post/components/StarScore";
+import EmoScore from "../features/post/components/EmoScore";
+import * as St from "../features/post/styles/ImageStyle";
+import PostInput from "../features/post/components/PostInput";
+
 const ImagePost = () => {
-  const token = getCookie("token");
-  const refreshToken = getCookie("refreshToken");
   const navigate = useNavigate();
+
   // 날짜
   const params = useParams();
-  const year: number | undefined = Number(params.date?.split("-")[0]);
-  const month: number | undefined = Number(params.date?.split("-")[1]);
-  const day: number | undefined = Number(params.date?.split("-")[2]);
-
+  const [year, month, day] = (params.date || "").split("-").map(Number);
   // 글작성 조건 상태
-  const [validPhoto, setValidPhoto] = useState<boolean>(false);
-  const [validStar, setValidStar] = useState<boolean>(false);
-  const [validEmoji, setValidEmoji] = useState<boolean>(false);
-  const editItem: InputValue = {
+  const [valid, setValid] = useState({
+    photo: false,
+    star: false,
+    emoji: false,
+  });
+
+  const newItem: InputValue = {
     year,
     month,
     day,
@@ -43,44 +37,51 @@ const ImagePost = () => {
     share: false,
     restrict: false,
   };
+
   const {
     onChangeHandler,
     onCheckHandler,
     clickEmojiHandler,
     inputValue,
     scoreStarHandler,
-  } = useInput(editItem);
+  } = useInput(newItem);
 
-  const { submitDiaryHandler, fileInputHandler, fileDropHandler, photo } = usePost({
-    inputValue,
-  });
+  const { submitDiaryHandler, fileInputHandler, fileDropHandler, photo } =
+    usePost({
+      inputValue,
+    });
   const { preview, previewUrl } = usePreview();
 
   // 별점
-  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
-  const clickStarHandler = (index: number): void => {
-    setClicked(clicked.map((_, i) => i <= index - 1));
-    scoreStarHandler(index);
+  const [clicked, setClicked] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
+  const clickStarHandler = (score: number): void => {
+    setClicked(clicked.map((_, i) => i <= score - 1));
+    scoreStarHandler(score);
+    setValid({ ...valid, star: true });
   };
 
   // 드래그앤 드랍
-  const dragRef = useRef<HTMLLabelElement | null>(null);
-
-  const dragOverHandler = useCallback((event: React.DragEvent): void => {
+  const dragOverHandler = (event: React.DragEvent) => {
     event.preventDefault();
     event.stopPropagation();
-  }, []);
+  };
 
-  const dropHandler = useCallback((event: React.DragEvent<HTMLLabelElement>): void => {
+  const dropHandler = (event: React.DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
     event.stopPropagation();
 
     fileDropHandler(event);
-    setValidPhoto(true);
-  }, []);
+    setValid({ ...valid, photo: true });
+  };
 
-  const submitFormHandler = (event: React.FormEvent<HTMLFormElement>): void => {
-    if (validPhoto && validEmoji && validStar) {
+  const submitFormHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    if (valid.photo && valid.emoji && valid.star) {
       submitDiaryHandler(event);
     } else {
       event.preventDefault();
@@ -88,30 +89,22 @@ const ImagePost = () => {
     }
   };
 
-  const changeFileHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setValidPhoto(true);
+  const changeFileHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValid({ ...valid, photo: true });
     fileInputHandler(event);
   };
 
-  const changeStarHandler = (score: number): void => {
-    clickStarHandler(score);
-    setValidStar(true);
-  };
-
-  const changeEmojiHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
+  const changeEmojiHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     clickEmojiHandler(event);
-    setValidEmoji(true);
+    setValid({ ...valid, emoji: true });
   };
 
-  const deletePhotoHandler = (): void => {
-    setValidPhoto(false);
+  const deletePhotoHandler = () => {
+    setValid({ ...valid, photo: false });
   };
 
   useEffect(() => {
     preview(photo);
-    if (!token && !refreshToken) {
-      navigate("/");
-    }
     const preventGoBack = () => {
       if (window.confirm("페이지를 나가시겠습니까?")) {
         navigate(HOME_PAGE);
@@ -121,9 +114,9 @@ const ImagePost = () => {
     };
 
     // 새로고침 막기 변수
-    const preventClose = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-      e.returnValue = ""; // chrome에서는 설정이 필요해서 넣은 코드
+    const preventClose = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = ""; // chrome에서는 설정이 필요해서 넣은 코드
     };
 
     window.history.pushState(null, "", window.location.href);
@@ -133,335 +126,63 @@ const ImagePost = () => {
       window.removeEventListener("popstate", preventGoBack);
       window.removeEventListener("beforeunload", preventClose);
     };
-  }, [token, photo]);
+  }, [photo]);
 
   return (
     <>
       <form onSubmit={submitFormHandler}>
-        <Wrapper>
-          <ImageWrap>
-            {validPhoto ? (
-              <PhotoPreview>
-                <StPhotoPreview src={`${previewUrl}`} />
-                <StDeletePhotoButton type="button" onClick={deletePhotoHandler}>
+        <St.Wrapper>
+          <St.ImageWrap>
+            {valid.photo ? (
+              <St.PhotoPreview>
+                <St.PhotoPreviewImg src={`${previewUrl}`} />
+                <St.DeletePhotoButton
+                  type="button"
+                  onClick={deletePhotoHandler}
+                >
                   삭제
-                </StDeletePhotoButton>
-              </PhotoPreview>
+                </St.DeletePhotoButton>
+              </St.PhotoPreview>
             ) : (
-              <StPhotoInputContainer>
-                <StPhotoInputBox>
-                  <label ref={dragRef} onDragOver={dragOverHandler} onDrop={dropHandler}>
-                    <StPhotoInput
+              <St.PhotoInputContainer>
+                <St.PhotoInputBox>
+                  <label onDragOver={dragOverHandler} onDrop={dropHandler}>
+                    <St.PhotoInput
                       type="file"
                       accept="image/jpeg image/png image/jpg image/gif"
                       onChange={changeFileHandler}
                       required
                     />
                   </label>
-                </StPhotoInputBox>
-              </StPhotoInputContainer>
+                </St.PhotoInputBox>
+              </St.PhotoInputContainer>
             )}
-          </ImageWrap>
-          <ImagePostWrap>
-            <StCanvasWrapper>
-              <StScoreBox>
-                <StUnorderLi>
-                  {[1, 2, 3, 4, 5, 6].map((item: number) => (
-                    <StEmoButton
-                      name="emoId"
-                      type="button"
-                      key={item}
-                      selected={inputValue.emoId === item ? true : false}
-                      value={item}
-                      onClick={changeEmojiHandler}
-                    >
-                      <EmotionIcons
-                        height="100%"
-                        width="100%"
-                        emotionTypes={`EMOTION_${item}`}
-                      />
-                    </StEmoButton>
-                  ))}
-                </StUnorderLi>
-                <StarWrap>
-                  {[1, 2, 3, 4, 5].map((score) => (
-                    <Star
-                      key={score}
-                      size="30px"
-                      color={
-                        clicked[score - 1]
-                          ? themeColor.palette.yellow
-                          : themeColor.main.oatmeal
-                      }
-                      onClick={() => changeStarHandler(score)}
-                    />
-                  ))}
-                  <p>{inputValue.star === 0 ? "별점을 매겨주세요" : inputValue.star}</p>
-                </StarWrap>
-              </StScoreBox>
-              <div>
-                <label>
-                  <StTextArea
-                    name="detail"
-                    required
-                    spellCheck={false}
-                    maxLength={1500}
-                    onChange={onChangeHandler}
-                  ></StTextArea>
-                </label>
-              </div>
-              <StSubmitBox>
-                <StLabel>
-                  공유여부
-                  <Checkbox
-                    name="share"
-                    checked={inputValue.share}
-                    disabled={editItem?.restrict}
-                    onChange={onCheckHandler}
-                  />
-                </StLabel>
-                <Button size="large" type="submit">
-                  등록하기
-                </Button>
-              </StSubmitBox>
-            </StCanvasWrapper>
-          </ImagePostWrap>
-        </Wrapper>
+          </St.ImageWrap>
+          <St.ImagePostWrap>
+            <St.ScoreBox>
+              <EmoScore value={inputValue.emoId} action={changeEmojiHandler} />
+              <St.StarWrap>
+                <StarScore arr={clicked} action={clickStarHandler} />
+                <span>{inputValue.star === 0 ? "별점" : inputValue.star}</span>
+              </St.StarWrap>
+            </St.ScoreBox>
+            <PostInput action={onChangeHandler} value={inputValue} />
+            <St.SubmitBox>
+              <St.Label>
+                공유여부
+                <Checkbox
+                  name="share"
+                  checked={inputValue.share}
+                  onChange={onCheckHandler}
+                />
+              </St.Label>
+              <Button size="large">등록하기</Button>
+            </St.SubmitBox>
+          </St.ImagePostWrap>
+        </St.Wrapper>
       </form>
     </>
   );
 };
 
 export default ImagePost;
-
-export const MobileStarWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-
-  @media screen and (min-width: 768px) {
-    display: none;
-  }
-`;
-const Wrapper = styled.div`
-  display: flex;
-  ${device.mobile} {
-    display: flex;
-    flex-direction: column;
-  }
-`;
-const ImagePostWrap = styled.div`
-  width: 50vw;
-  height: 80vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  ${device.mobile} {
-    width: 100%;
-    height: 50%;
-    p {
-      display: none;
-    }
-  }
-`;
-const ImageWrap = styled.div`
-  width: 50vw;
-  height: 80vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  ${device.mobile} {
-    width: 100%;
-    height: 50%;
-    margin: 0;
-  }
-`;
-export const StarWrap = styled.div`
-  display: flex;
-  ${device.mobile} {
-    margin-bottom: 20px;
-    gap: 40px;
-  }
-`;
-export const StPhotoInputBox = styled.li`
-  width: 40vw;
-  height: 70vh;
-  position: relative;
-  border: 1px solid ${themeColor.main.paper};
-  background: ${themeColor.main.oatmeal};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  color: ${themeColor.main.coffemilk};
-  font-size: 1rem;
-  border-radius: 30px;
-  margin-right: 1rem;
-
-  ::before {
-    content: "드래그 또는 파일을 선택하여 사진을 첨부해주세요";
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 30px;
-    width: 40vw;
-    height: 60vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1rem;
-    font-size: 20px;
-  }
-
-  ${device.mobile} {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 85vw;
-    height: 50vh;
-    margin: 0;
-  }
-`;
-
-export const StPhotoInput = styled.input`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  opacity: 0;
-  cursor: pointer;
-  font-size: 0px;
-`;
-
-export const StPhotoPreview = styled.img`
-  width: 100%;
-  height: 100%;
-  border-radius: 30px;
-  display: flex;
-  position: relative;
-  ${device.mobile} {
-    position: unset;
-    border-radius: 20px;
-    padding: 20px;
-    margin: 0;
-  }
-`;
-
-const PhotoPreview = styled.div`
-  width: 45vw;
-  margin-top: 50px;
-  max-height: 800px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  ${device.mobile} {
-    width: 90vw;
-    margin-top: 0px;
-    overflow-y: hidden;
-  }
-`;
-export const StDeletePhotoButton = styled.button`
-  width: 50px;
-  height: 30px;
-  border: 0px;
-  border-radius: 10px;
-  margin: 20px;
-  background-color: ${themeColor.main.paper};
-  color: ${themeColor.main.chocomilk};
-  font-family: inherit;
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  right: 0;
-
-  &:hover {
-    background-color: ${themeColor.main.coffemilk};
-    color: ${themeColor.main.white};
-    border: 3px solid ${themeColor.main.oatmeal};
-  }
-  ${device.mobile} {
-    top: 10px;
-    right: 10px;
-  }
-`;
-
-export const StScoreBox = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 45vw;
-  ${device.tablet} {
-    display: flex;
-    flex-direction: column;
-  }
-  ${device.mobile} {
-    display: flex;
-    flex-direction: column;
-  }
-`;
-
-export const StTextArea = styled.textarea`
-  resize: none;
-  border: none;
-  outline: none;
-  width: 41vw;
-  height: 50vh;
-  white-space: pre-wrap;
-  overflow-wrap: break-word;
-  font-size: 20px;
-  font-family: inherit;
-  line-height: 2;
-  margin: 20px;
-  padding: 10px;
-
-  ${device.mobile} {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px;
-    width: 80vw;
-    height: 50vh;
-    padding: 20px;
-    margin: 0;
-  }
-`;
-
-export const StSubmitBox = styled.div`
-  width: 40vw;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  ${device.mobile} {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 60vw;
-    height: 50vh;
-  }
-`;
-
-export const StPhotoInputContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  ${device.mobile} {
-    width: 100vw;
-  }
-`;
-
-export const StLabel = styled.label`
-  font-size: 1vw;
-  font-family: inherit;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  ${device.mobile} {
-    width: 50vw;
-    font-size: 25px;
-  }
-`;

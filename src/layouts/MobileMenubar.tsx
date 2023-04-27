@@ -1,6 +1,6 @@
 import * as UI from "../components/Modal";
-import styled from "styled-components";
-import { device, themeColor } from "../utils/theme";
+import * as St from "../layouts/LayoutStyle";
+
 import { BsCalendarHeart } from "react-icons/bs";
 import { VscGraph } from "react-icons/vsc";
 import { MdContentPaste } from "react-icons/md";
@@ -9,9 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { CHART_PAGE, COMMUNITY_PAGE, HOME_PAGE } from "../data/routes/urls";
 import { GoThreeBars } from "react-icons/go";
 import { getCookie } from "../utils/cookies";
+import { Logout } from "../data/type/type";
 
-type logout = { logout: () => void };
-const MobileMenubar = ({ logout }: logout) => {
+const MobileMenubar = ({ logout }: Logout) => {
   const navigate = useNavigate();
   const refreshToken = getCookie("refreshToken");
 
@@ -19,38 +19,38 @@ const MobileMenubar = ({ logout }: logout) => {
     <div style={{ position: "absolute", right: "25px" }}>
       <UI.Modalroot>
         <UI.ModalTrigger>
-          <MenuButton>
+          <St.MenuButton>
             <GoThreeBars />
-          </MenuButton>
+          </St.MenuButton>
           <UI.ModalBackground />
         </UI.ModalTrigger>
         <UI.ModalContent>
           <UI.ModalTrigger>
-            <Content>
-              <SelectButton onClick={() => navigate(HOME_PAGE)}>
+            <St.Content>
+              <St.SelectButton onClick={() => navigate(HOME_PAGE)}>
                 <BsCalendarHeart />
-                <SelectText>달력</SelectText>
-              </SelectButton>
-              <SelectButton onClick={() => navigate(CHART_PAGE)}>
+                <St.SelectText>달력</St.SelectText>
+              </St.SelectButton>
+              <St.SelectButton onClick={() => navigate(CHART_PAGE)}>
                 <VscGraph />
-                <SelectText>차트</SelectText>
-              </SelectButton>
-              <SelectButton onClick={() => navigate(COMMUNITY_PAGE)}>
+                <St.SelectText>차트</St.SelectText>
+              </St.SelectButton>
+              <St.SelectButton onClick={() => navigate(COMMUNITY_PAGE)}>
                 <MdContentPaste />
-                <SelectText>공유</SelectText>
-              </SelectButton>
+                <St.SelectText>공유</St.SelectText>
+              </St.SelectButton>
               {refreshToken ? (
-                <SelectButton onClick={logout}>
+                <St.SelectButton onClick={logout}>
                   <RiLogoutBoxRLine />
-                  <SelectText>로그아웃</SelectText>
-                </SelectButton>
+                  <St.SelectText>로그아웃</St.SelectText>
+                </St.SelectButton>
               ) : (
-                <SelectButton onClick={() => navigate("/")}>
+                <St.SelectButton onClick={() => navigate("/")}>
                   <RiLoginBoxLine />
-                  <SelectText>로그인</SelectText>
-                </SelectButton>
+                  <St.SelectText>로그인</St.SelectText>
+                </St.SelectButton>
               )}
-            </Content>
+            </St.Content>
           </UI.ModalTrigger>
         </UI.ModalContent>
       </UI.Modalroot>
@@ -59,58 +59,3 @@ const MobileMenubar = ({ logout }: logout) => {
 };
 
 export default MobileMenubar;
-
-const MenuButton = styled.div`
-  display: none;
-  font-size: 25px;
-  color: ${themeColor.main.chocomilk};
-  ${device.mobile} {
-    display: contents;
-  }
-`;
-
-const Content = styled.div`
-  display: none;
-  ${device.mobile} {
-    position: fixed;
-    top: 90px;
-    left: 0;
-    background-color: ${themeColor.main.oatmeal};
-    box-shadow: 3px 3px 5px ${themeColor.main.oatmeal};
-    border-radius: 0 0 5% 5%;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    height: 100px;
-    font-size: 18px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 3%;
-    box-sizing: border-box;
-  }
-`;
-
-const SelectButton = styled.div`
-  background-color: ${themeColor.main.white};
-  width: 75px;
-  height: 75px;
-  border-radius: 25%;
-  color: ${themeColor.main.chocomilk};
-  box-shadow: 1px 1px 5px ${themeColor.main.chocomilk};
-  padding: 2%;
-  box-sizing: border-box;
-  font-size: 25px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const SelectText = styled.div`
-  ${device.mobile} {
-    color: ${themeColor.main.coffemilk};
-    font-size: 15px;
-    margin-top: 5px;
-  }
-`;

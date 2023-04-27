@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { setCookie } from "../../../utils/cookies";
-import { LoginInfo } from "../../../data/type/d3";
 import guest from "../../../lib/api/guest";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { HOME_PAGE } from "../../../data/routes/urls";
+import { LoginInfo } from "../../../data/type/type";
 
 export const useLogin = () => {
   const navigate = useNavigate();

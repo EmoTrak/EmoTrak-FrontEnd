@@ -7,6 +7,7 @@ const GlobalStyle = createGlobalStyle`
     background: ${themeColor.main.paper};
     font-family: 'KyoboHand';
     letter-spacing: 1px;
+    color:${themeColor.font};
   }
   @font-face {
     font-family: 'KyoboHand';

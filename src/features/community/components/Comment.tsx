@@ -1,21 +1,22 @@
 import React, { useState } from "react";
-import { CommentProps } from "../../../data/type/d1";
-import styled from "styled-components";
-import useDeleteComment from "../hooks/useDeleteComment";
-import useUpdateComment from "../hooks/useUpdateComment";
+import { GiSiren } from "react-icons/gi";
+import { CommentProps } from "../../../data/type/type";
+import { getCookie } from "../../../utils/cookies";
+import Button from "../../../components/Button";
 import LikeComment from "./LikeComment";
 import Report from "./Report";
 import PostDate from "./PostDate";
-import { getCookie } from "../../../utils/cookies";
-import { GiSiren } from "react-icons/gi";
-import Button from "../../../components/Button";
-import Flex from "../../../components/Flex";
-import { device, themeColor } from "../../../utils/theme";
+import useDeleteComment from "../hooks/useDeleteComment";
+import useUpdateComment from "../hooks/useUpdateComment";
+
+import * as St from "../styles/CommentStyle";
 
 const Comment = ({ item }: Partial<CommentProps>) => {
   const [edit, setEdit] = useState<boolean>(false);
   const refreshToken = getCookie("refreshToken");
-  const [editComment, setEditComment] = useState<string | undefined>(item?.comment);
+  const [editComment, setEditComment] = useState<string | undefined>(
+    item?.comment
+  );
 
   const changeInputHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEditComment(e.target.value);
@@ -25,17 +26,10 @@ const Comment = ({ item }: Partial<CommentProps>) => {
   const { deleteComment } = useDeleteComment();
 
   return (
-    <CommentBox>
+    <St.CommentBox>
       {edit ? (
-        <div
-          style={{
-            height: "122px",
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
-          }}
-        >
-          <EditInput value={editComment} onChange={changeInputHandler} />
+        <St.EditBox>
+          <St.EditInput value={editComment} onChange={changeInputHandler} />
           <div>
             <Button
               size="x-small"
@@ -49,17 +43,24 @@ const Comment = ({ item }: Partial<CommentProps>) => {
             >
               수정완료
             </Button>
-            <Button size="x-small" onClick={() => edit && setEdit((pre) => !pre)}>
+            <Button
+              size="x-small"
+              onClick={() => edit && setEdit((pre) => !pre)}
+            >
               취소
             </Button>
           </div>
-        </div>
+        </St.EditBox>
       ) : (
         <>
           <div>
-            <Nicname> {item?.nickname}</Nicname>
-            <div style={{ margin: "5px 0" }}>{item?.comment}</div>
-            <LikeComment isLike={item?.hasLike} id={item?.id} count={item?.likesCnt} />
+            <St.Nicname> {item?.nickname}</St.Nicname>
+            <St.Comment>{item?.comment}</St.Comment>
+            <LikeComment
+              isLike={item?.hasLike}
+              id={item?.id}
+              count={item?.likesCnt}
+            />
           </div>
 
           <div>
@@ -84,61 +85,22 @@ const Comment = ({ item }: Partial<CommentProps>) => {
             ) : (
               refreshToken && (
                 <Report id={item?.id} uri="comments/report">
-                  <ReportBtn>
+                  <St.ReportBtn>
                     <GiSiren />
-                  </ReportBtn>
+                  </St.ReportBtn>
                 </Report>
               )
             )}
             {typeof item?.createdAt === "string" && (
-              <div
-                style={{ display: "flex", justifyContent: "center", fontSize: "15px" }}
-              >
+              <St.DateBox>
                 <PostDate date={item.createdAt} />
-              </div>
+              </St.DateBox>
             )}
           </div>
         </>
       )}
-    </CommentBox>
+    </St.CommentBox>
   );
 };
 
 export default Comment;
-
-const CommentBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid white;
-  width: 40vw;
-  padding: 4px;
-  ${device.mobile} {
-    width: 80vw;
-  }
-`;
-const EditInput = styled.textarea`
-  width: 40vw;
-  height: 50px;
-  margin: 5px 0;
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  resize: none;
-  :focus {
-    outline: none;
-    border-color: ${themeColor.main.oatmeal};
-    box-shadow: 0 0 10px ${themeColor.main.oatmeal};
-  }
-`;
-
-const Nicname = styled.div`
-  color: ${themeColor.main.coffemilk};
-  font-size: 15px;
-`;
-
-const ReportBtn = styled.button`
-  font-size: 30px;
-  border: 0;
-  background-color: transparent;
-  color: ${themeColor.main.red};
-`;

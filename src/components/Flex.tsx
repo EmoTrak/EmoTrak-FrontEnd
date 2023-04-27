@@ -1,21 +1,17 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { PropsWithChildren } from "react";
+import styled from "styled-components";
+import { FlexType } from "../data/type/type";
 
-type Props = {
-  children?: React.ReactNode[];
-  row?: boolean;
-  gap?: number;
-  jc?: string;
-  ai?: string;
-};
-
-const Flex = ({ children, ...restProps }: Props) => {
+const Flex = ({
+  children,
+  ...restProps
+}: Partial<FlexType> & PropsWithChildren) => {
   return <StyledStack {...restProps}>{children}</StyledStack>;
 };
 
-const StyledStack = styled.div<Props>`
+const StyledStack = styled.div<Partial<FlexType>>`
   display: flex;
-  flex-direction: ${({ row }) => (row ? 'row' : 'column')};
+  flex-direction: ${({ row }) => (row ? "row" : "column")};
   gap: ${({ gap }) => `${gap}px`};
   justify-content: ${({ jc }) => `${jc}`};
   align-items: ${({ ai }) => `${ai}`};

@@ -1,5 +1,5 @@
-import React, { PropsWithChildren, createContext, useContext, useState } from "react";
-import { BooleanType, Position } from "../data/type/d1";
+import { PropsWithChildren, createContext, useContext, useState } from "react";
+import { BooleanType } from "../data/type/type";
 import styled from "styled-components";
 import { themeColor } from "../utils/theme";
 
@@ -12,7 +12,9 @@ const Context = createContext<BooleanType>(defaultValue);
 
 export const Modalroot = ({ children }: PropsWithChildren) => {
   const [open, setOpen] = useState<boolean>(false);
-  return <Context.Provider value={{ open, setOpen }}>{children}</Context.Provider>;
+  return (
+    <Context.Provider value={{ open, setOpen }}>{children}</Context.Provider>
+  );
 };
 
 export const ModalTrigger = ({ children }: PropsWithChildren) => {

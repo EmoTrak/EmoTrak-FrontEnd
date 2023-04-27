@@ -1,26 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ApexCharts from "react-apexcharts";
-import styled from "styled-components";
-import { PropsData } from "../../../data/type/d2";
-import { device, themeColor } from "../../../utils/theme";
+import { PropsData } from "../../../data/type/type";
+import { themeColor } from "../../../utils/theme";
+import * as St from "../styles/ChartStyle";
+import { useMatchData } from "../hooks/useMatchData";
 
 const BarChart = ({ graphData, month }: PropsData) => {
-  const [barCountArr, setBarCountArr] = useState<number[]>([]);
-  const newBarCount = barCountArr.reduce((sum: number, cur: number) => {
-    return sum + cur;
-  }, 0);
-
+  const { countArr, newChartCount, matchedData, setCountArr } = useMatchData({
+    graphData,
+    month,
+  });
   useEffect(() => {
-    const matchedData = graphData?.find((item) => item.month === Number(month));
     if (matchedData) {
-      const test = matchedData.graph.map((item) => item.count);
-      setBarCountArr(test);
+      const numberArr = matchedData.graph.map((item) => item.count);
+      setCountArr(numberArr);
     }
   }, [graphData, month]);
 
   return (
-    <Wrapper>
-      {newBarCount > 0 ? (
+    <St.Wrapper>
+      {newChartCount ? (
         <ApexCharts
           width="100%"
           height="100%"
@@ -28,12 +27,15 @@ const BarChart = ({ graphData, month }: PropsData) => {
           series={[
             {
               name: "count",
-              data: barCountArr,
+              data: countArr,
             },
           ]}
           options={{
+            legend: {
+              show: false,
+            },
             chart: {
-              height: 350,
+              fontFamily: "inherit",
               toolbar: { show: false },
               zoom: {
                 enabled: false,
@@ -55,21 +57,25 @@ const BarChart = ({ graphData, month }: PropsData) => {
               },
             },
             title: {
-              text: "EmoTrak 한달 감정 개수",
+              text: "한 달 감정 개수",
               align: "center",
+              style: {
+                fontSize: "20px",
+                fontWeight: "bold",
+                color: themeColor.font,
+              },
             },
-
             grid: {
               row: {
-                colors: [themeColor.main.gray, "transparent"],
-                opacity: 0.5,
+                colors: [themeColor.main.coffemilk, "transparent"],
+                opacity: 0.2,
               },
             },
             xaxis: {
               categories: ["Fun", "Smile", "Calm", "Sad", "Angry", "Cry"],
-
               labels: {
                 show: true,
+                style: { colors: themeColor.font },
               },
             },
             yaxis: {
@@ -80,26 +86,8 @@ const BarChart = ({ graphData, month }: PropsData) => {
       ) : (
         <h2>데이터가 없습니다!</h2>
       )}
-    </Wrapper>
+    </St.Wrapper>
   );
 };
 
 export default BarChart;
-
-const Wrapper = styled.div`
-  height: 55vh;
-  width: 30vw;
-  text-align: center;
-  margin-top: 50px;
-  background-color: ${themeColor.main.white};
-  box-shadow: 10px 5px 5px ${themeColor.main.gray};
-  border-radius: 25px;
-  h2 {
-    letter-spacing: 5px;
-  }
-  ${device.mobile} {
-    height: 100vh;
-    width: 70vw;
-  }
-
-`;
