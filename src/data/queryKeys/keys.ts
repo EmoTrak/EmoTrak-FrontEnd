@@ -1,4 +1,4 @@
-import { KeyType } from "../type/d1";
+import { KeyType } from "../type/type";
 
 export const keys: KeyType = {
   GET_USER: "getUser",

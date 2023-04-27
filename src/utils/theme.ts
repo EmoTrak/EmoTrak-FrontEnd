@@ -34,6 +34,7 @@ export const themeColor: DefaultTheme = {
     white: "#FFFFFF",
     orange: "#FDE5A7",
   },
+  font: "#7E7171",
 };
 
 export const device = {

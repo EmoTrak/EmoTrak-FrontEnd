@@ -35,6 +35,7 @@ declare module "styled-components" {
       white: string;
       orange: string;
     };
+    font: string;
   }
 }
 

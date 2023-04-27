@@ -1,34 +1,39 @@
 import ApexCharts from "react-apexcharts";
-import { useEffect, useState } from "react";
-import styled from "styled-components";
-import { PropsData } from "../../../data/type/d2";
-import { device, themeColor } from "../../../utils/theme";
+import { useEffect } from "react";
+
+import { PropsData } from "../../../data/type/type";
+
+import { themeColor } from "../../../utils/theme";
+import * as St from "../styles/ChartStyle";
+import { useMatchData } from "../hooks/useMatchData";
 
 function PieChart({ graphData, month }: PropsData) {
-  const [pieCountArr, setBarCountArr] = useState<number[]>([]);
-  const newPieCount = pieCountArr.reduce((sum: number, cur: number) => {
-    return sum + cur;
-  }, 0);
+  const { countArr, newChartCount, matchedData, setCountArr } = useMatchData({
+    graphData,
+    month,
+  });
   useEffect(() => {
-    const matchedData = graphData?.find((item) => item.month === Number(month));
     if (matchedData) {
-      const test = matchedData.graph.map((item) => item.percentage);
-      setBarCountArr(test);
+      const percentArr = matchedData.graph.map((item) => item.percentage);
+      setCountArr(percentArr);
     }
   }, [graphData, month]);
 
   return (
-    <Wrapper>
-      {newPieCount > 0 ? (
+    <St.Wrapper>
+      {newChartCount ? (
         <ApexCharts
           width="100%"
           height="100%"
           type="pie"
-          series={pieCountArr}
+          series={countArr}
           options={{
             legend: {
               show: true,
               position: "bottom",
+              labels: {
+                colors: themeColor.font,
+              },
             },
             labels: ["Fun", "Smile", "Calm", "Sad", "Angry", "Cry"],
             colors: [
@@ -40,17 +45,17 @@ function PieChart({ graphData, month }: PropsData) {
               themeColor.emoticon.purple,
             ],
             title: {
-              text: "EmoTrak 한달 감정 평균",
+              text: "한 달 감정 평균",
               align: "center",
-              margin: 30,
               style: {
-                fontSize: "14px",
+                fontSize: "20px",
                 fontWeight: "bold",
-                fontFamily: undefined,
-                color: themeColor.main.black,
+                color: themeColor.font,
               },
             },
             chart: {
+              fontFamily: "inherit",
+              height: 600,
               background: "transparent,",
               toolbar: { show: false },
               zoom: { autoScaleYaxis: true },
@@ -60,26 +65,8 @@ function PieChart({ graphData, month }: PropsData) {
       ) : (
         <h2>데이터가 없습니다!</h2>
       )}
-    </Wrapper>
+    </St.Wrapper>
   );
 }
 
 export default PieChart;
-
-const Wrapper = styled.div`
-  height: 55vh;
-  width: 30vw;
-  text-align: center;
-  margin-top: 50px;
-  
-  background-color: ${themeColor.main.white};
-  box-shadow: 10px 5px 5px ${themeColor.main.gray};
-  border-radius: 25px;
-  h2 {
-    letter-spacing: 5px;
-  }
-  ${device.mobile} {
-    height: 100vh;
-    width: 70vw;
-  }
-`;

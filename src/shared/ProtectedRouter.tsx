@@ -1,7 +1,7 @@
-import { ReactElement, useEffect } from "react";
-import { IPayload, RouterProps } from "../data/type/d2";
+import { PropsWithChildren, ReactElement, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { HOME_PAGE } from "../data/routes/urls";
+import { IPayload, RouterProps } from "../data/type/type";
 
 export const ProtectedRoute = ({
   token,
@@ -11,7 +11,7 @@ export const ProtectedRoute = ({
   children,
   AlreadyLogin,
   refreshToken,
-}: RouterProps): ReactElement | null => {
+}: RouterProps) => {
   const nav = useNavigate();
   let payloadJson;
   let payload!: IPayload;
@@ -37,5 +37,5 @@ export const ProtectedRoute = ({
     }
   }, []);
 
-  return children;
+  return <>{children}</>;
 };

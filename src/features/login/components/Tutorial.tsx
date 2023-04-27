@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import * as St from "../TutorialStyle";
+import * as St from "../styles/TutorialStyle";
 import TutorialBackgroundTop from "../../../assets/tutorial/1_Tutorial_top.webp";
 import TutorialBackgroundBottom from "../../../assets/tutorial/1_Tutorial_bottom.webp";
 import TutorialText from "../../../assets/tutorial/2_Text_1.webp";
