@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { EmoButtonProps, UrlType } from "../../../data/type/type";
+import styled, { css } from "styled-components";
+import { EmoButtonProps } from "../../../data/type/type";
 import { device, themeColor } from "../../../utils/theme";
 
 export const DrawPostWrap = styled.div`
@@ -32,6 +32,8 @@ export const List = styled.li`
 `;
 export const Wrapper = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
   ${device.mobile} {
     display: flex;
     flex-direction: column;
@@ -88,88 +90,87 @@ export const EmoButton = styled.button<EmoButtonProps>`
   }
 `;
 
-export const Canvas = styled.canvas`
+export const Canvas = styled.canvas<{ isCanvas: boolean }>`
   position: unset;
   background-color: ${themeColor.main.white};
-  width: 85%;
-  height: 90%;
+  ${({ isCanvas }) =>
+    !isCanvas &&
+    css`
+      pointer-events: none;
+    `};
   ${device.mobile} {
     display: flex;
     flex-direction: column;
   }
 `;
 
-export const ToolBox = styled.div`
+export const ToolBox = styled.ul`
   display: flex;
-  width: 40vw;
+  width: 50vw;
   height: 7vh;
   justify-content: flex-end;
   align-items: center;
+  position: relative;
   ${device.mobile} {
+    gap: 3vw;
     width: 80vw;
   }
 `;
 
 export const ToolList = styled.li`
   list-style: none;
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
 export const PenSizeTool = styled.div`
   position: absolute;
-  top: -16vh;
-  right: -0.5vw;
+  top: -17vh;
+  right: 6.1vw;
   display: flex;
   justify-content: center;
   align-items: center;
   ${device.tablet} {
-    top: -16vh;
-    right: -1.5vw;
+    top: -20vh;
+    right: 10.5vw;
   }
   ${device.mobile} {
     top: -18vh;
-    right: -1.5vw;
+    right: 15vw;
   }
 `;
 
-export const PenButton = styled.button<UrlType>`
-  background-image: ${({ url }) => `url(${url})`};
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  width: 1.5vw;
-  height: 1.5vw;
+export const PenButton = styled.button<{ color: string }>`
+  font-size: 27px;
   border: none;
+  background-color: transparent;
+  color: ${({ color }) => color};
   ${device.mobile} {
     width: 20px;
     height: 20px;
   }
 `;
 
-export const EraserButton = styled.button<UrlType>`
-  background-image: ${({ url }) => `url(${url})`};
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  width: 1.5vw;
-  height: 1.5vw;
+export const EraserButton = styled.button<{ color: string }>`
+  font-size: 30px;
   border: none;
   margin: 5px;
+  background-color: transparent;
+  color: ${({ color }) =>
+    color === "eraser" ? themeColor.main.black : themeColor.main.gray};
   ${device.mobile} {
     width: 20px;
     height: 20px;
   }
 `;
 
-export const RebootButton = styled.button<UrlType>`
-  background-image: ${({ url }) => `url(${url})`};
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  width: 1.2vw;
-  height: 1.2vw;
-  border: none;
+export const RebootButton = styled.button`
+  background-color: transparent;
+  font-size: 30px;
   margin: 5px;
+  border: none;
   ${device.mobile} {
     width: 20px;
     height: 20px;

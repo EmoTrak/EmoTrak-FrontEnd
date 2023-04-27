@@ -1,27 +1,23 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { themeColor } from "../utils/theme";
 import { HOME_PAGE } from "../data/routes/urls";
 import { InputValue } from "../data/type/type";
-import Checkbox from "../components/Checkbox";
-import Button from "../components/Button";
-import Star from "../components/Icon/Star";
-import EmotionIcons from "../components/Icon/EmoticonIcons";
 import { useInput } from "../features/post/hooks/useInput";
 import { usePost } from "../features/post/hooks/usePost";
 import { usePreview } from "../features/post/hooks/usePreview";
+import Checkbox from "../components/Checkbox";
+import Button from "../components/Button";
+import StarScore from "../features/post/components/StarScore";
+import EmoScore from "../features/post/components/EmoScore";
 import * as St from "../features/post/styles/ImageStyle";
-import { EmoButton } from "../features/post/styles/DrawingStyle";
+import PostInput from "../features/post/components/PostInput";
 
 const ImagePost = () => {
   const navigate = useNavigate();
 
   // 날짜
   const params = useParams();
-  const year: number | undefined = Number(params.date?.split("-")[0]);
-  const month: number | undefined = Number(params.date?.split("-")[1]);
-  const day: number | undefined = Number(params.date?.split("-")[2]);
-
+  const [year, month, day] = (params.date || "").split("-").map(Number);
   // 글작성 조건 상태
   const [valid, setValid] = useState({
     photo: false,
@@ -164,49 +160,13 @@ const ImagePost = () => {
           </St.ImageWrap>
           <St.ImagePostWrap>
             <St.ScoreBox>
-              {[1, 2, 3, 4, 5, 6].map((item: number) => (
-                <EmoButton
-                  name="emoId"
-                  type="button"
-                  key={item}
-                  selected={inputValue.emoId === item}
-                  value={item}
-                  onClick={changeEmojiHandler}
-                >
-                  <EmotionIcons
-                    height="100%"
-                    width="100%"
-                    emotionTypes={`EMOTION_${item}`}
-                  />
-                </EmoButton>
-              ))}
+              <EmoScore value={inputValue.emoId} action={changeEmojiHandler} />
               <St.StarWrap>
-                {[1, 2, 3, 4, 5].map((score) => (
-                  <Star
-                    key={score}
-                    size="30px"
-                    color={
-                      clicked[score - 1]
-                        ? themeColor.palette.yellow
-                        : themeColor.main.oatmeal
-                    }
-                    onClick={() => clickStarHandler(score)}
-                  />
-                ))}
+                <StarScore arr={clicked} action={clickStarHandler} />
                 <span>{inputValue.star === 0 ? "별점" : inputValue.star}</span>
               </St.StarWrap>
             </St.ScoreBox>
-            <div>
-              <label>
-                <St.TextArea
-                  name="detail"
-                  required
-                  spellCheck={false}
-                  maxLength={1500}
-                  onChange={onChangeHandler}
-                ></St.TextArea>
-              </label>
-            </div>
+            <PostInput action={onChangeHandler} value={inputValue} />
             <St.SubmitBox>
               <St.Label>
                 공유여부

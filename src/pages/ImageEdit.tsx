@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { InputValue } from "../data/type/type";
-import { themeColor } from "../utils/theme";
-import Checkbox from "../components/Checkbox";
-import Button from "../components/Button";
-import EmotionIcons from "../components/Icon/EmoticonIcons";
-import Star from "../components/Icon/Star";
 import { useGetDetail } from "../features/detail/hooks/useGetDetail";
 import { useInput } from "../features/post/hooks/useInput";
 import { useEdit } from "../features/detail/hooks/useEdit";
 import { usePreview } from "../features/post/hooks/usePreview";
+import StarScore from "../features/post/components/StarScore";
+import EmoScore from "../features/post/components/EmoScore";
+import Checkbox from "../components/Checkbox";
+import Button from "../components/Button";
 import * as St from "../features/post/styles/ImageStyle";
-import { EmoButton } from "../features/post/styles/DrawingStyle";
+import PostInput from "../features/post/components/PostInput";
 
 const ImageEdit = () => {
   const params = useParams();
@@ -156,52 +155,13 @@ const ImageEdit = () => {
           </St.ImageWrap>
           <St.ImagePostWrap>
             <St.ScoreBox>
-              {[1, 2, 3, 4, 5, 6].map((item: number) => (
-                <EmoButton
-                  name="emoId"
-                  type="button"
-                  value={item}
-                  key={item}
-                  selected={inputValue.emoId === item}
-                  onClick={clickEmojiHandler}
-                >
-                  <EmotionIcons
-                    height="100%"
-                    width="100%"
-                    emotionTypes={`EMOTION_${item}`}
-                  />
-                </EmoButton>
-              ))}
+              <EmoScore value={inputValue.emoId} action={clickEmojiHandler} />
               <St.StarWrap>
-                {[1, 2, 3, 4, 5].map((score) => (
-                  <Star
-                    key={score}
-                    size="30"
-                    color={
-                      editStar[score - 1]
-                        ? themeColor.palette.yellow
-                        : themeColor.main.oatmeal
-                    }
-                    onClick={() => clickStarHandler(score)}
-                  />
-                ))}
-                <span>
-                  {inputValue?.star === 0 ? "별점" : inputValue?.star}
-                </span>
+                <StarScore arr={editStar} action={clickStarHandler} />
+                <span>{inputValue?.star ? inputValue?.star : "별점"}</span>
               </St.StarWrap>
             </St.ScoreBox>
-            <div>
-              <label>
-                내용
-                <St.TextArea
-                  name="detail"
-                  value={inputValue?.detail}
-                  spellCheck={false}
-                  required
-                  onChange={onChangeHandler}
-                ></St.TextArea>
-              </label>
-            </div>
+            <PostInput action={onChangeHandler} value={inputValue} />
             <St.SubmitBox>
               <St.Label>
                 공유여부

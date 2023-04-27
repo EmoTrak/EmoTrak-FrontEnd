@@ -25,5 +25,6 @@ export const PaletteColor = styled.div`
   ${device.miniMobile} {
     width: 20px;
     height: 20px;
+    margin-right: 5px;
   }
 `;

@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import user from "../../../lib/api/user";
 import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { keys } from "../../../data/queryKeys/keys";
-import { DETAIL_PAGE } from "../../../data/routes/urls";
 import { PostInput } from "../../../data/type/type";
+import { DETAIL_PAGE } from "../../../data/routes/urls";
+import user from "../../../lib/api/user";
 
 export const useEdit = ({ inputValue, dailyId, canvasRef }: PostInput) => {
   const navigate = useNavigate();

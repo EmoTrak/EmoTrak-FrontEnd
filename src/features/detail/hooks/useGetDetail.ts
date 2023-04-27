@@ -1,12 +1,12 @@
+import { useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { keys } from "../../../data/queryKeys/keys";
-import { useCallback } from "react";
+import { DetailType } from "../../../data/type/type";
 import user from "../../../lib/api/user";
-import { DetailType, InputValue } from "../../../data/type/type";
 
 export const useGetDetail = (dailyId: number) => {
   const getDetail = useCallback(() => {
-    return user.get(`daily/${dailyId}`);
+    return user.get(`daily/${dailyId}`, { withCredentials: true });
   }, [dailyId]);
 
   const { data, isLoading } = useQuery([keys.GET_DETAIL], getDetail);

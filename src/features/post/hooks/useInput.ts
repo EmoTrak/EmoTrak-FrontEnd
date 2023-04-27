@@ -14,19 +14,21 @@ export const useInput = (initialValue: InputValue) => {
 
     setInputValue({
       ...inputValue,
-      [name]: checked ? true : false,
+      [name]: checked,
     });
   };
 
-  const clickEmojiHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const clickEmojiHandler = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): void => {
     // currentTarget으로 버튼의 value 가져오기. if target -> img 값이 가져와짐
     const button = event.currentTarget as HTMLButtonElement;
     const emoId = Number(button.value);
     setInputValue({ ...inputValue, emoId: emoId });
   };
 
-  const scoreStarHandler = (score: number) => {
-    setInputValue({ ...inputValue, star: score });
+  const scoreStarHandler = (star: number): void => {
+    setInputValue({ ...inputValue, star });
   };
 
   return {
