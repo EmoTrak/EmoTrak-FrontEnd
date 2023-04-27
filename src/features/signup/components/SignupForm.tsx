@@ -30,23 +30,29 @@ const SignupForm = () => {
   });
 
   const [checkPassword, setCheckPassword] = useState<string>("");
-
+  const [emailConfirm, setEmailConfirm] = useState<boolean>(false);
   const { validEmail, checkEmail, emailValidation, setEmailValidation } =
     useEmailValidation();
-  const {
-    validNickname,
-    checkNickname,
-    nicknameValidation,
-    setNicknameValidation,
-  } = useNicknameValidation();
-  const { validPassword, checkPasswordHandler } = usePasswordCheck(
-    signInfo.password
-  );
+  const [emailCheck, setEmailCheck] = useState<number>();
+
+  const changeInputEmailHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmailCheck(Number(event.target.value));
+  };
+
+  const checkEmailConfirm = () => {
+    if (emailCheck === Number(checkEmail.data?.data.data)) {
+      return setEmailConfirm(true);
+    }
+    alert("인증에 실패하였습니다");
+  };
+
+  const { validNickname, checkNickname, nicknameValidation, setNicknameValidation } =
+    useNicknameValidation();
+
+  const { validPassword, checkPasswordHandler } = usePasswordCheck(signInfo.password);
   const { signup } = useSignup();
 
-  const changeInputHandler = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
+  const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
     setSignInfo({ ...signInfo, [name]: value });
     if (name === "nickname") {
@@ -59,11 +65,8 @@ const SignupForm = () => {
     }
   };
 
-  const checkPasswordChangeHandler = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const { value } = event.target;
-    setCheckPassword(value);
+  const checkPasswordChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckPassword(event.target.value);
   };
 
   const checkEmailHandler = (item: string) => {
@@ -91,9 +94,12 @@ const SignupForm = () => {
     if (
       emailValidation &&
       nicknameValidation &&
-      validPassword(signInfo.password)
+      validPassword(signInfo.password) &&
+      emailConfirm
     ) {
       signup.mutate(signInfo);
+    } else if (!emailConfirm) {
+      alert("이메일 인증이 필요합니다");
     } else {
       alert("입력한 내용을 확인해주세요 !");
     }
@@ -104,7 +110,7 @@ const SignupForm = () => {
     }
     const preventGoBack = () => {
       if (window.confirm("페이지를 나가시겠습니까?")) {
-        navigate(-1);
+        navigate("/");
       } else {
         window.history.pushState(null, "", window.location.href);
       }
@@ -138,24 +144,41 @@ const SignupForm = () => {
                 value={signInfo.email}
                 maxLength={25}
                 onChange={changeInputHandler}
-              />
-              <Button
-                type="button"
-                onClick={() => checkEmailHandler(signInfo.email)}
                 disabled={emailValidation}
-              >
-                중복확인
-              </Button>
-              {signInfo.email ? (
-                emailValidation ? (
-                  <span>사용할 수 있는 아이디입니다.</span>
-                ) : (
+              />
+
+              {!signInfo.email ? (
+                <St.WarningMessage>이메일 형식으로 입력해주세요.</St.WarningMessage>
+              ) : !emailValidation ? (
+                <>
                   <St.WarningMessage>중복확인이 필요합니다.</St.WarningMessage>
-                )
+                  <Button
+                    type="button"
+                    onClick={() => checkEmailHandler(signInfo.email)}
+                    disabled={emailValidation}
+                  >
+                    중복확인
+                  </Button>
+                </>
+              ) : !emailConfirm ? (
+                <St.WarningMessage>이메일인증이 필요합니다.</St.WarningMessage>
               ) : (
-                <St.WarningMessage>
-                  이메일 형식으로 입력해주세요.
-                </St.WarningMessage>
+                <span> 이메일인증이 완료되었습니다.</span>
+              )}
+
+              {emailValidation && !emailConfirm && (
+                <>
+                  <MyPageInput
+                    type="number"
+                    name="confirm"
+                    value={emailCheck}
+                    maxLength={8}
+                    onChange={changeInputEmailHandler}
+                  />
+                  <Button type="button" onClick={checkEmailConfirm}>
+                    인증하기
+                  </Button>
+                </>
               )}
             </St.SignFormContentBox>
           </InputList>
@@ -168,21 +191,20 @@ const SignupForm = () => {
                 maxLength={8}
                 onChange={changeInputHandler}
               />
-              <Button
-                type="button"
-                onClick={() => checkNicknameHandler(signInfo.nickname)}
-                disabled={nicknameValidation}
-              >
-                중복확인
-              </Button>
-              {signInfo.nickname ? (
-                nicknameValidation ? (
-                  <span>사용할 수 있는 닉네임입니다.</span>
-                ) : (
-                  <St.WarningMessage>중복확인이 필요합니다.</St.WarningMessage>
-                )
+              {!signInfo.nickname ? (
+                <St.WarningMessage>닉네임을 입력해주세요.</St.WarningMessage>
+              ) : nicknameValidation ? (
+                <span>사용할 수 있는 닉네임입니다.</span>
               ) : (
-                <span></span>
+                <>
+                  <St.WarningMessage>중복확인이 필요합니다.</St.WarningMessage>
+                  <Button
+                    type="button"
+                    onClick={() => checkNicknameHandler(signInfo.nickname)}
+                  >
+                    중복확인
+                  </Button>
+                </>
               )}
             </St.SignFormContentBox>
           </InputList>
@@ -214,12 +236,10 @@ const SignupForm = () => {
                 checkPasswordHandler(checkPassword) ? (
                   <span>비밀번호가 일치합니다.</span>
                 ) : (
-                  <St.WarningMessage>
-                    비밀번호가 일치하지 않습니다.
-                  </St.WarningMessage>
+                  <St.WarningMessage>비밀번호가 일치하지 않습니다.</St.WarningMessage>
                 )
               ) : (
-                <span>비밀번호를 다시 입력해주세요.</span>
+                <St.WarningMessage>비밀번호를 다시 입력해주세요.</St.WarningMessage>
               )}
             </St.SignFormContentBox>
           </InputList>
