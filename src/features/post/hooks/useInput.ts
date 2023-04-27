@@ -4,19 +4,17 @@ import { InputValue } from "../../../data/type/type";
 export const useInput = (initialValue: InputValue) => {
   const [inputValue, setInputValue] = useState<InputValue>(initialValue);
 
-  const onChangeHandler = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ): void => {
+  const onChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     setInputValue({ ...inputValue, [name]: value });
   };
 
-  const onCheckHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const onCheckHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
 
     setInputValue({
       ...inputValue,
-      [name]: checked ? true : false,
+      [name]: checked,
     });
   };
 
@@ -29,8 +27,8 @@ export const useInput = (initialValue: InputValue) => {
     setInputValue({ ...inputValue, emoId: emoId });
   };
 
-  const scoreStarHandler = (score: number): void => {
-    setInputValue({ ...inputValue, star: score });
+  const scoreStarHandler = (star: number): void => {
+    setInputValue({ ...inputValue, star });
   };
 
   return {

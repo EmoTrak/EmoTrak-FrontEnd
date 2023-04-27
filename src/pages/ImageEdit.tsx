@@ -1,65 +1,28 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import user from "../lib/api/user";
-import { keys } from "../data/queryKeys/keys";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { InputValue } from "../data/type/type";
+import { useGetDetail } from "../features/detail/hooks/useGetDetail";
 import { useInput } from "../features/post/hooks/useInput";
 import { useEdit } from "../features/detail/hooks/useEdit";
-import { StCanvasWrapper } from "../features/post/components/Canvas";
-import EmotionIcons from "../components/Icon/EmoticonIcons";
-import Star from "../components/Icon/Star";
 import { usePreview } from "../features/post/hooks/usePreview";
-import { getCookie } from "../utils/cookies";
-import Flex from "../components/Flex";
+import StarScore from "../features/post/components/StarScore";
+import EmoScore from "../features/post/components/EmoScore";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
-import { themeColor } from "../utils/theme";
-import { DetailType, InputValue } from "../data/type/type";
 import * as St from "../features/post/styles/ImageStyle";
-import {
-  EmoButton,
-  List,
-  UnorderLi,
-} from "../features/post/styles/DrawingStyle";
+import PostInput from "../features/post/components/PostInput";
 
 const ImageEdit = () => {
   const params = useParams();
+
   const dailyId = Number(params.id);
-  const navigate = useNavigate();
-  const token = getCookie("token");
-  const refreshToken = getCookie("refreshToken");
 
   const [validPhoto, setValidPhoto] = useState<boolean>(true);
-  const getDetail = useCallback(() => {
-    return user.get(`daily/${dailyId}`);
-  }, [dailyId]);
 
-  useEffect(() => {
-    if (!token && !refreshToken) {
-      alert("로그인이 필요합니다 !");
-      navigate("/");
-    }
-    // getDetail();
-    const newClicked = clicked.map((_, index) =>
-      index < targetItem?.star ? true : false
-    );
-    setClicked(newClicked);
-    preview(photo);
-  }, [token]);
-
-  const { data, status, isLoading } = useQuery(
-    [`${keys.GET_DETAIL}`],
-    getDetail
-  );
   const { preview, previewUrl } = usePreview();
 
-  const year = data?.data.data.year;
-  const month = data?.data.data.month;
-  const contents = data?.data.data.contents;
-  const targetItem = contents?.filter(
-    (item: DetailType) => item.id === dailyId
-  )[0];
-  console.log(targetItem);
+  const { isLoading, targetItem, year, month } = useGetDetail(dailyId);
+
   const editItem: InputValue = {
     year,
     month,
@@ -89,57 +52,32 @@ const ImageEdit = () => {
     });
 
   // 드래그앤 드랍
-  const dragRef = useRef<HTMLLabelElement | null>(null);
+  const dragOverHandler = (event: React.DragEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
 
-  const dragOverHandler = useCallback((event: React.DragEvent): void => {
+  const dropHandler = (event: React.DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
     event.stopPropagation();
 
-    if (event.dataTransfer!.files) {
-    }
-  }, []);
-
-  const dropHandler = useCallback(
-    (event: React.DragEvent<HTMLLabelElement>): void => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      fileDropHandler(event);
-      setValidPhoto(true);
-    },
-    []
-  );
+    fileDropHandler(event);
+    setValidPhoto(true);
+  };
 
   // 기존 이미지 state 설정
   const [exPhoto, setExPhoto] = useState<string | undefined>(
     targetItem?.imgUrl
   );
 
-  useEffect(() => {
-    preview(photo);
-  }, [photo, exPhoto, dailyId]);
-
-  // 감정 선택
-  const emoIds: number[] = [1, 2, 3, 4, 5, 6];
-
   // 별점
-  const [clicked, setClicked] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
-  const starArray: number[] = [1, 2, 3, 4, 5];
-  const itemStar = clicked.map((item, i) =>
-    i < targetItem?.star ? true : false
-  );
-
+  const clicked = [false, false, false, false, false];
+  const itemStar = clicked.map((_, i) => i < targetItem?.star);
   const [editStar, setEditStar] = useState<boolean[]>(itemStar);
 
-  const clickStarHandler = (index: number): void => {
-    setEditStar(clicked.map((_, i) => i <= index - 1));
-    scoreStarHandler(index);
+  const clickStarHandler = (score: number) => {
+    setEditStar(clicked.map((_, i) => i <= score - 1));
+    scoreStarHandler(score);
   };
 
   const changeFileHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -150,13 +88,11 @@ const ImageEdit = () => {
 
   const deletePhotoHandler = () => {
     setValidPhoto(false);
-    fileInputHandler(null);
   };
 
   const deleteExistingPhotoHandler = () => {
     setValidPhoto(false);
     setExPhoto(undefined);
-    fileInputHandler(null);
     setInputValue({ ...inputValue, deleteImg: true });
   };
 
@@ -168,6 +104,11 @@ const ImageEdit = () => {
       alert("사진을 첨부해주세요 !");
     }
   };
+
+  useEffect(() => {
+    preview(photo);
+  }, [photo, exPhoto, dailyId]);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -175,10 +116,10 @@ const ImageEdit = () => {
   return (
     <>
       <form onSubmit={submitFormHandler}>
-        <Flex row>
-          <StCanvasWrapper>
+        <St.Wrapper>
+          <St.ImageWrap>
             {exPhoto ? (
-              <>
+              <St.PhotoPreview>
                 <St.PhotoPreviewImg src={`${targetItem?.imgUrl}`} />
                 <St.DeletePhotoButton
                   type="button"
@@ -186,103 +127,55 @@ const ImageEdit = () => {
                 >
                   삭제
                 </St.DeletePhotoButton>
-              </>
+              </St.PhotoPreview>
             ) : validPhoto ? (
-              <>
+              <St.PhotoPreview>
                 <St.PhotoPreviewImg src={`${previewUrl}`} />
-                {validPhoto ? (
-                  <Button
-                    size="small"
-                    type="button"
-                    onClick={deletePhotoHandler}
-                  >
-                    삭제
-                  </Button>
-                ) : null}
-              </>
-            ) : (
-              <St.PhotoInputBox>
-                <label
-                  ref={dragRef}
-                  onDragOver={dragOverHandler}
-                  onDrop={dropHandler}
+                <St.DeletePhotoButton
+                  type="button"
+                  onClick={deletePhotoHandler}
                 >
-                  <St.PhotoInput
-                    type="file"
-                    accept="image/jpeg image/png image/jpg image/gif"
-                    onChange={changeFileHandler}
-                    required
-                  />
-                </label>
-              </St.PhotoInputBox>
+                  삭제
+                </St.DeletePhotoButton>
+              </St.PhotoPreview>
+            ) : (
+              <St.PhotoInputContainer>
+                <St.PhotoInputBox>
+                  <label onDragOver={dragOverHandler} onDrop={dropHandler}>
+                    <St.PhotoInput
+                      type="file"
+                      accept="image/jpeg image/png image/jpg image/gif"
+                      onChange={changeFileHandler}
+                      required
+                    />
+                  </label>
+                </St.PhotoInputBox>
+              </St.PhotoInputContainer>
             )}
-          </StCanvasWrapper>
-          <StCanvasWrapper>
+          </St.ImageWrap>
+          <St.ImagePostWrap>
             <St.ScoreBox>
-              <UnorderLi>
-                {emoIds.map((item: number) => (
-                  <List key={item}>
-                    <EmoButton
-                      name="emoId"
-                      type="button"
-                      value={item}
-                      selected={inputValue.emoId === item ? true : false}
-                      onClick={clickEmojiHandler}
-                    >
-                      <EmotionIcons
-                        height="50"
-                        width="50"
-                        emotionTypes={`EMOTION_${item}`}
-                      />
-                    </EmoButton>
-                  </List>
-                ))}
-              </UnorderLi>
-
-              {starArray.map((score) => (
-                <Star
-                  key={score}
-                  size="30"
-                  color={
-                    editStar[score - 1]
-                      ? themeColor.main.yellow
-                      : themeColor.main.paper
-                  }
-                  onClick={() => clickStarHandler(score)}
-                />
-              ))}
-              <span>{inputValue?.star === 0 ? "?" : inputValue?.star}</span>
+              <EmoScore value={inputValue.emoId} action={clickEmojiHandler} />
+              <St.StarWrap>
+                <StarScore arr={editStar} action={clickStarHandler} />
+                <span>{inputValue?.star ? inputValue?.star : "별점"}</span>
+              </St.StarWrap>
             </St.ScoreBox>
-            <div>
-              <label>
-                내용
-                <St.TextArea
-                  name="detail"
-                  value={inputValue?.detail}
-                  cols={30}
-                  rows={10}
-                  spellCheck={false}
-                  required
-                  onChange={onChangeHandler}
-                ></St.TextArea>
-              </label>
-            </div>
+            <PostInput action={onChangeHandler} value={inputValue} />
             <St.SubmitBox>
               <St.Label>
                 공유여부
                 <Checkbox
                   name="share"
-                  checked={inputValue?.share === true}
+                  checked={inputValue?.share}
                   disabled={editItem?.restrict}
                   onChange={onCheckHandler}
                 />
               </St.Label>
-              <Button size="large" type="submit">
-                등록하기
-              </Button>
+              <Button size="large">등록하기</Button>
             </St.SubmitBox>
-          </StCanvasWrapper>
-        </Flex>
+          </St.ImagePostWrap>
+        </St.Wrapper>
       </form>
     </>
   );

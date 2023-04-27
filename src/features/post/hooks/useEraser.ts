@@ -10,28 +10,29 @@ export const useEraser = (
     undefined
   );
   // canvas에 선긋는 함수
-  const eraseLine = (originalMousePosition: Coordinate): void => {
-    if (!ref.current) {
-      return;
-    }
-    const canvas: HTMLCanvasElement = ref.current;
-    const context = canvas.getContext("2d");
+  const eraseLine = (originalMousePosition: Coordinate) => {
+    if (ref.current) {
+      const canvas: HTMLCanvasElement = ref.current;
+      const context = canvas.getContext("2d");
 
-    if (context) {
-      context.beginPath();
-      context.moveTo(originalMousePosition.x, originalMousePosition.y);
-      context.clearRect(
-        originalMousePosition.x - 15,
-        originalMousePosition.y - 15,
-        30,
-        30
-      );
-      context.closePath();
+      if (context) {
+        context.beginPath();
+        context.moveTo(originalMousePosition.x, originalMousePosition.y);
+        context.clearRect(
+          originalMousePosition.x - 15,
+          originalMousePosition.y - 15,
+          30,
+          30
+        );
+        context.closePath();
+      }
     }
   };
 
   const startErase = useCallback(
-    (event: React.MouseEvent<HTMLCanvasElement>): void => {
+    (event: React.MouseEvent<HTMLCanvasElement>) => {
+      event.preventDefault();
+      event.stopPropagation();
       const coordinates = action(event);
       if (coordinates) {
         setIsErasing(true);
@@ -42,7 +43,7 @@ export const useEraser = (
   );
 
   const erase = useCallback(
-    (event: React.MouseEvent<HTMLCanvasElement>): void => {
+    (event: React.MouseEvent<HTMLCanvasElement>) => {
       event.preventDefault();
       event.stopPropagation();
 
@@ -57,7 +58,7 @@ export const useEraser = (
     [isErasing, mousePosition]
   );
 
-  const exitErase = useCallback((): void => {
+  const exitErase = useCallback(() => {
     // setIsPainting(false);
     setIsErasing(false);
   }, []);

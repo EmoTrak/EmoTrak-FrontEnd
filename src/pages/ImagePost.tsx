@@ -1,35 +1,31 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { StCanvasWrapper } from "../features/post/components/Canvas";
-import Star from "../components/Icon/Star";
-import { useInput } from "../features/post/hooks/useInput";
-import EmotionIcons from "../components/Icon/EmoticonIcons";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { usePost } from "../features/post/hooks/usePost";
-import { usePreview } from "../features/post/hooks/usePreview";
-import { getCookie } from "../utils/cookies";
-import Checkbox from "../components/Checkbox";
-import Button from "../components/Button";
-import { themeColor } from "../utils/theme";
 import { HOME_PAGE } from "../data/routes/urls";
 import { InputValue } from "../data/type/type";
+import { useInput } from "../features/post/hooks/useInput";
+import { usePost } from "../features/post/hooks/usePost";
+import { usePreview } from "../features/post/hooks/usePreview";
+import Checkbox from "../components/Checkbox";
+import Button from "../components/Button";
+import StarScore from "../features/post/components/StarScore";
+import EmoScore from "../features/post/components/EmoScore";
 import * as St from "../features/post/styles/ImageStyle";
-import { EmoButton, UnorderLi } from "../features/post/styles/DrawingStyle";
+import PostInput from "../features/post/components/PostInput";
 
 const ImagePost = () => {
-  const token = getCookie("token");
-  const refreshToken = getCookie("refreshToken");
   const navigate = useNavigate();
+
   // 날짜
   const params = useParams();
-  const year: number | undefined = Number(params.date?.split("-")[0]);
-  const month: number | undefined = Number(params.date?.split("-")[1]);
-  const day: number | undefined = Number(params.date?.split("-")[2]);
-
+  const [year, month, day] = (params.date || "").split("-").map(Number);
   // 글작성 조건 상태
-  const [validPhoto, setValidPhoto] = useState<boolean>(false);
-  const [validStar, setValidStar] = useState<boolean>(false);
-  const [validEmoji, setValidEmoji] = useState<boolean>(false);
-  const editItem: InputValue = {
+  const [valid, setValid] = useState({
+    photo: false,
+    star: false,
+    emoji: false,
+  });
+
+  const newItem: InputValue = {
     year,
     month,
     day,
@@ -41,13 +37,14 @@ const ImagePost = () => {
     share: false,
     restrict: false,
   };
+
   const {
     onChangeHandler,
     onCheckHandler,
     clickEmojiHandler,
     inputValue,
     scoreStarHandler,
-  } = useInput(editItem);
+  } = useInput(newItem);
 
   const { submitDiaryHandler, fileInputHandler, fileDropHandler, photo } =
     usePost({
@@ -63,32 +60,28 @@ const ImagePost = () => {
     false,
     false,
   ]);
-  const clickStarHandler = (index: number): void => {
-    setClicked(clicked.map((_, i) => i <= index - 1));
-    scoreStarHandler(index);
+  const clickStarHandler = (score: number): void => {
+    setClicked(clicked.map((_, i) => i <= score - 1));
+    scoreStarHandler(score);
+    setValid({ ...valid, star: true });
   };
 
   // 드래그앤 드랍
-  const dragRef = useRef<HTMLLabelElement | null>(null);
-
-  const dragOverHandler = useCallback((event: React.DragEvent): void => {
+  const dragOverHandler = (event: React.DragEvent) => {
     event.preventDefault();
     event.stopPropagation();
-  }, []);
+  };
 
-  const dropHandler = useCallback(
-    (event: React.DragEvent<HTMLLabelElement>): void => {
-      event.preventDefault();
-      event.stopPropagation();
+  const dropHandler = (event: React.DragEvent<HTMLLabelElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
 
-      fileDropHandler(event);
-      setValidPhoto(true);
-    },
-    []
-  );
+    fileDropHandler(event);
+    setValid({ ...valid, photo: true });
+  };
 
-  const submitFormHandler = (event: React.FormEvent<HTMLFormElement>): void => {
-    if (validPhoto && validEmoji && validStar) {
+  const submitFormHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    if (valid.photo && valid.emoji && valid.star) {
       submitDiaryHandler(event);
     } else {
       event.preventDefault();
@@ -96,34 +89,22 @@ const ImagePost = () => {
     }
   };
 
-  const changeFileHandler = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    setValidPhoto(true);
+  const changeFileHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValid({ ...valid, photo: true });
     fileInputHandler(event);
   };
 
-  const changeStarHandler = (score: number): void => {
-    clickStarHandler(score);
-    setValidStar(true);
-  };
-
-  const changeEmojiHandler = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ): void => {
+  const changeEmojiHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     clickEmojiHandler(event);
-    setValidEmoji(true);
+    setValid({ ...valid, emoji: true });
   };
 
-  const deletePhotoHandler = (): void => {
-    setValidPhoto(false);
+  const deletePhotoHandler = () => {
+    setValid({ ...valid, photo: false });
   };
 
   useEffect(() => {
     preview(photo);
-    if (!token && !refreshToken) {
-      navigate("/");
-    }
     const preventGoBack = () => {
       if (window.confirm("페이지를 나가시겠습니까?")) {
         navigate(HOME_PAGE);
@@ -133,9 +114,9 @@ const ImagePost = () => {
     };
 
     // 새로고침 막기 변수
-    const preventClose = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-      e.returnValue = ""; // chrome에서는 설정이 필요해서 넣은 코드
+    const preventClose = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = ""; // chrome에서는 설정이 필요해서 넣은 코드
     };
 
     window.history.pushState(null, "", window.location.href);
@@ -145,14 +126,14 @@ const ImagePost = () => {
       window.removeEventListener("popstate", preventGoBack);
       window.removeEventListener("beforeunload", preventClose);
     };
-  }, [token, photo]);
+  }, [photo]);
 
   return (
     <>
       <form onSubmit={submitFormHandler}>
         <St.Wrapper>
           <St.ImageWrap>
-            {validPhoto ? (
+            {valid.photo ? (
               <St.PhotoPreview>
                 <St.PhotoPreviewImg src={`${previewUrl}`} />
                 <St.DeletePhotoButton
@@ -165,11 +146,7 @@ const ImagePost = () => {
             ) : (
               <St.PhotoInputContainer>
                 <St.PhotoInputBox>
-                  <label
-                    ref={dragRef}
-                    onDragOver={dragOverHandler}
-                    onDrop={dropHandler}
-                  >
+                  <label onDragOver={dragOverHandler} onDrop={dropHandler}>
                     <St.PhotoInput
                       type="file"
                       accept="image/jpeg image/png image/jpg image/gif"
@@ -182,72 +159,25 @@ const ImagePost = () => {
             )}
           </St.ImageWrap>
           <St.ImagePostWrap>
-            <StCanvasWrapper>
-              <St.ScoreBox>
-                <UnorderLi>
-                  {[1, 2, 3, 4, 5, 6].map((item: number) => (
-                    <EmoButton
-                      name="emoId"
-                      type="button"
-                      key={item}
-                      selected={inputValue.emoId === item ? true : false}
-                      value={item}
-                      onClick={changeEmojiHandler}
-                    >
-                      <EmotionIcons
-                        height="100%"
-                        width="100%"
-                        emotionTypes={`EMOTION_${item}`}
-                      />
-                    </EmoButton>
-                  ))}
-                </UnorderLi>
-                <St.StarWrap>
-                  {[1, 2, 3, 4, 5].map((score) => (
-                    <Star
-                      key={score}
-                      size="30px"
-                      color={
-                        clicked[score - 1]
-                          ? themeColor.palette.yellow
-                          : themeColor.main.oatmeal
-                      }
-                      onClick={() => changeStarHandler(score)}
-                    />
-                  ))}
-                  <p>
-                    {inputValue.star === 0
-                      ? "별점을 매겨주세요"
-                      : inputValue.star}
-                  </p>
-                </St.StarWrap>
-              </St.ScoreBox>
-              <div>
-                <label>
-                  <St.TextArea
-                    name="detail"
-                    required
-                    spellCheck={false}
-                    maxLength={1500}
-                    onChange={onChangeHandler}
-                  ></St.TextArea>
-                </label>
-              </div>
-              <St.SubmitBox>
-                <St.Label>
-                  공유여부
-                  <Checkbox
-                    name="share"
-                    checked={inputValue.share}
-                    disabled={editItem?.restrict}
-                    onChange={onCheckHandler}
-                  />
-                </St.Label>
-                <Button size="large" type="submit">
-                  등록하기
-                </Button>
-              </St.SubmitBox>
-            </StCanvasWrapper>
+            <St.ScoreBox>
+              <EmoScore value={inputValue.emoId} action={changeEmojiHandler} />
+              <St.StarWrap>
+                <StarScore arr={clicked} action={clickStarHandler} />
+                <span>{inputValue.star === 0 ? "별점" : inputValue.star}</span>
+              </St.StarWrap>
+            </St.ScoreBox>
+            <PostInput action={onChangeHandler} value={inputValue} />
+            <St.SubmitBox>
+              <St.Label>
+                공유여부
+                <Checkbox
+                  name="share"
+                  checked={inputValue.share}
+                  onChange={onCheckHandler}
+                />
+              </St.Label>
+              <Button size="large">등록하기</Button>
+            </St.SubmitBox>
           </St.ImagePostWrap>
         </St.Wrapper>
       </form>

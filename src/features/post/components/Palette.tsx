@@ -1,5 +1,5 @@
-import { themeColor } from "../../../utils/theme";
 import { PaletteProps } from "../../../data/type/type";
+import { themeColor } from "../../../utils/theme";
 import * as St from "../styles/PaletteStyle";
 
 const Palette = ({
@@ -7,17 +7,9 @@ const Palette = ({
   onColorSelect,
   setSelectPen,
 }: PaletteProps) => {
-  const colorPalette = [
-    `${themeColor.palette.yellow}`,
-    `${themeColor.palette.red}`,
-    `${themeColor.palette.purple}`,
-    `${themeColor.palette.yellow}`,
-    `${themeColor.palette.blue}`,
-    `${themeColor.palette.sky}`,
-    `${themeColor.palette.green}`,
-    `${themeColor.main.black}`,
-    `${themeColor.main.white}`,
-  ];
+  const { yellow, red, purple, blue, sky, green } = themeColor.palette;
+  const { black, white } = themeColor.main;
+  const colorPalette = [yellow, red, purple, blue, sky, green, black, white];
 
   return (
     <St.PaletteWrap>
