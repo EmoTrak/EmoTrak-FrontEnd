@@ -7,7 +7,6 @@ export const Container = styled.div`
   top: 30%;
   left: 50%;
   transform: translate(-50%);
-  color: ${themeColor.main.chocomilk};
   background-color: ${themeColor.main.white};
   border-radius: 22px;
   display: flex;
@@ -23,7 +22,6 @@ export const Container = styled.div`
 
 export const Text = styled.div`
   padding-bottom: 10px;
-  color: ${themeColor.main.chocomilk};
 `;
 
 export const CloseBtn = styled.div`

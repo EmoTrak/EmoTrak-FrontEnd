@@ -62,7 +62,7 @@ const BarChart = ({ graphData, month }: PropsData) => {
               style: {
                 fontSize: "20px",
                 fontWeight: "bold",
-                color: themeColor.main.black,
+                color: themeColor.font,
               },
             },
             grid: {
@@ -75,6 +75,7 @@ const BarChart = ({ graphData, month }: PropsData) => {
               categories: ["Fun", "Smile", "Calm", "Sad", "Angry", "Cry"],
               labels: {
                 show: true,
+                style: { colors: themeColor.font },
               },
             },
             yaxis: {

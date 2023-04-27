@@ -1,35 +1,18 @@
-import React, { PropsWithChildren, useState } from "react";
-import { Idtype, UriType } from "../../../data/type/type";
-import * as UI from "../../../components/Modal";
+import { PropsWithChildren } from "react";
 import { IoMdClose } from "react-icons/io";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import user from "../../../lib/api/user";
-import * as Sub from "../../../components/subModal";
-import { keys } from "../../../data/queryKeys/keys";
+import { UriType } from "../../../data/type/type";
+import { useReport } from "../hooks/useReport";
 import Button from "../../../components/Button";
+import * as UI from "../../../components/Modal";
 import * as St from "../styles/ReportStyle";
+import * as Sub from "../../../components/subModal";
 
 const Report = ({
   children,
   id,
   uri,
 }: PropsWithChildren & Partial<UriType>) => {
-  const [reason, setReason] = useState("");
-
-  const changeInputHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setReason(e.target.value);
-  };
-  const queryClient = useQueryClient();
-  const { mutate, status, reset } = useMutation({
-    mutationFn: async (id: number | undefined) => {
-      const data = await user.post(`/boards/${uri}/${id}`, { reason });
-      return data;
-    },
-    onSuccess: () => {
-      setReason("");
-      queryClient.invalidateQueries([keys.GET_BOARD]);
-    },
-  });
+  const { reason, changeInputHandler, mutate, status, reset } = useReport(uri);
 
   return (
     <UI.Modalroot>

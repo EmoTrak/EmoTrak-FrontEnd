@@ -1,50 +1,30 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDelete } from "../features/detail/hooks/useDelete";
-import EmotionIcons from "../components/Icon/EmoticonIcons";
-import { getCookie } from "../utils/cookies";
+import { RiAlarmWarningFill } from "react-icons/ri";
 import { CommentData } from "../data/type/type";
+import { DRAW_EDIT_PAGE, IMAGE_EDIT_PAGE } from "../data/routes/urls";
+import { getCookie } from "../utils/cookies";
+import { themeColor } from "../utils/theme";
+import { scrollOnTop } from "../utils/scollOnTop";
+import PageNation from "../components/PageNation";
+import Flex from "../components/Flex";
+import Button from "../components/Button";
+import Star from "../components/Icon/Star";
+import EmotionIcons from "../components/Icon/EmoticonIcons";
 import LikePost from "../features/community/components/LikePost";
 import CreateComment from "../features/community/components/CreateComment";
 import Comment from "../features/community/components/Comment";
 import useAddCommunityDetail from "../features/community/hooks/useAddCommunityDetail";
-import { useQueryClient } from "@tanstack/react-query";
-import { keys } from "../data/queryKeys/keys";
-import { scrollOnTop } from "../utils/scollOnTop";
 import PostDate from "../features/community/components/PostDate";
-import {
-  COMMUNITY_PAGE,
-  DRAW_EDIT_PAGE,
-  IMAGE_EDIT_PAGE,
-} from "../data/routes/urls";
-import PageNation from "../components/PageNation";
-import Button from "../components/Button";
-import Star from "../components/Icon/Star";
 import Report from "../features/community/components/Report";
-import { RiAlarmWarningFill } from "react-icons/ri";
-import { themeColor } from "../utils/theme";
-import Flex from "../components/Flex";
 import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 import * as St from "../features/community/styles/CommunityDetailStyle";
 
 const CommunityDetail = () => {
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const refreshToken = getCookie("refreshToken");
   const [page, setPage] = useState<number>(1);
-  const { deletePost } = useDelete();
   const { data, isError, status, remove } = useAddCommunityDetail(page);
-
-  const deletePostHandler = (id: number) => {
-    if (window.confirm("삭제하시겠습니까?")) {
-      deletePost.mutate(id, {
-        onSuccess: () => {
-          navigate(COMMUNITY_PAGE);
-          queryClient.resetQueries({ queryKey: [keys.GET_BOARD] });
-        },
-      });
-    }
-  };
 
   useEffect(() => {
     scrollOnTop();
@@ -137,13 +117,7 @@ const CommunityDetail = () => {
               )}
           </St.EmotionStar>
         </Flex>
-        <div
-          style={{
-            fontSize: "25px",
-          }}
-        >
-          닉네임 :{data?.nickname}
-        </div>
+        <St.Nickname>닉네임 :{data?.nickname}</St.Nickname>
         {status === "success" && <PostDate date={data.date} />}
         <St.PostContent>{data?.detail}</St.PostContent>
 
