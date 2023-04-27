@@ -43,6 +43,7 @@ const PostDate = ({ date }: PostDateType) => {
       return <>{secondDiff}초 전</>;
     }
   };
+
   return <div>{NowDate()}</div>;
 };
 

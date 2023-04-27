@@ -8,7 +8,6 @@ export const Container = styled.div`
   justify-content: space-around;
   box-sizing: border-box;
   background-color: ${themeColor.main.white};
-  color: ${themeColor.main.chocomilk};
   ${device.mobile} {
     flex-direction: column;
   }
@@ -66,9 +65,14 @@ export const PostContent = styled.div`
   margin-bottom: 30px;
   text-decoration: underline;
   text-underline-position: under;
-  text-decoration-color: ${themeColor.main.chocomilk};
+  text-decoration-color: ${themeColor.font};
   box-sizing: border-box;
   ${device.mobile} {
     width: 80%;
   }
+`;
+
+export const Nickname = styled.div`
+  color: ${themeColor.main.chocomilk};
+  font-size: 25px;
 `;

@@ -27,8 +27,11 @@ export const EditInput = styled.textarea`
 `;
 
 export const Nicname = styled.div`
-  color: ${themeColor.main.coffemilk};
+  color: ${themeColor.main.chocomilk};
   font-size: 15px;
+`;
+export const Comment = styled.div`
+  margin: 5px 0;
 `;
 
 export const ReportBtn = styled.button`
@@ -36,4 +39,17 @@ export const ReportBtn = styled.button`
   border: 0;
   background-color: transparent;
   color: ${themeColor.main.red};
+`;
+
+export const EditBox = styled.div`
+  height: 122px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+export const DateBox = styled.div`
+  display: flex;
+  justify-content: center;
+  font-size: 15px;
 `;

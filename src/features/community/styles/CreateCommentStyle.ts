@@ -10,6 +10,7 @@ export const CommentInput = styled.textarea`
   letter-spacing: 1.5px;
   font-size: 18px;
   border: 0;
+  color: inherit;
   box-shadow: 0 0 10px ${themeColor.main.oatmeal};
   outline: none !important;
   width: 40vw;

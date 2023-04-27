@@ -17,7 +17,7 @@ export const useEdit = ({ inputValue, dailyId, canvasRef }: PostInput) => {
     },
     {
       onSuccess() {
-        queryClient.invalidateQueries([`${keys.GET_DETAIL}`]);
+        queryClient.invalidateQueries([keys.GET_DETAIL]);
         navigate(`${DETAIL_PAGE}/${dailyId}`);
       },
       onError() {

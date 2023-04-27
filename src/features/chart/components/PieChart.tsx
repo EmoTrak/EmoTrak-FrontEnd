@@ -1,5 +1,5 @@
 import ApexCharts from "react-apexcharts";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { PropsData } from "../../../data/type/type";
 
@@ -31,6 +31,9 @@ function PieChart({ graphData, month }: PropsData) {
             legend: {
               show: true,
               position: "bottom",
+              labels: {
+                colors: themeColor.font,
+              },
             },
             labels: ["Fun", "Smile", "Calm", "Sad", "Angry", "Cry"],
             colors: [
@@ -47,7 +50,7 @@ function PieChart({ graphData, month }: PropsData) {
               style: {
                 fontSize: "20px",
                 fontWeight: "bold",
-                color: themeColor.main.black,
+                color: themeColor.font,
               },
             },
             chart: {

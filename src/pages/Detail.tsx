@@ -1,11 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
-import { useCallback } from "react";
-import { keys } from "../data/queryKeys/keys";
-import user from "../lib/api/user";
 import { useNavigate, useParams } from "react-router-dom";
-import EmotionIcons from "../components/Icon/EmoticonIcons";
-import Flex from "../components/Flex";
-import { getCookie } from "../utils/cookies";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import {
   DETAIL_PAGE,
@@ -13,11 +6,13 @@ import {
   HOME_PAGE,
   IMAGE_EDIT_PAGE,
 } from "../data/routes/urls";
-import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
+import { themeColor } from "../utils/theme";
+import Flex from "../components/Flex";
 import Button from "../components/Button";
 import Star from "../components/Icon/Star";
-import { themeColor } from "../utils/theme";
-import { DetailType } from "../data/type/type";
+import EmotionIcons from "../components/Icon/EmoticonIcons";
+import { useGetDetail } from "../features/detail/hooks/useGetDetail";
+import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 import * as St from "../features/detail/styles/DetailStyle";
 
 const Detail = () => {
@@ -25,19 +20,7 @@ const Detail = () => {
   const dailyId: number = Number(params.id);
   const navigate = useNavigate();
 
-  const getDetail = useCallback(() => {
-    return user.get(`daily/${dailyId}`);
-  }, [dailyId]);
-
-  const { data, isLoading } = useQuery([`${keys.GET_DETAIL}`], getDetail);
-
-  const contents = data?.data.data.contents;
-  const otherItem = contents?.filter(
-    (item: DetailType) => item.id !== dailyId
-  )[0];
-  const targetItem = contents?.filter(
-    (item: DetailType) => item.id === dailyId
-  )[0];
+  const { targetItem, otherItem, isLoading, contents } = useGetDetail(dailyId);
 
   const navigateEditHandler = () => {
     if (targetItem?.draw === true) {
@@ -130,10 +113,7 @@ const Detail = () => {
             </St.EmoScore>
           </St.DetailEmoWrap>
           <St.SharedWrap>
-            <Flex row>
-              <div>공유여부:&nbsp;</div>
-              {targetItem?.share ? "Shared" : "NoShared"}
-            </Flex>
+            <Flex row>{targetItem?.share ? "Shared" : "Not Shared"}</Flex>
           </St.SharedWrap>
           <St.DetailText>
             <St.DetailWrapper>{targetItem?.detail}</St.DetailWrapper>

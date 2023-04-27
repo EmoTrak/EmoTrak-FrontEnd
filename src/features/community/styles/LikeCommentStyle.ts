@@ -28,7 +28,7 @@ export const LikeCount = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${themeColor.main.gray};
+  color: ${themeColor.main.chocomilk};
   font-size: 13px;
   margin-bottom: 5px;
 `;

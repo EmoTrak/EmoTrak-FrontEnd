@@ -1,13 +1,14 @@
 import React, { useState } from "react";
+import { GiSiren } from "react-icons/gi";
 import { CommentProps } from "../../../data/type/type";
-import useDeleteComment from "../hooks/useDeleteComment";
-import useUpdateComment from "../hooks/useUpdateComment";
+import { getCookie } from "../../../utils/cookies";
+import Button from "../../../components/Button";
 import LikeComment from "./LikeComment";
 import Report from "./Report";
 import PostDate from "./PostDate";
-import { getCookie } from "../../../utils/cookies";
-import { GiSiren } from "react-icons/gi";
-import Button from "../../../components/Button";
+import useDeleteComment from "../hooks/useDeleteComment";
+import useUpdateComment from "../hooks/useUpdateComment";
+
 import * as St from "../styles/CommentStyle";
 
 const Comment = ({ item }: Partial<CommentProps>) => {
@@ -27,14 +28,7 @@ const Comment = ({ item }: Partial<CommentProps>) => {
   return (
     <St.CommentBox>
       {edit ? (
-        <div
-          style={{
-            height: "122px",
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
-          }}
-        >
+        <St.EditBox>
           <St.EditInput value={editComment} onChange={changeInputHandler} />
           <div>
             <Button
@@ -56,12 +50,12 @@ const Comment = ({ item }: Partial<CommentProps>) => {
               취소
             </Button>
           </div>
-        </div>
+        </St.EditBox>
       ) : (
         <>
           <div>
             <St.Nicname> {item?.nickname}</St.Nicname>
-            <div style={{ margin: "5px 0" }}>{item?.comment}</div>
+            <St.Comment>{item?.comment}</St.Comment>
             <LikeComment
               isLike={item?.hasLike}
               id={item?.id}
@@ -98,15 +92,9 @@ const Comment = ({ item }: Partial<CommentProps>) => {
               )
             )}
             {typeof item?.createdAt === "string" && (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  fontSize: "15px",
-                }}
-              >
+              <St.DateBox>
                 <PostDate date={item.createdAt} />
-              </div>
+              </St.DateBox>
             )}
           </div>
         </>
