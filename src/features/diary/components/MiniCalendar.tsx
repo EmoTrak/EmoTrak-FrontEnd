@@ -3,7 +3,7 @@ import { useDate } from "../hooks/useDate";
 import Flex from "../../../components/Flex";
 import * as St from "../styles/MiniCalendarStyle";
 
-const MiniCalendar = ({ year, month }: DateType) => {
+const MiniCalendar = ({ year, month, onClick }: DateType & { onClick: () => void }) => {
   if (month === 13) {
     month = 1;
   } else if (month === 0) {
@@ -13,7 +13,7 @@ const MiniCalendar = ({ year, month }: DateType) => {
   const { firstDay, date } = useDate(year, month);
 
   return (
-    <St.CalendarBox>
+    <St.CalendarBox onClick={onClick}>
       <St.Month>{month}월</St.Month>
 
       <Flex row>

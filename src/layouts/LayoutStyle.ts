@@ -65,10 +65,11 @@ export const Container = styled.div`
   min-height: 90vh;
   position: relative;
   ${device.mobile} {
-    min-height: 70vh;
+    min-height: 75vh;
   }
   ${device.miniMobile} {
     margin-top: 110px;
+    min-height: 65vh;
   }
 `;
 export const EmoTrakLogo = styled.div`
@@ -108,6 +109,7 @@ export const PageButton = styled.button`
   font-family: "KyoboHand";
   letter-spacing: 0.5px;
   font-size: 18px;
+  color: ${themeColor.font};
   &:last-child {
     margin-right: 50px;
   }

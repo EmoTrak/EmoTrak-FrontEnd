@@ -44,7 +44,6 @@ export const Wrap = styled.div`
   animation: ${({ side }: Partial<DayProps>) => side && OpenBox} 1s ease;
   position: relative;
   ${device.tablet} {
-    position: absolute;
     flex-direction: column;
     z-index: 10;
     left: 0;
@@ -58,8 +57,7 @@ export const Wrap = styled.div`
   }
   ${device.miniMobile} {
     top: ${({ side }: Partial<DayProps>) => (side ? "65%" : "150%")};
-    animation: ${({ side }: Partial<DayProps>) => side && MiniMobileOpenBox} 1s
-      ease;
+    animation: ${({ side }: Partial<DayProps>) => side && MiniMobileOpenBox} 1s ease;
   }
 `;
 export const Container = styled.div`
@@ -113,7 +111,6 @@ export const ContentBox = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: space-around;
-  overflow: hidden;
   ${device.tablet} {
     justify-content: flex-start;
     height: 50%;
@@ -121,6 +118,16 @@ export const ContentBox = styled.div`
   ${device.mobile} {
     width: 100%;
   }
+`;
+
+export const Imoticon = styled.div`
+  border-radius: 50%;
+  position: relative;
+  background-color: ${themeColor.main.white};
+  padding: 5px;
+  min-width: 40px;
+  height: 40px;
+  margin-right: 10px;
 `;
 
 export const Content = styled.div`
@@ -144,16 +151,6 @@ export const Content = styled.div`
   ${device.miniMobile} {
     width: 73vw;
   }
-`;
-
-export const Imoticon = styled.div`
-  border-radius: 50%;
-  position: relative;
-  background-color: ${themeColor.main.white};
-  padding: 5px;
-  min-width: 40px;
-  height: 40px;
-  margin-right: 10px;
 `;
 
 export const PostContent = styled.div`
