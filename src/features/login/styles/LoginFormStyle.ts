@@ -1,29 +1,28 @@
 import styled from "styled-components";
-import { device, themeColor } from "../../../utils/theme";
 import { SizeType, UrlType } from "../../../data/type/type";
+import { device, themeColor } from "../../../utils/theme";
 
+export const LoginPageWrapper = styled.div`
+  width: 100%;
+  margin: 0 auto;
+  height: 100%;
+  ${device.tablet} {
+    height: 100vh;
+  }
+`;
 export const FormWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  position: relative;
   width: 100%;
   height: 100%;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   overflow: scroll;
-  padding: 10px;
   ${device.tablet} {
     height: 120vh;
     background-color: ${themeColor.main.white};
-  }
-  ${device.mobile} {
-    height: 120vh;
-    background-color: ${themeColor.main.white};
-  }
-  ${device.miniMobile} {
-    height: 120vh;
-    background-color: ${themeColor.main.white};
+    margin-top: 15vh;
   }
 `;
 
@@ -37,13 +36,9 @@ export const Form = styled.form`
   ${device.tablet} {
     gap: 5;
   }
-  ${device.mobile} {
-    gap: 5;
-  }
 `;
 
-export const SocialLoginButton = styled.button<SizeType & UrlType>`
-  background-image: ${({ url }) => `url(${url})`};
+export const SocialLoginButton = styled.button<SizeType>`
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -51,27 +46,21 @@ export const SocialLoginButton = styled.button<SizeType & UrlType>`
   background-size: 100% 100%;
   width: ${({ size }) => `${size}vw`};
   height: 3.5vw;
-  /* height: ${({ size }) => `${size}vh`}; */
   display: flex;
   justify-content: center;
   align-items: center;
   ${device.tablet} {
     width: 30vw;
     height: 7vw;
-    gap: 5;
     margin: 0;
   }
   ${device.mobile} {
     width: 35vw;
     height: 8.5vw;
-    gap: 5;
-    margin: 0;
   }
   ${device.miniMobile} {
     width: 50vw;
     height: 12.5vw;
-    gap: 5;
-    margin: 0;
   }
 `;
 export const ButtonBox = styled.div`
@@ -91,12 +80,6 @@ export const SocialButtonBox = styled.div`
   gap: 1vw;
   margin: 10px;
   ${device.tablet} {
-    flex-direction: column;
-  }
-  ${device.mobile} {
-    flex-direction: column;
-  }
-  ${device.miniMobile} {
     flex-direction: column;
   }
 `;
@@ -126,13 +109,10 @@ export const FormTitle = styled.div<SizeType & UrlType>`
     margin-top: 25vh;
   }
   ${device.mobile} {
-    width: 12vw;
-    height: 12vw;
     margin-top: 20vh;
   }
   ${device.miniMobile} {
     width: 20vw;
     height: 20vw;
-    margin-top: 20vh;
   }
 `;

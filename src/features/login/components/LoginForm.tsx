@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   GOOGLE_AUTH_URL,
@@ -6,15 +7,14 @@ import {
   SIGN_UP_PAGE,
 } from "../../../data/routes/urls";
 import { useLogin } from "../hooks/useLogin";
-import InputList from "../../mypage/components/InputList";
-import { MyPageInput } from "../../mypage/styles/MypageStyle";
-import Kakao from "../../../assets/Social/Kakao.webp";
-import Naver from "../../../assets/Social/Naver.webp";
-import Google from "../../../assets/Social/Google.webp";
-import LoginTitle from "../../../assets/Texts/Login.svg";
 import Button from "../../../components/Button";
-import { useEffect, useState } from "react";
+import InputList from "../../mypage/components/InputList";
+import Kakao from "../../../assets/Social/Kakao.svg";
+import Naver from "../../../assets/Social/Naver.svg";
+import Google from "../../../assets/Social/Google.svg";
+import LoginTitle from "../../../assets/Texts/Login.svg";
 import * as St from "../styles/LoginFormStyle";
+import { MyPageInput } from "../../mypage/styles/MypageStyle";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -32,12 +32,6 @@ const LoginForm = () => {
     };
   }, []);
 
-  const windowWidth = {
-    desktop: viewportWidth < 1920 && viewportWidth > 1024,
-    tablet: viewportWidth < 1024 && viewportWidth > 767,
-    mobile: viewportWidth < 768,
-  };
-
   const { loginInfo, submitFormHandler, changeInputHandler } = useLogin();
 
   return (
@@ -49,7 +43,8 @@ const LoginForm = () => {
             type="text"
             name="email"
             value={loginInfo.email}
-            maxLength={25}
+            spellCheck={false}
+            maxLength={30}
             onChange={changeInputHandler}
           />
         </InputList>
@@ -79,33 +74,36 @@ const LoginForm = () => {
       <St.SocialButtonBox>
         <St.SocialButtonLabel>
           <St.SocialLoginButton
-            url={Kakao}
             size={13}
             type="button"
             onClick={() => {
               window.location.href = KAKAO_AUTH_URL;
             }}
-          ></St.SocialLoginButton>
+          >
+            <img src={Kakao} alt="카카오로그인" />
+          </St.SocialLoginButton>
         </St.SocialButtonLabel>
         <St.SocialButtonLabel>
           <St.SocialLoginButton
-            url={Naver}
             size={13}
             type="button"
             onClick={() => {
               window.location.href = NAVER_AUTH_URL;
             }}
-          ></St.SocialLoginButton>
+          >
+            <img src={Naver} alt="네이버로그인" />
+          </St.SocialLoginButton>
         </St.SocialButtonLabel>
         <St.SocialButtonLabel>
           <St.SocialLoginButton
-            url={Google}
-            size={13}
+            size={15}
             type="button"
             onClick={() => {
               window.location.href = GOOGLE_AUTH_URL;
             }}
-          ></St.SocialLoginButton>
+          >
+            <img src={Google} alt="구글로그인" />
+          </St.SocialLoginButton>
         </St.SocialButtonLabel>
       </St.SocialButtonBox>
     </St.FormWrapper>

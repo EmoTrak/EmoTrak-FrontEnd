@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { device, themeColor } from "../../../utils/theme";
 import { HelperText } from "../../../data/type/type";
+import { device, themeColor } from "../../../utils/theme";
 
 export const MyPageWrapper = styled.div`
   display: flex;
@@ -25,26 +25,17 @@ export const MyPageInput = styled.input`
   border: none;
   border-radius: 6px;
   padding: 5px 10px 5px 10px;
-  font-size: 15px;
+  font-size: 20px;
+  color: ${themeColor.font};
+  font-family: inherit;
   ${device.tablet} {
     width: 60vw;
     height: 3vh;
-    font-size: 15px;
-    margin: 10px;
-    border-bottom: 1px solid ${themeColor.main.chocomilk};
+    // margin: 10px;
+    border-bottom: 1px solid ${themeColor.main.coffemilk};
   }
   ${device.mobile} {
     width: 80vw;
-    height: 3vh;
-    font-size: 15px;
-    margin: 10px;
-    border-bottom: 1px solid ${themeColor.main.chocomilk};
-  }
-  ${device.miniMobile} {
-    width: 80vw;
-    height: 3vh;
-    font-size: 15px;
-    margin: 10px;
   }
 `;
 
