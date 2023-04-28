@@ -46,7 +46,7 @@ const Chart = () => {
 
         <St.MobileWrapper>
           <St.CheckBoxWrapper>
-            <St.CheckBox onClick={toggleChart} type="checkbox" />
+            <St.CheckBox onClick={toggleChart} id="checkbox" type="checkbox" />
             <St.CheckBoxLabel htmlFor="checkbox" />
           </St.CheckBoxWrapper>
           {isActive ? (

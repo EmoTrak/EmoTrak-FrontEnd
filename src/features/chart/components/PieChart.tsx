@@ -45,7 +45,7 @@ function PieChart({ graphData, month }: PropsData) {
               themeColor.emoticon.purple,
             ],
             title: {
-              text: "한 달 감정 평균",
+              text: "한 달 감정 빈도",
               align: "center",
               style: {
                 fontSize: "20px",
