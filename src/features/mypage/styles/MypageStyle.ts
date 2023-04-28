@@ -20,19 +20,17 @@ export const MyPageContentWrapper = styled.div`
 `;
 
 export const MyPageInput = styled.input`
-  width: 15vw;
-  height: 1vw;
+  width: 21vw;
+  height: 20px;
   border: none;
   border-radius: 6px;
   padding: 5px 10px 5px 10px;
   font-size: 20px;
   color: ${themeColor.font};
   font-family: inherit;
+  box-shadow: 2px 2px 5px 1px ${themeColor.main.oatmeal};
   ${device.tablet} {
     width: 60vw;
-    height: 3vh;
-    // margin: 10px;
-    border-bottom: 1px solid ${themeColor.main.coffemilk};
   }
   ${device.mobile} {
     width: 80vw;
@@ -43,6 +41,7 @@ export const MyPageHelperText = styled.span<HelperText>`
   margin: 0;
   color: ${({ important }) =>
     important ? `${themeColor.main.red}` : `${themeColor.main.black}`};
+  height: 30px;
 `;
 
 export const MyPageButtonBox = styled.div`

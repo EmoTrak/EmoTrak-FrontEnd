@@ -13,6 +13,8 @@ export const ListWrapper = styled.div`
   position: relative;
   justify-content: center;
   align-items: center;
+  margin: 5px;
+  gap: 2vh;
   ${device.tablet} {
     flex-direction: column;
     width: 80vw;
@@ -26,13 +28,13 @@ export const ListTitle = styled.label`
   display: flex;
   justify-content: center;
   font-weight: 800;
+  color: ${themeColor.main.chocomilk};
   ${device.tablet} {
     width: 100%;
     font-size: 18px;
     margin-right: 10px;
     justify-content: left;
     align-items: flex-start;
-    color: ${themeColor.main.coffemilk};
   }
 `;
 

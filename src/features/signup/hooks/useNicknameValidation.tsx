@@ -9,14 +9,12 @@ export const useNicknameValidation = () => {
 
   const checkNickname = useMutation({
     mutationFn: async (nickname: string) => {
-      const data = await user.post(`/users/nick-check`, { nickname });
-      return data;
+      await user.post(`/users/nick-check`, { nickname });
     },
     onSuccess: () => {
       setNicknameValidation(true);
     },
   });
-
   return {
     validNickname,
     checkNickname,

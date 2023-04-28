@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { SizeType, UrlType } from "../../../data/type/type";
+import { SizeType } from "../../../data/type/type";
 import { device, themeColor } from "../../../utils/theme";
 
 export const LoginPageWrapper = styled.div`
@@ -16,13 +16,9 @@ export const FormWrapper = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  /* justify-content: center; */
   align-items: center;
-  overflow: scroll;
   ${device.tablet} {
-    height: 120vh;
     background-color: ${themeColor.main.white};
-    margin-top: 15vh;
   }
 `;
 
@@ -30,12 +26,8 @@ export const Form = styled.form`
   width: 100vw;
   display: flex;
   flex-direction: column;
-  gap: 10;
-  justify-content: center;
+  gap: 5;
   align-items: center;
-  ${device.tablet} {
-    gap: 5;
-  }
 `;
 
 export const SocialLoginButton = styled.button<SizeType>`
@@ -84,35 +76,23 @@ export const SocialButtonBox = styled.div`
   }
 `;
 
-export const SocialButtonLabel = styled.label`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const FormTitle = styled.div<SizeType & UrlType>`
-  background-image: ${({ url }) => `url(${url})`};
-  background-color: transparent;
-  border: none;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  width: ${({ size }) => `${size}vw`};
-  height: ${({ size }) => `${size}vw`};
+export const FormTitle = styled.div`
+  margin: 50px 15px 25px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin: 0.5vh 6vh;
-  ${device.tablet} {
-    width: 12vw;
-    height: 12vw;
-    margin-top: 25vh;
+  color: ${themeColor.main.chocomilk};
+  span {
+    font-size: 21px;
+    position: relative;
+    z-index: 3;
   }
-  ${device.mobile} {
-    margin-top: 20vh;
-  }
-  ${device.miniMobile} {
-    width: 20vw;
-    height: 20vw;
+  p {
+    background-color: ${themeColor.emoticon.yellow};
+    border-radius: 10px;
+    width: 80px;
+    height: 16px;
+    position: absolute;
+    top: 45px;
+    z-index: 2;
   }
 `;

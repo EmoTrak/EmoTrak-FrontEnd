@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   GOOGLE_AUTH_URL,
@@ -6,39 +5,29 @@ import {
   NAVER_AUTH_URL,
   SIGN_UP_PAGE,
 } from "../../../data/routes/urls";
-import { useLogin } from "../hooks/useLogin";
+import Flex from "../../../components/Flex";
 import Button from "../../../components/Button";
+import { useLogin } from "../hooks/useLogin";
 import InputList from "../../mypage/components/InputList";
 import Kakao from "../../../assets/Social/Kakao.svg";
 import Naver from "../../../assets/Social/Naver.svg";
 import Google from "../../../assets/Social/Google.svg";
-import LoginTitle from "../../../assets/Texts/Login.svg";
 import * as St from "../styles/LoginFormStyle";
 import { MyPageInput } from "../../mypage/styles/MypageStyle";
 
 const LoginForm = () => {
   const navigate = useNavigate();
 
-  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const resizeHandler = () => {
-      setViewportWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", resizeHandler);
-    return () => {
-      window.removeEventListener("resize", resizeHandler);
-    };
-  }, []);
-
   const { loginInfo, submitFormHandler, changeInputHandler } = useLogin();
 
   return (
     <St.FormWrapper>
       <St.Form id="login" onSubmit={submitFormHandler}>
-        <St.FormTitle url={LoginTitle} size={5} />
-        <InputList name="ID">
+        <St.FormTitle>
+          <span>로그인</span>
+          <p />
+        </St.FormTitle>
+        <InputList name="아이디">
           <MyPageInput
             type="text"
             name="email"
@@ -48,7 +37,7 @@ const LoginForm = () => {
             onChange={changeInputHandler}
           />
         </InputList>
-        <InputList name="PASSWORD">
+        <InputList name="비밀번호">
           <MyPageInput
             type="password"
             name="password"
@@ -72,7 +61,7 @@ const LoginForm = () => {
         </Button>
       </St.ButtonBox>
       <St.SocialButtonBox>
-        <St.SocialButtonLabel>
+        <Flex jc="center" ai="center">
           <St.SocialLoginButton
             size={13}
             type="button"
@@ -82,8 +71,8 @@ const LoginForm = () => {
           >
             <img src={Kakao} alt="카카오로그인" />
           </St.SocialLoginButton>
-        </St.SocialButtonLabel>
-        <St.SocialButtonLabel>
+        </Flex>
+        <Flex jc="center" ai="center">
           <St.SocialLoginButton
             size={13}
             type="button"
@@ -93,8 +82,8 @@ const LoginForm = () => {
           >
             <img src={Naver} alt="네이버로그인" />
           </St.SocialLoginButton>
-        </St.SocialButtonLabel>
-        <St.SocialButtonLabel>
+        </Flex>
+        <Flex jc="center" ai="center">
           <St.SocialLoginButton
             size={15}
             type="button"
@@ -104,7 +93,7 @@ const LoginForm = () => {
           >
             <img src={Google} alt="구글로그인" />
           </St.SocialLoginButton>
-        </St.SocialButtonLabel>
+        </Flex>
       </St.SocialButtonBox>
     </St.FormWrapper>
   );
