@@ -1,12 +1,9 @@
 import styled from "styled-components";
 import { device, themeColor } from "../../../utils/theme";
-import { DayProps } from "../../../data/type/type";
-import { OpenBox } from "./SidebarStyle";
 
 export const Container = styled.div`
   display: flex;
   background-color: ${themeColor.main.white};
-  /* height: 110%; */
   ${device.tablet} {
     flex-direction: column;
     justify-content: center;
@@ -60,6 +57,13 @@ export const CalendarBox = styled.div`
   margin-left: auto;
   margin-right: auto;
   max-width: 850px;
+  height: 100vh;
+  ${device.mobile} {
+    height: 85vh;
+  }
+  ${device.miniMobile} {
+    height: 70vh;
+  }
 `;
 
 export const DiaryDay = styled.div`
