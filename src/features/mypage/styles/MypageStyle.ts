@@ -7,7 +7,15 @@ export const MyPageWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: ${themeColor.main.white};
+  height: 90vh;
+  ${device.tablet} {
+    height: 100vh;
+    width: 100%;
+  }
 `;
 
 export const MyPageContentWrapper = styled.div`
@@ -28,6 +36,7 @@ export const MyPageInput = styled.input`
   color: ${themeColor.font};
   font-family: inherit;
   box-shadow: 2px 2px 5px 1px ${themeColor.main.oatmeal};
+  outline: none;
   ${device.tablet} {
     width: 60vw;
   }
