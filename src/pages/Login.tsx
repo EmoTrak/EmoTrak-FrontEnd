@@ -1,9 +1,8 @@
+import { useEffect, useState } from "react";
 import LoginForm from "../features/login/components/LoginForm";
 import Tutorial from "../features/login/components/Tutorial";
-import styled from "styled-components";
 import Landing from "../features/login/components/Landing";
-import { useEffect, useState } from "react";
-import { device } from "../utils/theme";
+import { LoginPageWrapper } from "../features/login/styles/LoginFormStyle";
 
 const Login = () => {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
@@ -20,36 +19,16 @@ const Login = () => {
   }, []);
 
   return (
-    <StLoginPageWrapper>
-      {viewportWidth < 1024 ? (
-        <>
-          <Landing />
-        </>
-      ) : null}
-      {viewportWidth >= 1024 ? (
+    <LoginPageWrapper>
+      {viewportWidth < 1024 && <Landing />}
+      {viewportWidth >= 1024 && (
         <>
           <Tutorial />
           <LoginForm />
         </>
-      ) : null}
-    </StLoginPageWrapper>
+      )}
+    </LoginPageWrapper>
   );
 };
 
 export default Login;
-
-export const StLoginPageWrapper = styled.div`
-  width: 100%;
-  margin: 0 auto;
-  height: 100%;
-  justify-content: center;
-  ${device.tablet} {
-    height: 100vh;
-  }
-  ${device.mobile} {
-    height: 100vh;
-  }
-  ${device.miniMobile} {
-    height: 100vh;
-  }
-`;

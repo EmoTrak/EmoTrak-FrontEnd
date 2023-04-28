@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { InputValue } from "../data/type/type";
 import { themeColor } from "../utils/theme";
-import EmotionIcons from "../components/Icon/EmoticonIcons";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
 import Flex from "../components/Flex";
