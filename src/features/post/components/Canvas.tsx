@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import { BsFillEraserFill } from "react-icons/bs";
 import { VscDebugRestart } from "react-icons/vsc";
@@ -29,10 +29,12 @@ const Canvas = ({ isCanvas, canvasRef }: Test) => {
     };
   }, []);
 
+  const [mousePosition, setMousePosition] = useState<Coordinate | undefined>(
+    undefined
+  );
+
   // 좌표 함수
-  const getCoordinates = (
-    event: React.MouseEvent<HTMLCanvasElement>
-  ): Coordinate | undefined => {
+  const getCoordinates = (event: MouseEvent): Coordinate | undefined => {
     if (canvasRef.current) {
       const canvas: HTMLCanvasElement = canvasRef.current;
       const rect = canvas.getBoundingClientRect(); // 캔버스의 뷰포트 상의 위치 정보를 가져옴
@@ -50,11 +52,37 @@ const Canvas = ({ isCanvas, canvasRef }: Test) => {
   );
   const [selectPen, setSelectPen] = useState<boolean>(false);
   const [selectedSize, setSelectedSize] = useState<number>(5);
+  // 지우개, 펜 모드 변경 함수
+  const switchModeHandler = (item: string) => {
+    setMode(item);
+    if (item === "pen") {
+      setSelectPen((pre) => !pre);
+    }
+  };
+  // 색깔 변경 함수
+  const selectColorHandler = (color: string) => {
+    setSelectedColor(color);
+  };
 
-  const { startPaint, paint, exitPaint, moveTouch, startTouch, endTouch } =
-    usePen(canvasRef, getCoordinates, selectedColor, selectedSize);
+  const selectPenSizeHandler = (size: number) => {
+    setSelectedSize(size);
+  };
 
-  const { startErase, erase, exitErase } = useEraser(canvasRef, getCoordinates);
+  const { startPaint, paint, exitPaint, isPainting } = usePen(
+    canvasRef,
+    getCoordinates,
+    selectedColor,
+    selectedSize,
+    mousePosition,
+    setMousePosition
+  );
+
+  const { startErase, erase, exitErase, isErasing } = useEraser(
+    canvasRef,
+    getCoordinates,
+    mousePosition,
+    setMousePosition
+  );
   // 캔버스 비우기
   const clearCanvas = () => {
     if (canvasRef.current) {
@@ -63,7 +91,7 @@ const Canvas = ({ isCanvas, canvasRef }: Test) => {
     }
   };
   // useEffect + AddEventListener 대체 함수
-  const mouseDownHandler = (event: React.MouseEvent<HTMLCanvasElement>) => {
+  const mouseDownHandler = (event: MouseEvent) => {
     const mouseDown = new Map([
       ["pen", () => startPaint(event)],
       ["eraser", () => startErase(event)],
@@ -73,15 +101,18 @@ const Canvas = ({ isCanvas, canvasRef }: Test) => {
     return mousefunc && mousefunc();
   };
 
-  const mouseMoveHandler = (event: React.MouseEvent<HTMLCanvasElement>) => {
-    const mouseMove = new Map([
-      ["pen", () => paint(event)],
-      ["eraser", () => erase(event)],
-    ]);
-    const mousefunc = mouseMove.get(mode);
+  const mouseMoveHandler = useCallback(
+    (event: MouseEvent) => {
+      const mouseMove = new Map([
+        ["pen", () => paint(event)],
+        ["eraser", () => erase(event)],
+      ]);
+      const mousefunc = mouseMove.get(mode);
 
-    return mousefunc && mousefunc();
-  };
+      return mousefunc && mousefunc();
+    },
+    [mousePosition, isPainting, isErasing]
+  );
 
   const mouseUpHandler = () => {
     const mouseUp = new Map([
@@ -102,21 +133,83 @@ const Canvas = ({ isCanvas, canvasRef }: Test) => {
 
     return mousefunc && mousefunc();
   };
-  // 지우개, 펜 모드 변경 함수
-  const switchModeHandler = (item: string) => {
-    setMode(item);
-    if (item === "pen") {
-      setSelectPen((pre) => !pre);
-    }
-  };
-  // 색깔 변경 함수
-  const selectColorHandler = (color: string) => {
-    setSelectedColor(color);
-  };
 
-  const selectPenSizeHandler = (size: number) => {
-    setSelectedSize(size);
-  };
+  const startTouch = useCallback((event: TouchEvent) => {
+    if (!canvasRef.current) {
+      return;
+    }
+    const canvas: HTMLCanvasElement = canvasRef.current;
+
+    let touch = event.touches[0];
+
+    let mouseEvent = new MouseEvent("mousedown", {
+      clientX: touch?.clientX,
+      clientY: touch?.clientY,
+    });
+    canvas.dispatchEvent(mouseEvent);
+  }, []);
+
+  const moveTouch = useCallback((event: TouchEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (!canvasRef.current) {
+      return;
+    }
+    const canvas: HTMLCanvasElement = canvasRef.current;
+
+    let touch = event.touches[0];
+    let mouseEvent = new MouseEvent("mousemove", {
+      clientX: touch?.clientX,
+      clientY: touch?.clientY,
+    });
+
+    canvas.dispatchEvent(mouseEvent);
+  }, []);
+
+  const endTouch = useCallback((event: TouchEvent) => {
+    if (!canvasRef.current) {
+      return;
+    }
+    const canvas: HTMLCanvasElement = canvasRef.current;
+
+    let touch = event.touches[0];
+    let mouseUpEvent = new MouseEvent("mouseup", {
+      clientX: touch?.clientX,
+      clientY: touch?.clientY,
+    });
+    let mouseLeaveEvent = new MouseEvent("mouseleave", {
+      clientX: touch?.clientX,
+      clientY: touch?.clientY,
+    });
+    canvas.dispatchEvent(mouseUpEvent);
+    canvas.dispatchEvent(mouseLeaveEvent);
+  }, []);
+
+  useEffect(() => {
+    if (!canvasRef.current) {
+      return;
+    }
+    const canvas: HTMLCanvasElement = canvasRef.current;
+
+    canvas.addEventListener("mousedown", mouseDownHandler);
+    canvas.addEventListener("mousemove", mouseMoveHandler);
+    canvas.addEventListener("mouseup", mouseUpHandler);
+    canvas.addEventListener("mouseleave", mouseLeaveHandler);
+    canvas.addEventListener("touchstart", startTouch);
+    canvas.addEventListener("touchmove", moveTouch);
+    canvas.addEventListener("touchend", endTouch);
+
+    return () => {
+      canvas.removeEventListener("mousedown", mouseDownHandler);
+      canvas.removeEventListener("mousemove", mouseMoveHandler);
+      canvas.removeEventListener("mouseup", mouseUpHandler);
+      canvas.removeEventListener("mouseleave", mouseLeaveHandler);
+      canvas.removeEventListener("touchstart", startTouch);
+      canvas.removeEventListener("touchmove", moveTouch);
+      canvas.removeEventListener("touchend", endTouch);
+    };
+  }, [startPaint, paint, exitPaint, startErase, erase, exitErase]);
 
   const canvasHeight =
     viewportWidth > 1023
@@ -143,13 +236,6 @@ const Canvas = ({ isCanvas, canvasRef }: Test) => {
           ref={canvasRef}
           height={canvasHeight}
           width={canvasWidth}
-          onMouseDown={mouseDownHandler}
-          onMouseMove={mouseMoveHandler}
-          onMouseUp={mouseUpHandler}
-          onMouseLeave={mouseLeaveHandler}
-          onTouchStart={startTouch}
-          onTouchMove={moveTouch}
-          onTouchEnd={endTouch}
           isCanvas={isCanvas}
         />
         <St.ToolBox>

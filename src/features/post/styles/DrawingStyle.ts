@@ -93,6 +93,7 @@ export const EmoButton = styled.button<EmoButtonProps>`
 export const Canvas = styled.canvas<{ isCanvas: boolean }>`
   position: unset;
   background-color: ${themeColor.main.white};
+  touch-action: none;
   ${({ isCanvas }) =>
     !isCanvas &&
     css`
