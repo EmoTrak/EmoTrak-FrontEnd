@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { themeColor } from "../../../utils/theme";
 
 export const CalendarBox = styled.div`
-  width: 200px;
+  /* height: 30vh; */
   left: 0;
   margin: 50px 0 0 2vw;
   color: #767676;
@@ -14,7 +14,9 @@ export const Month = styled.div`
 export const DiaryDay = styled.div`
   display: flex;
   flex-wrap: wrap;
-  height: 150px;
+  align-items: center;
+  height: 28vh;
+  max-height: 300px;
 `;
 
 export const Day = styled.div<{ day?: number }>`

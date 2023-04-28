@@ -127,6 +127,8 @@ export const Day = styled.button<{ day?: number }>`
 
 export const MiniCalendarWrap = styled.div`
   position: absolute;
+  width: 20vw;
+  max-width: 280px;
   @media screen and (max-width: 1320px) {
     display: none;
   }
