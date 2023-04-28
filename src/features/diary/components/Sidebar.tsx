@@ -15,9 +15,7 @@ const Sidebar = ({ side, setSide, data, diaryDay }: Partial<DayProps>) => {
     }
   };
 
-  const detailData = data?.contents.filter(
-    (item) => item.day === diaryDay?.date
-  );
+  const detailData = data?.contents.filter((item) => item.day === diaryDay?.date);
 
   return (
     <St.Wrap side={side}>
@@ -34,10 +32,7 @@ const Sidebar = ({ side, setSide, data, diaryDay }: Partial<DayProps>) => {
                 emotionTypes={`EMOTION_${item.emoId}`}
               />
             </St.Imoticon>
-            <St.Content
-              key={i}
-              onClick={() => navigate(`${DETAIL_PAGE}/${item.id}`)}
-            >
+            <St.Content key={i} onClick={() => navigate(`${DETAIL_PAGE}/${item.id}`)}>
               {item.detail}
             </St.Content>
           </St.ContentBox>
@@ -45,11 +40,7 @@ const Sidebar = ({ side, setSide, data, diaryDay }: Partial<DayProps>) => {
         {Number(detailData?.length) < 2 && (
           <St.ContentBox>
             <St.Imoticon>
-              <EmotionIcons
-                height="100%"
-                width="100%"
-                emotionTypes={"EMOTION_7"}
-              />
+              <EmotionIcons height="100%" width="100%" emotionTypes={"EMOTION_7"} />
             </St.Imoticon>
             <ClickModalPost diaryDay={diaryDay}>
               <St.PostContent>+</St.PostContent>

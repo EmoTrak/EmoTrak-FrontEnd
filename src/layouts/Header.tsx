@@ -55,12 +55,8 @@ const Header = () => {
       {payload?.auth === "ADMIN" ? (
         <St.NavWrapper>
           <Flex row gap={10}>
-            <St.PageButton onClick={() => navigate(ADMIN)}>
-              관리자페이지
-            </St.PageButton>
-            <St.PageButton onClick={() => navigate(MY_PAGE)}>
-              마이페이지
-            </St.PageButton>
+            <St.PageButton onClick={() => navigate(ADMIN)}>관리자페이지</St.PageButton>
+            <St.PageButton onClick={() => navigate(MY_PAGE)}>마이페이지</St.PageButton>
             <St.PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
               공유 페이지
             </St.PageButton>
@@ -74,9 +70,7 @@ const Header = () => {
       ) : refreshToken ? (
         <St.NavWrapper>
           <Flex row gap={10}>
-            <St.PageButton onClick={() => navigate(MY_PAGE)}>
-              마이페이지
-            </St.PageButton>
+            <St.PageButton onClick={() => navigate(MY_PAGE)}>마이페이지</St.PageButton>
             <St.PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
               공유 페이지
             </St.PageButton>

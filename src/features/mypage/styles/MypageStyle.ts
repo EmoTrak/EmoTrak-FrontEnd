@@ -20,7 +20,7 @@ export const MyPageContentWrapper = styled.div`
 
 export const MyPageInput = styled.input`
   width: 21vw;
-  height: 20px;
+  height: 30px;
   border: none;
   border-radius: 6px;
   padding: 5px 10px 5px 10px;
