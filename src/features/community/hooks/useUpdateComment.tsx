@@ -10,7 +10,7 @@ const useUpdateComment = (editComment: string | undefined) => {
       await user.patch(`/boards/comments/${id}`, { comment: editComment });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries([keys.GET_BOARD]);
+      queryClient.invalidateQueries([keys.GET_BOARD_DETAIL]);
     },
   });
 

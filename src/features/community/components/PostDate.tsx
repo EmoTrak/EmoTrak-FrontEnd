@@ -1,4 +1,4 @@
-import { PostDateType } from "../../../data/type/d1";
+import { PostDateType } from "../../../data/type/type";
 
 const PostDate = ({ date }: PostDateType) => {
   const today = {
@@ -43,6 +43,7 @@ const PostDate = ({ date }: PostDateType) => {
       return <>{secondDiff}초 전</>;
     }
   };
+
   return <div>{NowDate()}</div>;
 };
 

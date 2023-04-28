@@ -1,115 +1,75 @@
-import React, { PropsWithChildren, useState } from "react";
-import { Idtype, UriType } from "../../../data/type/d1";
-import * as UI from "../../../components/Modal";
-import styled from "styled-components";
+import { PropsWithChildren } from "react";
 import { IoMdClose } from "react-icons/io";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import user from "../../../lib/api/user";
+import { UriType } from "../../../data/type/type";
+import { useReport } from "../hooks/useReport";
+import Button from "../../../components/Button";
+import * as UI from "../../../components/Modal";
+import * as St from "../styles/ReportStyle";
 import * as Sub from "../../../components/subModal";
-import { keys } from "../../../data/queryKeys/keys";
-import { themeColor } from "../../../utils/theme";
 
-const Report = ({ children, id, uri }: PropsWithChildren & Idtype & UriType) => {
-  const [reason, setReason] = useState("");
-
-  const changeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setReason(e.target.value);
-  };
-  const queryClient = useQueryClient();
-  const { mutate, status, reset } = useMutation({
-    mutationFn: async (id: number | undefined) => {
-      const data = await user.post(`/boards/${uri}/${id}`, { reason });
-      return data;
-    },
-    onSuccess: () => {
-      setReason("");
-      queryClient.invalidateQueries([keys.GET_BOARD]);
-    },
-  });
+const Report = ({
+  children,
+  id,
+  uri,
+}: PropsWithChildren & Partial<UriType>) => {
+  const { reason, changeInputHandler, mutate, status, reset } = useReport(uri);
 
   return (
     <UI.Modalroot>
       <UI.ModalBackground />
       <UI.ModalTrigger>{children}</UI.ModalTrigger>
-      <UI.ModalContent top={30} left={40}>
-        <Container>
-          <CloseBtn>
+      <UI.ModalContent>
+        <St.Container>
+          <St.CloseBtn>
             <UI.ModalClose>
               <IoMdClose />
             </UI.ModalClose>
-          </CloseBtn>
+          </St.CloseBtn>
           <Sub.SubModalroot>
-            <Text>신고하기</Text>
-            <form
+            <St.Text>신고하기</St.Text>
+            <St.ReportForm
               onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
                 e.preventDefault();
               }}
             >
-              이유 : <input type="text" value={reason} onChange={changeInputHandler} />
+              <span>사유</span>
+              <St.ReportInput value={reason} onChange={changeInputHandler} />
               <Sub.SubModalTrigger>
-                <button type="submit">신고</button>
+                <Button type="submit">신고</Button>
               </Sub.SubModalTrigger>
-              <Sub.SubModalContent top={30} left={40}>
-                <Container>
+              <Sub.SubModalContent>
+                <St.Container style={{ top: 0 }}>
                   {status === "idle" ? (
                     <>
-                      <Text>정말 신고하시겠습니까?</Text>
-                      <button onClick={() => mutate(id)}>제출</button>
+                      <St.Text>정말 신고하시겠습니까?</St.Text>
+                      <Button onClick={() => mutate(id)}>제출</Button>
                       <UI.ModalTrigger>
-                        <button>취소</button>
+                        <Button>취소</Button>
                       </UI.ModalTrigger>
                     </>
                   ) : status === "success" ? (
                     <>
-                      <Text>신고되었습니다</Text>
+                      <St.Text>신고되었습니다</St.Text>
                       <UI.ModalTrigger>
-                        <button onClick={reset}>완료</button>
+                        <Button onClick={reset}>완료</Button>
                       </UI.ModalTrigger>
                     </>
                   ) : (
                     <>
-                      <Text>신고 실패하였습니다</Text>
+                      <St.Text>신고 실패하였습니다</St.Text>
                       <UI.ModalTrigger>
-                        <button onClick={reset}>완료</button>
+                        <Button onClick={reset}>완료</Button>
                       </UI.ModalTrigger>
                     </>
                   )}
-                </Container>
+                </St.Container>
               </Sub.SubModalContent>
-            </form>
+            </St.ReportForm>
           </Sub.SubModalroot>
-        </Container>
+        </St.Container>
       </UI.ModalContent>
     </UI.Modalroot>
   );
 };
-
-const Container = styled.div`
-  width: 300px;
-  color: ${themeColor.main.chocomilk};
-  background-color: ${themeColor.main.white};
-  border-radius: 22px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex-direction: column;
-  font-size: 20px;
-  box-sizing: border-box;
-  box-shadow: 1px 1px 10px 5px ${themeColor.main.gray};
-  padding: 10% 2%;
-  cursor: auto;
-  height: 170px;
-`;
-
-const Text = styled.div`
-  padding-bottom: 10%;
-  color: ${themeColor.main.chocomilk};
-`;
-
-const CloseBtn = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 5px;
-`;
 
 export default Report;

@@ -5,17 +5,15 @@ import {
   NAVER_AUTH_URL,
   SIGN_UP_PAGE,
 } from "../../../data/routes/urls";
-import styled from "styled-components";
 import Flex from "../../../components/Flex";
+import Button from "../../../components/Button";
 import { useLogin } from "../hooks/useLogin";
 import InputList from "../../mypage/components/InputList";
-import { MyPageInput } from "../../../pages/Mypage";
-import { IconProps } from "../../../pages/DrawingPost";
 import Kakao from "../../../assets/Social/Kakao.svg";
 import Naver from "../../../assets/Social/Naver.svg";
 import Google from "../../../assets/Social/Google.svg";
-import LoginTitle from "../../../assets/Texts/Login.svg";
-import Button from "../../../components/Button";
+import * as St from "../styles/LoginFormStyle";
+import { MyPageInput } from "../../mypage/styles/MypageStyle";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -23,35 +21,33 @@ const LoginForm = () => {
   const { loginInfo, submitFormHandler, changeInputHandler } = useLogin();
 
   return (
-    <StFormWrapper>
-      <form id="login" onSubmit={submitFormHandler}>
-        <Flex gap={10}>
-          <FormTitle url={LoginTitle} size={5} />
-          <InputList name="ID">
-            <label>
-              <MyPageInput
-                type="text"
-                name="email"
-                value={loginInfo.email}
-                maxLength={25}
-                onChange={changeInputHandler}
-              />
-            </label>
-          </InputList>
-          <InputList name="PASSWORD">
-            <label>
-              <MyPageInput
-                type="password"
-                name="password"
-                value={loginInfo.password}
-                maxLength={15}
-                onChange={changeInputHandler}
-              />
-            </label>
-          </InputList>
-        </Flex>
-      </form>
-      <ButtonBox>
+    <St.FormWrapper>
+      <St.Form id="login" onSubmit={submitFormHandler}>
+        <St.FormTitle>
+          <span>로그인</span>
+          <p />
+        </St.FormTitle>
+        <InputList name="아이디">
+          <MyPageInput
+            type="text"
+            name="email"
+            value={loginInfo.email}
+            spellCheck={false}
+            maxLength={30}
+            onChange={changeInputHandler}
+          />
+        </InputList>
+        <InputList name="비밀번호">
+          <MyPageInput
+            type="password"
+            name="password"
+            value={loginInfo.password}
+            maxLength={15}
+            onChange={changeInputHandler}
+          />
+        </InputList>
+      </St.Form>
+      <St.ButtonBox>
         <Button circle size="circle" type="submit" form="login">
           로그인
         </Button>
@@ -63,97 +59,44 @@ const LoginForm = () => {
         >
           회원가입
         </Button>
-      </ButtonBox>
-      <ButtonBox>
-        <SocialButtonLabel>
-          <SocialLoginButton
-            url={Kakao}
-            size={12}
+      </St.ButtonBox>
+      <St.SocialButtonBox>
+        <Flex jc="center" ai="center">
+          <St.SocialLoginButton
+            size={13}
             type="button"
-            style={{ margin: "0.5vh" }}
             onClick={() => {
               window.location.href = KAKAO_AUTH_URL;
             }}
-          ></SocialLoginButton>
-        </SocialButtonLabel>
-        <SocialButtonLabel>
-          <SocialLoginButton
-            url={Naver}
-            size={12}
+          >
+            <img src={Kakao} alt="카카오로그인" />
+          </St.SocialLoginButton>
+        </Flex>
+        <Flex jc="center" ai="center">
+          <St.SocialLoginButton
+            size={13}
             type="button"
             onClick={() => {
               window.location.href = NAVER_AUTH_URL;
             }}
-          ></SocialLoginButton>
-        </SocialButtonLabel>
-        <SocialButtonLabel>
-          <SocialLoginButton
-            url={Google}
-            size={12}
+          >
+            <img src={Naver} alt="네이버로그인" />
+          </St.SocialLoginButton>
+        </Flex>
+        <Flex jc="center" ai="center">
+          <St.SocialLoginButton
+            size={15}
             type="button"
             onClick={() => {
               window.location.href = GOOGLE_AUTH_URL;
             }}
-          ></SocialLoginButton>
-        </SocialButtonLabel>
-      </ButtonBox>
-    </StFormWrapper>
+          >
+            <img src={Google} alt="구글로그인" />
+          </St.SocialLoginButton>
+        </Flex>
+      </St.SocialButtonBox>
+    </St.FormWrapper>
   );
 };
 
 export default LoginForm;
-
-export const StFormWrapper = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 82vh;
-  justify-content: center;
-  align-items: center;
-  overflow: visible;
-`;
-
-export const SocialLoginButton = styled.button<IconProps>`
-  background-image: ${({ url }) => `url(${url})`};
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  width: ${({ size }) => `${size}vw`};
-  height: ${({ size }) => `${size}vh`};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const ButtonBox = styled.div`
-  display: flex;
-  width: 50vw;
-  justify-content: center;
-  align-items: center;
-  gap: 1.7vw;
-  margin: 10px;
-`;
-
-export const SocialButtonLabel = styled.label`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const FormTitle = styled.div<IconProps>`
-  background-image: ${({ url }) => `url(${url})`};
-  background-color: transparent;
-  border: none;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  width: ${({ size }) => `${size}vw`};
-  height: ${({ size }) => `${size}vw`};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.5vh 6vh;
-`;

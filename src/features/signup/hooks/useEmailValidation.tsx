@@ -1,23 +1,20 @@
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { useState } from "react";
+import user from "../../../lib/api/user";
 
 export const useEmailValidation = () => {
   const [emailValidation, setEmailValidation] = useState<boolean>(false);
-  const validEmail = (email: string): boolean =>
-    /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email);
+  const validEmail = (email: string): boolean => {
+    return /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email);
+  };
 
   const checkEmail = useMutation(
-    async (item: string) => {
-      const data = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/users/em-check`,
-        { email: item }
-      );
+    async (email: string) => {
+      const data = await user.post(`/users/mail-confirm`, { email });
       return data;
     },
     {
       onSuccess() {
-        alert("사용가능한 이메일입니다.");
         setEmailValidation(true);
       },
       onError() {
@@ -27,5 +24,10 @@ export const useEmailValidation = () => {
     }
   );
 
-  return { validEmail, checkEmail, emailValidation, setEmailValidation };
+  return {
+    validEmail,
+    checkEmail,
+    emailValidation,
+    setEmailValidation,
+  };
 };

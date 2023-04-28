@@ -30,6 +30,12 @@ declare module "styled-components" {
       white: string;
       black: string;
     };
+    landing: {
+      yellow: string;
+      white: string;
+      orange: string;
+    };
+    font: string;
   }
 }
 

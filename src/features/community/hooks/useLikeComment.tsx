@@ -1,7 +1,13 @@
+import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { LikeType } from "../../../data/type/type";
 import user from "../../../lib/api/user";
 
-const useLikeComment = (setLike: React.Dispatch<React.SetStateAction<object>>) => {
+const useLikeComment = ({ isLike, count }: Partial<LikeType>) => {
+  const [like, setLike] = useState<Partial<LikeType>>({
+    isLike,
+    count,
+  });
   const { mutate } = useMutation({
     mutationFn: async (id: number | undefined) => {
       const data = await user.post(`/boards/comments/likes/${id}`);
@@ -14,7 +20,7 @@ const useLikeComment = (setLike: React.Dispatch<React.SetStateAction<object>>) =
       }),
   });
 
-  return { likeMutate: mutate };
+  return { likeMutate: mutate, like };
 };
 
 export default useLikeComment;

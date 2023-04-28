@@ -1,157 +1,282 @@
-import React, { useRef, useState } from "react";
-import Flex from "../../../components/Flex";
-import styled from "styled-components";
-import Palette from "./Palette";
+import { useCallback, useEffect, useState } from "react";
+import { FaPencilAlt } from "react-icons/fa";
+import { BsFillEraserFill } from "react-icons/bs";
+import { VscDebugRestart } from "react-icons/vsc";
+import { themeColor } from "../../../utils/theme";
+import { Coordinate } from "../../../data/type/type";
 import { usePen } from "../hooks/usePen";
 import { useEraser } from "../hooks/useEraser";
-import { ContentProps } from "./Contents";
-import { themeColor } from "../../../utils/theme";
+import PenTool from "./PenTool";
+import Palette from "./Palette";
+import * as St from "../styles/DrawingStyle";
 
-type CanvasProps = {
-  width: number;
-  height: number;
-};
+interface Test {
+  isCanvas: boolean;
+  canvasRef: React.RefObject<HTMLCanvasElement>;
+}
 
-type Coordinate = {
-  x: number;
-  y: number;
-};
+const Canvas = ({ isCanvas, canvasRef }: Test) => {
+  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
 
-const Canvas = ({ width, height, newItem }: CanvasProps & ContentProps) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const resizeHandler = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", resizeHandler);
+    return () => {
+      window.removeEventListener("resize", resizeHandler);
+    };
+  }, []);
+
+  const [mousePosition, setMousePosition] = useState<Coordinate | undefined>(
+    undefined
+  );
+
+  // 좌표 함수
+  const getCoordinates = (event: MouseEvent): Coordinate | undefined => {
+    if (canvasRef.current) {
+      const canvas: HTMLCanvasElement = canvasRef.current;
+      const rect = canvas.getBoundingClientRect(); // 캔버스의 뷰포트 상의 위치 정보를 가져옴
+      return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top,
+      };
+    }
+  };
 
   // 그림판 모드, 색깔 상태 관리
   const [mode, setMode] = useState<string>("pen");
-  const [selectedColor, setSelectedColor] = useState<string>("");
-  const [selectedSize] = useState<number>(5);
-
+  const [selectedColor, setSelectedColor] = useState<string>(
+    themeColor.main.black
+  );
   const [selectPen, setSelectPen] = useState<boolean>(false);
-
-  // 좌표 함수
-  const getCoordinates = (
-    event: React.MouseEvent<HTMLCanvasElement>
-  ): Coordinate | undefined => {
-    if (!canvasRef.current) {
-      return;
+  const [selectedSize, setSelectedSize] = useState<number>(5);
+  // 지우개, 펜 모드 변경 함수
+  const switchModeHandler = (item: string) => {
+    setMode(item);
+    if (item === "pen") {
+      setSelectPen((pre) => !pre);
     }
-    const canvas: HTMLCanvasElement = canvasRef.current;
-    return {
-      x: event.pageX - canvas.offsetLeft,
-      y: event.pageY - canvas.offsetTop,
-    };
+  };
+  // 색깔 변경 함수
+  const selectColorHandler = (color: string) => {
+    setSelectedColor(color);
   };
 
-  const { startPaint, paint, exitPaint } = usePen(
+  const selectPenSizeHandler = (size: number) => {
+    setSelectedSize(size);
+  };
+
+  const { startPaint, paint, exitPaint, isPainting } = usePen(
     canvasRef,
     getCoordinates,
     selectedColor,
-    selectedSize
+    selectedSize,
+    mousePosition,
+    setMousePosition
   );
 
-  const { startErase, erase, exitErase } = useEraser(canvasRef, getCoordinates);
-
+  const { startErase, erase, exitErase, isErasing } = useEraser(
+    canvasRef,
+    getCoordinates,
+    mousePosition,
+    setMousePosition
+  );
   // 캔버스 비우기
   const clearCanvas = () => {
+    if (canvasRef.current) {
+      const canvas: HTMLCanvasElement = canvasRef.current;
+      canvas.getContext("2d")!!.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  };
+  // useEffect + AddEventListener 대체 함수
+  const mouseDownHandler = (event: MouseEvent) => {
+    const mouseDown = new Map([
+      ["pen", () => startPaint(event)],
+      ["eraser", () => startErase(event)],
+    ]);
+    const mousefunc = mouseDown.get(mode);
+
+    return mousefunc && mousefunc();
+  };
+
+  const mouseMoveHandler = useCallback(
+    (event: MouseEvent) => {
+      const mouseMove = new Map([
+        ["pen", () => paint(event)],
+        ["eraser", () => erase(event)],
+      ]);
+      const mousefunc = mouseMove.get(mode);
+
+      return mousefunc && mousefunc();
+    },
+    [mousePosition, isPainting, isErasing]
+  );
+
+  const mouseUpHandler = () => {
+    const mouseUp = new Map([
+      ["pen", () => exitPaint()],
+      ["eraser", () => exitErase()],
+    ]);
+    const mousefunc = mouseUp.get(mode);
+
+    return mousefunc && mousefunc();
+  };
+
+  const mouseLeaveHandler = () => {
+    const mouseLeave = new Map([
+      ["pen", () => exitPaint()],
+      ["eraser", () => exitErase()],
+    ]);
+    const mousefunc = mouseLeave.get(mode);
+
+    return mousefunc && mousefunc();
+  };
+
+  const startTouch = useCallback((event: TouchEvent) => {
     if (!canvasRef.current) {
       return;
     }
     const canvas: HTMLCanvasElement = canvasRef.current;
-    canvas.getContext("2d")!!.clearRect(0, 0, canvas.width, canvas.height);
-  };
 
-  // 지우개, 펜 모드 변경 함수
-  const switchModeHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
-    const button = event.target as HTMLButtonElement;
-    const value = button.value;
-    setMode(value);
-  };
+    let touch = event.touches[0];
 
-  // 색깔 변경 함수
-  const selectColorHandler = (color: string): void => {
-    setSelectedColor(color);
-    setMode("pen");
-  };
+    let mouseEvent = new MouseEvent("mousedown", {
+      clientX: touch?.clientX,
+      clientY: touch?.clientY,
+    });
+    canvas.dispatchEvent(mouseEvent);
+  }, []);
 
-  const mouseDownHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
-    if (mode === "pen") {
-      startPaint(event);
-    } else if (mode === "eraser") {
-      startErase(event);
+  const moveTouch = useCallback((event: TouchEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (!canvasRef.current) {
+      return;
     }
-  };
+    const canvas: HTMLCanvasElement = canvasRef.current;
 
-  const mouseMoveHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
-    if (mode === "pen") {
-      paint(event);
-    } else if (mode === "eraser") {
-      erase(event);
-    }
-  };
+    let touch = event.touches[0];
+    let mouseEvent = new MouseEvent("mousemove", {
+      clientX: touch?.clientX,
+      clientY: touch?.clientY,
+    });
 
-  const mouseUpHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
-    if (mode === "pen") {
-      exitPaint();
-    } else if (mode === "eraser") {
-      exitErase();
+    canvas.dispatchEvent(mouseEvent);
+  }, []);
+
+  const endTouch = useCallback((event: TouchEvent) => {
+    if (!canvasRef.current) {
+      return;
     }
-  };
-  const mouseLeaveHandler = (event: React.MouseEvent<HTMLCanvasElement>): void => {
-    if (mode === "pen") {
-      exitPaint();
-    } else if (mode === "eraser") {
-      exitErase();
+    const canvas: HTMLCanvasElement = canvasRef.current;
+
+    let touch = event.touches[0];
+    let mouseUpEvent = new MouseEvent("mouseup", {
+      clientX: touch?.clientX,
+      clientY: touch?.clientY,
+    });
+    let mouseLeaveEvent = new MouseEvent("mouseleave", {
+      clientX: touch?.clientX,
+      clientY: touch?.clientY,
+    });
+    canvas.dispatchEvent(mouseUpEvent);
+    canvas.dispatchEvent(mouseLeaveEvent);
+  }, []);
+
+  useEffect(() => {
+    if (!canvasRef.current) {
+      return;
     }
-  };
+    const canvas: HTMLCanvasElement = canvasRef.current;
+
+    canvas.addEventListener("mousedown", mouseDownHandler);
+    canvas.addEventListener("mousemove", mouseMoveHandler);
+    canvas.addEventListener("mouseup", mouseUpHandler);
+    canvas.addEventListener("mouseleave", mouseLeaveHandler);
+    canvas.addEventListener("touchstart", startTouch);
+    canvas.addEventListener("touchmove", moveTouch);
+    canvas.addEventListener("touchend", endTouch);
+
+    return () => {
+      canvas.removeEventListener("mousedown", mouseDownHandler);
+      canvas.removeEventListener("mousemove", mouseMoveHandler);
+      canvas.removeEventListener("mouseup", mouseUpHandler);
+      canvas.removeEventListener("mouseleave", mouseLeaveHandler);
+      canvas.removeEventListener("touchstart", startTouch);
+      canvas.removeEventListener("touchmove", moveTouch);
+      canvas.removeEventListener("touchend", endTouch);
+    };
+  }, [startPaint, paint, exitPaint, startErase, erase, exitErase]);
+
+  const canvasHeight =
+    viewportWidth > 1023
+      ? 550
+      : viewportWidth > 767
+      ? 500
+      : viewportWidth > 500
+      ? 340
+      : 320;
+
+  const canvasWidth =
+    viewportWidth > 1023
+      ? 580
+      : viewportWidth > 767
+      ? 430
+      : viewportWidth > 500
+      ? 450
+      : 320;
 
   return (
-    <StCanvasWrapper>
-      <Flex jc="center" ai="center">
-        <canvas
+    <>
+      <St.DrawWrap>
+        <St.Canvas
           ref={canvasRef}
-          height={height}
-          width={width}
-          style={{ backgroundColor: themeColor.main.oatmeal }}
-          onMouseDown={mouseDownHandler}
-          onMouseMove={mouseMoveHandler}
-          onMouseUp={mouseUpHandler}
-          onMouseLeave={mouseLeaveHandler}
-          // on={savePictureHanlder}
-        ></canvas>
-        <button type="button" onClick={clearCanvas}>
-          다시 그리기
-        </button>
-      </Flex>
-      <Flex row>
-        <ul>도구 선택</ul>
-        <li>
-          <Palette
-            selectedColor={selectedColor}
-            onColorSelect={selectColorHandler}
-            setSelectPen={setSelectPen}
-          />
-        </li>
-        <li>
-          <button type="button" value="eraser" onClick={(e) => switchModeHandler(e)}>
-            지우개
-          </button>
-        </li>
-      </Flex>
-    </StCanvasWrapper>
+          height={canvasHeight}
+          width={canvasWidth}
+          isCanvas={isCanvas}
+        />
+        <St.ToolBox>
+          {selectPen && isCanvas && (
+            <>
+              <St.PenSizeTool>
+                <PenTool
+                  color={selectedColor}
+                  selectedSize={selectedSize}
+                  onSizeSelect={selectPenSizeHandler}
+                  setSelectPen={setSelectPen}
+                />
+              </St.PenSizeTool>
+              <Palette
+                selectedColor={selectedColor}
+                onColorSelect={selectColorHandler}
+                setSelectPen={setSelectPen}
+              />
+            </>
+          )}
+          <St.PenButton
+            type="button"
+            onClick={() => switchModeHandler("pen")}
+            color={selectedColor}
+          >
+            <FaPencilAlt />
+          </St.PenButton>
+          <St.EraserButton
+            type="button"
+            onClick={() => switchModeHandler("eraser")}
+            color={mode}
+          >
+            <BsFillEraserFill />
+          </St.EraserButton>
+          <St.RebootButton type="button" onClick={clearCanvas}>
+            <VscDebugRestart />
+          </St.RebootButton>
+        </St.ToolBox>
+      </St.DrawWrap>
+    </>
   );
 };
 
-Canvas.defaultProps = {
-  width: 800,
-  height: 700,
-};
-
 export default Canvas;
-
-export const StCanvasWrapper = styled.div`
-  width: 50vw;
-  height: 80vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;

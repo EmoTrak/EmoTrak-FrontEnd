@@ -20,9 +20,9 @@ import RedirectNaver from "../pages/RedirectNaver";
 import RedirectGoogle from "../pages/RedirectGoogle";
 import * as PAGE from "../data/routes/urls";
 import { getCookie } from "../utils/cookies";
-import { IPayload } from "../data/type/d2";
 import { ProtectedRoute } from "./ProtectedRouter";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
+import { IPayload } from "../data/type/type";
 
 const Router = () => {
   const token = getCookie("token");
@@ -35,6 +35,8 @@ const Router = () => {
   if (payloadJson) {
     payload = JSON.parse(payloadJson);
   }
+
+  const refreshToken = getCookie("refreshToken");
 
   const pages = [
     {
@@ -177,7 +179,7 @@ const Router = () => {
       <Layout>
         <Routes>
           {pages.map((page) => {
-            const isAuthenticated = page.isPublic || token;
+            const isAuthenticated = page.isPublic || refreshToken;
             const isAuthAdmin = page.isAuthAdmin;
 
             const isAdminAuthenticated =
@@ -197,6 +199,7 @@ const Router = () => {
                 element={
                   <ProtectedRoute
                     token={token}
+                    refreshToken={refreshToken}
                     pathname={page.pathname}
                     isAuthenticated={isAuthenticated}
                     isAdminAuthenticated={isAdminAuthenticated}

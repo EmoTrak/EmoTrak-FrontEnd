@@ -1,7 +1,7 @@
-import { ReactElement, useEffect } from "react";
-import { IPayload, RouterProps } from "../data/type/d2";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { HOME_PAGE } from "../data/routes/urls";
+import { IPayload, RouterProps } from "../data/type/type";
 
 export const ProtectedRoute = ({
   token,
@@ -10,7 +10,8 @@ export const ProtectedRoute = ({
   isAuthAdmin,
   children,
   AlreadyLogin,
-}: RouterProps): ReactElement | null => {
+  refreshToken,
+}: RouterProps) => {
   const nav = useNavigate();
   let payloadJson;
   let payload!: IPayload;
@@ -22,12 +23,12 @@ export const ProtectedRoute = ({
     payload = JSON.parse(payloadJson);
   }
   useEffect(() => {
-    if (payload?.auth !== undefined && payload?.auth === "ADMIN") {
+    if (payload?.auth && payload?.auth === "ADMIN") {
     } else if (isAuthAdmin && !isAdminAuthenticated) {
       alert("권한이없습니다.");
       nav(`/`);
     }
-    if (AlreadyLogin && token) {
+    if (AlreadyLogin && refreshToken) {
       nav(`${HOME_PAGE}`);
     }
     if (!isAuthenticated) {
@@ -36,5 +37,5 @@ export const ProtectedRoute = ({
     }
   }, []);
 
-  return children;
+  return <>{children}</>;
 };

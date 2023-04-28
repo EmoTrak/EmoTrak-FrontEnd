@@ -1,30 +1,30 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Flex from "../../../components/Flex";
-import styled from "styled-components";
 import { BiArrowBack } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { ADMIN } from "../../../data/routes/urls";
-import { IAdminData } from "../../../data/type/d2";
+import { IAdminData } from "../../../data/type/type";
 import useAdminComment from "../hooks/useAdminComment";
 import useAdminPost from "../hooks/useAdminPost";
 import PageNation from "../../../components/PageNation";
-import { themeColor } from "../../../utils/theme";
+import * as St from "../styles/AdminStyle";
 
 const AdminComment = () => {
   const [page, setPage] = useState<number>(1);
-  const nav = useNavigate();
-  const { adminCommentData, adminCommentDelete, status } = useAdminComment(page);
+  const navigate = useNavigate();
+  const { adminCommentData, adminDeleteWrongReport, status } =
+    useAdminComment(page);
   const { onReportDelete } = useAdminPost(page);
 
   return (
-    <Wrapper>
-      <BackBtn onClick={() => nav(`${ADMIN}`)}>
+    <St.Wrapper>
+      <St.BackBtn onClick={() => navigate(ADMIN)}>
         <BiArrowBack />
-      </BackBtn>
+      </St.BackBtn>
       <Flex>
-        <H1>신고 댓글</H1>
-        <StTable>
+        <St.H1>신고 댓글</St.H1>
+        <St.Table>
           <thead>
             <tr>
               <th>ID</th>
@@ -36,7 +36,7 @@ const AdminComment = () => {
             </tr>
           </thead>
 
-          <StTbody>
+          <St.Tbody>
             {adminCommentData?.contents?.map((item: IAdminData, i: number) => {
               return (
                 <tr key={i}>
@@ -48,7 +48,7 @@ const AdminComment = () => {
                   <td>
                     <button
                       onClick={() => {
-                        adminCommentDelete(item.id);
+                        adminDeleteWrongReport(item.id);
                       }}
                     >
                       <RiDeleteBin6Line />
@@ -64,10 +64,10 @@ const AdminComment = () => {
                 </tr>
               );
             })}
-          </StTbody>
-        </StTable>
+          </St.Tbody>
+        </St.Table>
       </Flex>
-      <PageWrap>
+      <Flex row jc="center">
         {status === "success" && (
           <PageNation
             page={page}
@@ -76,43 +76,9 @@ const AdminComment = () => {
             size={15}
           />
         )}
-      </PageWrap>
-    </Wrapper>
+      </Flex>
+    </St.Wrapper>
   );
 };
 
 export default AdminComment;
-
-const Wrapper = styled.div`
-  height: 100vh;
-`;
-
-const StTable = styled.table`
-  width: 100%;
-  height: 100px;
-  justify-content: space-between;
-  td {
-    text-align: center;
-  }
-`;
-const StTbody = styled.tbody`
-  margin: 100px;
-`;
-const H1 = styled.h1`
-  text-align: center;
-`;
-const BackBtn = styled.button`
-  background-color: transparent;
-  border: 1px solid ${themeColor.main.gray};
-  margin: 30px;
-  width: 30px;
-  height: 30px;
-  &:hover {
-    background-color: ${themeColor.main.gray};
-  }
-`;
-
-const PageWrap = styled.div`
-  display: flex;
-  justify-content: center;
-`;

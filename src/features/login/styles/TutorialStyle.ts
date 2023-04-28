@@ -1,9 +1,5 @@
-import { HTMLProps } from "react";
 import styled, { StyledComponent } from "styled-components";
-interface PositionProps {
-  position: number;
-  url?: string;
-}
+import { PositionProps, UrlType } from "../../../data/type/type";
 
 export const TutorialWrapper = styled.div`
   margin: 0;
@@ -18,14 +14,15 @@ export const TutorialDiv = styled.div`
   position: relative;
   height: 100%;
   margin: 0;
+  overflow: hidden;
 `;
 
-export const TutorialBackgroundTop = styled.div<PositionProps>`
-  position: relative;
-  top: 0;
+export const TutorialBackgroundTop = styled.div<PositionProps & UrlType>`
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
+  top: 0;
   background-image: ${({ url }) => `url(${url})`};
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -38,7 +35,7 @@ export const TutorialBackgroundTop = styled.div<PositionProps>`
   overflow: hidden;
 `;
 
-export const TutorialBackgroundBottom = styled.div<PositionProps>`
+export const TutorialBackgroundBottom = styled.div<PositionProps & UrlType>`
   position: relative;
   display: flex;
   top: 0;

@@ -1,5 +1,5 @@
-import React, { PropsWithChildren, createContext, useContext, useState } from "react";
-import { BooleanType, Position } from "../data/type/d1";
+import { PropsWithChildren, createContext, useContext, useState } from "react";
+import { BooleanType } from "../data/type/type";
 import styled from "styled-components";
 import { themeColor } from "../utils/theme";
 
@@ -17,8 +17,12 @@ export const Modalroot = ({ children }: PropsWithChildren) => {
 
 export const ModalTrigger = ({ children }: PropsWithChildren) => {
   const { setOpen } = useContext(Context);
-  return <div onClick={() => setOpen((pre) => !pre)}>{children}</div>;
+  return <Trigger onClick={() => setOpen((pre) => !pre)}>{children}</Trigger>;
 };
+
+const Trigger = styled.div`
+  display: contents;
+`;
 
 export const ModalBackground = () => {
   const { open } = useContext(Context);
@@ -33,26 +37,16 @@ const Background = styled.div`
   height: 100%;
 `;
 
-export const ModalContent = ({ children, top, left }: PropsWithChildren & Position) => {
+export const ModalContent = ({ children }: PropsWithChildren) => {
   const { open } = useContext(Context);
-  return (
-    <>
-      {open && (
-        <Content top={top} left={left}>
-          {children}
-        </Content>
-      )}
-    </>
-  );
+  return <>{open && <Content>{children}</Content>}</>;
 };
 
-const Content = styled.div<Position>`
+const Content = styled.div`
   background-color: ${themeColor.main.white};
-  position: fixed;
   border-radius: 30px;
   box-sizing: border-box;
-  top: ${({ top }) => top}%;
-  left: ${({ left }) => left}%;
+  position: relative;
   z-index: 10;
 `;
 

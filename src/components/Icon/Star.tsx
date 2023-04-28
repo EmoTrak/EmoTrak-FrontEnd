@@ -1,32 +1,36 @@
-import React, { ComponentPropsWithoutRef } from "react";
+import React from "react";
 import { ReactComponent as StarIcon } from "../../assets/emoticon/star.svg";
 import styled from "styled-components";
-import { themeColor } from "../../utils/theme";
+import { device, themeColor } from "../../utils/theme";
+import { StarProps } from "../../data/type/type";
 
-type Props = {
-  size?: string;
-  color?: string;
-} & ComponentPropsWithoutRef<"button">;
-
-const Star = ({ size, color, onClick }: Props) => {
+const Star = ({ size, color, onClick }: StarProps) => {
   return (
     <StStarButton type="button" onClick={onClick}>
-      <StarIcon height={size} width={size} fill={`${color}`} stroke={`${color}`} />
+      <StarIcon
+        height={size}
+        width={size}
+        fill={`${color}`}
+        stroke={`${color}`}
+      />
     </StStarButton>
   );
 };
 
 export default Star;
 
-const StStarButton = styled.button<Props>`
+const StStarButton = styled.button<StarProps>`
   background-color: transparent;
   border: 1px solid transparent;
   border-radius: 50%;
 
   svg {
     :hover {
-      fill: ${themeColor.emoticon.yellow};
-      stroke: ${themeColor.emoticon.yellow};
+      fill: ${themeColor.palette.yellow};
+      stroke: ${themeColor.palette.yellow};
     }
+  }
+  ${device.mobile} {
+    width: 5vw;
   }
 `;

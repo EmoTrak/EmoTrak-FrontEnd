@@ -3,9 +3,11 @@ import { themeColor } from "../utils/theme";
 
 const GlobalStyle = createGlobalStyle`
   body {
+    margin: 0;
     background: ${themeColor.main.paper};
     font-family: 'KyoboHand';
     letter-spacing: 1px;
+    color:${themeColor.font};
   }
   @font-face {
     font-family: 'KyoboHand';

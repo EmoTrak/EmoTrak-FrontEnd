@@ -5,9 +5,9 @@ import guest from "./guest";
 
 const user = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
-  headers: {
-    "Access-Control-Allow-Origin": "*",
-  },
+  // headers: {
+  //   "Access-Control-Allow-Origin": `${process.env.REACT_APP_SERVER_URL}, ${process.env.REACT_APP_S3_BUCKET}`,
+  // },
 });
 
 user.interceptors.request.use(
@@ -59,8 +59,8 @@ user.interceptors.response.use(
           }
           return Promise.reject(error);
         case "x-1003":
-          removeCookie("refreshToken");
-          removeCookie("expire");
+          removeCookie("refreshToken", { path: "/" });
+          removeCookie("expire", { path: "/" });
           return alert("다시 로그인해주세요.");
         case "x-1004":
           return alert("작성자만 수정/삭제가 가능합니다.");

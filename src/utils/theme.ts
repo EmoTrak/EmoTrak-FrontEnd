@@ -29,6 +29,12 @@ export const themeColor: DefaultTheme = {
     white: "#FFFFFF",
     black: "#000000",
   },
+  landing: {
+    yellow: "#FBF3CC",
+    white: "#FFFFFF",
+    orange: "#FDE5A7",
+  },
+  font: "#7E7171",
 };
 
 export const device = {

@@ -1,30 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { InfoType } from "../data/type/type";
+import { themeColor } from "../utils/theme";
+import { removeCookie } from "../utils/cookies";
 import { useAuth } from "../features/mypage/hooks/useAuth";
 import { usePasswordCheck } from "../features/signup/hooks/usePasswordCheck";
 import { useNicknameValidation } from "../features/signup/hooks/useNicknameValidation";
 import { useChangePassword } from "../features/mypage/hooks/useChangePassword";
 import { useChangeNickname } from "../features/mypage/hooks/useChangeNickname";
 import { useWithdrawal } from "../features/mypage/hooks/useWithdrawal";
-import styled from "styled-components";
-import InputList from "../features/mypage/components/InputList";
-import { getCookie } from "../utils/cookies";
-import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
-import { themeColor } from "../utils/theme";
-
-type InfoType = {
-  email: string;
-  nickname: string;
-  password: string;
-  rePassword: string;
-};
+import InputList from "../features/mypage/components/InputList";
+import * as St from "../features/mypage/styles/MypageStyle";
 
 const Mypage = () => {
-  const navigate = useNavigate();
-  const token = getCookie("token");
-  const refreshToken = getCookie("refreshToken");
   const { isLoading, userInfo } = useAuth();
   const { withdraw } = useWithdrawal();
+  const navigate = useNavigate();
 
   const [info, setInfo] = useState<InfoType>({
     email: userInfo?.email,
@@ -33,20 +25,22 @@ const Mypage = () => {
     rePassword: "",
   });
 
+  const [regExpPassword, setRegExpPassword] = useState(false);
+
   const { checkNickname, validNickname, setNicknameValidation, nicknameValidation } =
     useNicknameValidation();
-  const { validPassword, checkPasswordHandler } = usePasswordCheck(info.password);
+  const { validPassword, checkPasswordHandler, doublePassword } = usePasswordCheck(
+    info.password
+  );
 
   const { changePassword } = useChangePassword();
   const { changeNickname } = useChangeNickname();
 
-  const checkNicknameHandler = (item: string) => {
-    if (validNickname(item)) {
-      checkNickname.mutate(item);
+  const checkNicknameHandler = (nickname: string) => {
+    if (validNickname(nickname)) {
+      checkNickname.mutate(nickname);
     } else {
-      setInfo({ ...info, nickname: "" });
       setNicknameValidation(false);
-      alert("8글자 이하로 입력해주세요.");
     }
   };
 
@@ -54,13 +48,27 @@ const Mypage = () => {
     const { name, value } = event.target;
     setInfo({ ...info, [name]: value });
     if (name === "nickname") {
-      setInfo({ ...info, [name]: value });
       setNicknameValidation(false);
+    }
+    if (name === "password") {
+      setRegExpPassword(validPassword(info.password));
+    }
+    if (name === "rePassword") {
+      checkPasswordHandler(event.target.value);
     }
   };
 
   const withdrawUserHandler = () => {
-    withdraw.mutate();
+    window.confirm("정말 탈퇴하시겠습니까?") && withdraw.mutate();
+  };
+
+  const logoutUserHandler = () => {
+    if (window.confirm("로그아웃하시겠습니까")) {
+      removeCookie("token", { path: "/" });
+      removeCookie("refreshToken", { path: "/" });
+      removeCookie("expire", { path: "/" });
+      navigate("/");
+    }
   };
 
   useEffect(() => {
@@ -72,38 +80,48 @@ const Mypage = () => {
         rePassword: "",
       });
     }
-
-    if (!token && !refreshToken) {
-      alert("로그인이 필요합니다!");
-      navigate("/");
-    }
   }, [userInfo]);
 
   if (isLoading) {
-    return <div>로딩중..</div>;
+    return <>로딩중..</>;
   }
 
   return (
-    <MyPageWrapper>
-      <MyPageContentWrapper>
+    <St.MyPageWrapper>
+      <St.MyPageContentWrapper>
+        <St.MobileLogoutButton onClick={logoutUserHandler}>
+          로그아웃
+        </St.MobileLogoutButton>
         <InputList name="이메일">
-          <label>
-            <MyPageInput type="text" name="email" value={info.email} disabled />
-          </label>
+          <St.MyPageInput type="text" name="email" value={info.email} disabled />
         </InputList>
         <InputList name="닉네임">
-          <MyPageInput
+          <St.MyPageInput
             type="text"
             name="nickname"
+            maxLength={8}
             value={info.nickname}
             onChange={changeInputHandler}
           />
-          <MyPageButtonBox>
+          <>
+            {nicknameValidation ? (
+              <St.MyPageHelperText>닉네임을 변경하시겠습니까?</St.MyPageHelperText>
+            ) : (
+              <St.MyPageHelperText important>
+                닉네임은 8글자 이하여야합니다.
+              </St.MyPageHelperText>
+            )}
+          </>
+          <St.MyPageButtonBox>
             {nicknameValidation ? (
               <Button
                 size="small"
                 disabled={!nicknameValidation}
                 onClick={() => changeNickname.mutate(info.nickname)}
+                style={{
+                  backgroundColor: themeColor.main.red,
+                  color: themeColor.main.white,
+                }}
               >
                 닉네임 변경
               </Button>
@@ -112,109 +130,72 @@ const Mypage = () => {
                 중복확인
               </Button>
             )}
-          </MyPageButtonBox>
+          </St.MyPageButtonBox>
         </InputList>
         <InputList name="비밀번호">
-          <label>변경 비밀번호 </label>
-          <MyPageInput
-            name="password"
-            type="password"
-            value={info.password}
-            onChange={changeInputHandler}
-            disabled={userInfo?.hasSocial}
-          />
-          <div>
-            {validPassword(info.password) ? null : (
-              <MyPageHelperText important>
-                비밀번호는 소문자, 숫자를 포함하는 8~15자리이어야합니다.
-              </MyPageHelperText>
-            )}
-          </div>
-          <label>변경 비밀번호 확인 </label>
-          <MyPageInput
-            name="rePassword"
-            type="password"
-            value={info.rePassword}
-            onChange={changeInputHandler}
-            disabled={userInfo?.hasSocial}
-          />
-          <div>
-            {info.password ? (
-              checkPasswordHandler(info.rePassword) ? (
-                <MyPageHelperText>비밀번호가 일치합니다.</MyPageHelperText>
-              ) : (
-                <MyPageHelperText important>
-                  비밀번호가 일치하지 않습니다.
-                </MyPageHelperText>
-              )
+          <St.MyPageLabel>
+            <St.MyPageInput
+              name="password"
+              type="password"
+              maxLength={15}
+              value={info.password}
+              onChange={changeInputHandler}
+              disabled={userInfo?.hasSocial}
+              placeholder="변경 비밀번호"
+            />
+          </St.MyPageLabel>
+          {!regExpPassword && (
+            <St.MyPageHelperText important>
+              비밀번호는 소문자, 숫자를 포함하는 8~15자리이어야합니다.
+            </St.MyPageHelperText>
+          )}
+          <St.MyPageLabel>
+            <St.MyPageInput
+              name="rePassword"
+              type="password"
+              maxLength={15}
+              value={info.rePassword}
+              onChange={changeInputHandler}
+              disabled={userInfo?.hasSocial}
+              placeholder="변경 비밀번호 확인"
+            />
+          </St.MyPageLabel>
+          <>
+            {!info.password ? (
+              <St.MyPageHelperText>비밀번호를 다시 입력해주세요.</St.MyPageHelperText>
+            ) : doublePassword ? (
+              <St.MyPageHelperText>비밀번호가 일치합니다.</St.MyPageHelperText>
             ) : (
-              <MyPageHelperText>비밀번호를 다시 입력해주세요.</MyPageHelperText>
+              <St.MyPageHelperText important>
+                비밀번호가 일치하지 않습니다.
+              </St.MyPageHelperText>
             )}
-          </div>
-          <MyPageButtonBox>
+          </>
+          <St.MyPageButtonBox>
             <Button
               size="small"
-              disabled={
-                info.password === "" ||
-                validPassword(info.password) === false ||
-                checkPasswordHandler(info.rePassword) === false
-              }
+              disabled={info.password === "" || !regExpPassword}
               onClick={() => changePassword.mutate(info.password)}
             >
               비밀번호 변경
             </Button>
-          </MyPageButtonBox>
+          </St.MyPageButtonBox>
         </InputList>
-        <MyPageButtonBox>
-          <Button size="small" onClick={withdrawUserHandler}>
+        <St.MyPageButtonBox>
+          <Button
+            size="small"
+            onClick={withdrawUserHandler}
+            style={{
+              backgroundColor: themeColor.main.red,
+              color: themeColor.main.white,
+            }}
+          >
             회원탈퇴
           </Button>
-        </MyPageButtonBox>
-      </MyPageContentWrapper>
-    </MyPageWrapper>
+        </St.MyPageButtonBox>
+      </St.MyPageContentWrapper>
+    </St.MyPageWrapper>
   );
 };
 
 export default Mypage;
-
-const MyPageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-`;
-
-const MyPageContentWrapper = styled.div`
-  width: 80vw;
-  height: 70vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const MyPageInput = styled.input`
-  width: 15vw;
-  height: 1vw;
-  border: none;
-  border-radius: 6px;
-  padding: 5px 10px 5px 10px;
-  font-size: 0.6vw;
-`;
-
-interface HelperText {
-  important?: boolean;
-}
-const MyPageHelperText = styled.span<HelperText>`
-  margin: 0;
-  color: ${({ important }) =>
-    important ? `${themeColor.main.red}` : `${themeColor.main.black}`};
-`;
-
-const MyPageButtonBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 15vw;
-`;

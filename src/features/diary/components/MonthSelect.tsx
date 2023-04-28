@@ -1,10 +1,9 @@
 import { PropsWithChildren } from "react";
-import * as UI from "../../../components/Modal";
-import styled from "styled-components";
-import { DateSelectType } from "../../../data/type/d1";
 import { IoMdClose } from "react-icons/io";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import { themeColor } from "../../../utils/theme";
+import { DateSelectType } from "../../../data/type/type";
+import * as UI from "../../../components/Modal";
+import * as St from "../styles/MonthSelectStyle";
 
 const MonthSelect = ({
   children,
@@ -12,94 +11,45 @@ const MonthSelect = ({
   setSelect,
 }: PropsWithChildren & DateSelectType) => {
   const month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
   return (
     <UI.Modalroot>
       <UI.ModalTrigger>{children}</UI.ModalTrigger>
-      <UI.ModalContent top={18} left={38}>
-        <Content>
+      <UI.ModalContent>
+        <St.Content>
           <UI.ModalClose>
-            <CloseBtn>
+            <St.CloseBtn>
               <IoMdClose />
-            </CloseBtn>
+            </St.CloseBtn>
           </UI.ModalClose>
-          <Year>
-            <button onClick={() => setSelect({ ...select, year: select.year - 1 })}>
+          <St.Year>
+            <button
+              onClick={() => setSelect({ ...select, year: select.year - 1 })}
+            >
               <AiOutlineLeft />
             </button>
-
             {select.year}
-            <button onClick={() => setSelect({ ...select, year: select.year + 1 })}>
+            <button
+              onClick={() => setSelect({ ...select, year: select.year + 1 })}
+            >
               <AiOutlineRight />
             </button>
-          </Year>
-          <SelectMonth>
-            {month.map((_, i) => (
-              <UI.ModalClose key={i}>
-                <ClickBtn onClick={() => setSelect({ ...select, month: i + 1 })}>
-                  {i + 1}
-                </ClickBtn>
+          </St.Year>
+          <St.SelectMonth>
+            {month.map((item) => (
+              <UI.ModalClose key={item}>
+                <St.ClickBtn
+                  onClick={() => setSelect({ ...select, month: item })}
+                >
+                  {item}
+                </St.ClickBtn>
               </UI.ModalClose>
             ))}
-          </SelectMonth>
-        </Content>
+          </St.SelectMonth>
+        </St.Content>
       </UI.ModalContent>
     </UI.Modalroot>
   );
 };
-const Content = styled.div`
-  top: 10%;
-  height: 300px;
-  width: 300px;
-  color: ${themeColor.main.chocomilk};
-  border-radius: 30px;
-  box-sizing: border-box;
-  box-shadow: 1px 1px 10px 5px ${themeColor.main.gray};
-  padding: 10%;
-  display: flex;
-  flex-direction: column;
-`;
-const Year = styled.div`
-  font-size: 20px;
-  margin-left: auto;
-  margin-right: auto;
-  button {
-    border: 0;
-    background-color: transparent;
-    margin: 5px;
-    color: ${themeColor.main.chocomilk};
-    cursor: pointer;
-  }
-`;
 
-const SelectMonth = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  margin-top: 40px;
-  grid-gap: 25px;
-`;
-
-const ClickBtn = styled.button`
-  width: 30px;
-  height: 30px;
-  background-color: transparent;
-  font-family: "KyoboHand";
-  font-size: 18px;
-  border: 0;
-  color: ${themeColor.main.chocomilk};
-  border-radius: 50%;
-  &:hover {
-    cursor: pointer;
-    background-color: ${themeColor.main.gray};
-    color: ${themeColor.main.white};
-    font-weight: 800;
-  }
-`;
-
-const CloseBtn = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color: ${themeColor.main.chocomilk};
-  font-size: 25px;
-`;
 export default MonthSelect;

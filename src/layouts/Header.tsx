@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { getCookie, removeCookie } from "../utils/cookies";
 import Flex from "../components/Flex";
@@ -10,17 +9,14 @@ import {
   MY_PAGE,
 } from "../data/routes/urls";
 import EmoTrak from "../assets/logo/EmoTrakLogo.png";
-import { useState } from "react";
-import { themeColor } from "../utils/theme";
-import { device } from "../utils/theme";
-import { IoIosArrowBack } from "react-icons/io";
-import { GoThreeBars } from "react-icons/go";
 import MobileMenubar from "./MobileMenubar";
+import { IoIosArrowBack } from "react-icons/io";
+import * as St from "../layouts/LayoutStyle";
 
 const Header = () => {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(false);
   const refreshToken = getCookie("refreshToken");
+  const token = getCookie("token");
 
   const logoutUserHandler = () => {
     if (window.confirm("로그아웃하시겠습니까")) {
@@ -28,130 +24,74 @@ const Header = () => {
       removeCookie("refreshToken", { path: "/" });
       removeCookie("expire", { path: "/" });
       navigate("/");
-      setIsLogin(true);
     }
   };
 
   let payloadJson;
   let payload;
-  const [headerB64, payloadB64, signatureB64] = (refreshToken || "").split(".");
-  if (typeof atob !== undefined && payloadB64) {
+  const payloadB64 = (token || "").split(".")[1];
+  if (atob && payloadB64) {
     payloadJson = atob(payloadB64);
   }
-  if (payloadJson !== undefined) {
+  if (payloadJson) {
     payload = JSON.parse(payloadJson);
   }
 
   return (
-    <StHeader>
-      <BackOfPage onClick={() => navigate(-1)}>
+    <St.Header>
+      <St.BackOfPage onClick={() => navigate(-1)}>
         <IoIosArrowBack />
-      </BackOfPage>
-      <EmoTrakLogo onClick={() => navigate(HOME_PAGE)}>
-        <LogoImg src={EmoTrak} alt="로고" />
-      </EmoTrakLogo>
-      <MobileMenubar logout={logoutUserHandler}>
-        <GoThreeBars />
-      </MobileMenubar>
-      {payload?.auth === "ADMIN" ? (
-        <NavWrapper>
-          <Flex row gap={10}>
-            <PageButton onClick={() => navigate(ADMIN)}>관리자페이지</PageButton>
-            <PageButton onClick={() => navigate(MY_PAGE)}>마이페이지</PageButton>
-            <PageButton onClick={() => navigate(COMMUNITY_PAGE)}>공유 페이지</PageButton>
-
-            <PageButton onClick={() => navigate(CHART_PAGE)}>차트 페이지</PageButton>
-            <PageButton onClick={logoutUserHandler}>로그아웃</PageButton>
-          </Flex>
-        </NavWrapper>
-      ) : refreshToken ? (
-        <NavWrapper>
-          <Flex row gap={10}>
-            <PageButton onClick={() => navigate(MY_PAGE)}>마이페이지</PageButton>
-            <PageButton onClick={() => navigate(COMMUNITY_PAGE)}>공유 페이지</PageButton>
-            <PageButton onClick={() => navigate(CHART_PAGE)}>차트 페이지</PageButton>
-            <PageButton onClick={logoutUserHandler}>로그아웃</PageButton>
-          </Flex>
-        </NavWrapper>
+      </St.BackOfPage>
+      {refreshToken ? (
+        <St.EmoTrakLogo onClick={() => navigate(HOME_PAGE)}>
+          <St.LogoImg src={EmoTrak} alt="로고" />
+        </St.EmoTrakLogo>
       ) : (
-        <NavWrapper>
-          <Flex row gap={10}>
-            <PageButton onClick={() => navigate(COMMUNITY_PAGE)}>공유 페이지</PageButton>
-            <PageButton onClick={() => navigate("/")}>로그인</PageButton>
-          </Flex>
-        </NavWrapper>
+        <St.EmoTrakLogo>
+          <St.LogoImg src={EmoTrak} alt="로고" />
+        </St.EmoTrakLogo>
       )}
-    </StHeader>
+      <MobileMenubar logout={logoutUserHandler} />
+      {payload?.auth === "ADMIN" ? (
+        <St.NavWrapper>
+          <Flex row gap={10}>
+            <St.PageButton onClick={() => navigate(ADMIN)}>관리자페이지</St.PageButton>
+            <St.PageButton onClick={() => navigate(MY_PAGE)}>마이페이지</St.PageButton>
+            <St.PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
+              공유 페이지
+            </St.PageButton>
+
+            <St.PageButton onClick={() => navigate(CHART_PAGE)}>
+              차트 페이지
+            </St.PageButton>
+            <St.PageButton onClick={logoutUserHandler}>로그아웃</St.PageButton>
+          </Flex>
+        </St.NavWrapper>
+      ) : refreshToken ? (
+        <St.NavWrapper>
+          <Flex row gap={10}>
+            <St.PageButton onClick={() => navigate(MY_PAGE)}>마이페이지</St.PageButton>
+            <St.PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
+              공유 페이지
+            </St.PageButton>
+            <St.PageButton onClick={() => navigate(CHART_PAGE)}>
+              차트 페이지
+            </St.PageButton>
+            <St.PageButton onClick={logoutUserHandler}>로그아웃</St.PageButton>
+          </Flex>
+        </St.NavWrapper>
+      ) : (
+        <St.NavWrapper>
+          <Flex row gap={10}>
+            <St.PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
+              공유 페이지
+            </St.PageButton>
+            <St.PageButton onClick={() => navigate("/")}>로그인</St.PageButton>
+          </Flex>
+        </St.NavWrapper>
+      )}
+    </St.Header>
   );
 };
 
 export default Header;
-
-const EmoTrakLogo = styled.div`
-  margin-left: 50px;
-  cursor: pointer;
-  ${device.mobile} {
-    margin-left: auto;
-    margin-right: auto;
-  }
-`;
-
-const StHeader = styled.header`
-  width: 100%;
-  padding: 10px;
-  border: none;
-  position: fixed;
-  box-shadow: 5px 5px 5px ${themeColor.main.oatmeal};
-  z-index: 10;
-  top: 0px;
-  left: 0px;
-  background-color: ${themeColor.main.white};
-  font-family: inherit;
-  display: flex;
-  justify-content: space-between;
-  ${device.mobile} {
-    align-items: center;
-  }
-  ${device.miniMobile} {
-    padding: 5px;
-  }
-`;
-
-const PageButton = styled.button`
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  margin: 20px;
-  font-family: "KyoboHand";
-  letter-spacing: 0.5px;
-  font-size: 18px;
-  &:last-child {
-    margin-right: 50px;
-  }
-`;
-const NavWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  ${device.mobile} {
-    display: none;
-  }
-`;
-
-const LogoImg = styled.img`
-  width: 90px;
-  ${device.miniMobile} {
-    width: 80px;
-  }
-`;
-
-const BackOfPage = styled.button`
-  display: none;
-  font-size: 30px;
-  background-color: transparent;
-  border: 0;
-  position: absolute;
-  ${device.mobile} {
-    display: flex;
-    align-items: center;
-  }
-`;

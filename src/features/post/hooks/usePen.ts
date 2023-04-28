@@ -1,15 +1,15 @@
 import { useCallback, useState } from "react";
-import { Coordinate } from "../../../data/type/d3";
+import { Coordinate } from "../../../data/type/type";
 
 export const usePen = (
   ref: React.RefObject<HTMLCanvasElement>,
-  action: Function,
+  action: (event: MouseEvent) => Coordinate | undefined,
   color: string,
-  penSize: number
+  penSize: number,
+  mouse: Coordinate | undefined,
+  setMouse: React.Dispatch<React.SetStateAction<Coordinate | undefined>>
 ) => {
   const [isPainting, setIsPainting] = useState<boolean>(false);
-  const [mousePosition, setMousePosition] =
-    useState<Coordinate | undefined>(undefined);
 
   // canvas에 선긋는 함수
   const drawLine = (
@@ -17,113 +17,57 @@ export const usePen = (
     newMousePosition: Coordinate,
     color: string
   ) => {
-    if (!ref.current) {
-      return;
-    }
-    const canvas: HTMLCanvasElement = ref.current;
-    const context = canvas.getContext("2d");
+    if (ref.current) {
+      const canvas: HTMLCanvasElement = ref.current;
+      const context = canvas.getContext("2d");
 
-    if (context) {
-      context.strokeStyle = `${color}`;
-      context.lineJoin = "round";
-      context.lineWidth = penSize;
+      if (context) {
+        context.strokeStyle = `${color}`;
+        context.lineJoin = "round";
+        context.lineWidth = penSize;
 
-      context.beginPath();
-      context.moveTo(originalMousePosition.x, originalMousePosition.y);
-      context.lineTo(newMousePosition.x, newMousePosition.y);
-      context.closePath();
+        context.beginPath();
+        context.moveTo(originalMousePosition.x, originalMousePosition.y);
+        context.lineTo(newMousePosition.x, newMousePosition.y);
+        context.closePath();
 
-      context.stroke();
+        context.stroke();
+      }
     }
   };
 
-  const startTouch = useCallback(
-    (event: React.TouchEvent<HTMLCanvasElement>) => {
-      event.preventDefault();
-      if (!ref.current) {
-        return;
-      }
-      const canvas: HTMLCanvasElement = ref.current;
-      let touch = event.touches[0];
-      let mouseEvent = new MouseEvent("mousedown", {
-        clientX: touch.clientX,
-        clientY: touch.clientY,
-      });
-      canvas.dispatchEvent(mouseEvent);
-    },
-    []
-  );
-
-  const moveTouch = useCallback(
-    (event: React.TouchEvent<HTMLCanvasElement>) => {
-      event.preventDefault();
-      event.stopPropagation(); 
-
-      if (!ref.current) {
-        return;
-      }
-      const canvas: HTMLCanvasElement = ref.current;
-      let touch = event.touches[0];
-      let mouseEvent = new MouseEvent("mousemove", {
-        clientX: touch.clientX,
-        clientY: touch.clientY,
-      });
-      canvas.dispatchEvent(mouseEvent);
-    },
-    []
-  );
-
-  const endTouch = useCallback((event: React.TouchEvent<HTMLCanvasElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    if (!ref.current) {
-      return;
+  const startPaint = useCallback((event: MouseEvent) => {
+    const coordinates = action(event);
+    if (coordinates) {
+      setIsPainting(true);
+      setMouse(coordinates);
     }
-    const canvas: HTMLCanvasElement = ref.current;
-    let touch = event.touches[0];
-    let mouseUpEvent = new MouseEvent("mouseup", {
-      clientX: touch.clientX,
-      clientY: touch.clientY,
-    });
-    let mouseLeaveEvent = new MouseEvent("mouseleave", {
-      clientX: touch.clientX,
-      clientY: touch.clientY,
-    });
-    canvas.dispatchEvent(mouseUpEvent);
-    canvas.dispatchEvent(mouseLeaveEvent);
   }, []);
 
-  const startPaint = useCallback(
-    (event: React.MouseEvent<HTMLCanvasElement>): void => {
-      const coordinates = action(event);
-      if (coordinates) {
-        setIsPainting(true);
-        setMousePosition(coordinates);
-      }
-    },
-    []
-  );
-
   const paint = useCallback(
-    (event: React.MouseEvent<HTMLCanvasElement>): void => {
-      event.preventDefault(); 
-      event.stopPropagation(); 
+    (event: MouseEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
 
       if (isPainting) {
         const newMousePosition = action(event);
-        if (mousePosition && newMousePosition) {
-          drawLine(mousePosition, newMousePosition, color);
-          setMousePosition(newMousePosition);
+        if (mouse && newMousePosition) {
+          drawLine(mouse, newMousePosition, color);
+          setMouse(newMousePosition);
         }
       }
     },
-    [isPainting, mousePosition]
+    [isPainting, mouse]
   );
 
-  const exitPaint = useCallback((): void => {
+  const exitPaint = useCallback(() => {
     setIsPainting(false);
   }, []);
 
-  return { startPaint, paint, exitPaint, endTouch, startTouch, moveTouch };
+  return {
+    startPaint,
+    paint,
+    exitPaint,
+    isPainting,
+  };
 };

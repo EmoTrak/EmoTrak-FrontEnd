@@ -1,14 +1,9 @@
 import { useState } from "react";
-import { InputValue } from "../../../pages/DrawingPost";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import user from "../../../lib/api/user";
 import { useNavigate } from "react-router-dom";
 import { keys } from "../../../data/queryKeys/keys";
-
-interface PostInput {
-  inputValue: InputValue;
-  canvasRef?: React.RefObject<HTMLCanvasElement> | null;
-}
+import { PostInput } from "../../../data/type/type";
 
 export const usePost = ({ inputValue, canvasRef }: PostInput) => {
   const queryClient = useQueryClient();
@@ -16,7 +11,7 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
   const [picture, setPicture] = useState<Blob | null>(null);
   const [photo, setPhoto] = useState<Blob | null>(null);
 
-  const savePictureHandler = (): void => {
+  const savePictureHandler = () => {
     const canvas = canvasRef?.current;
     canvas?.toBlob(
       (blob) => {
@@ -30,9 +25,7 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
   };
 
   // 이미지 파일 업로드 함수
-  const fileInputHandler = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
+  const fileInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.currentTarget;
     const files = (target.files as FileList)[0];
     const imgBlob = new Blob([files], { type: "image/jpeg" });
@@ -40,7 +33,7 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
   };
 
   // 이미지 파일 드래그앤드랍 업로드 함수
-  const fileDropHandler = (event: React.DragEvent<HTMLLabelElement>): void => {
+  const fileDropHandler = (event: React.DragEvent<HTMLLabelElement>) => {
     const files = (event.dataTransfer.files as FileList)[0];
     const imgBlob = new Blob([files], { type: "image/jpeg" });
     setPhoto(imgBlob);
@@ -66,9 +59,7 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
     }
   );
 
-  const submitDiaryHandler = (
-    event: React.FormEvent<HTMLFormElement>
-  ): void => {
+  const submitDiaryHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData();
     const dto = new Blob([JSON.stringify(inputValue)], {

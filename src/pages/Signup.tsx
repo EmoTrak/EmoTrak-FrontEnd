@@ -1,11 +1,12 @@
 import SignupForm from "../features/signup/components/SignupForm";
-import { StLoginPageWrapper } from "./Login";
+
+import { SignupPageWrapper } from "../features/signup/styles/SignupFormStyle";
 
 const Register = () => {
   return (
-    <StLoginPageWrapper>
+    <SignupPageWrapper>
       <SignupForm />
-    </StLoginPageWrapper>
+    </SignupPageWrapper>
   );
 };
 

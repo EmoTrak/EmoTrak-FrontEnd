@@ -1,5 +1,10 @@
-import React, { PropsWithChildren, createContext, useContext, useState } from "react";
-import { BooleanType, Position } from "../data/type/d1";
+import React, {
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useState,
+} from "react";
+import { BooleanType, Position } from "../data/type/type";
 import styled from "styled-components";
 import { themeColor } from "../utils/theme";
 
@@ -12,7 +17,11 @@ const SubContext = createContext<BooleanType>(defaultValue);
 
 export const SubModalroot = ({ children }: PropsWithChildren) => {
   const [open, setOpen] = useState<boolean>(false);
-  return <SubContext.Provider value={{ open, setOpen }}>{children}</SubContext.Provider>;
+  return (
+    <SubContext.Provider value={{ open, setOpen }}>
+      {children}
+    </SubContext.Provider>
+  );
 };
 
 export const SubModalTrigger = ({ children }: PropsWithChildren) => {
@@ -20,30 +29,17 @@ export const SubModalTrigger = ({ children }: PropsWithChildren) => {
   return <div onClick={() => setOpen((pre) => !pre)}>{children}</div>;
 };
 
-export const SubModalContent = ({
-  children,
-  top,
-  left,
-}: PropsWithChildren & Position) => {
+export const SubModalContent = ({ children }: PropsWithChildren) => {
   const { open } = useContext(SubContext);
-  return (
-    <>
-      {open && (
-        <Content top={top} left={left}>
-          {children}
-        </Content>
-      )}
-    </>
-  );
+  return <>{open && <Content>{children}</Content>}</>;
 };
 
-const Content = styled.div<Position>`
+const Content = styled.div`
   background-color: ${themeColor.main.white};
-  position: fixed;
-  top: ${({ top }) => top}%;
   border-radius: 30px;
-  left: ${({ left }) => left}%;
   box-sizing: border-box;
+  position: relative;
+  z-index: 11;
 `;
 
 export const SubModalClose = ({ children }: PropsWithChildren) => {

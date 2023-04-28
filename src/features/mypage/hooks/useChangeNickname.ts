@@ -3,15 +3,14 @@ import user from "../../../lib/api/user";
 
 export const useChangeNickname = () => {
   const changeNickname = useMutation(
-    async (item: string) => {
-      const data = await user.patch(`/users/nickname`, { nickname: item });
-      return data;
+    async (nickname: string) => {
+      await user.patch(`/users/nickname`, { nickname });
     },
     {
-      onSuccess(data) {
+      onSuccess() {
         alert("수정 완료");
       },
-      onError(error) {
+      onError() {
         alert("변경내용을 확인해주세요");
       },
     }
