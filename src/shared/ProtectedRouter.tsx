@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactElement, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { HOME_PAGE } from "../data/routes/urls";
 import { IPayload, RouterProps } from "../data/type/type";
@@ -23,7 +23,7 @@ export const ProtectedRoute = ({
     payload = JSON.parse(payloadJson);
   }
   useEffect(() => {
-    if (payload?.auth !== undefined && payload?.auth === "ADMIN") {
+    if (payload?.auth && payload?.auth === "ADMIN") {
     } else if (isAuthAdmin && !isAdminAuthenticated) {
       alert("권한이없습니다.");
       nav(`/`);

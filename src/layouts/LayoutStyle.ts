@@ -14,7 +14,7 @@ export const Content = styled.div`
   display: none;
   ${device.mobile} {
     position: fixed;
-    top: 90px;
+    top: 100px;
     left: 0;
     background-color: ${themeColor.main.oatmeal};
     box-shadow: 3px 3px 5px ${themeColor.main.oatmeal};
@@ -29,6 +29,9 @@ export const Content = styled.div`
     align-items: center;
     padding: 3%;
     box-sizing: border-box;
+  }
+  ${device.mobile} {
+    top: 90px;
   }
 `;
 
@@ -93,6 +96,7 @@ export const Header = styled.header`
   box-sizing: border-box;
   ${device.mobile} {
     align-items: center;
+    padding-bottom: 5px;
   }
 `;
 
@@ -177,4 +181,9 @@ export const Footer = styled.ul`
       }
     }
   }
+`;
+
+export const MobileMenubarWrapper = styled.div`
+  position: absolute;
+  right: 25px;
 `;
