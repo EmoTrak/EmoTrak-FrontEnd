@@ -55,10 +55,12 @@ const Calendar = () => {
 
   return (
     <St.Container>
-      <Flex ai="center">
-        <MiniCalendar year={select.year} month={select.month - 1} />
-        <MiniCalendar year={select.year} month={select.month + 1} />
-      </Flex>
+      {!side && (
+        <St.MiniCalendarWrap>
+          <MiniCalendar year={select.year} month={select.month - 1} onClick={prevMonth} />
+          <MiniCalendar year={select.year} month={select.month + 1} onClick={nextMonth} />
+        </St.MiniCalendarWrap>
+      )}
       <St.CalendarBox>
         <St.SelectWrap>
           <St.NowDay>
@@ -86,13 +88,13 @@ const Calendar = () => {
           </St.CalendarBtn>
         </St.SelectWrap>
         <St.TotalWeek>
-          <St.Weeks style={{ color: "red" }}>SUN</St.Weeks>
+          <St.Weeks day={0}>SUN</St.Weeks>
           <St.Weeks>MON</St.Weeks>
           <St.Weeks>TUE</St.Weeks>
           <St.Weeks>WED</St.Weeks>
           <St.Weeks>THU</St.Weeks>
           <St.Weeks>FRI</St.Weeks>
-          <St.Weeks style={{ color: "blue" }}>SAT</St.Weeks>
+          <St.Weeks day={6}>SAT</St.Weeks>
         </St.TotalWeek>
         <St.DiaryDay>
           {Array(firstDay)
@@ -129,9 +131,7 @@ const Calendar = () => {
         </St.DiaryDay>
       </St.CalendarBox>
 
-      {side && (
-        <Sidebar side={side} setSide={setSide} data={diary} diaryDay={select} />
-      )}
+      {side && <Sidebar side={side} setSide={setSide} data={diary} diaryDay={select} />}
     </St.Container>
   );
 };

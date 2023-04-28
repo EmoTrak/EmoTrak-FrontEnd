@@ -1,6 +1,18 @@
 import styled from "styled-components";
 import { device, themeColor } from "../../../utils/theme";
+import { DayProps } from "../../../data/type/type";
+import { OpenBox } from "./SidebarStyle";
 
+export const Container = styled.div`
+  display: flex;
+  background-color: ${themeColor.main.white};
+  /* height: 110%; */
+  ${device.tablet} {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+`;
 export const SelectWrap = styled.div`
   display: flex;
   justify-content: center;
@@ -12,23 +24,14 @@ export const CalendarBtn = styled.div`
   justify-content: center;
   margin-bottom: 10px;
 `;
-export const Container = styled.div`
-  display: flex;
-  background-color: ${themeColor.main.white};
-  height: 100%;
-  ${device.tablet} {
-    justify-content: center;
-    align-items: center;
-  }
-`;
 
 export const NowDay = styled.div`
   margin: 15px;
   display: flex;
   justify-content: center;
+  position: relative;
   span {
     font-size: 21px;
-    position: relative;
     z-index: 3;
   }
   p {
@@ -37,14 +40,15 @@ export const NowDay = styled.div`
     width: 115px;
     height: 16px;
     position: absolute;
-    top: 10px;
+    top: -5px;
     z-index: 2;
   }
 `;
 
 export const SelectBtn = styled.button`
   position: absolute;
-  top: 18px;
+  top: 2px;
+  right: -30px;
   border: 0;
   background-color: transparent;
   font-size: 20px;
@@ -55,20 +59,13 @@ export const SelectBtn = styled.button`
 export const CalendarBox = styled.div`
   margin-left: auto;
   margin-right: auto;
-
-  ${device.mobile} {
-    margin-left: 0px;
-    margin-right: 3px;
-  }
+  max-width: 850px;
 `;
 
 export const DiaryDay = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 50vw;
-  ${device.tablet} {
-    width: 90vw;
-  }
+  width: 100%;
   ${device.mobile} {
     max-height: 65%;
   }
@@ -78,7 +75,7 @@ export const TotalWeek = styled.div`
   display: flex;
 `;
 
-export const Weeks = styled.div`
+export const Weeks = styled.div<{ day?: number }>`
   min-width: calc(100% / 7);
   display: flex;
   justify-content: center;
@@ -88,7 +85,12 @@ export const Weeks = styled.div`
   background-color: transparent;
   position: relative;
   font-family: "KyoboHand";
-
+  color: ${({ day }) =>
+    day === 0
+      ? themeColor.main.red
+      : day === 6
+      ? themeColor.emoticon.blue
+      : themeColor.font};
   ${device.mobile} {
     font-size: 13px;
   }
@@ -104,12 +106,24 @@ export const Day = styled.button<{ day?: number }>`
   position: relative;
   font-family: inherit;
   cursor: pointer;
-  color: ${({ day }) => (day === 0 ? "red" : day === 6 ? "blue" : "black")};
+  color: ${({ day }) =>
+    day === 0
+      ? themeColor.main.red
+      : day === 6
+      ? themeColor.emoticon.blue
+      : themeColor.font};
   ${device.mobile} {
     font-size: 13px;
     height: 11vh;
   }
   ${device.miniMobile} {
     height: 8vh;
+  }
+`;
+
+export const MiniCalendarWrap = styled.div`
+  position: absolute;
+  @media screen and (max-width: 1320px) {
+    display: none;
   }
 `;
