@@ -12,7 +12,6 @@ export const MyPageWrapper = styled.div`
 
 export const MyPageContentWrapper = styled.div`
   width: 80vw;
-  height: 70vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -40,7 +39,7 @@ export const MyPageInput = styled.input`
 export const MyPageHelperText = styled.span<HelperText>`
   margin: 0;
   color: ${({ important }) =>
-    important ? `${themeColor.main.red}` : `${themeColor.main.black}`};
+    important ? `${themeColor.main.red}` : `${themeColor.font}`};
   height: 30px;
 `;
 
@@ -49,12 +48,32 @@ export const MyPageButtonBox = styled.div`
   justify-content: center;
   align-items: center;
   width: 15vw;
+  ${device.mobile} {
+    width: 80vw;
+  }
 `;
-
-export const MyPageLabel = styled.label`
+export const MyPageLabel = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 15vw;
+  ${device.mobile} {
+    width: 80vw;
+    margin: 10px;
+  }
+`;
+export const MobileLogoutButton = styled.button`
+  display: none;
+  ${device.mobile} {
+    margin-top: 30px;
+    font-family: inherit;
+    color: ${themeColor.main.white};
+    display: block;
+    background-color: ${themeColor.main.coffemilk};
+    border: 0;
+    border-radius: 8px;
+    padding: 5px 15px;
+    cursor: pointer;
+  }
 `;

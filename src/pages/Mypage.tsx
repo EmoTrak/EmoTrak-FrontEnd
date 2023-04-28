@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { InfoType } from "../data/type/type";
+import { themeColor } from "../utils/theme";
+import { removeCookie } from "../utils/cookies";
 import { useAuth } from "../features/mypage/hooks/useAuth";
 import { usePasswordCheck } from "../features/signup/hooks/usePasswordCheck";
 import { useNicknameValidation } from "../features/signup/hooks/useNicknameValidation";
@@ -9,11 +12,11 @@ import { useWithdrawal } from "../features/mypage/hooks/useWithdrawal";
 import Button from "../components/Button";
 import InputList from "../features/mypage/components/InputList";
 import * as St from "../features/mypage/styles/MypageStyle";
-import { themeColor } from "../utils/theme";
 
 const Mypage = () => {
   const { isLoading, userInfo } = useAuth();
   const { withdraw } = useWithdrawal();
+  const navigate = useNavigate();
 
   const [info, setInfo] = useState<InfoType>({
     email: userInfo?.email,
@@ -62,6 +65,15 @@ const Mypage = () => {
     window.confirm("정말 탈퇴하시겠습니까?") && withdraw.mutate();
   };
 
+  const logoutUserHandler = () => {
+    if (window.confirm("로그아웃하시겠습니까")) {
+      removeCookie("token", { path: "/" });
+      removeCookie("refreshToken", { path: "/" });
+      removeCookie("expire", { path: "/" });
+      navigate("/");
+    }
+  };
+
   useEffect(() => {
     if (userInfo) {
       setInfo({
@@ -80,6 +92,9 @@ const Mypage = () => {
   return (
     <St.MyPageWrapper>
       <St.MyPageContentWrapper>
+        <St.MobileLogoutButton onClick={logoutUserHandler}>
+          로그아웃
+        </St.MobileLogoutButton>
         <InputList name="이메일">
           <St.MyPageInput
             type="text"
@@ -132,7 +147,6 @@ const Mypage = () => {
         </InputList>
         <InputList name="비밀번호">
           <St.MyPageLabel>
-            변경 비밀번호
             <St.MyPageInput
               name="password"
               type="password"
@@ -140,6 +154,7 @@ const Mypage = () => {
               value={info.password}
               onChange={changeInputHandler}
               disabled={userInfo?.hasSocial}
+              placeholder="변경 비밀번호"
             />
           </St.MyPageLabel>
           {!regExpPassword && (
@@ -148,7 +163,6 @@ const Mypage = () => {
             </St.MyPageHelperText>
           )}
           <St.MyPageLabel>
-            변경 비밀번호 확인
             <St.MyPageInput
               name="rePassword"
               type="password"
@@ -156,6 +170,7 @@ const Mypage = () => {
               value={info.rePassword}
               onChange={changeInputHandler}
               disabled={userInfo?.hasSocial}
+              placeholder="변경 비밀번호 확인"
             />
           </St.MyPageLabel>
           <>
@@ -182,7 +197,11 @@ const Mypage = () => {
           </St.MyPageButtonBox>
         </InputList>
         <St.MyPageButtonBox>
-          <Button size="small" onClick={withdrawUserHandler}>
+          <Button
+            size="small"
+            onClick={withdrawUserHandler}
+            style={{ backgroundColor: "red" }}
+          >
             회원탈퇴
           </Button>
         </St.MyPageButtonBox>
