@@ -45,6 +45,7 @@ export const NextBtn = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  color: ${themeColor.main.chocomilk};
 `;
 
 export const PrevBtn = styled.button`
@@ -60,4 +61,5 @@ export const PrevBtn = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  color: ${themeColor.main.chocomilk};
 `;

@@ -9,9 +9,6 @@ import TutorialIcon2 from "../../../assets/tutorial/2_Icon_2.webp";
 import TutorialIcon3 from "../../../assets/tutorial/2_Icon_3.webp";
 import TutorialIcon4 from "../../../assets/tutorial/2_Icon_4.webp";
 import TutorialIcon5 from "../../../assets/tutorial/2_Icon_5.webp";
-import TutorialCalender from "../../../assets/tutorial/4_Calender.webp";
-import TutorialDrawing from "../../../assets/tutorial/4_Drawing.webp";
-import TutorialGraph from "../../../assets/tutorial/4_Graph.webp";
 import CalendarIcon from "../../../assets/tutorial/3_Icon_3.webp";
 import DiaryIcon1 from "../../../assets/tutorial/3_Icon_1.webp";
 import DiaryIcon2 from "../../../assets/tutorial/3_Icon_2.webp";
@@ -20,6 +17,9 @@ import DiaryIcon4 from "../../../assets/tutorial/3_Icon_4.webp";
 import DiaryIcon5 from "../../../assets/tutorial/3_Icon_5.webp";
 import DiaryIcon6 from "../../../assets/tutorial/3_Icon_6.webp";
 import GraphIcon from "../../../assets/tutorial/3_Icon_1_left.webp";
+import TutorialCalender from "../../../assets/tutorial/4_Calender.webp";
+import TutorialDrawing from "../../../assets/tutorial/4_Drawing.webp";
+import TutorialGraph from "../../../assets/tutorial/4_Graph.webp";
 import TutorialGraphTitle from "../../../assets/tutorial/4_GraphTitle.webp";
 
 const Tutorial = () => {
@@ -68,7 +68,7 @@ const Tutorial = () => {
           <St.Calendar src={TutorialCalender} position={position} alt="" />
         </St.CalenderBackground>
       </St.TutorialDiv>
-      <St.TutorialDiv style={{ overflow: "hidden" }}>
+      <St.TutorialDiv>
         <St.DrawingBackground position={position}>
           <St.PointBox>Point .2</St.PointBox>
           <St.PointTitleP>내 마음대로 꾸미는 그림일기</St.PointTitleP>

@@ -9,7 +9,7 @@ export const useWithdrawal = () => {
     mutationFn: async (): Promise<void> => {
       await user.delete(`/users`);
     },
-    onSuccess() {
+    onSuccess: () => {
       removeCookie("token", { path: "/" });
       removeCookie("refreshToken", { path: "/" });
       removeCookie("expire", { path: "/" });
