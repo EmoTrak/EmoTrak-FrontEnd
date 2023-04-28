@@ -4,10 +4,8 @@ import * as St from "../styles/InputListStyle";
 function InputList({ name, children }: InputListProps) {
   return (
     <St.ListWrapper>
-      <St.ListTitle>
-        {name}
-        <St.ListContent>{children}</St.ListContent>
-      </St.ListTitle>
+      <St.ListTitle>{name} </St.ListTitle>
+      <St.ListContent>{children}</St.ListContent>
     </St.ListWrapper>
   );
 }

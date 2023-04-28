@@ -1,17 +1,19 @@
-import React, { useState } from "react";
-import Calender from "../../../assets/tutorial/5_Calender.webp";
-import Canvas from "../../../assets/tutorial/5_Canvas.webp";
-import Graph from "../../../assets/tutorial/5_Graph.webp";
-import LoginForm from "../../../features/login/components/LoginForm";
+import { useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
+import LoginForm from "../../../features/login/components/LoginForm";
+import Main from "../../../assets/tutorial/5_Landing.webp";
+import Calender from "../../../assets/tutorial/5_Calender.webp";
+import Canvas from "../../../assets/tutorial/5_Canvas.webp";
+import Graph_1 from "../../../assets/tutorial/5_Graph_1.webp";
+import Graph_2 from "../../../assets/tutorial/5_Graph_2.webp";
 import * as St from "../styles/LandingStyle";
 
 const Landing = () => {
   const [index, setIndex] = useState<number>(0);
   const [touchStartX, setTouchStartX] = useState<number>(0);
 
-  const images = [Calender, Canvas, Graph];
+  const images = [Main, Calender, Canvas, Graph_1, Graph_2];
 
   const SWIPE_THRESHOLD = 50; // 터치 거리 기준값
 
@@ -40,7 +42,7 @@ const Landing = () => {
       }
     } else if (deltaX < -SWIPE_THRESHOLD) {
       // 왼쪽으로 스와이프할 때
-      if (index < 3) {
+      if (index < 5) {
         nextContent();
       }
     }
@@ -48,25 +50,20 @@ const Landing = () => {
 
   return (
     <St.Slider onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-      {index < 3 ? (
+      {index < 5 ? (
         <St.Banner index={index}>
           <St.BannerImg src={images[index]} alt="landing image" />
-          {index > 0 && index < 4 ? (
+          {index > 0 && index < 6 && (
             <St.PrevBtn onClick={prevContent}>
               <IoIosArrowBack />
             </St.PrevBtn>
-          ) : null}
-          {index < 3 ? (
-            <St.NextBtn onClick={nextContent}>
-              <IoIosArrowForward />
-            </St.NextBtn>
-          ) : null}
+          )}
+          <St.NextBtn onClick={nextContent}>
+            <IoIosArrowForward />
+          </St.NextBtn>
         </St.Banner>
       ) : (
-        <St.Banner index={index}>
-          {" "}
-          {index === 3 ? <LoginForm /> : null}
-        </St.Banner>
+        <St.Banner index={index}>{index === 5 && <LoginForm />}</St.Banner>
       )}
     </St.Slider>
   );

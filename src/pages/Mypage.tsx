@@ -22,15 +22,16 @@ const Mypage = () => {
     rePassword: "",
   });
 
+  const [regExpPassword, setRegExpPassword] = useState(false);
+
   const {
     checkNickname,
     validNickname,
     setNicknameValidation,
     nicknameValidation,
   } = useNicknameValidation();
-  const { validPassword, checkPasswordHandler } = usePasswordCheck(
-    info.password
-  );
+  const { validPassword, checkPasswordHandler, doublePassword } =
+    usePasswordCheck(info.password);
 
   const { changePassword } = useChangePassword();
   const { changeNickname } = useChangeNickname();
@@ -49,10 +50,16 @@ const Mypage = () => {
     if (name === "nickname") {
       setNicknameValidation(false);
     }
+    if (name === "password") {
+      setRegExpPassword(validPassword(info.password));
+    }
+    if (name === "rePassword") {
+      checkPasswordHandler(event.target.value);
+    }
   };
 
   const withdrawUserHandler = () => {
-    window.confirm("정말 삭제하시겠습니까?") && withdraw.mutate();
+    window.confirm("정말 탈퇴하시겠습니까?") && withdraw.mutate();
   };
 
   useEffect(() => {
@@ -67,7 +74,7 @@ const Mypage = () => {
   }, [userInfo]);
 
   if (isLoading) {
-    return <div>로딩중..</div>;
+    return <>로딩중..</>;
   }
 
   return (
@@ -89,7 +96,7 @@ const Mypage = () => {
             value={info.nickname}
             onChange={changeInputHandler}
           />
-          <div>
+          <>
             {nicknameValidation ? (
               <St.MyPageHelperText>
                 닉네임을 변경하시겠습니까?
@@ -99,14 +106,17 @@ const Mypage = () => {
                 닉네임은 8글자 이하여야합니다.
               </St.MyPageHelperText>
             )}
-          </div>
+          </>
           <St.MyPageButtonBox>
             {nicknameValidation ? (
               <Button
                 size="small"
                 disabled={!nicknameValidation}
                 onClick={() => changeNickname.mutate(info.nickname)}
-                style={{ backgroundColor: themeColor.main.red, color: "white" }}
+                style={{
+                  backgroundColor: themeColor.main.red,
+                  color: themeColor.main.white,
+                }}
               >
                 닉네임 변경
               </Button>
@@ -132,13 +142,11 @@ const Mypage = () => {
               disabled={userInfo?.hasSocial}
             />
           </St.MyPageLabel>
-          <div>
-            {validPassword(info.password) ? null : (
-              <St.MyPageHelperText important>
-                비밀번호는 소문자, 숫자를 포함하는 8~15자리이어야합니다.
-              </St.MyPageHelperText>
-            )}
-          </div>
+          {!regExpPassword && (
+            <St.MyPageHelperText important>
+              비밀번호는 소문자, 숫자를 포함하는 8~15자리이어야합니다.
+            </St.MyPageHelperText>
+          )}
           <St.MyPageLabel>
             변경 비밀번호 확인
             <St.MyPageInput
@@ -150,31 +158,23 @@ const Mypage = () => {
               disabled={userInfo?.hasSocial}
             />
           </St.MyPageLabel>
-          <div>
-            {info.password ? (
-              checkPasswordHandler(info.rePassword) ? (
-                <St.MyPageHelperText>
-                  비밀번호가 일치합니다.
-                </St.MyPageHelperText>
-              ) : (
-                <St.MyPageHelperText important>
-                  비밀번호가 일치하지 않습니다.
-                </St.MyPageHelperText>
-              )
-            ) : (
+          <>
+            {!info.password ? (
               <St.MyPageHelperText>
                 비밀번호를 다시 입력해주세요.
               </St.MyPageHelperText>
+            ) : doublePassword ? (
+              <St.MyPageHelperText>비밀번호가 일치합니다.</St.MyPageHelperText>
+            ) : (
+              <St.MyPageHelperText important>
+                비밀번호가 일치하지 않습니다.
+              </St.MyPageHelperText>
             )}
-          </div>
+          </>
           <St.MyPageButtonBox>
             <Button
               size="small"
-              disabled={
-                info.password === "" ||
-                validPassword(info.password) === false ||
-                checkPasswordHandler(info.rePassword) === false
-              }
+              disabled={info.password === "" || !regExpPassword}
               onClick={() => changePassword.mutate(info.password)}
             >
               비밀번호 변경

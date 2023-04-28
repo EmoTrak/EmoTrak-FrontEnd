@@ -14,14 +14,15 @@ export const TutorialDiv = styled.div`
   position: relative;
   height: 100%;
   margin: 0;
+  overflow: hidden;
 `;
 
 export const TutorialBackgroundTop = styled.div<PositionProps & UrlType>`
-  position: relative;
-  top: 0;
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
+  top: 0;
   background-image: ${({ url }) => `url(${url})`};
   background-repeat: no-repeat;
   background-size: 100% 100%;

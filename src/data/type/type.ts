@@ -191,7 +191,7 @@ export interface RouterProps extends PropsWithChildren {
   refreshToken: string;
 }
 
-export type SignInfo = LoginInfo & { nickname: string };
+export type SignInfo = LoginInfo & { nickname: string; emailCheck: string };
 
 export interface PostInput {
   inputValue: InputValue;
