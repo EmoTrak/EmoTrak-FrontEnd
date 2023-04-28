@@ -3,12 +3,12 @@ import user from "../../../lib/api/user";
 import { keys } from "../../../data/queryKeys/keys";
 
 const useInfinite = (paramSort: string | null, paramEmo: string | null) => {
-  if (!paramSort) {
-    paramSort = "recent";
-  }
-  if (!paramEmo) {
-    paramEmo = "1,2,3,4,5,6";
-  }
+  // if (!paramSort) {
+  //   paramSort = "recent";
+  // }
+  // if (!paramEmo) {
+  //   paramEmo = "1,2,3,4,5,6";
+  // }
   const { data, isError, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: [keys.GET_BOARD, paramSort, paramEmo],
     queryFn: async ({ pageParam = 1 }) => {
