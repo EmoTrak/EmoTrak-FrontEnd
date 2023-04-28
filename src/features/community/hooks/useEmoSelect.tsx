@@ -3,13 +3,12 @@ import { useEffect, useState } from "react";
 const useEmoSelect = (paramEmo: string | null) => {
   const [emoSelect, setEmoSelect] = useState<boolean[]>(Array(6).fill(false));
 
-  if (!paramEmo) {
-    paramEmo = "1,2,3,4,5,6";
-  }
   const changeEmo = () => {
     if (paramEmo) {
       const copySelect = Array(6).fill(false);
-      paramEmo.split(",").map((item) => copySelect.splice(Number(item) - 1, 1, true));
+      paramEmo
+        .split(",")
+        .map((item) => copySelect.splice(Number(item) - 1, 1, true));
       setEmoSelect(copySelect);
     }
   };
@@ -32,9 +31,6 @@ const useEmoSelect = (paramEmo: string | null) => {
     setEmoNum(newEmoNum);
   };
 
-  if (!emoNum) {
-    setEmoNum("1,2,3,4,5,6");
-  }
   return { clickEmojiHandler, emoNum, emoSelect };
 };
 
