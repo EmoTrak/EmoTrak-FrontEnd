@@ -14,14 +14,13 @@ import EmotionIcons from "../components/Icon/EmoticonIcons";
 import { useGetDetail } from "../features/detail/hooks/useGetDetail";
 import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 import * as St from "../features/detail/styles/DetailStyle";
-import Error from "../components/Error";
 
 const Detail = () => {
   const params = useParams();
   const dailyId: number = Number(params.id);
   const navigate = useNavigate();
 
-  const { targetItem, otherItem, isError, contents } = useGetDetail(dailyId);
+  const { targetItem, otherItem, contents } = useGetDetail(dailyId);
 
   const navigateEditHandler = () => {
     if (targetItem?.draw === true) {
@@ -31,10 +30,6 @@ const Detail = () => {
       navigate(`${IMAGE_EDIT_PAGE}/${targetItem?.id}`);
     }
   };
-
-  if (isError) {
-    return <Error />;
-  }
 
   return (
     <St.Container>

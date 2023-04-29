@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import user from "../../../lib/api/user";
-import { keys } from "../../../data/queryKeys/keys";
+import { keys } from "../../../data/queryKey/keys";
 
 const useInfinite = (paramSort: string | null, paramEmo: string | null) => {
   // if (!paramSort) {

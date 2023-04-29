@@ -11,7 +11,6 @@ import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
 import * as St from "../features/post/styles/ImageStyle";
 import PostInput from "../features/post/components/PostInput";
-import Error from "../components/Error";
 
 const ImageEdit = () => {
   const params = useParams();
@@ -22,7 +21,7 @@ const ImageEdit = () => {
 
   const { preview, previewUrl } = usePreview();
 
-  const { isError, targetItem, year, month } = useGetDetail(dailyId);
+  const { targetItem, year, month } = useGetDetail(dailyId);
 
   const editItem: InputValue = {
     year,
@@ -109,10 +108,6 @@ const ImageEdit = () => {
   useEffect(() => {
     preview(photo);
   }, [photo, exPhoto, dailyId]);
-
-  if (isError) {
-    return <Error />;
-  }
 
   return (
     <>

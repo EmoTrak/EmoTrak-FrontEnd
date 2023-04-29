@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { setCookie } from "../utils/cookies";
-import guest from "../lib/api/guest";
 import { useQuery } from "@tanstack/react-query";
-import { keys } from "../data/queryKeys/keys";
+import { keys } from "../data/queryKey/keys";
 import { HOME_PAGE } from "../data/routes/urls";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
+import user from "../lib/api/user";
 
 const RedirectKakao = () => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const RedirectKakao = () => {
   const authKakaoCode = useQuery({
     queryKey: [keys.GET_KAKAO_LOGIN],
     queryFn: async () => {
-      return await guest.get(`/kakao/callback?code=${code}`);
+      return await user.get(`/kakao/callback?code=${code}`);
     },
     retry: 1,
     onSuccess: (data) => {

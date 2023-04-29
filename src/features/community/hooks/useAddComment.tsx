@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CommentType } from "../../../data/type/type";
 import user from "../../../lib/api/user";
-import { keys } from "../../../data/queryKeys/keys";
+import { keys } from "../../../data/queryKey/keys";
 
 const useAddComment = (id: number | undefined) => {
   const queryClient = useQueryClient();
