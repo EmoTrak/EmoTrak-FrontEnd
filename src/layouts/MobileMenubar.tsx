@@ -5,7 +5,12 @@ import { MdContentPaste } from "react-icons/md";
 import { BsPersonFillGear } from "react-icons/bs";
 import { RiLoginBoxLine } from "react-icons/ri";
 import { GoThreeBars } from "react-icons/go";
-import { CHART_PAGE, COMMUNITY_PAGE, HOME_PAGE, MY_PAGE } from "../data/routes/urls";
+import {
+  CHART_PAGE,
+  COMMUNITY_PAGE,
+  HOME_PAGE,
+  MY_PAGE,
+} from "../data/routes/urls";
 import { Logout } from "../data/type/type";
 import { getCookie } from "../utils/cookies";
 import * as UI from "../components/Modal";

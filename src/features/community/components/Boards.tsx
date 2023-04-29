@@ -9,7 +9,6 @@ import useEmoSelect from "../hooks/useEmoSelect";
 import useInfinite from "../hooks/useInfinite";
 import EmotionIcons from "../../../components/Icon/EmoticonIcons";
 import * as St from "../styles/BoardStyle";
-import Error from "../../../components/Error";
 
 const Boards = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,10 +19,7 @@ const Boards = () => {
 
   const [listOpen, setListOpen] = useState<boolean>(false);
   const [postData, setPostData] = useState<ImageType[]>([]);
-  const { data, fetchNextPage, hasNextPage, boardError } = useInfinite(
-    paramSort,
-    paramEmo
-  );
+  const { data, fetchNextPage, hasNextPage } = useInfinite(paramSort, paramEmo);
 
   const clickSortListButton = (string: string) => {
     if (emoNum) {
@@ -87,10 +83,6 @@ const Boards = () => {
       setSearchParams({ ...searchParams });
     }
   }, [emoNum]);
-
-  if (boardError) {
-    return <Error />;
-  }
 
   return (
     <St.Container>

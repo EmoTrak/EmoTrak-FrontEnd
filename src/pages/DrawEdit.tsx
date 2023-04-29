@@ -19,13 +19,12 @@ import {
 } from "../features/post/styles/ImageStyle";
 import StarScore from "../features/post/components/StarScore";
 import EmoScore from "../features/post/components/EmoScore";
-import Error from "../components/Error";
 
 const DrawEdit = () => {
   const params = useParams();
   const navigate = useNavigate();
   const dailyId = Number(params.id);
-  const { isError, targetItem, year, month } = useGetDetail(dailyId);
+  const { targetItem, year, month } = useGetDetail(dailyId);
 
   // 캔버스 상태
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -123,9 +122,6 @@ const DrawEdit = () => {
     };
   }, []);
 
-  if (isError) {
-    return <Error />;
-  }
   return (
     <St.DrawPostWrap>
       <form onSubmit={submitFormHandler}>
