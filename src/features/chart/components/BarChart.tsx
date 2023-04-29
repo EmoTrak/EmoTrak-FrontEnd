@@ -57,7 +57,7 @@ const BarChart = ({ graphData, month }: PropsData) => {
               },
             },
             title: {
-              text: "한 달 감정 개수",
+              text: "한 달 감정 평균",
               align: "center",
               style: {
                 fontSize: "20px",
