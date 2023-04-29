@@ -1,26 +1,29 @@
-import { useCallback, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import guest from "../lib/api/guest";
 import { useQuery } from "@tanstack/react-query";
-import { getCookie, setCookie } from "../utils/cookies";
+import { setCookie } from "../utils/cookies";
 import { keys } from "../data/queryKeys/keys";
 import { HOME_PAGE } from "../data/routes/urls";
+import Loading from "../components/Loading";
+import Error from "../components/Error";
 
 const RedirectNaver = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const token = getCookie("token");
   const code = location.search.split("=")[1];
   const state = location.search.split("=")[2];
 
-  const getNaverLogin = useCallback(async () => {
-    return await guest.get(`/naver/callback?code=${code}&state=${state}`);
-  }, []);
-
-  const authNaverCode = useQuery([`${keys.GET_NAVER_LOGIN}`], getNaverLogin, {
+  const authNaverCode = useQuery({
+    queryKey: [keys.GET_NAVER_LOGIN],
+    queryFn: async () => {
+      const data = await guest.get(
+        `/naver/callback?code=${code}&state=${state}`
+      );
+      return data;
+    },
     retry: 1,
-    onSuccess(data) {
+    onSuccess: (data) => {
       const info = data.headers.authorization.split(" ");
       const refresh = data.headers["refresh-token"];
       const expire = data.headers["access-token-expire-time"];
@@ -28,25 +31,15 @@ const RedirectNaver = () => {
       setCookie("refreshToken", refresh, { path: "/", maxAge: 604800 });
       setCookie("expire", expire, { path: "/", maxAge: 604800 });
       setCookie("token", token, { path: "/", maxAge: 1740 });
+      navigate(HOME_PAGE);
     },
   });
 
-  useEffect(() => {
-    if (token) {
-      navigate(`${HOME_PAGE}`);
-    }
-  }, [token]);
-
-  if (authNaverCode.isLoading) {
-    return <div>네이버 로그인중입니다...</div>;
-  }
-
   if (authNaverCode.isError) {
-    navigate(-2);
-    return <div>에러</div>;
+    return <Error />;
   }
 
-  return <div>RedirectNaver</div>;
+  return <Loading />;
 };
 
 export default RedirectNaver;

@@ -1,25 +1,25 @@
-import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCookie, setCookie } from "../utils/cookies";
+import { setCookie } from "../utils/cookies";
 import guest from "../lib/api/guest";
 import { useQuery } from "@tanstack/react-query";
 import { keys } from "../data/queryKeys/keys";
 import { HOME_PAGE } from "../data/routes/urls";
+import Loading from "../components/Loading";
+import Error from "../components/Error";
 
 const RedirectKakao = () => {
   const navigate = useNavigate();
   const code: string | null = new URL(window.location.href).searchParams.get(
     "code"
   );
-  const token = getCookie("token");
 
-  const getKakaoLogin = useCallback(async () => {
-    return await guest.get(`/kakao/callback?code=${code}`);
-  }, []);
-
-  const authKakaoCode = useQuery([`${keys.GET_KAKAO_LOGIN}`], getKakaoLogin, {
+  const authKakaoCode = useQuery({
+    queryKey: [keys.GET_KAKAO_LOGIN],
+    queryFn: async () => {
+      return await guest.get(`/kakao/callback?code=${code}`);
+    },
     retry: 1,
-    onSuccess(data) {
+    onSuccess: (data) => {
       const info = data.headers.authorization.split(" ");
       const refresh = data.headers["refresh-token"];
       const expire = data.headers["access-token-expire-time"];
@@ -27,24 +27,14 @@ const RedirectKakao = () => {
       setCookie("token", token, { path: "/", maxAge: 1740 });
       setCookie("refreshToken", refresh, { path: "/", maxAge: 604800 });
       setCookie("expire", expire, { path: "/", maxAge: 604800 });
+      navigate(HOME_PAGE);
     },
   });
 
-  useEffect(() => {
-    if (token) {
-      navigate(`${HOME_PAGE}`);
-    }
-  }, [token]);
-
-  if (authKakaoCode.isLoading) {
-    return <div>카카오 로그인중입니다...</div>;
-  }
-
   if (authKakaoCode.isError) {
-    navigate(-2);
-    return <div>에러</div>;
+    return <Error />;
   }
-  return <div>RedirectKakao</div>;
+  return <Loading />;
 };
 
 export default RedirectKakao;

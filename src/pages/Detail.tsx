@@ -14,13 +14,14 @@ import EmotionIcons from "../components/Icon/EmoticonIcons";
 import { useGetDetail } from "../features/detail/hooks/useGetDetail";
 import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 import * as St from "../features/detail/styles/DetailStyle";
+import Error from "../components/Error";
 
 const Detail = () => {
   const params = useParams();
   const dailyId: number = Number(params.id);
   const navigate = useNavigate();
 
-  const { targetItem, otherItem, isLoading, contents } = useGetDetail(dailyId);
+  const { targetItem, otherItem, isError, contents } = useGetDetail(dailyId);
 
   const navigateEditHandler = () => {
     if (targetItem?.draw === true) {
@@ -31,8 +32,8 @@ const Detail = () => {
     }
   };
 
-  if (isLoading) {
-    return <div>로딩중..</div>;
+  if (isError) {
+    return <Error />;
   }
 
   return (

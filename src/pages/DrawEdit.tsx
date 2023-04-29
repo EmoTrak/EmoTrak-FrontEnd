@@ -19,12 +19,13 @@ import {
 } from "../features/post/styles/ImageStyle";
 import StarScore from "../features/post/components/StarScore";
 import EmoScore from "../features/post/components/EmoScore";
+import Error from "../components/Error";
 
 const DrawEdit = () => {
   const params = useParams();
   const navigate = useNavigate();
   const dailyId = Number(params.id);
-  const { isLoading, targetItem, year, month } = useGetDetail(dailyId);
+  const { isError, targetItem, year, month } = useGetDetail(dailyId);
 
   // 캔버스 상태
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -52,7 +53,7 @@ const DrawEdit = () => {
     const canvas = canvasRef?.current;
     const ctx = canvas?.getContext("2d");
     const image = new Image();
-    image.crossOrigin = "anonymous"; // tainted canvas 방지용
+    image.crossOrigin = "use-credentials"; // tainted canvas 방지용
     image.src = `${targetItem?.imgUrl}`; // S3 버킷 이미지 URL
     image.onload = () => {
       // 이미지가 로드되었을 때 캔버스에 그리기
@@ -121,8 +122,9 @@ const DrawEdit = () => {
       window.removeEventListener("beforeunload", preventClose);
     };
   }, []);
-  if (isLoading) {
-    return <div>Loading...</div>;
+
+  if (isError) {
+    return <Error />;
   }
   return (
     <St.DrawPostWrap>

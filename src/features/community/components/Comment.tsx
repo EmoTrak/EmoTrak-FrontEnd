@@ -14,9 +14,7 @@ import * as St from "../styles/CommentStyle";
 const Comment = ({ item }: Partial<CommentProps>) => {
   const [edit, setEdit] = useState<boolean>(false);
   const refreshToken = getCookie("refreshToken");
-  const [editComment, setEditComment] = useState<string | undefined>(
-    item?.comment
-  );
+  const [editComment, setEditComment] = useState<string | undefined>(item?.comment);
 
   const changeInputHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEditComment(e.target.value);
@@ -43,10 +41,7 @@ const Comment = ({ item }: Partial<CommentProps>) => {
             >
               수정완료
             </Button>
-            <Button
-              size="x-small"
-              onClick={() => edit && setEdit((pre) => !pre)}
-            >
+            <Button size="x-small" onClick={() => edit && setEdit((pre) => !pre)}>
               취소
             </Button>
           </div>
@@ -56,11 +51,7 @@ const Comment = ({ item }: Partial<CommentProps>) => {
           <div>
             <St.Nicname> {item?.nickname}</St.Nicname>
             <St.Comment>{item?.comment}</St.Comment>
-            <LikeComment
-              isLike={item?.hasLike}
-              id={item?.id}
-              count={item?.likesCnt}
-            />
+            <LikeComment isLike={item?.hasLike} id={item?.id} count={item?.likesCnt} />
           </div>
 
           <div>

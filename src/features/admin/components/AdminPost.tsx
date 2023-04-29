@@ -8,14 +8,18 @@ import useAdminPost from "../hooks/useAdminPost";
 import PageNation from "../../../components/PageNation";
 import { IAdminData } from "../../../data/type/type";
 import * as St from "../styles/AdminStyle";
+import Error from "../../../components/Error";
 
 const AdminPost = () => {
   const nav = useNavigate();
   const [page, setPage] = useState<number>(1);
 
-  const { adminPostData, restrictShare, onReportDelete, status } =
+  const { adminPostData, restrictShare, onReportDelete, status, isError } =
     useAdminPost(page);
 
+  if (isError) {
+    return <Error />;
+  }
   return (
     <St.Wrapper>
       <St.BackBtn onClick={() => nav(`${ADMIN}`)}>
