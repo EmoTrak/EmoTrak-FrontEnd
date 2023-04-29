@@ -102,6 +102,7 @@ export const ImageContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-gap: 20px;
+
   ${device.tablet} {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -120,8 +121,16 @@ export const ImageBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 300px;
   overflow: hidden;
   cursor: pointer;
+  border-radius: 10%;
+  :hover {
+    box-shadow: 2px 2px 5px 1px ${themeColor.main.chocomilk};
+  }
+  :active {
+    box-shadow: 2px 2px 5px -1px ${themeColor.main.chocomilk};
+  }
 `;
 
 export const ScrollOntop = styled.button`

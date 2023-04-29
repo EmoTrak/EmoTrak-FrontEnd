@@ -9,13 +9,17 @@ import useAdminComment from "../hooks/useAdminComment";
 import useAdminPost from "../hooks/useAdminPost";
 import PageNation from "../../../components/PageNation";
 import * as St from "../styles/AdminStyle";
+import Error from "../../../components/Error";
 
 const AdminComment = () => {
   const [page, setPage] = useState<number>(1);
   const navigate = useNavigate();
-  const { adminCommentData, adminDeleteWrongReport, status } =
+  const { adminCommentData, adminDeleteWrongReport, status, isError } =
     useAdminComment(page);
   const { onReportDelete } = useAdminPost(page);
+  if (isError) {
+    return <Error />;
+  }
 
   return (
     <St.Wrapper>

@@ -11,6 +11,7 @@ import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
 import * as St from "../features/post/styles/ImageStyle";
 import PostInput from "../features/post/components/PostInput";
+import Error from "../components/Error";
 
 const ImageEdit = () => {
   const params = useParams();
@@ -21,7 +22,7 @@ const ImageEdit = () => {
 
   const { preview, previewUrl } = usePreview();
 
-  const { isLoading, targetItem, year, month } = useGetDetail(dailyId);
+  const { isError, targetItem, year, month } = useGetDetail(dailyId);
 
   const editItem: InputValue = {
     year,
@@ -109,8 +110,8 @@ const ImageEdit = () => {
     preview(photo);
   }, [photo, exPhoto, dailyId]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
+  if (isError) {
+    return <Error />;
   }
 
   return (

@@ -5,7 +5,7 @@ import user from "../../../lib/api/user";
 const useAdminPost = (page: number) => {
   const queryClient = useQueryClient();
 
-  const { data, status } = useQuery({
+  const { data, status, isError } = useQuery({
     queryKey: [keys.GET_ADMIN, page],
     queryFn: async () => {
       const { data } = await user.get("/admin/boards", {
@@ -38,6 +38,7 @@ const useAdminPost = (page: number) => {
     restrictShare,
     onReportDelete,
     status,
+    isError,
   };
 };
 

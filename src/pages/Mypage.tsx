@@ -14,7 +14,7 @@ import InputList from "../features/mypage/components/InputList";
 import * as St from "../features/mypage/styles/MypageStyle";
 
 const Mypage = () => {
-  const { isLoading, userInfo } = useAuth();
+  const { userInfo } = useAuth();
   const { withdraw } = useWithdrawal();
   const navigate = useNavigate();
 
@@ -84,10 +84,6 @@ const Mypage = () => {
       });
     }
   }, [userInfo]);
-
-  if (isLoading) {
-    return <>로딩중..</>;
-  }
 
   return (
     <St.MyPageWrapper>
@@ -200,7 +196,10 @@ const Mypage = () => {
           <Button
             size="small"
             onClick={withdrawUserHandler}
-            style={{ backgroundColor: "red" }}
+            style={{
+              backgroundColor: themeColor.main.red,
+              color: themeColor.main.white,
+            }}
           >
             회원탈퇴
           </Button>

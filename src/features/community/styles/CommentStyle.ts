@@ -19,10 +19,10 @@ export const EditInput = styled.textarea`
   border: none;
   border-radius: 10px;
   resize: none;
+  box-shadow: 0 0 10px ${themeColor.main.oatmeal};
   :focus {
     outline: none;
     border-color: ${themeColor.main.oatmeal};
-    box-shadow: 0 0 10px ${themeColor.main.oatmeal};
   }
 `;
 

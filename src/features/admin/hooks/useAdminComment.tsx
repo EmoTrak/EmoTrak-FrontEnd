@@ -5,7 +5,7 @@ import user from "../../../lib/api/user";
 const useAdminComment = (page: number) => {
   const queryClient = useQueryClient();
 
-  const { data, status } = useQuery({
+  const { data, status, isError } = useQuery({
     queryKey: [keys.GET_ADMIN, page],
     queryFn: async () => {
       const { data } = await user.get("/admin/comments", { params: { page } });
@@ -26,6 +26,7 @@ const useAdminComment = (page: number) => {
     adminCommentData: data,
     adminDeleteWrongReport: mutate,
     status,
+    isError,
   };
 };
 
