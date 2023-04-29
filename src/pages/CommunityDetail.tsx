@@ -19,6 +19,7 @@ import PostDate from "../features/community/components/PostDate";
 import Report from "../features/community/components/Report";
 import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 import * as St from "../features/community/styles/CommunityDetailStyle";
+import Error from "../components/Error";
 
 const CommunityDetail = () => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const CommunityDetail = () => {
   }, []);
 
   if (isError) {
-    <>에러</>;
+    return <Error />;
   }
 
   return (
