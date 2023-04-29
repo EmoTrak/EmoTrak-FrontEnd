@@ -4,13 +4,13 @@ import { MdOutlineArrowDropDownCircle } from "react-icons/md";
 import { DateType } from "../../../data/type/type";
 import { useDate } from "../hooks/useDate";
 import { useGetDiary } from "../hooks/useGetDiary";
-import Flex from "../../../components/Flex";
 import Button from "../../../components/Button";
 import Sidebar from "./Sidebar";
 import CalendarEmo from "./CalendarEmo";
 import MiniCalendar from "./MiniCalendar";
 import MonthSelect from "./MonthSelect";
 import * as St from "../styles/CalendarStyle";
+import Error from "../../../components/Error";
 
 const Calendar = () => {
   const [side, setSide] = useState(false);
@@ -29,7 +29,7 @@ const Calendar = () => {
   });
 
   const { firstDay, date } = useDate(select.year, select.month);
-  const { diary } = useGetDiary(select.year, select.month);
+  const { diary, isError } = useGetDiary(select.year, select.month);
 
   //해당 날짜의 값 가져오는 함수
   const clickDayBtn = (day: number): void => {
@@ -53,12 +53,23 @@ const Calendar = () => {
     setSelect({ ...select, year: today.year, month: today.month });
   };
 
+  if (isError) {
+    return <Error />;
+  }
   return (
     <St.Container>
       {!side && (
         <St.MiniCalendarWrap>
-          <MiniCalendar year={select.year} month={select.month - 1} onClick={prevMonth} />
-          <MiniCalendar year={select.year} month={select.month + 1} onClick={nextMonth} />
+          <MiniCalendar
+            year={select.year}
+            month={select.month - 1}
+            onClick={prevMonth}
+          />
+          <MiniCalendar
+            year={select.year}
+            month={select.month + 1}
+            onClick={nextMonth}
+          />
         </St.MiniCalendarWrap>
       )}
       <St.CalendarBox>
@@ -131,7 +142,9 @@ const Calendar = () => {
         </St.DiaryDay>
       </St.CalendarBox>
 
-      {side && <Sidebar side={side} setSide={setSide} data={diary} diaryDay={select} />}
+      {side && (
+        <Sidebar side={side} setSide={setSide} data={diary} diaryDay={select} />
+      )}
     </St.Container>
   );
 };

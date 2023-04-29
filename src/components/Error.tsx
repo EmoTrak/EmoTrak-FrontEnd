@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { themeColor } from "../utils/theme";
 
-export function NotFound() {
+export default function Error() {
   return (
     <NoWrap>
       <div>

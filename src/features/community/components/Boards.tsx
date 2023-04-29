@@ -9,6 +9,7 @@ import useEmoSelect from "../hooks/useEmoSelect";
 import useInfinite from "../hooks/useInfinite";
 import EmotionIcons from "../../../components/Icon/EmoticonIcons";
 import * as St from "../styles/BoardStyle";
+import Error from "../../../components/Error";
 
 const Boards = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -88,13 +89,15 @@ const Boards = () => {
   }, [emoNum]);
 
   if (boardError) {
-    return <>에러</>;
+    return <Error />;
   }
 
   return (
     <St.Container>
       <St.SelectBar>
-        <St.SelectTitle onClick={() => setListOpen((pre: boolean): boolean => !pre)}>
+        <St.SelectTitle
+          onClick={() => setListOpen((pre: boolean): boolean => !pre)}
+        >
           {paramSort === "popular" ? "인기순" : "최신순"}
           <BsCaretDownFill />
           {listOpen && (
@@ -127,7 +130,10 @@ const Boards = () => {
       </St.SelectBar>
       <St.ImageContainer>
         {postData.map((item: ImageType, i: number) => (
-          <St.ImageBox key={i} onClick={() => navigate(`${COMMUNITY_PAGE}/${item.id}`)}>
+          <St.ImageBox
+            key={i}
+            onClick={() => navigate(`${COMMUNITY_PAGE}/${item.id}`)}
+          >
             <St.Image src={item.imgUrl} />
           </St.ImageBox>
         ))}

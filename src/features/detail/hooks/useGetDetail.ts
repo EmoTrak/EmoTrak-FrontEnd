@@ -9,7 +9,7 @@ export const useGetDetail = (dailyId: number) => {
     return user.get(`daily/${dailyId}`, { withCredentials: true });
   }, [dailyId]);
 
-  const { data, isLoading } = useQuery([keys.GET_DETAIL], getDetail);
+  const { data, isError } = useQuery([keys.GET_DETAIL], getDetail);
   const year = data?.data.data.year;
   const month = data?.data.data.month;
   const contents = data?.data.data.contents;
@@ -20,5 +20,5 @@ export const useGetDetail = (dailyId: number) => {
     (item: DetailType) => item.id !== dailyId
   )[0];
 
-  return { targetItem, otherItem, isLoading, contents, year, month };
+  return { targetItem, otherItem, isError, contents, year, month };
 };
