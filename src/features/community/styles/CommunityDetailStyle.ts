@@ -8,6 +8,7 @@ export const Container = styled.div`
   justify-content: space-around;
   box-sizing: border-box;
   background-color: ${themeColor.main.white};
+  min-height: 90vh;
   ${device.mobile} {
     flex-direction: column;
   }
@@ -32,8 +33,10 @@ export const PostDetailWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
+  margin-top: 50px;
   ${device.mobile} {
     width: 100%;
+    margin-top: 0px;
   }
 `;
 
