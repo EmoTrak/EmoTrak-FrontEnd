@@ -121,21 +121,4 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// self.addEventListener("activate", (event) => {
-//   // delete any unexpected caches
-//   event.waitUntil(
-//     caches.keys().then((keys) => {
-//       return Promise.all(
-//         keys
-//           .filter((key) => {
-//             return key === cacheName;
-//           })
-//           .map((key) => {
-//             return caches.delete(key);
-//           })
-//       );
-//     })
-//   );
-// });
-
 // Any other custom service worker logic can go here.

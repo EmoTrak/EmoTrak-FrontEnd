@@ -14,6 +14,7 @@ export const useNicknameValidation = () => {
     onSuccess: () => {
       setNicknameValidation(true);
     },
+    
   });
   return {
     validNickname,

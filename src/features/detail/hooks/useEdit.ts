@@ -22,9 +22,6 @@ export const useEdit = ({ inputValue, dailyId, canvasRef }: PostInput) => {
         queryClient.invalidateQueries([keys.GET_DETAIL, keys.GET_BOARD]);
         navigate(`${DETAIL_PAGE}/${dailyId}`);
       },
-      onError() {
-        alert("입력한 내용을 확인해주세요!");
-      },
     }
   );
 
@@ -43,18 +40,29 @@ export const useEdit = ({ inputValue, dailyId, canvasRef }: PostInput) => {
   };
 
   // 이미지 파일 업로드 함수
-  const fileInputHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const fileInputHandler = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const target = event.currentTarget;
     const files = (target.files as FileList)[0];
-    const compressedImg = await compressImage(files, 5);
-    setPhoto(compressedImg);
+    if (files.size > 52428800) {
+      const compressedImg = await compressImage(files, 49);
+      setPhoto(compressedImg);
+    } else {
+      setPhoto(files);
+    }
   };
 
   // 이미지 파일 드래그앤드랍 업로드 함수
   const fileDropHandler = async (event: React.DragEvent<HTMLLabelElement>) => {
     const files = (event.dataTransfer.files as FileList)[0];
-    const compressedImg = await compressImage(files, 5);
-    setPhoto(compressedImg);
+    // console.log(files);s
+    if (files.size > 52428800) {
+      const compressedImg = await compressImage(files, 49);
+      setPhoto(compressedImg);
+    } else {
+      setPhoto(files);
+    }
   };
 
   const editDiaryHandler = (event: React.FormEvent<HTMLFormElement>) => {

@@ -10,9 +10,6 @@ export const useChangeNickname = () => {
       onSuccess() {
         alert("수정 완료");
       },
-      onError() {
-        alert("변경내용을 확인해주세요");
-      },
     }
   );
 

@@ -10,6 +10,14 @@ export const MenuButton = styled.div`
   }
 `;
 
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const Content = styled.div`
   display: none;
   ${device.mobile} {
@@ -112,6 +120,9 @@ export const PageButton = styled.button`
   font-family: "KyoboHand";
   letter-spacing: 0.5px;
   font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: ${themeColor.font};
   &:last-child {
     margin-right: 50px;
@@ -152,17 +163,18 @@ export const BackOfPage = styled.button`
 export const Wrap = styled.div`
   background-color: ${themeColor.main.white};
   position: relative;
-  width: 100vw;
 `;
-export const Footer = styled.ul`
+export const Footer = styled.div`
   background-color: ${themeColor.main.white};
   text-align: center;
   padding: 20px;
   margin: 0;
   font-size: 13px;
   color: ${themeColor.main.gray};
+  gap: 5;
   div {
-    font-size: 25px;
+    font-size: 20px;
+    gap: 10px;
     a {
       color: gray;
       text-decoration: none;
@@ -183,7 +195,7 @@ export const Footer = styled.ul`
         margin: 5px 0 10px 0;
         text-decoration: none;
         color: ${themeColor.main.black};
-        font-size: 35px;
+        font-size: 25px;
         ${device.miniMobile} {
           font-size: 25px;
         }
