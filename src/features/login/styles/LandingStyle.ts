@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { themeColor } from "../../../utils/theme";
+import { device, themeColor } from "../../../utils/theme";
 import { BannerProps } from "../../../data/type/type";
 
 export const Slider = styled.div`
@@ -23,6 +23,7 @@ export const Banner = styled.div<BannerProps>`
       : index === 2 || 3
       ? themeColor.landing.orange
       : null};
+  
 `;
 export const BannerImg = styled.img`
   position: absolute;
