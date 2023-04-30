@@ -151,14 +151,7 @@ const DrawEdit = () => {
                 <Button size="large" type="button" onClick={savePicture}>
                   {isCanvas ? "그림저장" : "더그리기"}
                 </Button>
-                <Button
-                  style={{
-                    backgroundColor: themeColor.main.pink,
-                    color: themeColor.main.white,
-                  }}
-                  size="large"
-                  type="submit"
-                >
+                <Button important size="large" type="submit">
                   등록하기
                 </Button>
               </SubmitBox>

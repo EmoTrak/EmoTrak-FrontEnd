@@ -5,9 +5,9 @@ import { usePasswordCheck } from "../hooks/usePasswordCheck";
 import { useSignup } from "../hooks/useSignup";
 import { useNavigate } from "react-router-dom";
 import InputList from "../../mypage/components/InputList";
-import { MyPageInput } from "../../mypage/styles/MypageStyle";
+import { MyPageHelperText, MyPageInput } from "../../mypage/styles/MypageStyle";
 import Button from "../../../components/Button";
-import { SignInfo } from "../../../data/type/type";
+import { InfoType, SignInfo } from "../../../data/type/type";
 import * as St from "../styles/SignupFormStyle";
 import {
   ButtonBox,
@@ -18,13 +18,14 @@ import {
 
 const SignupForm = () => {
   const navigate = useNavigate();
-  const [signInfo, setSignInfo] = useState<SignInfo>({
+  const [signInfo, setSignInfo] = useState<InfoType & SignInfo>({
     email: "",
     nickname: "",
     password: "",
     emailCheck: "",
+    rePassword: "",
   });
-
+  const [regExpPassword, setRegExpPassword] = useState<boolean>(false);
   const [emailConfirm, setEmailConfirm] = useState<boolean>(false);
   const { validEmail, checkEmail, emailValidation, setEmailValidation } =
     useEmailValidation();
@@ -52,18 +53,15 @@ const SignupForm = () => {
   ): void => {
     const { name, value } = event.target;
     setSignInfo({ ...signInfo, [name]: value });
-    if (name === "nickname") {
-      setNicknameValidation(false);
-    }
-    if (name === "email") {
-      setEmailValidation(false);
-    }
-  };
 
-  const checkPasswordChangeHandler = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    checkPasswordHandler(event.target.value);
+    const inputName = new Map([
+      ["nickname", () => setNicknameValidation(false)],
+      ["password", () => setRegExpPassword(validPassword(event.target.value))],
+      ["email", () => setEmailValidation(false)],
+      ["rePassword", () => checkPasswordHandler(event.target.value)],
+    ]);
+    const func = inputName.get(name);
+    return func && func();
   };
 
   const checkEmailHandler = (item: string) => {
@@ -90,7 +88,12 @@ const SignupForm = () => {
       validPassword(signInfo.password) &&
       emailConfirm
     ) {
-      signup.mutate(signInfo);
+      const submitInfo = {
+        email: signInfo.email,
+        nickname: signInfo.nickname,
+        password: signInfo.password,
+      };
+      signup.mutate(submitInfo);
     } else if (!emailConfirm) {
       alert("이메일 인증이 필요합니다");
     } else {
@@ -139,17 +142,19 @@ const SignupForm = () => {
               disabled={emailValidation}
             />
             {!signInfo.email ? (
-              <St.WarningMessage>
+              <MyPageHelperText important>
                 이메일 형식으로 입력해주세요
-              </St.WarningMessage>
+              </MyPageHelperText>
             ) : !emailValidation ? (
-              <St.WarningMessage>중복확인이 필요합니다.</St.WarningMessage>
+              <MyPageHelperText important>
+                중복확인이 필요합니다.
+              </MyPageHelperText>
             ) : !emailConfirm ? (
-              <St.WarningMessage>
+              <MyPageHelperText important>
                 메일로 전송된 인증번호를 입력해주세요.
-              </St.WarningMessage>
+              </MyPageHelperText>
             ) : (
-              <span> 이메일인증이 완료되었습니다.</span>
+              <MyPageHelperText> 이메일인증이 완료되었습니다.</MyPageHelperText>
             )}
             <Button
               type="button"
@@ -185,13 +190,15 @@ const SignupForm = () => {
               onChange={changeInputHandler}
             />
             {!signInfo.nickname ? (
-              <St.WarningMessage>8글자 이하로 입력해주세요.</St.WarningMessage>
+              <MyPageHelperText important>
+                8글자 이하로 입력해주세요.
+              </MyPageHelperText>
             ) : nicknameValidation ? (
-              <span>사용할 수 있는 닉네임입니다.</span>
+              <MyPageHelperText>사용할 수 있는 닉네임입니다.</MyPageHelperText>
             ) : (
-              <>
-                <St.WarningMessage>중복확인이 필요합니다.</St.WarningMessage>
-              </>
+              <MyPageHelperText important>
+                중복확인이 필요합니다.
+              </MyPageHelperText>
             )}
             <Button
               type="button"
@@ -211,35 +218,39 @@ const SignupForm = () => {
               maxLength={15}
               onChange={changeInputHandler}
             />
-            {7 >= Number(signInfo.password.length) && (
-              <St.WarningMessage>
-                영소문자, 숫자를 포함하는 8~15자리이어야합니다.
-              </St.WarningMessage>
+            {!regExpPassword ? (
+              <MyPageHelperText important>
+                비밀번호는 소문자, 숫자를 포함하는 8~15자리이어야합니다.
+              </MyPageHelperText>
+            ) : (
+              <MyPageHelperText></MyPageHelperText>
             )}
           </St.SignFormContentBox>
         </InputList>
-        <InputList name="비밀번호 확인">
+        <InputList name="비밀번호확인">
           <St.SignFormContentBox>
             <MyPageInput
               type="password"
+              name="rePassword"
               maxLength={15}
-              onChange={checkPasswordChangeHandler}
+              onChange={changeInputHandler}
             />
-            {!doublePassword ? (
-              <St.WarningMessage>
+            {!signInfo.rePassword ? (
+              <MyPageHelperText important>
                 비밀번호를 다시 입력해주세요.
-              </St.WarningMessage>
+              </MyPageHelperText>
             ) : doublePassword ? (
-              <span>비밀번호가 일치합니다.</span>
+              <MyPageHelperText>비밀번호가 일치합니다.</MyPageHelperText>
             ) : (
-              <St.WarningMessage>
+              <MyPageHelperText important>
                 비밀번호가 일치하지 않습니다.
-              </St.WarningMessage>
+              </MyPageHelperText>
             )}
           </St.SignFormContentBox>
         </InputList>
         <ButtonBox>
           <Button
+            important
             size="large"
             type="submit"
             disabled={!nicknameValidation || !emailConfirm || !doublePassword}

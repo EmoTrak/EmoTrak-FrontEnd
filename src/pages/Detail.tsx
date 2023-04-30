@@ -118,13 +118,7 @@ const Detail = () => {
             <Button size="x-large" onClick={navigateEditHandler}>
               수정
             </Button>
-            <Button
-              size="x-large"
-              style={{
-                backgroundColor: `${themeColor.emoticon.pink}`,
-                color: `${themeColor.main.white}`,
-              }}
-            >
+            <Button size="x-large" important>
               <DeleteConfirmModal itemId={targetItem?.id}>
                 삭제
               </DeleteConfirmModal>

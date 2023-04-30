@@ -176,7 +176,9 @@ const ImagePost = () => {
                   onChange={onCheckHandler}
                 />
               </St.Label>
-              <Button size="large">등록하기</Button>
+              <Button size="large" important>
+                등록하기
+              </Button>
             </St.SubmitBox>
           </St.ImagePostWrap>
         </St.Wrapper>
