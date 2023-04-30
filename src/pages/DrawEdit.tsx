@@ -18,12 +18,14 @@ import {
 } from "../features/post/styles/ImageStyle";
 import StarScore from "../features/post/components/StarScore";
 import EmoScore from "../features/post/components/EmoScore";
+import { useWindowSize } from "../hooks/useWindowSize";
 
 const DrawEdit = () => {
   const params = useParams();
   const navigate = useNavigate();
   const dailyId = Number(params.id);
   const { targetItem, year, month } = useGetDetail(dailyId);
+  const { resizeHandler, desktop, tablet, mobile } = useWindowSize();
 
   // 캔버스 상태
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -55,9 +57,20 @@ const DrawEdit = () => {
     image.src = `${targetItem?.imgUrl}`; // S3 버킷 이미지 URL
     image.onload = () => {
       // 이미지가 로드되었을 때 캔버스에 그리기
-      ctx?.drawImage(image, 0, 0); // 이미지 그리기
+      ctx?.drawImage(image, 0, 0, canvasWidth, canvasHeight); // 이미지 그리기
     };
   }, []);
+
+  useEffect(() => {
+    window.addEventListener("resize", resizeHandler);
+    return () => {
+      window.removeEventListener("resize", resizeHandler);
+    };
+  }, []);
+
+  const canvasHeight = desktop ? 550 : tablet ? 500 : mobile ? 340 : 320;
+
+  const canvasWidth = desktop ? 580 : tablet ? 430 : mobile ? 450 : 320;
 
   const {
     onChangeHandler,
@@ -131,6 +144,8 @@ const DrawEdit = () => {
               isCanvas={isCanvas}
               canvasRef={canvasRef}
               validation={setValidPicture}
+              canvasHeight={canvasHeight}
+              canvasWidth={canvasWidth}
             />
             <Button size="large" type="button" onClick={savePicture}>
               {validPicture ? "더그리기" : "그림저장"}
