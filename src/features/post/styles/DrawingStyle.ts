@@ -102,7 +102,7 @@ export const Canvas = styled.canvas<{ isCanvas: boolean }>`
   position: unset;
   background-color: ${themeColor.main.white};
   touch-action: none;
-  margin-top: 50px;
+  margin-top: 100px;
   ${({ isCanvas }) =>
     !isCanvas &&
     css`
@@ -111,7 +111,7 @@ export const Canvas = styled.canvas<{ isCanvas: boolean }>`
   ${device.mobile} {
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    margin-top: 100px;
   }
 `;
 
@@ -148,10 +148,10 @@ export const PenSizeTool = styled.div`
   justify-content: center;
   align-items: center;
   ${device.tablet} {
-    right: 10.5vw;
+    right: 12vw;
   }
   ${device.mobile} {
-    right: 15vw;
+    right: 17vw;
   }
 `;
 
