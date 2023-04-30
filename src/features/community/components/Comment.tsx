@@ -72,14 +72,14 @@ const Comment = ({ item }: Partial<CommentProps>) => {
                   삭제
                 </Button>
               </div>
+            ) : refreshToken && !item?.hasReport ? (
+              <Report id={item?.id} uri="comments/report">
+                <St.ReportBtn>
+                  <RiAlarmWarningFill />
+                </St.ReportBtn>
+              </Report>
             ) : (
-              refreshToken && (
-                <Report id={item?.id} uri="comments/report">
-                  <St.ReportBtn>
-                    <RiAlarmWarningFill />
-                  </St.ReportBtn>
-                </Report>
-              )
+              <span>신고완료</span>
             )}
             {typeof item?.createdAt === "string" && (
               <St.DateBox>
