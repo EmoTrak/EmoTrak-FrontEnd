@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { device } from "../../../utils/theme";
+import { device, themeColor } from "../../../utils/theme";
 
 export const PaletteWrap = styled.div`
   display: flex;
@@ -17,6 +17,7 @@ export const PaletteColor = styled.div`
   cursor: pointer;
   margin-right: 0;
   border-radius: 50%;
+  border: 1px solid ${themeColor.main.gray};
   ${device.tablet} {
     width: 25px;
     height: 25px;
