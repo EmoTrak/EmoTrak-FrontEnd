@@ -78,6 +78,7 @@ export const FormTitle = styled.div`
   display: flex;
   justify-content: center;
   color: ${themeColor.main.chocomilk};
+  position: relative;
   span {
     font-size: 21px;
     position: relative;
@@ -89,7 +90,7 @@ export const FormTitle = styled.div`
     width: 80px;
     height: 16px;
     position: absolute;
-    top: 45px;
+    top: 7px;
     z-index: 2;
   }
 `;
