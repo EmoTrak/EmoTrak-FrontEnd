@@ -69,7 +69,6 @@ export const Container = styled.div`
   min-height: 90vh;
   position: relative;
   ${device.mobile} {
-    margin-top: 0px;
     min-height: 75vh;
   }
   ${device.miniMobile} {
