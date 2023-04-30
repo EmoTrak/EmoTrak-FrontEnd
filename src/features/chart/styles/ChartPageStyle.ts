@@ -1,15 +1,25 @@
 import styled from "styled-components";
 import { device, themeColor } from "../../../utils/theme";
 
-export const SelectWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-  h1 {
-    margin: 0;
-  }
-`;
+// export const SelectWrap = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   margin: 15px;
+//   position: relative;
+//   span {
+//     font-size: 21px;
+//     z-index: 3;
+//   }
+//   p {
+//     background-color: ${themeColor.emoticon.yellow};
+//     border-radius: 10px;
+//     width: 115px;
+//     height: 16px;
+//     position: absolute;
+//     top: 5px;
+//     z-index: 2;
+//   }
+// `;
 export const ChartWrap = styled.div`
   display: flex;
   gap: 50px;
@@ -21,6 +31,8 @@ export const ChartWrap = styled.div`
   }
 `;
 export const SelectBtn = styled.button`
+  position: absolute;
+  right: -35px;
   border: 0;
   background-color: transparent;
   font-size: 20px;
