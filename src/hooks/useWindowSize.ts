@@ -13,7 +13,6 @@ export const useWindowSize = () => {
   const miniMobile = viewportWidth < 501;
 
   return {
-    viewportWidth,
     resizeHandler,
     desktop,
     tablet,

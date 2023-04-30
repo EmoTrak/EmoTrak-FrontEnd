@@ -6,6 +6,7 @@ import EmotionIcons from "../../../components/Icon/EmoticonIcons";
 import ClickModalPost from "./ClickModalPost";
 import * as St from "../styles/SidebarStyle";
 import { useEffect } from "react";
+import { useWindowSize } from "../../../hooks/useWindowSize";
 
 const Sidebar = ({ side, setSide, data, diaryDay }: Partial<DayProps>) => {
   const navigate = useNavigate();
@@ -16,10 +17,19 @@ const Sidebar = ({ side, setSide, data, diaryDay }: Partial<DayProps>) => {
     }
   };
 
+  const { resizeHandler, desktop } = useWindowSize();
+
   const detailData = data?.contents.filter((item) => item.day === diaryDay?.date);
   useEffect(() => {
-    side && document.body.scrollIntoView({ behavior: "smooth" });
+    !desktop &&
+      side &&
+      document.body.scrollIntoView({ behavior: "smooth", block: "end" });
+    window.addEventListener("resize", resizeHandler);
+    return () => {
+      window.removeEventListener("resize", resizeHandler);
+    };
   }, []);
+
   return (
     <St.Wrap side={side}>
       <St.CloseBtn onClick={ClickCloseBtn}>
