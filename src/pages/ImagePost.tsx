@@ -46,13 +46,20 @@ const ImagePost = () => {
     scoreStarHandler,
   } = useInput(newItem);
 
-  const { submitDiaryHandler, fileInputHandler, fileDropHandler, photo } = usePost({
-    inputValue,
-  });
+  const { submitDiaryHandler, fileInputHandler, fileDropHandler, photo } =
+    usePost({
+      inputValue,
+    });
   const { preview, previewUrl } = usePreview();
 
   // 별점
-  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
+  const [clicked, setClicked] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
   const clickStarHandler = (score: number): void => {
     setClicked(clicked.map((_, i) => i <= score - 1));
     scoreStarHandler(score);
@@ -130,7 +137,10 @@ const ImagePost = () => {
             {valid.photo ? (
               <St.PhotoPreview>
                 <St.PhotoPreviewImg src={`${previewUrl}`} />
-                <St.DeletePhotoButton type="button" onClick={deletePhotoHandler}>
+                <St.DeletePhotoButton
+                  type="button"
+                  onClick={deletePhotoHandler}
+                >
                   삭제
                 </St.DeletePhotoButton>
               </St.PhotoPreview>
