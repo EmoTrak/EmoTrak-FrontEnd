@@ -18,19 +18,14 @@ interface CanvasProps {
 }
 
 const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
-  const { resizeHandler, desktop, tablet, mobile } = useWindowSize();
+  const { desktop, tablet, mobile } = useWindowSize();
   const canvasHeight = desktop ? 550 : tablet ? 500 : mobile ? 340 : 320;
 
   const canvasWidth = desktop ? 580 : tablet ? 430 : mobile ? 450 : 320;
 
-  useEffect(() => {
-    window.addEventListener("resize", resizeHandler);
-    return () => {
-      window.removeEventListener("resize", resizeHandler);
-    };
-  }, []);
-
-  const [mousePosition, setMousePosition] = useState<Coordinate | undefined>(undefined);
+  const [mousePosition, setMousePosition] = useState<Coordinate | undefined>(
+    undefined
+  );
 
   // 좌표 함수
   const getCoordinates = (event: MouseEvent): Coordinate | undefined => {
@@ -46,7 +41,9 @@ const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
 
   // 그림판 모드, 색깔 상태 관리
   const [mode, setMode] = useState<string>("pen");
-  const [selectedColor, setSelectedColor] = useState<string>(themeColor.main.black);
+  const [selectedColor, setSelectedColor] = useState<string>(
+    themeColor.main.black
+  );
   const [selectPen, setSelectPen] = useState<boolean>(false);
   const [selectedSize, setSelectedSize] = useState<number>(3);
   // 지우개, 펜 모드 변경 함수
@@ -232,7 +229,7 @@ const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
           isCanvas={isCanvas}
         />
         <St.ToolBox>
-          {selectPen && isCanvas && (
+          {selectPen && isCanvas ? (
             <>
               <St.PenSizeTool>
                 <PenTool
@@ -248,14 +245,16 @@ const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
                 setSelectPen={setSelectPen}
               />
             </>
+          ) : (
+            <St.PenButton
+              type="button"
+              onClick={() => switchModeHandler("pen")}
+              color={selectedColor}
+            >
+              <FaPencilAlt />
+            </St.PenButton>
           )}
-          <St.PenButton
-            type="button"
-            onClick={() => switchModeHandler("pen")}
-            color={selectedColor}
-          >
-            <FaPencilAlt />
-          </St.PenButton>
+
           <St.EraserButton
             type="button"
             onClick={() => switchModeHandler("eraser")}
