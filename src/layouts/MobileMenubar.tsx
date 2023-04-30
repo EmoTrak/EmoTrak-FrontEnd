@@ -3,7 +3,7 @@ import { BsCalendarHeart } from "react-icons/bs";
 import { VscGraph } from "react-icons/vsc";
 import { MdContentPaste } from "react-icons/md";
 import { BsPersonFillGear } from "react-icons/bs";
-import { RiLoginBoxLine } from "react-icons/ri";
+import { RiInstallLine, RiLoginBoxLine } from "react-icons/ri";
 import { GoThreeBars } from "react-icons/go";
 import {
   CHART_PAGE,
@@ -11,12 +11,15 @@ import {
   HOME_PAGE,
   MY_PAGE,
 } from "../data/routes/urls";
-import { Logout } from "../data/type/type";
 import { getCookie } from "../utils/cookies";
 import * as UI from "../components/Modal";
 import * as St from "../layouts/LayoutStyle";
 
-const MobileMenubar = ({ logout }: Logout) => {
+interface InstallProps {
+  action: () => void;
+}
+
+const MobileMenubar = ({ action }: InstallProps) => {
   const navigate = useNavigate();
   const refreshToken = getCookie("refreshToken");
 
@@ -57,13 +60,13 @@ const MobileMenubar = ({ logout }: Logout) => {
                     <BsCalendarHeart />
                     <St.SelectText>달력</St.SelectText>
                   </St.SelectButton>
-                  <St.SelectButton onClick={() => navigate("/")}>
-                    <VscGraph />
-                    <St.SelectText>차트</St.SelectText>
-                  </St.SelectButton>
                   <St.SelectButton onClick={() => navigate(COMMUNITY_PAGE)}>
                     <MdContentPaste />
                     <St.SelectText>공유</St.SelectText>
+                  </St.SelectButton>
+                  <St.SelectButton onClick={action}>
+                    <RiInstallLine />
+                    <St.SelectText>설치</St.SelectText>
                   </St.SelectButton>
                   <St.SelectButton onClick={() => navigate("/")}>
                     <RiLoginBoxLine />

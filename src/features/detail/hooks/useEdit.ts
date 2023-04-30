@@ -22,9 +22,6 @@ export const useEdit = ({ inputValue, dailyId, canvasRef }: PostInput) => {
         queryClient.invalidateQueries([keys.GET_DETAIL, keys.GET_BOARD]);
         navigate(`${DETAIL_PAGE}/${dailyId}`);
       },
-      onError() {
-        alert("입력한 내용을 확인해주세요!");
-      },
     }
   );
 

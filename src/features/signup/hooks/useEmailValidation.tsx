@@ -17,10 +17,6 @@ export const useEmailValidation = () => {
       onSuccess() {
         setEmailValidation(true);
       },
-      onError() {
-        alert("중복된 이메일입니다. 다른이메일을 입력해주세요.");
-        setEmailValidation(false);
-      },
     }
   );
 
