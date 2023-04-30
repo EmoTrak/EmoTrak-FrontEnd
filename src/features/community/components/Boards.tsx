@@ -77,19 +77,17 @@ const Boards = () => {
   }, [hasNextPage]);
 
   useEffect(() => {
-    if (emoNum) {
-      setSearchParams({ ...searchParams, emo: emoNum });
-    } else {
-      setSearchParams({ ...searchParams });
+    if (emoNum && paramSort) {
+      setSearchParams({ sort: paramSort, emo: emoNum });
+    } else if (emoNum) {
+      setSearchParams({ emo: emoNum });
     }
   }, [emoNum]);
 
   return (
     <St.Container>
       <St.SelectBar>
-        <St.SelectTitle
-          onClick={() => setListOpen((pre: boolean): boolean => !pre)}
-        >
+        <St.SelectTitle onClick={() => setListOpen((pre: boolean): boolean => !pre)}>
           {paramSort === "popular" ? "인기순" : "최신순"}
           <BsCaretDownFill />
           {listOpen && (
@@ -122,10 +120,7 @@ const Boards = () => {
       </St.SelectBar>
       <St.ImageContainer>
         {postData.map((item: ImageType, i: number) => (
-          <St.ImageBox
-            key={i}
-            onClick={() => navigate(`${COMMUNITY_PAGE}/${item.id}`)}
-          >
+          <St.ImageBox key={i} onClick={() => navigate(`${COMMUNITY_PAGE}/${item.id}`)}>
             <St.Image src={item.imgUrl} />
           </St.ImageBox>
         ))}

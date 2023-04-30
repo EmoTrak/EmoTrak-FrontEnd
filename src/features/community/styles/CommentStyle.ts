@@ -30,12 +30,13 @@ export const Nicname = styled.div`
   color: ${themeColor.main.chocomilk};
   font-size: 15px;
 `;
-export const Comment = styled.div`
+export const Comment = styled.pre`
   margin: 5px 0;
+  line-height: 20px;
 `;
 
 export const ReportBtn = styled.button`
-  font-size: 30px;
+  font-size: 23px;
   border: 0;
   background-color: transparent;
   color: ${themeColor.main.red};

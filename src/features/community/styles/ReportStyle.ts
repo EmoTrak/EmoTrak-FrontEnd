@@ -36,7 +36,6 @@ export const ReportForm = styled.form`
   gap: 5px;
 `;
 export const ReportInput = styled.textarea`
-  /* margin: 5px 0 5px 0; */
   padding: 10px;
   border-radius: 10px;
   resize: none;
@@ -48,4 +47,16 @@ export const ReportInput = styled.textarea`
   outline: none !important;
   width: 200px;
   height: 50px;
+`;
+
+export const ReportIcon = styled.div`
+  font-size: 28px;
+  display: contents;
+  color: ${themeColor.main.red};
+  cursor: pointer;
+`;
+
+export const ReportText = styled.span`
+  color: ${themeColor.main.red};
+  cursor: pointer;
 `;

@@ -47,29 +47,6 @@ const CommunityDetail = () => {
       </St.ImageWrapper>
 
       <St.PostDetailWrapper>
-        <Flex row ai="center">
-          {status === "success" && (
-            <LikePost
-              isLike={data.hasLike}
-              id={data.id}
-              count={data.likesCnt}
-            />
-          )}
-          {!data?.hasReport && !data?.hasAuth && refreshToken && (
-            <Report id={data?.id} uri="report">
-              <Button
-                icon
-                style={{
-                  color: "red",
-                  fontSize: "25px",
-                }}
-              >
-                <RiAlarmWarningFill />
-              </Button>
-            </Report>
-          )}
-        </Flex>
-
         {data?.hasAuth && (
           <Flex row>
             {data?.draw ? (
@@ -94,7 +71,7 @@ const CommunityDetail = () => {
             </DeleteConfirmModal>
           </Flex>
         )}
-        <Flex ai="center" row gap={5}>
+        <Flex ai="center" row gap={5} jc="center">
           <St.Emoticon>
             <EmotionIcons
               height="100%"
@@ -103,23 +80,39 @@ const CommunityDetail = () => {
             />
           </St.Emoticon>
           <St.EmotionalScore>감정점수</St.EmotionalScore>
-          <St.EmotionStar>
+          <Flex row gap={15}>
             {Array(5)
               .fill(null)
               .map((_, i) =>
                 i < data?.star ? (
                   <Star key={i} size="25px" color={themeColor.palette.yellow} />
                 ) : (
-                  <Star key={i} size="25px" color={themeColor.main.oatmeal} />
+                  <Star key={i} size="25px" color={themeColor.main.oatmeal} disabled />
                 )
               )}
-          </St.EmotionStar>
+          </Flex>
         </Flex>
-        <St.Nickname>닉네임 :{data?.nickname}</St.Nickname>
-        {status === "success" && <PostDate date={data.date} />}
-        <St.PostContent>{data?.detail}</St.PostContent>
+        <div>
+          <Flex row ai="center" jc="space-between">
+            <Flex row ai="center">
+              <St.Nickname>{data?.nickname}</St.Nickname>
+              {status === "success" && <PostDate date={data.date} />}
+            </Flex>
+            {status === "success" && (
+              <LikePost isLike={data.hasLike} id={data.id} count={data.likesCnt} />
+            )}
+          </Flex>
+        </div>
 
-        {refreshToken && <CreateComment id={data?.id} />}
+        <St.PostContent>{data?.detail}</St.PostContent>
+        <Flex row jc="flex-end">
+          {!data?.hasReport && !data?.hasAuth && refreshToken && (
+            <Report id={data?.id} uri="report">
+              <RiAlarmWarningFill />
+            </Report>
+          )}
+        </Flex>
+        <CreateComment id={data?.id} />
 
         {status === "success" && (
           <>
