@@ -72,9 +72,9 @@ const DrawingPost = () => {
     false,
     false,
   ]);
-  const clickStarHandler = (index: number): void => {
-    setClicked(clicked.map((_, i) => i < index));
-    scoreStarHandler(index);
+  const clickStarHandler = (score: number): void => {
+    setClicked(clicked.map((_, i) => i < score));
+    scoreStarHandler(score);
     setValidStar(true);
   };
 
@@ -90,7 +90,12 @@ const DrawingPost = () => {
       submitDiaryHandler(event);
       return;
     }
-    alert("글 내용을 모두 입력해주세요.");
+    if (!validPicture) {
+      alert("그림을 저장해주세요!");
+    }
+    if (!validEmoji || !validStar) {
+      alert("글 내용을 모두 입력해주세요.");
+    }
   };
 
   useEffect(() => {
@@ -121,8 +126,12 @@ const DrawingPost = () => {
     <St.DrawPostWrap>
       <form onSubmit={submitFormHandler}>
         <St.Wrapper>
-          <Canvas isCanvas={isCanvas} canvasRef={canvasRef} />
-
+          <Flex jc="center" ai="center">
+            <Canvas isCanvas={isCanvas} canvasRef={canvasRef} />
+            <Button size="medium" type="button" onClick={savePicture}>
+              {isCanvas ? "그림저장" : "더그리기"}
+            </Button>
+          </Flex>
           <Flex row>
             <St.DrawingPostWrap>
               <ScoreBox>
@@ -147,9 +156,7 @@ const DrawingPost = () => {
                     onChange={onCheckHandler}
                   />
                 </Label>
-                <Button size="large" type="button" onClick={savePicture}>
-                  {isCanvas ? "그림저장" : "더그리기"}
-                </Button>
+
                 <Button
                   style={{
                     backgroundColor: themeColor.main.pink,
@@ -157,6 +164,7 @@ const DrawingPost = () => {
                   }}
                   size="large"
                   type="submit"
+                  // disabled={!validPicture}
                 >
                   등록하기
                 </Button>

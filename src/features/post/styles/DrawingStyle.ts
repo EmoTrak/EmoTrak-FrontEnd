@@ -69,6 +69,16 @@ export const UnorderLi = styled.ul`
   }
 `;
 
+export const EmoButtonBox = styled.div`
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  margin: 3px;
+  ${device.tablet} {
+    gap: 5px;
+  }
+`;
+
 export const EmoButton = styled.button<EmoButtonProps>`
   width: 55px;
   height: 55px;
@@ -94,6 +104,7 @@ export const Canvas = styled.canvas<{ isCanvas: boolean }>`
   position: unset;
   background-color: ${themeColor.main.white};
   touch-action: none;
+  margin-top: 50px;
   ${({ isCanvas }) =>
     !isCanvas &&
     css`
@@ -102,13 +113,14 @@ export const Canvas = styled.canvas<{ isCanvas: boolean }>`
   ${device.mobile} {
     display: flex;
     flex-direction: column;
+    margin-top: 20px;
   }
 `;
 
 export const ToolBox = styled.ul`
   display: flex;
   width: 50vw;
-  height: 7vh;
+  height: 8vh;
   justify-content: flex-end;
   align-items: center;
   position: relative;
@@ -147,6 +159,7 @@ export const PenButton = styled.button<{ color: string }>`
   font-size: 27px;
   border: none;
   background-color: transparent;
+  cursor: pointer;
   color: ${({ color }) => color};
   ${device.mobile} {
     width: 20px;
@@ -159,6 +172,7 @@ export const EraserButton = styled.button<{ color: string }>`
   border: none;
   margin: 5px;
   background-color: transparent;
+  cursor: pointer;
   color: ${({ color }) =>
     color === "eraser" ? themeColor.main.black : themeColor.main.gray};
   ${device.mobile} {
@@ -172,6 +186,8 @@ export const RebootButton = styled.button`
   font-size: 30px;
   margin: 5px;
   border: none;
+  cursor: pointer;
+  color: ${themeColor.main.gray};
   ${device.mobile} {
     width: 20px;
     height: 20px;

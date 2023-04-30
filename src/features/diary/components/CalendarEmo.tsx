@@ -14,11 +14,7 @@ const CalendarEmo = ({ data, item }: Partial<DayProps>) => {
           emotionTypes={`EMOTION_${emoDate?.emoId}`}
         />
       ) : (
-        <EmotionIcons
-          height="100%"
-          width="100%"
-          emotionTypes={`EMOTION_${7}`}
-        />
+        <EmotionIcons height="100%" width="100%" emotionTypes={`EMOTION_${7}`} />
       )}
     </St.Imoticon>
   );

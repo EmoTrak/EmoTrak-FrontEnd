@@ -8,9 +8,12 @@ export const Imoticon = styled.div`
   margin-left: 15%;
   position: absolute;
   z-index: 0;
+  ${device.tablet} {
+    width: 75%;
+  }
   ${device.mobile} {
     margin-top: 13px;
     margin-left: 11%;
-    width: 70%;
+    width: 80%;
   }
 `;

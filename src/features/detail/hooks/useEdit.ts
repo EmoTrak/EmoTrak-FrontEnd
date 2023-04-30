@@ -5,11 +5,13 @@ import { keys } from "../../../data/queryKey/keys";
 import { PostInput } from "../../../data/type/type";
 import { DETAIL_PAGE } from "../../../data/routes/urls";
 import user from "../../../lib/api/user";
+import compressImage from "../../../utils/compressImage";
 
 export const useEdit = ({ inputValue, dailyId, canvasRef }: PostInput) => {
   const navigate = useNavigate();
   const [picture, setPicture] = useState<Blob | null>(null);
-  const [photo, setPhoto] = useState<Blob | null>(null);
+  const [photo, setPhoto] = useState<File | null | undefined>(null);
+
   const queryClient = useQueryClient();
   const editDiary = useMutation(
     async (item: FormData) => {
@@ -41,18 +43,20 @@ export const useEdit = ({ inputValue, dailyId, canvasRef }: PostInput) => {
   };
 
   // 이미지 파일 업로드 함수
-  const fileInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const target = event?.currentTarget;
-    const files = (target?.files as FileList)[0];
-    const imgBlob = new Blob([files], { type: "image/jpeg" });
-    setPhoto(imgBlob);
+  const fileInputHandler = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const target = event.currentTarget;
+    const files = (target.files as FileList)[0];
+    const compressedImg = await compressImage(files, 5);
+    setPhoto(compressedImg);
   };
 
   // 이미지 파일 드래그앤드랍 업로드 함수
-  const fileDropHandler = (event: React.DragEvent<HTMLLabelElement>) => {
+  const fileDropHandler = async (event: React.DragEvent<HTMLLabelElement>) => {
     const files = (event.dataTransfer.files as FileList)[0];
-    const imgBlob = new Blob([files], { type: "image/jpeg" });
-    setPhoto(imgBlob);
+    const compressedImg = await compressImage(files, 5);
+    setPhoto(compressedImg);
   };
 
   const editDiaryHandler = (event: React.FormEvent<HTMLFormElement>) => {
@@ -68,7 +72,7 @@ export const useEdit = ({ inputValue, dailyId, canvasRef }: PostInput) => {
       editDiary.mutate(formData);
     }
 
-    if (photo !== null) {
+    if (photo) {
       formData.append("image", photo);
       formData.append("contents", dto);
       editDiary.mutate(formData);

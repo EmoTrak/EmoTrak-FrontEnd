@@ -51,7 +51,7 @@ const Canvas = ({ isCanvas, canvasRef }: Test) => {
     themeColor.main.black
   );
   const [selectPen, setSelectPen] = useState<boolean>(false);
-  const [selectedSize, setSelectedSize] = useState<number>(5);
+  const [selectedSize, setSelectedSize] = useState<number>(3);
   // 지우개, 펜 모드 변경 함수
   const switchModeHandler = (item: string) => {
     setMode(item);
@@ -85,9 +85,11 @@ const Canvas = ({ isCanvas, canvasRef }: Test) => {
   );
   // 캔버스 비우기
   const clearCanvas = () => {
-    if (canvasRef.current) {
-      const canvas: HTMLCanvasElement = canvasRef.current;
-      canvas.getContext("2d")!!.clearRect(0, 0, canvas.width, canvas.height);
+    if (window.confirm("그린 내용이 사라집니다!")) {
+      if (canvasRef.current) {
+        const canvas: HTMLCanvasElement = canvasRef.current;
+        canvas.getContext("2d")!!.clearRect(0, 0, canvas.width, canvas.height);
+      }
     }
   };
   // useEffect + AddEventListener 대체 함수
