@@ -35,13 +35,13 @@ export const StEmoButton = styled.button<{ isClick: boolean }>`
   height: 45px;
   border: 0;
   background-color: ${(props) =>
-    props.isClick ? themeColor.main.coffemilk : "transparent"};
+    props.isClick ? themeColor.main.chocomilk : "transparent"};
   margin-left: 15px;
   border-radius: 50%;
   cursor: pointer;
   &:hover {
     background-color: ${(props) =>
-      props.isClick ? themeColor.main.coffemilk : themeColor.main.gray};
+      props.isClick ? themeColor.main.chocomilk : themeColor.main.gray};
   }
   ${device.mobile} {
     width: 45px;
@@ -120,8 +120,9 @@ export const Image = styled.img`
 export const ImageBox = styled.div`
   display: flex;
   justify-content: center;
+  background-color: ${themeColor.main.white};
   align-items: center;
-  height: 300px;
+  height: 280px;
   overflow: hidden;
   cursor: pointer;
   border-radius: 10%;
