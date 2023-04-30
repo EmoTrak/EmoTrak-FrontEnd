@@ -2,13 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { RiAlarmWarningFill } from "react-icons/ri";
 import { CommentData } from "../data/type/type";
-import { DETAIL_PAGE, DRAW_EDIT_PAGE, IMAGE_EDIT_PAGE } from "../data/routes/urls";
+import { DETAIL_PAGE } from "../data/routes/urls";
 import { getCookie } from "../utils/cookies";
 import { themeColor } from "../utils/theme";
 import { scrollOnTop } from "../utils/scollOnTop";
 import PageNation from "../components/PageNation";
 import Flex from "../components/Flex";
-import Button from "../components/Button";
 import Star from "../components/Icon/Star";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
 import LikePost from "../features/community/components/LikePost";
@@ -17,9 +16,7 @@ import Comment from "../features/community/components/Comment";
 import useAddCommunityDetail from "../features/community/hooks/useAddCommunityDetail";
 import PostDate from "../features/community/components/PostDate";
 import Report from "../features/community/components/Report";
-import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 import * as St from "../features/community/styles/CommunityDetailStyle";
-import { Link } from "react-router-dom";
 import { LikeText } from "../features/community/styles/LikePostStyle";
 
 const CommunityDetail = () => {

@@ -21,7 +21,7 @@ const ImageEdit = () => {
 
   const { preview, previewUrl } = usePreview();
 
-  const { targetItem, year, month, status, isLoading } = useGetDetail(dailyId);
+  const { targetItem, year, month } = useGetDetail(dailyId);
 
   const editItem: InputValue = {
     year,

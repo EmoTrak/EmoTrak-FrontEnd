@@ -1,6 +1,6 @@
 import { getCookie } from "../../utils/cookies";
 import { useError } from "../../hooks/useError";
-import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
+import axios, { InternalAxiosRequestConfig } from "axios";
 
 const user = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
