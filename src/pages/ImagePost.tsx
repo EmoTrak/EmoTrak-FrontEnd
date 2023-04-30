@@ -128,6 +128,8 @@ const ImagePost = () => {
     };
   }, [photo]);
 
+  console.log(inputValue.detail);
+
   return (
     <>
       <form onSubmit={submitFormHandler}>

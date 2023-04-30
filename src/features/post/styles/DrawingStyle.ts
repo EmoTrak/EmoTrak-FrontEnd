@@ -86,9 +86,6 @@ export const EmoButton = styled.button<EmoButtonProps>`
     props.selected ? themeColor.main.coffemilk : "transparent"};
   border: 0;
   border-radius: 50%;
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
   cursor: pointer;
 
   &:hover {

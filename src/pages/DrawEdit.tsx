@@ -94,6 +94,7 @@ const DrawEdit = () => {
 
   // 글작성 함수
   const submitFormHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (validPicture) {
       editDiaryHandler(event);
     }
@@ -158,7 +159,12 @@ const DrawEdit = () => {
                   />
                 </Label>
 
-                <Button important size="large" type="submit">
+                <Button
+                  important
+                  size="large"
+                  type="submit"
+                  disabled={!validPicture}
+                >
                   등록하기
                 </Button>
               </SubmitBox>
