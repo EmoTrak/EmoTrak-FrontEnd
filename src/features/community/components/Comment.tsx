@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { GiSiren } from "react-icons/gi";
+import { RiAlarmWarningFill } from "react-icons/ri";
 import { CommentProps } from "../../../data/type/type";
 import { getCookie } from "../../../utils/cookies";
 import Button from "../../../components/Button";
@@ -77,7 +77,7 @@ const Comment = ({ item }: Partial<CommentProps>) => {
               refreshToken && (
                 <Report id={item?.id} uri="comments/report">
                   <St.ReportBtn>
-                    <GiSiren />
+                    <RiAlarmWarningFill />
                   </St.ReportBtn>
                 </Report>
               )

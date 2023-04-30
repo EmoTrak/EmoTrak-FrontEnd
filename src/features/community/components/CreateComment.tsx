@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { CommentType, Idtype } from "../../../data/type/type";
+import { getCookie } from "../../../utils/cookies";
 import Button from "../../../components/Button";
 import useAddComment from "../hooks/useAddComment";
 import * as St from "../styles/CreateCommentStyle";
-import { getCookie } from "../../../utils/cookies";
 
 const CreateComment = ({ id }: Idtype) => {
   const refreshToken = getCookie("refreshToken");

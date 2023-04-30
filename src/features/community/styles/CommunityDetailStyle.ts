@@ -31,7 +31,6 @@ export const PostDetailWrapper = styled.div`
   width: 40vw;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
   position: relative;
   margin-top: 50px;
   ${device.mobile} {
@@ -59,16 +58,13 @@ export const EmotionalScore = styled.div`
   border-bottom: 2px solid;
 `;
 
-export const EmotionStar = styled.div`
-  display: flex;
-  gap: 15px;
-`;
-
-export const PostContent = styled.div`
+export const PostContent = styled.pre`
   width: 40vw;
   min-height: 30vh;
   margin-top: 30px;
   margin-bottom: 30px;
+  line-height: 25px;
+  font-size: 18px;
   text-decoration: underline;
   text-underline-position: under;
   text-decoration-color: ${themeColor.font};

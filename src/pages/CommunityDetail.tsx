@@ -78,7 +78,7 @@ const CommunityDetail = () => {
             />
           </St.Emoticon>
           <St.EmotionalScore>감정점수</St.EmotionalScore>
-          <St.EmotionStar>
+          <Flex row gap={15}>
             {Array(5)
               .fill(null)
               .map((_, i) =>
@@ -88,7 +88,7 @@ const CommunityDetail = () => {
                   <Star key={i} size="25px" color={themeColor.main.oatmeal} disabled />
                 )
               )}
-          </St.EmotionStar>
+          </Flex>
         </Flex>
         <div>
           <Flex row ai="center" jc="space-between">
@@ -103,12 +103,10 @@ const CommunityDetail = () => {
         </div>
 
         <St.PostContent>{data?.detail}</St.PostContent>
-        <Flex row ai="center" jc="flex-end">
+        <Flex row jc="flex-end">
           {!data?.hasReport && !data?.hasAuth && refreshToken && (
             <Report id={data?.id} uri="report">
-              <Button icon>
-                <RiAlarmWarningFill />
-              </Button>
+              <RiAlarmWarningFill />
             </Report>
           )}
         </Flex>
