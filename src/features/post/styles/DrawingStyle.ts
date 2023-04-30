@@ -80,23 +80,28 @@ export const EmoButtonBox = styled.div`
 `;
 
 export const EmoButton = styled.button<EmoButtonProps>`
-  width: 55px;
-  height: 55px;
-  border: ${(props) =>
-    props.selected
-      ? `5px solid ${themeColor.main.gray}`
-      : "5px solid transparent"};
-  background-color: transparent;
+  width: 50px;
+  height: 50px;
+  background-color: ${(props) =>
+    props.selected ? themeColor.main.coffemilk : "transparent"};
+  border: 0;
   border-radius: 50%;
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   cursor: pointer;
-  &:focus {
-    border: 5px solid ${themeColor.main.gray};
-  }
+
   &:hover {
-    border: 5px solid ${themeColor.main.gray};
+    background-color: ${(props) =>
+      props.selected ? themeColor.main.coffemilk : themeColor.main.gray};
+  }
+  ${device.tablet} {
+    width: 47px;
+    height: 47px;
+  }
+  ${device.mobile} {
+    width: 48px;
+    height: 48px;
   }
 `;
 

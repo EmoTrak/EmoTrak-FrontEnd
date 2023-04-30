@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { InputValue } from "../data/type/type";
-import { themeColor } from "../utils/theme";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
 import Flex from "../components/Flex";
@@ -127,7 +126,11 @@ const DrawingPost = () => {
       <form onSubmit={submitFormHandler}>
         <St.Wrapper>
           <Flex jc="center" ai="center">
-            <Canvas isCanvas={isCanvas} canvasRef={canvasRef} />
+            <Canvas
+              isCanvas={isCanvas}
+              canvasRef={canvasRef}
+              validation={setValidPicture}
+            />
             <Button size="medium" type="button" onClick={savePicture}>
               {isCanvas ? "그림저장" : "더그리기"}
             </Button>

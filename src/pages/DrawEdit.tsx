@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { InputValue } from "../data/type/type";
-import { themeColor } from "../utils/theme";
 import Flex from "../components/Flex";
 import Button from "../components/Button";
 import Checkbox from "../components/Checkbox";
@@ -30,10 +29,10 @@ const DrawEdit = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // 글작성 조건 상태
-  const [validPicture, setValidPicture] = useState<boolean>(false);
+  const [validPicture, setValidPicture] = useState<boolean>(true);
 
   // 조건부 렌더링용 상태
-  const [isCanvas, setIsCanvas] = useState<boolean>(true);
+  const [isCanvas, setIsCanvas] = useState<boolean>(false);
 
   const editItem: InputValue = {
     year,
@@ -79,7 +78,7 @@ const DrawEdit = () => {
     event.preventDefault();
     setInputValue({ ...inputValue, deleteImg: true });
     savePictureHandler();
-    setValidPicture(true);
+    setValidPicture((pre) => !pre);
     setIsCanvas((pre) => !pre);
   };
 
@@ -126,7 +125,17 @@ const DrawEdit = () => {
     <St.DrawPostWrap>
       <form onSubmit={submitFormHandler}>
         <St.Wrapper>
-          <Canvas isCanvas={isCanvas} canvasRef={canvasRef} />
+          <Flex jc="center" ai="center">
+            <Canvas
+              isCanvas={isCanvas}
+              canvasRef={canvasRef}
+              validation={setValidPicture}
+            />
+            <Button size="large" type="button" onClick={savePicture}>
+              {validPicture ? "더그리기" : "그림저장"}
+            </Button>
+          </Flex>
+
           <Flex row>
             <St.DrawingPostWrap>
               <ScoreBox>
@@ -148,9 +157,7 @@ const DrawEdit = () => {
                     onChange={onCheckHandler}
                   />
                 </Label>
-                <Button size="large" type="button" onClick={savePicture}>
-                  {isCanvas ? "그림저장" : "더그리기"}
-                </Button>
+
                 <Button important size="large" type="submit">
                   등록하기
                 </Button>
