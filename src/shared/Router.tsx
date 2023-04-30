@@ -20,12 +20,33 @@ import RedirectGoogle from "../pages/RedirectGoogle";
 import Admin from "../pages/Admin";
 import ImageEdit from "../pages/ImageEdit";
 
-const AdminPost = lazy(() => import("../features/admin/components/AdminPost"));
-const AdminComment = lazy(() => import("../features/admin/components/AdminComment"));
-const Community = lazy(() => import("../pages/Community"));
-const CommunityDetail = lazy(() => import("../pages/CommunityDetail"));
-const Chart = lazy(() => import("../pages/Chart"));
-const Home = lazy(() => import("../pages/Home"));
+const AdminPost = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "admin-post" */ "../features/admin/components/AdminPost"
+    )
+);
+const AdminComment = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "admin-comment" */ "../features/admin/components/AdminComment"
+    )
+);
+const Community = lazy(
+  () => import(/* webpackChunkName: "communiy" */ "../pages/Community")
+);
+const CommunityDetail = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "community-detail" */ "../pages/CommunityDetail"
+    )
+);
+const Chart = lazy(
+  () => import(/* webpackChunkName: "chart" */ "../pages/Chart")
+);
+const Home = lazy(
+  () => import(/* webpackChunkName: "calendar" */ "../pages/Home")
+);
 
 const Router = () => {
   const token = getCookie("token");
