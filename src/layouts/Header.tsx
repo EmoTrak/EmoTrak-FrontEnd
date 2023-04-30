@@ -10,7 +10,6 @@ import {
 } from "../data/routes/urls";
 import EmoTrak from "../assets/logo/EmoTrakLogo.webp";
 import MobileMenubar from "./MobileMenubar";
-import { IoIosArrowBack } from "react-icons/io";
 import * as St from "../layouts/LayoutStyle";
 
 const Header = () => {
@@ -39,9 +38,6 @@ const Header = () => {
 
   return (
     <St.Header>
-      <St.BackOfPage onClick={() => navigate(-1)}>
-        <IoIosArrowBack />
-      </St.BackOfPage>
       {refreshToken ? (
         <St.EmoTrakLogo onClick={() => navigate(HOME_PAGE)}>
           <St.LogoImg src={EmoTrak} alt="로고" />
@@ -55,12 +51,8 @@ const Header = () => {
       {payload?.auth === "ADMIN" ? (
         <St.NavWrapper>
           <Flex row gap={10}>
-            <St.PageButton onClick={() => navigate(ADMIN)}>
-              관리자페이지
-            </St.PageButton>
-            <St.PageButton onClick={() => navigate(MY_PAGE)}>
-              마이페이지
-            </St.PageButton>
+            <St.PageButton onClick={() => navigate(ADMIN)}>관리자페이지</St.PageButton>
+            <St.PageButton onClick={() => navigate(MY_PAGE)}>마이페이지</St.PageButton>
             <St.PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
               공유 페이지
             </St.PageButton>
@@ -74,9 +66,7 @@ const Header = () => {
       ) : refreshToken ? (
         <St.NavWrapper>
           <Flex row gap={10}>
-            <St.PageButton onClick={() => navigate(MY_PAGE)}>
-              마이페이지
-            </St.PageButton>
+            <St.PageButton onClick={() => navigate(MY_PAGE)}>마이페이지</St.PageButton>
             <St.PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
               공유 페이지
             </St.PageButton>

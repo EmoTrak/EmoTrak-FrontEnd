@@ -133,16 +133,19 @@ export const LogoImg = styled.img`
 `;
 
 export const BackOfPage = styled.button`
-  display: none;
-  font-size: 30px;
-  background-color: transparent;
+  font-size: 40px;
+  background-color: ${themeColor.main.paper};
   border: 0;
-  position: absolute;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  position: fixed;
+  left: 10px;
+  top: 130px;
   color: ${themeColor.main.chocomilk};
-  ${device.mobile} {
-    display: flex;
-    align-items: center;
-  }
+  z-index: 10;
+  display: flex;
+  align-items: center;
 `;
 
 export const Wrap = styled.div`
