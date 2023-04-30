@@ -28,11 +28,14 @@ const Mypage = () => {
 
   const [regExpPassword, setRegExpPassword] = useState<boolean>(false);
 
-  const { checkNickname, validNickname, setNicknameValidation, nicknameValidation } =
-    useNicknameValidation();
-  const { validPassword, checkPasswordHandler, doublePassword } = usePasswordCheck(
-    info.password
-  );
+  const {
+    checkNickname,
+    validNickname,
+    setNicknameValidation,
+    nicknameValidation,
+  } = useNicknameValidation();
+  const { validPassword, checkPasswordHandler, doublePassword } =
+    usePasswordCheck(info.password);
 
   const { changePassword } = useChangePassword();
   const { changeNickname } = useChangeNickname();
@@ -44,7 +47,7 @@ const Mypage = () => {
       setNicknameValidation(false);
     }
   };
-
+  
   const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setInfo({ ...info, [name]: value });
@@ -53,16 +56,15 @@ const Mypage = () => {
       [
         "password",
         () => {
-          setRegExpPassword(validPassword(event.target.value));
-          checkPasswordHandler(event.target.value);
+          setRegExpPassword(validPassword(value));
+          checkPasswordHandler(info.rePassword);
         },
       ],
-      ["rePassword", () => checkPasswordHandler(event.target.value)],
+      ["rePassword", () => checkPasswordHandler(value)],
     ]);
     const func = inputName.get(name);
     return func && func();
   };
-
   const withdrawUserHandler = () => {
     window.confirm("정말 탈퇴하시겠습니까?") && withdraw.mutate();
   };
@@ -77,8 +79,8 @@ const Mypage = () => {
   useEffect(() => {
     if (userInfo) {
       setInfo({
-        email: userInfo?.email,
-        nickname: userInfo?.nickname,
+        email: userInfo.email,
+        nickname: userInfo.nickname,
         password: "",
         rePassword: "",
       });
@@ -95,7 +97,12 @@ const Mypage = () => {
           로그아웃
         </St.MobileLogoutButton>
         <InputList name="이메일">
-          <St.MyPageInput type="text" name="email" value={info.email} disabled />
+          <St.MyPageInput
+            type="text"
+            name="email"
+            value={info.email}
+            disabled
+          />
         </InputList>
         <InputList name="닉네임">
           <St.MyPageInput
@@ -108,7 +115,9 @@ const Mypage = () => {
           />
           <>
             {nicknameValidation ? (
-              <St.MyPageHelperText>닉네임을 변경하시겠습니까?</St.MyPageHelperText>
+              <St.MyPageHelperText>
+                닉네임을 변경하시겠습니까?
+              </St.MyPageHelperText>
             ) : (
               <St.MyPageHelperText important>
                 닉네임은 8글자 이하여야합니다.
@@ -126,7 +135,10 @@ const Mypage = () => {
                 닉네임 변경
               </Button>
             ) : (
-              <Button size="small" onClick={() => checkNicknameHandler(info.nickname)}>
+              <Button
+                size="small"
+                onClick={() => checkNicknameHandler(info.nickname)}
+              >
                 중복확인
               </Button>
             )}
@@ -155,7 +167,7 @@ const Mypage = () => {
                   비밀번호는 소문자, 숫자를 포함하는 8~15자리이어야합니다.
                 </St.MyPageHelperText>
               ) : (
-                <St.MyPageHelperText></St.MyPageHelperText>
+                <St.MyPageHelperText />
               )}
               <St.MyPageLabel>
                 <St.MyPageInput
@@ -173,9 +185,13 @@ const Mypage = () => {
                 />
               </St.MyPageLabel>
               {!info.rePassword ? (
-                <St.MyPageHelperText>비밀번호를 다시 입력해주세요.</St.MyPageHelperText>
+                <St.MyPageHelperText>
+                  비밀번호를 다시 입력해주세요.
+                </St.MyPageHelperText>
               ) : doublePassword ? (
-                <St.MyPageHelperText>비밀번호가 일치합니다.</St.MyPageHelperText>
+                <St.MyPageHelperText>
+                  비밀번호가 일치합니다.
+                </St.MyPageHelperText>
               ) : (
                 <St.MyPageHelperText important>
                   비밀번호가 일치하지 않습니다.
