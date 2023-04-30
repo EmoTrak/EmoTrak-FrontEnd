@@ -3,16 +3,19 @@ import { device } from "../../../utils/theme";
 
 export const PaletteWrap = styled.div`
   display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 180px;
   ${device.mobile} {
     margin-top: 15px;
   }
 `;
 
 export const PaletteColor = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   cursor: pointer;
-  margin-right: 10px;
+  margin-right: 0;
   border-radius: 50%;
   ${device.tablet} {
     width: 25px;
@@ -25,6 +28,5 @@ export const PaletteColor = styled.div`
   ${device.miniMobile} {
     width: 20px;
     height: 20px;
-    margin-right: 5px;
   }
 `;

@@ -1,7 +1,6 @@
 import React from "react";
 import { EmoButton, EmoButtonBox } from "../styles/DrawingStyle";
 import EmotionIcons from "../../../components/Icon/EmoticonIcons";
-import Flex from "../../../components/Flex";
 
 interface EmoScoreProps {
   value: number;
@@ -20,11 +19,7 @@ const EmoScore = ({ value, action }: EmoScoreProps) => {
           selected={value === item}
           onClick={action}
         >
-          <EmotionIcons
-            height="100%"
-            width="100%"
-            emotionTypes={`EMOTION_${item}`}
-          />
+          <EmotionIcons height="100%" width="100%" emotionTypes={`EMOTION_${item}`} />
         </EmoButton>
       ))}
     </EmoButtonBox>
