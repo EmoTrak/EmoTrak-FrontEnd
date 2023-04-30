@@ -4,7 +4,7 @@ import { PenProps } from "../../../data/type/type";
 import * as St from "../styles/PenToolStyle";
 
 const PenTool = ({ color, onSizeSelect, setSelectPen }: PenProps) => {
-  const sizeList: number[] = [20, 15, 10, 5];
+  const sizeList: number[] = [18, 13, 8, 3];
 
   return (
     <>
