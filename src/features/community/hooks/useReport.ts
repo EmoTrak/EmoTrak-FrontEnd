@@ -17,7 +17,7 @@ export const useReport = (uri: string | undefined) => {
     },
     onSuccess: () => {
       setReason("");
-      queryClient.invalidateQueries([keys.GET_BOARD]);
+      queryClient.invalidateQueries([keys.GET_BOARD_DETAIL]);
     },
   });
 

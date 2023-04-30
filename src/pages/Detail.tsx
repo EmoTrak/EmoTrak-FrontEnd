@@ -5,17 +5,16 @@ import {
   DRAW_EDIT_PAGE,
   HOME_PAGE,
   IMAGE_EDIT_PAGE,
+  COMMUNITY_DETAIL,
 } from "../data/routes/urls";
 import { themeColor } from "../utils/theme";
+import { useGetDetail } from "../features/detail/hooks/useGetDetail";
 import Flex from "../components/Flex";
 import Button from "../components/Button";
 import Star from "../components/Icon/Star";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
-import { useGetDetail } from "../features/detail/hooks/useGetDetail";
 import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 import * as St from "../features/detail/styles/DetailStyle";
-import { Link } from "react-router-dom";
-import { COMMUNITY_DETAIL } from "../data/routes/urls";
 
 const Detail = () => {
   const params = useParams();
@@ -115,7 +114,11 @@ const Detail = () => {
           <St.SharedWrap>
             <Flex row>
               {targetItem?.share ? (
-                <Link to={`${COMMUNITY_DETAIL}/${targetItem.id}`}>"Shared"</Link>
+                <St.SharedText
+                  onClick={() => navigate(`${COMMUNITY_DETAIL}/${targetItem.id}`)}
+                >
+                  {">>"}댓글보러 갈래요{"<<"}
+                </St.SharedText>
               ) : (
                 "Not Shared"
               )}

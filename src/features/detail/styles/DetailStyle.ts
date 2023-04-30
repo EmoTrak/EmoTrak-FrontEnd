@@ -158,3 +158,12 @@ export const EmoIconWrap = styled.div`
   align-items: center;
   font-size: 50px;
 `;
+
+export const SharedText = styled.span`
+  cursor: pointer;
+  margin-top: 30px;
+  font-size: 18px;
+  &:hover {
+    color: ${themeColor.main.coffemilk};
+  }
+`;

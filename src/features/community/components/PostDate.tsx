@@ -41,6 +41,8 @@ const PostDate = ({ date }: PostDateType) => {
       return <>{minuteDiff}분 전</>;
     } else if (minuteDiff === 0) {
       return <>{secondDiff}초 전</>;
+    } else if (secondDiff < 0) {
+      return <>0초 전</>;
     }
   };
 
