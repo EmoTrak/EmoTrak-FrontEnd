@@ -9,6 +9,7 @@ import { useEraser } from "../hooks/useEraser";
 import PenTool from "./PenTool";
 import Palette from "./Palette";
 import * as St from "../styles/DrawingStyle";
+import { useWindowSize } from "../../../hooks/useWindowSize";
 
 interface CanvasProps {
   isCanvas: boolean;
@@ -17,13 +18,9 @@ interface CanvasProps {
 }
 
 const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
-  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  const { resizeHandler, desktop, tablet, mobile } = useWindowSize();
 
   useEffect(() => {
-    const resizeHandler = () => {
-      setViewportWidth(window.innerWidth);
-    };
-
     window.addEventListener("resize", resizeHandler);
     return () => {
       window.removeEventListener("resize", resizeHandler);
@@ -226,23 +223,9 @@ const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
     };
   }, [startPaint, paint, exitPaint, startErase, erase, exitErase]);
 
-  const canvasHeight =
-    viewportWidth > 1023
-      ? 550
-      : viewportWidth > 767
-      ? 500
-      : viewportWidth > 500
-      ? 340
-      : 320;
+  const canvasHeight = desktop ? 550 : tablet ? 500 : mobile ? 340 : 320;
 
-  const canvasWidth =
-    viewportWidth > 1023
-      ? 580
-      : viewportWidth > 767
-      ? 430
-      : viewportWidth > 500
-      ? 450
-      : 320;
+  const canvasWidth = desktop ? 580 : tablet ? 430 : mobile ? 450 : 320;
 
   return (
     <>

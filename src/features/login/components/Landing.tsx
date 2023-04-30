@@ -7,6 +7,7 @@ import Canvas from "../../../assets/tutorial/5_Canvas.webp";
 import Graph_1 from "../../../assets/tutorial/5_Graph_1.webp";
 import Graph_2 from "../../../assets/tutorial/5_Graph_2.webp";
 import * as St from "../styles/LandingStyle";
+import Flex from "../../../components/Flex";
 
 const Landing = () => {
   const [index, setIndex] = useState<number>(0);
@@ -55,16 +56,18 @@ const Landing = () => {
     <St.Slider onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       {index < 4 ? (
         <St.Banner index={index}>
-          <St.BannerImg src={images[index]} alt="landing image" />
           {index > 0 && index < 5 && (
             <St.PrevBtn onClick={prevContent}>
               <IoIosArrowBack />
             </St.PrevBtn>
           )}
+          <Flex jc="center"ai="center" gap={40}>
+            <St.BannerImg src={images[index]} alt="landing image" />
+            <St.LoginButton onClick={directLogin}>Skip</St.LoginButton>
+          </Flex>
           <St.NextBtn onClick={nextContent}>
             <IoIosArrowForward />
           </St.NextBtn>
-          <St.LoginButton onClick={directLogin}>Skip</St.LoginButton>
         </St.Banner>
       ) : (
         <St.Banner index={index}>{index === 4 && <LoginForm />}</St.Banner>

@@ -1,17 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import LoginForm from "../features/login/components/LoginForm";
 import Tutorial from "../features/login/components/Tutorial";
 import Landing from "../features/login/components/Landing";
 import { LoginPageWrapper } from "../features/login/styles/LoginFormStyle";
+import { useWindowSize } from "../hooks/useWindowSize";
 
 const Login = () => {
-  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  const { resizeHandler, desktop } = useWindowSize();
 
   useEffect(() => {
-    const resizeHandler = () => {
-      setViewportWidth(window.innerWidth);
-    };
-
     window.addEventListener("resize", resizeHandler);
     return () => {
       window.removeEventListener("resize", resizeHandler);
@@ -20,8 +17,8 @@ const Login = () => {
 
   return (
     <LoginPageWrapper>
-      {viewportWidth < 1024 && <Landing />}
-      {viewportWidth >= 1024 && (
+      {!desktop && <Landing />}
+      {desktop && (
         <>
           <Tutorial />
           <LoginForm />
