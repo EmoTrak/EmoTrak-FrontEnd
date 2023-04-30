@@ -30,6 +30,8 @@ const CommunityDetail = () => {
   const { updateTitle, updateDescription, updateImage, defaultMeta } =
     useMeta();
 
+  const dataJSON = JSON.stringify(data);
+
   useEffect(() => {
     const title = `EmoTrak : Community`;
     const image = `${data?.imgUrl}`;
@@ -40,7 +42,7 @@ const CommunityDetail = () => {
     return () => {
       defaultMeta();
     };
-  }, []);
+  }, [dataJSON]);
 
   useEffect(() => {
     scrollOnTop();
