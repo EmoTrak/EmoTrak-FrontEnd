@@ -22,10 +22,13 @@ export const useMeta = () => {
 
   const defaultMeta = () => {
     ogTitle?.setAttribute("content", "EmoTrak");
-    ogDescription?.setAttribute("content", "Emotion Tracking Diary");
+    ogDescription?.setAttribute(
+      "content",
+      "Emotion Tracking Diary : 그림과 사진으로 기록하는 나만의 감정 일기"
+    );
     ogImage?.setAttribute(
       "content",
-      "https://emotrak.vercel.app/static/media/EmoTrakLogo.bbed182dfe18e5b30034.png"
+      `${process.env.PUBLIC_URL}/static/media/EmoTrakLogo.bbed182dfe18e5b30034.png`
     );
   };
 
