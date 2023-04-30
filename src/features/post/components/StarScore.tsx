@@ -16,6 +16,7 @@ const StarScore = ({ arr, action }: Test) => {
           color={
             arr[score - 1] ? themeColor.palette.yellow : themeColor.main.oatmeal
           }
+          score
           onClick={() => action(score)}
         />
       ))}
