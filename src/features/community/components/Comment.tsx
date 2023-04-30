@@ -8,7 +8,6 @@ import Report from "./Report";
 import PostDate from "./PostDate";
 import useDeleteComment from "../hooks/useDeleteComment";
 import useUpdateComment from "../hooks/useUpdateComment";
-
 import * as St from "../styles/CommentStyle";
 
 const Comment = ({ item }: Partial<CommentProps>) => {

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { InfoType } from "../data/type/type";
-import { themeColor } from "../utils/theme";
 import { useAuth } from "../features/mypage/hooks/useAuth";
 import { usePasswordCheck } from "../features/signup/hooks/usePasswordCheck";
 import { useNicknameValidation } from "../features/signup/hooks/useNicknameValidation";
@@ -142,25 +141,23 @@ const Mypage = () => {
           </St.MyPageButtonBox>
         </InputList>
         <InputList name="비밀번호">
-          <St.MyPageLabel>
-            <St.MyPageInput
-              name="password"
-              type="password"
-              maxLength={15}
-              value={info.password}
-              onChange={changeInputHandler}
-              disabled={userInfo?.hasSocial}
-              placeholder={
-                userInfo?.hasSocial
-                  ? "소셜로그인된 계정은 비밀번호 변경이 불가합니다."
-                  : "변경 비밀번호"
-              }
-            />
-          </St.MyPageLabel>
           {userInfo?.hasSocial ? (
-            <></>
+            <St.MyPageHelperText>
+              소셜로그인된 계정은 비밀번호 변경이 불가합니다.
+            </St.MyPageHelperText>
           ) : (
             <>
+              <St.MyPageLabel>
+                <St.MyPageInput
+                  name="password"
+                  type="password"
+                  maxLength={15}
+                  value={info.password}
+                  onChange={changeInputHandler}
+                  disabled={userInfo?.hasSocial}
+                  placeholder="변경 비밀번호"
+                />
+              </St.MyPageLabel>
               {!regExpPassword ? (
                 <St.MyPageHelperText important>
                   비밀번호는 소문자, 숫자를 포함하는 8~15자리이어야합니다.

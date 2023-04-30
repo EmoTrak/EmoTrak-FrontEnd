@@ -19,6 +19,9 @@ interface CanvasProps {
 
 const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
   const { resizeHandler, desktop, tablet, mobile } = useWindowSize();
+  const canvasHeight = desktop ? 550 : tablet ? 500 : mobile ? 340 : 320;
+
+  const canvasWidth = desktop ? 580 : tablet ? 430 : mobile ? 450 : 320;
 
   useEffect(() => {
     window.addEventListener("resize", resizeHandler);
@@ -222,10 +225,6 @@ const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
       canvas.removeEventListener("touchend", endTouch);
     };
   }, [startPaint, paint, exitPaint, startErase, erase, exitErase]);
-
-  const canvasHeight = desktop ? 550 : tablet ? 500 : mobile ? 340 : 320;
-
-  const canvasWidth = desktop ? 580 : tablet ? 430 : mobile ? 450 : 320;
 
   return (
     <>
