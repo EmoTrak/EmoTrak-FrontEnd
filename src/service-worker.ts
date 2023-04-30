@@ -58,7 +58,7 @@ registerRoute(
 registerRoute(
   // Add in any other file extensions or routing criteria as needed.
   ({ url }) =>
-    url.origin === self.location.origin && url.pathname.endsWith(".png"),
+    url.origin === self.location.origin && url.pathname.endsWith(".webp"),
   // Customize this strategy as needed, e.g., by changing to CacheFirst.
   new StaleWhileRevalidate({
     cacheName: "images",
@@ -76,23 +76,15 @@ self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
     self.skipWaiting();
   }
+  if (event.data && event.data.type === "SERVER_MESSAGE") {
+    const message = event.data.message;
+    // 메시지를 UI에 출력하는 코드
+    // 예를 들면, 메시지를 화면의 알림으로 표시하는 등
+    return alert(message);
+  }
 });
 
-// self.addEventListener("beforeinstallprompt", (event) => {
-//   event.preventDefault();
-//   console.log("👍", "beforeinstallprompt", event);
-//   (window as any).deferredPrompt = event;
-//   // Remove the 'hidden' class from the install button container.
-//   divInstall.classList.toggle("hidden", false);
-// });
-
-// self.addEventListener("push", (event) => {
-//   const title = String(event.data?.text());
-
-//   event.waitUntil(self.registration.showNotification(title));
-// });
-
-const CACHE_NAME = "v1";
+const CACHE_NAME = "v2";
 
 self.addEventListener("install", function (e) {
   e.waitUntil(
@@ -104,6 +96,7 @@ self.addEventListener("install", function (e) {
       ]);
     })
   );
+  self.skipWaiting();
 });
 
 self.addEventListener("fetch", function (e) {
@@ -125,6 +118,7 @@ self.addEventListener("activate", (event) => {
       )
     )
   );
+  self.clients.claim();
 });
 
 // self.addEventListener("activate", (event) => {
