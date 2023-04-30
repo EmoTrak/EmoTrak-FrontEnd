@@ -10,6 +10,14 @@ export const MenuButton = styled.div`
   }
 `;
 
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const Content = styled.div`
   display: none;
   ${device.mobile} {
@@ -154,9 +162,8 @@ export const BackOfPage = styled.button`
 export const Wrap = styled.div`
   background-color: ${themeColor.main.white};
   position: relative;
-  width: 100vw;
 `;
-export const Footer = styled.ul`
+export const Footer = styled.div`
   background-color: ${themeColor.main.white};
   text-align: center;
   padding: 20px;
@@ -164,7 +171,6 @@ export const Footer = styled.ul`
   font-size: 13px;
   color: ${themeColor.main.gray};
   gap: 5;
-  width: 100vw;
   div {
     font-size: 20px;
     gap: 10px;
