@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { device, themeColor } from "../../../utils/theme";
 
 export const Content = styled.div`
-  transform: translate(-70%, 10%);
   position: absolute;
+  top: 150%;
   height: 300px;
   width: 300px;
   color: ${themeColor.main.chocomilk};
@@ -19,6 +19,11 @@ export const Content = styled.div`
     height: 250px;
     width: 250px;
     padding: 18px 25px;
+  }
+  ${device.miniMobile} {
+    height: 200px;
+    width: 200px;
+    padding: 10px 20px;
   }
 `;
 export const Year = styled.div`
@@ -38,12 +43,16 @@ export const SelectMonth = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   margin-top: 40px;
-  grid-gap: 25px;
+  grid-gap: 15px;
+  ${device.miniMobile} {
+    margin-top: 20px;
+    grid-gap: 0px;
+  }
 `;
 
 export const ClickBtn = styled.button`
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   background-color: transparent;
   font-family: "KyoboHand";
   font-size: 20px;
