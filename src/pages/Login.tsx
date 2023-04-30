@@ -25,23 +25,17 @@ const Login = () => {
 
   useEffect(() => {
     if (deferredPrompt) {
-      if (
-        window.confirm(
-          "홈 화면에 추가해서 일기를 매일 쓸 수 있어요! 추가하시겠어요?"
-        )
-      ) {
-        deferredPrompt.prompt();
+      deferredPrompt.prompt();
 
-        deferredPrompt.userChoice.then((choiceResult: { outcome: string }) => {
-          if (choiceResult.outcome === "accepted") {
-            alert("매일 감정을 기록해보세요!");
-          } else {
-            console.log("");
-          }
+      deferredPrompt.userChoice.then((choiceResult: { outcome: string }) => {
+        if (choiceResult.outcome === "accepted") {
+          alert("매일 감정을 기록해보세요!");
+        } else {
+          console.log("");
+        }
 
-          setDeferredPrompt(null);
-        });
-      }
+        setDeferredPrompt(null);
+      });
     }
   }, [deferredPrompt]);
 
