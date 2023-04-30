@@ -20,9 +20,11 @@ const DeleteConfirmModal = ({ children, itemId }: DeleteModalProps) => {
           </St.CloseBtn>
 
           <St.Text>삭제하시겠어요?</St.Text>
-          <St.ClickBtn>
-            <UI.ModalClose>아니오</UI.ModalClose>
-          </St.ClickBtn>
+
+          <UI.ModalClose>
+            <St.ClickBtn>아니오 </St.ClickBtn>
+          </UI.ModalClose>
+
           <St.ClickBtn onClick={() => deletePostHandler(itemId)}>
             삭제하기
           </St.ClickBtn>

@@ -66,13 +66,14 @@ export const BackWrap = styled.div`
   }
 `;
 
-export const DetailWrapper = styled.div`
+export const DetailWrapper = styled.pre`
   background-size: cover;
   display: flex;
   background-color: ${themeColor.main.white};
   padding: 10px;
   width: 90%;
   font-size: 25px;
+  line-height: 20px;
 `;
 
 export const DefaultImage = styled.div`

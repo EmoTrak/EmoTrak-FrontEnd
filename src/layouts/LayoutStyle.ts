@@ -49,6 +49,10 @@ export const SelectButton = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  ${device.miniMobile} {
+    width: 70px;
+    height: 70px;
+  }
 `;
 
 export const SelectText = styled.div`
@@ -65,10 +69,10 @@ export const Container = styled.div`
   min-height: 90vh;
   position: relative;
   ${device.mobile} {
+    margin-top: 0px;
     min-height: 75vh;
   }
   ${device.miniMobile} {
-    margin-top: 110px;
     min-height: 65vh;
   }
 `;
@@ -85,7 +89,6 @@ export const Header = styled.header`
   width: 100vw;
   padding: 10px;
   border: none;
-  position: fixed;
   box-shadow: 5px 5px 5px ${themeColor.main.oatmeal};
   z-index: 50;
   top: 0px;
@@ -95,6 +98,7 @@ export const Header = styled.header`
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
+  position: fixed;
   ${device.mobile} {
     align-items: center;
     padding-bottom: 5px;
