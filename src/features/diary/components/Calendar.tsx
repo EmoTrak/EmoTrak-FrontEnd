@@ -10,7 +10,6 @@ import CalendarEmo from "./CalendarEmo";
 import MiniCalendar from "./MiniCalendar";
 import MonthSelect from "./MonthSelect";
 import * as St from "../styles/CalendarStyle";
-import Error from "../../../components/Error";
 
 const Calendar = () => {
   const [side, setSide] = useState(false);
@@ -29,7 +28,7 @@ const Calendar = () => {
   });
 
   const { firstDay, date } = useDate(select.year, select.month);
-  const { diary, isError } = useGetDiary(select.year, select.month);
+  const { diary } = useGetDiary(select.year, select.month);
 
   //해당 날짜의 값 가져오는 함수
   const clickDayBtn = (day: number): void => {
@@ -53,9 +52,6 @@ const Calendar = () => {
     setSelect({ ...select, year: today.year, month: today.month });
   };
 
-  if (isError) {
-    return <Error />;
-  }
   return (
     <St.Container>
       {!side && (

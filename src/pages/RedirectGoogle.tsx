@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import guest from "../lib/api/guest";
 import { useQuery } from "@tanstack/react-query";
 import { setCookie } from "../utils/cookies";
-import { keys } from "../data/queryKeys/keys";
+import { keys } from "../data/queryKey/keys";
 import { HOME_PAGE } from "../data/routes/urls";
 import Loading from "../components/Loading";
 import Error from "../components/Error";

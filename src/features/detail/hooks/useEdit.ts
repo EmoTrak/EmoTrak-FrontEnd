@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { keys } from "../../../data/queryKeys/keys";
+import { keys } from "../../../data/queryKey/keys";
 import { PostInput } from "../../../data/type/type";
 import { DETAIL_PAGE } from "../../../data/routes/urls";
 import user from "../../../lib/api/user";

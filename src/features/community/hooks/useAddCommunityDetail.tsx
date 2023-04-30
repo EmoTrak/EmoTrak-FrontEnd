@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { keys } from "../../../data/queryKeys/keys";
+import { keys } from "../../../data/queryKey/keys";
 import user from "../../../lib/api/user";
 
 const useAddCommunityDetail = (page: number) => {

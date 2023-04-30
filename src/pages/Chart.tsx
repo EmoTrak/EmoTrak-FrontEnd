@@ -10,7 +10,6 @@ import { useState } from "react";
 import * as St from "../features/chart/styles/ChartPageStyle";
 import { today } from "../utils/today";
 import { DateType } from "../data/type/type";
-import Error from "../components/Error";
 
 const Chart = () => {
   scrollOnTop();
@@ -22,13 +21,9 @@ const Chart = () => {
   const [isActive, setIsActive] = useState(false);
   const toggleChart = () => setIsActive((prev) => !prev);
 
-  const { chartData, isError } = useChartData(select.year);
+  const { chartData } = useChartData(select.year);
 
   const emoIds: number[] = [1, 2, 3, 4, 5, 6];
-
-  if (isError) {
-    return <Error />;
-  }
 
   return (
     <St.Container>

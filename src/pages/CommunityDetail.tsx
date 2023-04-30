@@ -19,13 +19,12 @@ import PostDate from "../features/community/components/PostDate";
 import Report from "../features/community/components/Report";
 import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 import * as St from "../features/community/styles/CommunityDetailStyle";
-import Error from "../components/Error";
 
 const CommunityDetail = () => {
   const navigate = useNavigate();
   const refreshToken = getCookie("refreshToken");
   const [page, setPage] = useState<number>(1);
-  const { data, isError, status, remove } = useAddCommunityDetail(page);
+  const { data, status, remove } = useAddCommunityDetail(page);
 
   useEffect(() => {
     scrollOnTop();
@@ -33,10 +32,6 @@ const CommunityDetail = () => {
       remove();
     };
   }, []);
-
-  if (isError) {
-    return <Error />;
-  }
 
   return (
     <St.Container>

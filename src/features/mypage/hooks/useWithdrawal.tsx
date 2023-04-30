@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { removeCookie } from "../../../utils/cookies";
-import { keys } from "../../../data/queryKeys/keys";
+import { keys } from "../../../data/queryKey/keys";
 import user from "../../../lib/api/user";
 
 export const useWithdrawal = () => {
