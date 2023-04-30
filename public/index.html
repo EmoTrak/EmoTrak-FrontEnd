@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="stylesheet" href="../reset.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="EmoTrak" />
@@ -14,8 +15,31 @@
     <meta property="og:url" content="https://emotrak.vercel.app" />
     <meta
       property="og:image"
-      content="https://emotrak.vercel.app/static/media/EmoTrakLogo.bbed182dfe18e5b30034.png"
+      content="%PUBLIC_URL%//static/media/EmoTrakLogo.bbed182dfe18e5b30034.png"
     />
+
+    <link
+      rel="preload"
+      href="/assets/fonts/JalnanOTF00.woff"
+      as="font"
+      type="font/woff"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/assets/fonts/KyoboHand.woff"
+      as="font"
+      type="font/woff"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/assets/fonts/Pretendard-Regular.woff"
+      as="font"
+      type="font/woff"
+      crossorigin
+    />
+
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
