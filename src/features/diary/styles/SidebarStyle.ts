@@ -13,28 +13,28 @@ export const OpenBox = keyframes`
 
 export const TabletOpenBox = keyframes`
   from {
-    top: 150%;
+    top: 100%;
   }
   to {
-    top: 80%;
+    top: 90%;
   }
 `;
 
 export const MobileOpenBox = keyframes`
   from {
-    top: 150%;
+    top: 100%;
   }
   to {
-    top: 75%;
+    top: 88%;
   }
 `;
 
 export const MiniMobileOpenBox = keyframes`
   from {
-    top: 150%;
+    top: 100%;
   }
   to {
-    top: 65%;
+    top: 85%;
   }
 `;
 
@@ -47,16 +47,16 @@ export const Wrap = styled.div`
     flex-direction: column;
     z-index: 10;
     left: 0;
-    display: ${({ side }: Partial<DayProps>) => (side ? "content" : "none")};
-    top: ${({ side }: Partial<DayProps>) => (side ? "80%" : "150%")};
+    position: absolute;
+    top: ${({ side }: Partial<DayProps>) => side && "90%"};
     animation: ${({ side }: Partial<DayProps>) => side && TabletOpenBox} 1s ease;
   }
   ${device.mobile} {
-    top: ${({ side }: Partial<DayProps>) => (side ? "70%" : "150%")};
+    top: ${({ side }: Partial<DayProps>) => side && "88%"};
     animation: ${({ side }: Partial<DayProps>) => side && MobileOpenBox} 1s ease;
   }
   ${device.miniMobile} {
-    top: ${({ side }: Partial<DayProps>) => (side ? "65%" : "150%")};
+    top: ${({ side }: Partial<DayProps>) => side && "85%"};
     animation: ${({ side }: Partial<DayProps>) => side && MiniMobileOpenBox} 1s ease;
   }
 `;
@@ -75,11 +75,12 @@ export const Container = styled.div`
     gap: 10px;
   }
   ${device.mobile} {
+    padding: 20px 5px;
     height: 450px;
     flex-direction: column;
   }
   ${device.miniMobile} {
-    height: 350px;
+    height: 300px;
     flex-direction: column;
   }
 `;
@@ -111,10 +112,6 @@ export const ContentBox = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: space-around;
-  ${device.tablet} {
-    justify-content: flex-start;
-    height: 50%;
-  }
   ${device.mobile} {
     width: 100%;
   }
@@ -125,9 +122,15 @@ export const Imoticon = styled.div`
   position: relative;
   background-color: ${themeColor.main.white};
   padding: 5px;
-  min-width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   margin-right: 10px;
+  ${device.miniMobile} {
+    padding: 3px;
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+  }
 `;
 
 export const Content = styled.div`
@@ -142,14 +145,9 @@ export const Content = styled.div`
   cursor: pointer;
   color: ${themeColor.main.coffemilk};
   ${device.tablet} {
-    width: 87vw;
+    width: 90vw;
     height: 100%;
-  }
-  ${device.mobile} {
-    width: 83vw;
-  }
-  ${device.miniMobile} {
-    width: 73vw;
+    padding: 10px;
   }
 `;
 
@@ -167,13 +165,7 @@ export const PostContent = styled.div`
   cursor: pointer;
   color: ${themeColor.main.coffemilk};
   ${device.tablet} {
-    width: 87vw;
+    width: 90vw;
     height: 100%;
-  }
-  ${device.mobile} {
-    width: 83vw;
-  }
-  ${device.miniMobile} {
-    width: 73vw;
   }
 `;
