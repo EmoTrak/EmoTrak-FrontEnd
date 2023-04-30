@@ -17,20 +17,14 @@ import Canvas from "../features/post/components/Canvas";
 import PostInput from "../features/post/components/PostInput";
 import StarScore from "../features/post/components/StarScore";
 import EmoScore from "../features/post/components/EmoScore";
-import { useWindowSize } from "../hooks/useWindowSize";
 
 const DrawingPost = () => {
   const navigate = useNavigate();
   const params = useParams();
   const [year, month, day] = (params.date || "").split("-").map(Number);
-  const { resizeHandler, desktop, tablet, mobile } = useWindowSize();
 
   // 조건부 렌더링용 상태
   const [isCanvas, setIsCanvas] = useState<boolean>(true);
-
-  const canvasHeight = desktop ? 550 : tablet ? 500 : mobile ? 340 : 320;
-
-  const canvasWidth = desktop ? 580 : tablet ? 430 : mobile ? 450 : 320;
 
   // 글작성 조건 상태
   const [validPicture, setValidPicture] = useState<boolean>(false);
@@ -104,13 +98,6 @@ const DrawingPost = () => {
   };
 
   useEffect(() => {
-    window.addEventListener("resize", resizeHandler);
-    return () => {
-      window.removeEventListener("resize", resizeHandler);
-    };
-  }, []);
-
-  useEffect(() => {
     const preventGoBack = () => {
       if (window.confirm("페이지를 나가시겠습니까?")) {
         navigate(-1);
@@ -143,8 +130,6 @@ const DrawingPost = () => {
               isCanvas={isCanvas}
               canvasRef={canvasRef}
               validation={setValidPicture}
-              canvasHeight={canvasHeight}
-              canvasWidth={canvasWidth}
             />
             <Button size="medium" type="button" onClick={savePicture}>
               {isCanvas ? "그림저장" : "더그리기"}
