@@ -27,7 +27,7 @@ const LoginForm = () => {
           <span>로그인</span>
           <p />
         </St.FormTitle>
-        <InputList name="아이디">
+        <InputList name="아이디(이메일)">
           <MyPageInput
             type="text"
             name="email"

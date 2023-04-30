@@ -12,7 +12,9 @@ const Context = createContext<BooleanType>(defaultValue);
 
 export const Modalroot = ({ children }: PropsWithChildren) => {
   const [open, setOpen] = useState<boolean>(false);
-  return <Context.Provider value={{ open, setOpen }}>{children}</Context.Provider>;
+  return (
+    <Context.Provider value={{ open, setOpen }}>{children}</Context.Provider>
+  );
 };
 
 export const ModalTrigger = ({ children }: PropsWithChildren) => {
@@ -44,9 +46,9 @@ export const ModalContent = ({ children }: PropsWithChildren) => {
 
 const Content = styled.div`
   background-color: ${themeColor.main.white};
+  display: contents;
   border-radius: 30px;
   box-sizing: border-box;
-  position: relative;
   z-index: 10;
 `;
 

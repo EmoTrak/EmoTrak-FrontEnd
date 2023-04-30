@@ -8,7 +8,7 @@ import {
   HOME_PAGE,
   MY_PAGE,
 } from "../data/routes/urls";
-import EmoTrak from "../assets/logo/EmoTrakLogo.png";
+import EmoTrak from "../assets/logo/EmoTrakLogo.webp";
 import MobileMenubar from "./MobileMenubar";
 import { IoIosArrowBack } from "react-icons/io";
 import * as St from "../layouts/LayoutStyle";
@@ -47,7 +47,7 @@ const Header = () => {
           <St.LogoImg src={EmoTrak} alt="로고" />
         </St.EmoTrakLogo>
       ) : (
-        <St.EmoTrakLogo>
+        <St.EmoTrakLogo onClick={() => navigate("/")}>
           <St.LogoImg src={EmoTrak} alt="로고" />
         </St.EmoTrakLogo>
       )}
