@@ -144,7 +144,7 @@ export const LogoImg = styled.img`
 `;
 
 export const BackOfPage = styled.button`
-  font-size: 40px;
+  font-size: 30px;
   background-color: ${themeColor.main.paper};
   border: 0;
   border-radius: 50%;
@@ -157,6 +157,7 @@ export const BackOfPage = styled.button`
   z-index: 10;
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 
 export const Wrap = styled.div`

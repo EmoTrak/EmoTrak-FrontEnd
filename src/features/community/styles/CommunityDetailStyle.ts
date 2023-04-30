@@ -86,3 +86,8 @@ export const Nickname = styled.div`
   white-space: nowrap;
   margin: 10px 20px;
 `;
+
+export const DiaryText = styled.span`
+  color: ${themeColor.main.coffemilk};
+  cursor: pointer;
+`;
