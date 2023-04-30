@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { device, themeColor } from "../../../utils/theme";
+import {  themeColor } from "../../../utils/theme";
 import { BannerProps } from "../../../data/type/type";
 
 export const Slider = styled.div`
@@ -9,7 +9,7 @@ export const Slider = styled.div`
 
 export const Banner = styled.div<BannerProps>`
   width: 100vw;
-  height: 85vh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,7 +26,6 @@ export const Banner = styled.div<BannerProps>`
   
 `;
 export const BannerImg = styled.img`
-  position: absolute;
   top: 10vh;
   width: 240px;
   max-height: 500px;
@@ -69,7 +68,6 @@ export const PrevBtn = styled.button`
 `;
 
 export const LoginButton = styled.button`
-  position: absolute;
   bottom: 9vh;
   border: none;
   height: 35px;
