@@ -4,6 +4,7 @@ import { getCookie } from "../../../utils/cookies";
 import { LikeType } from "../../../data/type/type";
 import * as St from "../styles/LikePostStyle";
 import { useLikePost } from "../hooks/useLikePost";
+import Flex from "../../../components/Flex";
 
 const LikePost = ({ isLike, id, count }: LikeType) => {
   const refreshToken = getCookie("refreshToken");
@@ -11,7 +12,7 @@ const LikePost = ({ isLike, id, count }: LikeType) => {
 
   const { likeMutate, like } = useLikePost({ isLike, id, count });
   return (
-    <>
+    <Flex row ai="center">
       {like.isLike ? (
         <St.LikeTrue
           onClick={() =>
@@ -33,8 +34,9 @@ const LikePost = ({ isLike, id, count }: LikeType) => {
           <RiHeart3Line />
         </St.LikeFalse>
       )}
-      <St.LikeCount>{like.count}명이 좋아합니다</St.LikeCount>
-    </>
+      <St.LikeCount>{like.count}</St.LikeCount>
+      <St.LikeText>명이 좋아합니다</St.LikeText>
+    </Flex>
   );
 };
 

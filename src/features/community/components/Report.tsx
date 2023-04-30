@@ -6,18 +6,20 @@ import Button from "../../../components/Button";
 import * as UI from "../../../components/Modal";
 import * as St from "../styles/ReportStyle";
 import * as Sub from "../../../components/subModal";
+import Flex from "../../../components/Flex";
 
-const Report = ({
-  children,
-  id,
-  uri,
-}: PropsWithChildren & Partial<UriType>) => {
+const Report = ({ children, id, uri }: PropsWithChildren & Partial<UriType>) => {
   const { reason, changeInputHandler, mutate, status, reset } = useReport(uri);
 
   return (
     <UI.Modalroot>
       <UI.ModalBackground />
-      <UI.ModalTrigger>{children}</UI.ModalTrigger>
+      <UI.ModalTrigger>
+        <Flex ai="center">
+          <St.ReportIcon>{children}</St.ReportIcon>
+          <St.ReportText>신고하기</St.ReportText>
+        </Flex>
+      </UI.ModalTrigger>
       <UI.ModalContent>
         <St.Container>
           <St.CloseBtn>
