@@ -2,24 +2,7 @@
 import { getCookie, setCookie } from "../utils/cookies";
 import user from "../lib/api/user";
 import { logout } from "../utils/logout";
-import { AxiosRequestConfig, AxiosRequestHeaders, AxiosResponseHeaders } from "axios";
-
-interface AxiosError {
-  config: AxiosRequestConfig;
-  code: string;
-  message: string;
-  name: string;
-  isAxiosError: boolean;
-  response: AxiosResponse;
-  request: AxiosRequestHeaders;
-}
-interface AxiosResponse {
-  data: { data: null; errorCode: string; message: string; statusCode: number };
-  status: number;
-  statusText: string;
-  headers: AxiosResponseHeaders;
-  config: AxiosRequestConfig;
-}
+import { AxiosError } from "../data/type/type";
 
 export const useError = (error: AxiosError) => {
   if (error) {

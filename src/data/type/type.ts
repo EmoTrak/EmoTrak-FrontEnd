@@ -1,3 +1,4 @@
+import { AxiosRequestConfig, AxiosRequestHeaders, AxiosResponseHeaders } from "axios";
 import { ComponentPropsWithoutRef, PropsWithChildren } from "react";
 
 export interface Idtype {
@@ -275,4 +276,21 @@ export interface ColorType {
 
 export interface Logout {
   logout: () => void;
+}
+
+export interface AxiosError {
+  config: AxiosRequestConfig;
+  code: string;
+  message: string;
+  name: string;
+  isAxiosError: boolean;
+  response: AxiosResponse;
+  request: AxiosRequestHeaders;
+}
+interface AxiosResponse {
+  data: { data: null; errorCode: string; message: string; statusCode: number };
+  status: number;
+  statusText: string;
+  headers: AxiosResponseHeaders;
+  config: AxiosRequestConfig;
 }
