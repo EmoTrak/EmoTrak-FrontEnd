@@ -10,6 +10,7 @@ import { useState } from "react";
 import * as St from "../features/chart/styles/ChartPageStyle";
 import { today } from "../utils/today";
 import { DateType } from "../data/type/type";
+import { NowDay } from "../features/diary/styles/CalendarStyle";
 
 const Chart = () => {
   scrollOnTop();
@@ -28,22 +29,18 @@ const Chart = () => {
   return (
     <St.Container>
       <Flex jc="center" ai="center">
-        <Flex>
-          <></>
-          <St.SelectWrap>
-            <h1>
-              {select.year}년 {select.month}월
-            </h1>
-            <MonthSelect select={select} setSelect={setSelect}>
-              <St.SelectBtn>
-                <MdOutlineArrowDropDownCircle />
-              </St.SelectBtn>
-            </MonthSelect>
-          </St.SelectWrap>
-        </Flex>
-        <div>
-          <h2>나의 감정은?</h2>
-        </div>
+        <NowDay>
+          <span>
+            {select.year}년 {select.month}월
+          </span>
+          <p />
+          <MonthSelect select={select} setSelect={setSelect}>
+            <St.SelectBtn>
+              <MdOutlineArrowDropDownCircle />
+            </St.SelectBtn>
+          </MonthSelect>
+        </NowDay>
+        <div>나의 감정은?</div>
 
         <St.MobileWrapper>
           <St.CheckBoxWrapper>

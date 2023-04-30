@@ -37,15 +37,14 @@ export const NowDay = styled.div`
     width: 115px;
     height: 16px;
     position: absolute;
-    top: -5px;
+    top: 5px;
     z-index: 2;
   }
 `;
 
 export const SelectBtn = styled.button`
   position: absolute;
-  top: 2px;
-  right: -30px;
+  right: -35px;
   border: 0;
   background-color: transparent;
   font-size: 20px;
@@ -58,6 +57,9 @@ export const CalendarBox = styled.div`
   margin-right: auto;
   max-width: 850px;
   height: 100vh;
+  ${device.tablet} {
+    width: 95vw;
+  }
   ${device.mobile} {
     height: 85vh;
   }
