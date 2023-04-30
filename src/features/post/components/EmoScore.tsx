@@ -1,5 +1,5 @@
 import React from "react";
-import { EmoButton } from "../styles/DrawingStyle";
+import { EmoButton, EmoButtonBox } from "../styles/DrawingStyle";
 import EmotionIcons from "../../../components/Icon/EmoticonIcons";
 import Flex from "../../../components/Flex";
 
@@ -10,7 +10,7 @@ interface Test {
 
 const EmoScore = ({ value, action }: Test) => {
   return (
-    <Flex row>
+    <EmoButtonBox>
       {[1, 2, 3, 4, 5, 6].map((item: number) => (
         <EmoButton
           name="emoId"
@@ -27,7 +27,7 @@ const EmoScore = ({ value, action }: Test) => {
           />
         </EmoButton>
       ))}
-    </Flex>
+    </EmoButtonBox>
   );
 };
 

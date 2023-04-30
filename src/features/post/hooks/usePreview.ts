@@ -1,8 +1,11 @@
 import { useState } from "react";
 export const usePreview = () => {
-  const [previewUrl, setPreviewUrl] =
-    useState<string | ArrayBuffer | null>(null);
-  const preview = (imgFile: Blob | null): string | undefined | null => {
+  const [previewUrl, setPreviewUrl] = useState<string | ArrayBuffer | null>(
+    null
+  );
+  const preview = (
+    imgFile: File | Blob | null | undefined
+  ): string | undefined | null => {
     if (!imgFile) {
       return null;
     }
