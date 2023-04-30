@@ -19,6 +19,9 @@ const CreateComment = ({ id }: Idtype) => {
 
   const submitCommentHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!input.comment.split(" ").join("").length || !input.comment.length) {
+      return alert("내용을 입력해주세요");
+    }
     addComment(input);
     setInput({ comment: "" });
   };
