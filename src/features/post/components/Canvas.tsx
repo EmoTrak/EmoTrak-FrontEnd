@@ -30,9 +30,7 @@ const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
     };
   }, []);
 
-  const [mousePosition, setMousePosition] = useState<Coordinate | undefined>(
-    undefined
-  );
+  const [mousePosition, setMousePosition] = useState<Coordinate | undefined>(undefined);
 
   // 좌표 함수
   const getCoordinates = (event: MouseEvent): Coordinate | undefined => {
@@ -48,9 +46,7 @@ const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
 
   // 그림판 모드, 색깔 상태 관리
   const [mode, setMode] = useState<string>("pen");
-  const [selectedColor, setSelectedColor] = useState<string>(
-    themeColor.main.black
-  );
+  const [selectedColor, setSelectedColor] = useState<string>(themeColor.main.black);
   const [selectPen, setSelectPen] = useState<boolean>(false);
   const [selectedSize, setSelectedSize] = useState<number>(3);
   // 지우개, 펜 모드 변경 함수
