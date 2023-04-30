@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CommentType, Idtype } from "../../../data/type/type";
+import { Idtype } from "../../../data/type/type";
 import { getCookie } from "../../../utils/cookies";
 import Button from "../../../components/Button";
 import useAddComment from "../hooks/useAddComment";
@@ -7,30 +7,28 @@ import * as St from "../styles/CreateCommentStyle";
 
 const CreateComment = ({ id }: Idtype) => {
   const refreshToken = getCookie("refreshToken");
-  const [input, setInput] = useState<CommentType>({
-    comment: "",
-  });
+  const [comment, setComment] = useState<string>("");
 
   const changeInputHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInput({ comment: e.target.value });
+    setComment(e.target.value);
   };
 
   const { addComment } = useAddComment(id);
 
   const submitCommentHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!input.comment.split(" ").join("").length || !input.comment.length) {
+    if (!comment.split(" ").join("").length || !comment.length) {
       return alert("내용을 입력해주세요");
     }
-    addComment(input);
-    setInput({ comment: "" });
+    addComment(comment);
+    setComment("");
   };
 
   return (
     <St.CommentForm onSubmit={submitCommentHandler}>
       <span> 댓글</span>
       <St.CommentInput
-        value={input.comment}
+        value={comment}
         onChange={changeInputHandler}
         placeholder={refreshToken ? "댓글을 남겨보세요!" : "로그인 후 이용 가능합니다!"}
         spellCheck={false}

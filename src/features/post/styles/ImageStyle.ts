@@ -63,6 +63,9 @@ export const StarWrap = styled.div`
     margin-bottom: 20px;
     gap: 35px;
   }
+  p {
+    white-space: nowrap;
+  }
 `;
 export const PhotoInputBox = styled.li`
   width: 45vw;
@@ -172,7 +175,7 @@ export const ScoreBox = styled.div`
   justify-content: space-evenly;
   align-items: center;
   width: 45vw;
-  ${device.tablet} {
+  @media screen and (max-width: 1090px) {
     display: flex;
     flex-direction: column;
   }
