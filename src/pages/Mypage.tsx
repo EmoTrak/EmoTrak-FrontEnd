@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { InfoType } from "../data/type/type";
 import { themeColor } from "../utils/theme";
-import { removeCookie } from "../utils/cookies";
 import { useAuth } from "../features/mypage/hooks/useAuth";
 import { usePasswordCheck } from "../features/signup/hooks/usePasswordCheck";
 import { useNicknameValidation } from "../features/signup/hooks/useNicknameValidation";
@@ -12,6 +11,7 @@ import { useWithdrawal } from "../features/mypage/hooks/useWithdrawal";
 import Button from "../components/Button";
 import InputList from "../features/mypage/components/InputList";
 import * as St from "../features/mypage/styles/MypageStyle";
+import { logout } from "../utils/logout";
 
 const Mypage = () => {
   const { userInfo } = useAuth();
@@ -25,7 +25,7 @@ const Mypage = () => {
     rePassword: "",
   });
 
-  const [regExpPassword, setRegExpPassword] = useState(false);
+  const [regExpPassword, setRegExpPassword] = useState<boolean>(false);
 
   const {
     checkNickname,
@@ -50,15 +50,19 @@ const Mypage = () => {
   const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setInfo({ ...info, [name]: value });
-    if (name === "nickname") {
-      setNicknameValidation(false);
-    }
-    if (name === "password") {
-      setRegExpPassword(validPassword(info.password));
-    }
-    if (name === "rePassword") {
-      checkPasswordHandler(event.target.value);
-    }
+    const inputName = new Map([
+      ["nickname", () => setNicknameValidation(false)],
+      [
+        "password",
+        () => {
+          setRegExpPassword(validPassword(event.target.value));
+          checkPasswordHandler(event.target.value);
+        },
+      ],
+      ["rePassword", () => checkPasswordHandler(event.target.value)],
+    ]);
+    const func = inputName.get(name);
+    return func && func();
   };
 
   const withdrawUserHandler = () => {
@@ -67,9 +71,7 @@ const Mypage = () => {
 
   const logoutUserHandler = () => {
     if (window.confirm("로그아웃하시겠습니까")) {
-      removeCookie("token", { path: "/" });
-      removeCookie("refreshToken", { path: "/" });
-      removeCookie("expire", { path: "/" });
+      logout();
       navigate("/");
     }
   };
@@ -103,6 +105,7 @@ const Mypage = () => {
           <St.MyPageInput
             type="text"
             name="nickname"
+            spellCheck={false}
             maxLength={8}
             value={info.nickname}
             onChange={changeInputHandler}
@@ -124,10 +127,7 @@ const Mypage = () => {
                 size="small"
                 disabled={!nicknameValidation}
                 onClick={() => changeNickname.mutate(info.nickname)}
-                style={{
-                  backgroundColor: themeColor.main.red,
-                  color: themeColor.main.white,
-                }}
+                important
               >
                 닉네임 변경
               </Button>
@@ -150,57 +150,66 @@ const Mypage = () => {
               value={info.password}
               onChange={changeInputHandler}
               disabled={userInfo?.hasSocial}
-              placeholder="변경 비밀번호"
+              placeholder={
+                userInfo?.hasSocial
+                  ? "소셜로그인된 계정은 비밀번호 변경이 불가합니다."
+                  : "변경 비밀번호"
+              }
             />
           </St.MyPageLabel>
-          {!regExpPassword && (
-            <St.MyPageHelperText important>
-              비밀번호는 소문자, 숫자를 포함하는 8~15자리이어야합니다.
-            </St.MyPageHelperText>
+          {userInfo?.hasSocial ? (
+            <></>
+          ) : (
+            <>
+              {!regExpPassword ? (
+                <St.MyPageHelperText important>
+                  비밀번호는 소문자, 숫자를 포함하는 8~15자리이어야합니다.
+                </St.MyPageHelperText>
+              ) : (
+                <St.MyPageHelperText></St.MyPageHelperText>
+              )}
+              <St.MyPageLabel>
+                <St.MyPageInput
+                  name="rePassword"
+                  type="password"
+                  maxLength={15}
+                  value={info.rePassword}
+                  onChange={changeInputHandler}
+                  disabled={userInfo?.hasSocial}
+                  placeholder={
+                    userInfo?.hasSocial
+                      ? "소셜로그인된 계정은 비밀번호 변경이 불가합니다."
+                      : "변경 비밀번호 확인"
+                  }
+                />
+              </St.MyPageLabel>
+              {!info.rePassword ? (
+                <St.MyPageHelperText>
+                  비밀번호를 다시 입력해주세요.
+                </St.MyPageHelperText>
+              ) : doublePassword ? (
+                <St.MyPageHelperText>
+                  비밀번호가 일치합니다.
+                </St.MyPageHelperText>
+              ) : (
+                <St.MyPageHelperText important>
+                  비밀번호가 일치하지 않습니다.
+                </St.MyPageHelperText>
+              )}
+              <St.MyPageButtonBox>
+                <Button
+                  size="small"
+                  disabled={info.password === "" || !regExpPassword}
+                  onClick={() => changePassword.mutate(info.password)}
+                >
+                  비밀번호 변경
+                </Button>
+              </St.MyPageButtonBox>
+            </>
           )}
-          <St.MyPageLabel>
-            <St.MyPageInput
-              name="rePassword"
-              type="password"
-              maxLength={15}
-              value={info.rePassword}
-              onChange={changeInputHandler}
-              disabled={userInfo?.hasSocial}
-              placeholder="변경 비밀번호 확인"
-            />
-          </St.MyPageLabel>
-          <>
-            {!info.password ? (
-              <St.MyPageHelperText>
-                비밀번호를 다시 입력해주세요.
-              </St.MyPageHelperText>
-            ) : doublePassword ? (
-              <St.MyPageHelperText>비밀번호가 일치합니다.</St.MyPageHelperText>
-            ) : (
-              <St.MyPageHelperText important>
-                비밀번호가 일치하지 않습니다.
-              </St.MyPageHelperText>
-            )}
-          </>
-          <St.MyPageButtonBox>
-            <Button
-              size="small"
-              disabled={info.password === "" || !regExpPassword}
-              onClick={() => changePassword.mutate(info.password)}
-            >
-              비밀번호 변경
-            </Button>
-          </St.MyPageButtonBox>
         </InputList>
         <St.MyPageButtonBox>
-          <Button
-            size="small"
-            onClick={withdrawUserHandler}
-            style={{
-              backgroundColor: themeColor.main.red,
-              color: themeColor.main.white,
-            }}
-          >
+          <Button size="small" onClick={withdrawUserHandler} important>
             회원탈퇴
           </Button>
         </St.MyPageButtonBox>

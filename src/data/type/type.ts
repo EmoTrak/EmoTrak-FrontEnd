@@ -1,4 +1,8 @@
-import { AxiosRequestConfig, AxiosRequestHeaders, AxiosResponseHeaders } from "axios";
+import {
+  AxiosRequestConfig,
+  AxiosRequestHeaders,
+  AxiosResponseHeaders,
+} from "axios";
 import { ComponentPropsWithoutRef, PropsWithChildren } from "react";
 
 export interface Idtype {
@@ -150,6 +154,7 @@ export interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
   icon?: boolean;
   circle?: boolean;
   size?: string;
+  important?: boolean;
 }
 
 export interface CheckProps {

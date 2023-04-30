@@ -7,10 +7,6 @@ export const SignupPageWrapper = styled.div`
   margin: 0 auto;
   background-color: ${themeColor.main.white};
 `;
-export const WarningMessage = styled.span`
-  color: ${themeColor.main.red};
-  height: 20px;
-`;
 
 export const SignFormContentBox = styled.div`
   display: flex;

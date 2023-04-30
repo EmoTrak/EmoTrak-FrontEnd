@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { SignInfo } from "../../../data/type/type";
+import { LoginInfo } from "../../../data/type/type";
 import user from "../../../lib/api/user";
 
 export const useSignup = () => {
   const navigate = useNavigate();
   const signup = useMutation(
-    async (item: SignInfo): Promise<void> => {
+    async (item: LoginInfo & { nickname: string }): Promise<void> => {
       await user.post(`/users/signup`, item);
     },
     {
