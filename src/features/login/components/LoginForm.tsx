@@ -51,12 +51,7 @@ const LoginForm = () => {
         <Button circle size="circle" type="submit" form="login">
           로그인
         </Button>
-        <Button
-          circle
-          size="circle"
-          type="button"
-          onClick={() => navigate(SIGN_UP_PAGE)}
-        >
+        <Button circle size="circle" type="button" onClick={() => navigate(SIGN_UP_PAGE)}>
           회원가입
         </Button>
       </St.ButtonBox>

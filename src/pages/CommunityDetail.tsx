@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { RiAlarmWarningFill } from "react-icons/ri";
+import { IoIosArrowBack } from "react-icons/io";
 import { CommentData } from "../data/type/type";
 import { DETAIL_PAGE } from "../data/routes/urls";
 import { getCookie } from "../utils/cookies";
 import { themeColor } from "../utils/theme";
 import { scrollOnTop } from "../utils/scollOnTop";
+import { BackOfPage } from "../layouts/LayoutStyle";
+import { LikeText } from "../features/community/styles/LikePostStyle";
 import PageNation from "../components/PageNation";
 import Flex from "../components/Flex";
 import Star from "../components/Icon/Star";
@@ -17,7 +20,6 @@ import useAddCommunityDetail from "../features/community/hooks/useAddCommunityDe
 import PostDate from "../features/community/components/PostDate";
 import Report from "../features/community/components/Report";
 import * as St from "../features/community/styles/CommunityDetailStyle";
-import { LikeText } from "../features/community/styles/LikePostStyle";
 
 const CommunityDetail = () => {
   const navigate = useNavigate();
@@ -34,6 +36,9 @@ const CommunityDetail = () => {
 
   return (
     <St.Container>
+      <BackOfPage onClick={() => navigate(-1)}>
+        <IoIosArrowBack />
+      </BackOfPage>
       <St.ImageWrapper>
         {data?.imgUrl ? (
           <St.Img src={data?.imgUrl} />

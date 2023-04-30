@@ -11,9 +11,13 @@ import * as St from "../features/chart/styles/ChartPageStyle";
 import { today } from "../utils/today";
 import { DateType } from "../data/type/type";
 import { NowDay } from "../features/diary/styles/CalendarStyle";
+import { BackOfPage } from "../layouts/LayoutStyle";
+import { IoIosArrowBack } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const Chart = () => {
   scrollOnTop();
+  const navigate = useNavigate();
   const [select, setSelect] = useState<DateType>({
     year: today.year,
     month: today.month,
@@ -28,6 +32,9 @@ const Chart = () => {
 
   return (
     <St.Container>
+      <BackOfPage onClick={() => navigate(-1)}>
+        <IoIosArrowBack />
+      </BackOfPage>
       <Flex jc="center" ai="center">
         <NowDay>
           <span>
