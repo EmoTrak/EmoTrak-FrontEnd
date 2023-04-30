@@ -70,7 +70,7 @@ export const UnorderLi = styled.ul`
 `;
 
 export const EmoButtonBox = styled.div`
-  width: 300px;
+  width: 270px;
   display: flex;
   justify-content: center;
   margin: 3px;
@@ -80,8 +80,8 @@ export const EmoButtonBox = styled.div`
 `;
 
 export const EmoButton = styled.button<EmoButtonProps>`
-  width: 50px;
-  height: 50px;
+  width: 46px;
+  height: 46px;
   background-color: ${(props) =>
     props.selected ? themeColor.main.coffemilk : "transparent"};
   border: 0;
@@ -93,12 +93,8 @@ export const EmoButton = styled.button<EmoButtonProps>`
       props.selected ? themeColor.main.coffemilk : themeColor.main.gray};
   }
   ${device.tablet} {
-    width: 47px;
-    height: 47px;
-  }
-  ${device.mobile} {
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
   }
 `;
 
@@ -126,9 +122,13 @@ export const ToolBox = styled.ul`
   justify-content: flex-end;
   align-items: center;
   position: relative;
+  margin-bottom: 50px;
   ${device.mobile} {
     gap: 3vw;
     width: 80vw;
+  }
+  ${device.miniMobile} {
+    margin-bottom: 100px;
   }
 `;
 
@@ -142,17 +142,15 @@ export const ToolList = styled.li`
 
 export const PenSizeTool = styled.div`
   position: absolute;
-  top: -17vh;
+  top: -120px;
   right: 6.1vw;
   display: flex;
   justify-content: center;
   align-items: center;
   ${device.tablet} {
-    top: -20vh;
     right: 10.5vw;
   }
   ${device.mobile} {
-    top: -18vh;
     right: 15vw;
   }
 `;

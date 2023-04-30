@@ -63,9 +63,12 @@ export const StarWrap = styled.div`
     margin-bottom: 20px;
     gap: 35px;
   }
+  p {
+    white-space: nowrap;
+  }
 `;
 export const PhotoInputBox = styled.li`
-  width: 40vw;
+  width: 45vw;
   height: 70vh;
   position: relative;
   border: 1px solid ${themeColor.main.paper};
@@ -117,7 +120,8 @@ export const PhotoInput = styled.input`
 
 export const PhotoPreviewImg = styled.img`
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
+  overflow-y: hidden;
   border-radius: 30px;
   display: flex;
   position: relative;
@@ -131,15 +135,14 @@ export const PhotoPreviewImg = styled.img`
 
 export const PhotoPreview = styled.div`
   width: 45vw;
-  margin-top: 50px;
-  max-height: 800px;
+  margin-top: 40px;
+  height: 600px;
   position: relative;
   display: flex;
   justify-content: center;
   ${device.mobile} {
     width: 90vw;
     margin-top: 0px;
-    overflow-y: hidden;
   }
 `;
 export const DeletePhotoButton = styled.button`
@@ -172,7 +175,7 @@ export const ScoreBox = styled.div`
   justify-content: space-evenly;
   align-items: center;
   width: 45vw;
-  ${device.tablet} {
+  @media screen and (max-width: 1090px) {
     display: flex;
     flex-direction: column;
   }
@@ -214,7 +217,7 @@ export const SubmitBox = styled.div`
     justify-content: center;
     align-items: center;
     width: 60vw;
-    height: 50vh;
+    height: 20vh;
   }
 `;
 

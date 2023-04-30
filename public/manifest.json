@@ -1,7 +1,7 @@
 {
   "short_name": "EmoTrak",
   "name": "EmoTrak",
-  "description": "emotion tracking diary",
+  "description": "Emotion Tracking Diary",
   "icons": [
     {
       "src": "favicon.ico",
@@ -17,9 +17,23 @@
     {
       "src": "logo.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
+  "splash_pages": {
+    "generated": {
+      "name": "EmoTrak",
+      "short_name": "EmoTrak",
+      "background_color": "#ffffff",
+      "icons": [
+        {
+          "src": "/splash.webp",
+          "type": "image/webp"
+        }
+      ]
+    }
+  },
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
