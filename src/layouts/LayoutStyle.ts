@@ -112,6 +112,9 @@ export const PageButton = styled.button`
   font-family: "KyoboHand";
   letter-spacing: 0.5px;
   font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: ${themeColor.font};
   &:last-child {
     margin-right: 50px;
