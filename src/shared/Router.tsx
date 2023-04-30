@@ -13,17 +13,15 @@ import Mypage from "../pages/Mypage";
 import ImagePost from "../pages/ImagePost";
 import DrawingPost from "../pages/DrawingPost";
 import Detail from "../pages/Detail";
-import ImageEdit from "../pages/ImageEdit";
 import DrawEdit from "../pages/DrawEdit";
 import RedirectKakao from "../pages/RedirectKakao";
 import RedirectNaver from "../pages/RedirectNaver";
 import RedirectGoogle from "../pages/RedirectGoogle";
 import Admin from "../pages/Admin";
+import ImageEdit from "../pages/ImageEdit";
 
 const AdminPost = lazy(() => import("../features/admin/components/AdminPost"));
-const AdminComment = lazy(
-  () => import("../features/admin/components/AdminComment")
-);
+const AdminComment = lazy(() => import("../features/admin/components/AdminComment"));
 const Community = lazy(() => import("../pages/Community"));
 const CommunityDetail = lazy(() => import("../pages/CommunityDetail"));
 const Chart = lazy(() => import("../pages/Chart"));
@@ -222,5 +220,11 @@ const Router = () => {
     </BrowserRouter>
   );
 };
+
+function delayForDemo(promise: Promise<{ default: React.ComponentType<any> }>) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, 2000);
+  }).then(() => promise);
+}
 
 export default Router;

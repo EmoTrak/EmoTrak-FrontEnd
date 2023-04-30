@@ -10,15 +10,9 @@ import { useEdit } from "../features/detail/hooks/useEdit";
 import Canvas from "../features/post/components/Canvas";
 import PostInput from "../features/post/components/PostInput";
 import * as St from "../features/post/styles/DrawingStyle";
-import {
-  Label,
-  ScoreBox,
-  StarWrap,
-  SubmitBox,
-} from "../features/post/styles/ImageStyle";
+import { Label, ScoreBox, StarWrap, SubmitBox } from "../features/post/styles/ImageStyle";
 import StarScore from "../features/post/components/StarScore";
 import EmoScore from "../features/post/components/EmoScore";
-
 const DrawEdit = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -49,14 +43,16 @@ const DrawEdit = () => {
 
   useEffect(() => {
     const canvas = canvasRef?.current;
-    const ctx = canvas?.getContext("2d");
-    const image = new Image();
-    image.crossOrigin = "use-credentials"; // tainted canvas 방지용
-    image.src = `${targetItem?.imgUrl}`; // S3 버킷 이미지 URL
-    image.onload = () => {
-      // 이미지가 로드되었을 때 캔버스에 그리기
-      ctx?.drawImage(image, 0, 0); // 이미지 그리기
-    };
+    if (canvas) {
+      const ctx = canvas?.getContext("2d");
+      const image = new Image();
+      image.crossOrigin = "use-credentials"; // tainted canvas 방지용
+      image.src = `${targetItem?.imgUrl}`; // S3 버킷 이미지 URL
+      image.onload = () => {
+        // 이미지가 로드되었을 때 캔버스에 그리기
+        ctx?.drawImage(image, 0, 0, canvas.width, canvas.height); // 이미지 그리기
+      };
+    }
   }, []);
 
   const {
@@ -143,9 +139,7 @@ const DrawEdit = () => {
                 <EmoScore value={inputValue.emoId} action={clickEmojiHandler} />
                 <StarWrap>
                   <StarScore arr={editStar} action={clickStarHandler} />
-                  <p>
-                    {inputValue.star ? inputValue.star : "별점을 입력하세요"}
-                  </p>
+                  <p>{inputValue.star ? inputValue.star : "별점을 입력하세요"}</p>
                 </StarWrap>
               </ScoreBox>
               <PostInput action={onChangeHandler} value={inputValue} />
@@ -159,12 +153,7 @@ const DrawEdit = () => {
                   />
                 </Label>
 
-                <Button
-                  important
-                  size="large"
-                  type="submit"
-                  disabled={!validPicture}
-                >
+                <Button important size="large" type="submit" disabled={!validPicture}>
                   등록하기
                 </Button>
               </SubmitBox>

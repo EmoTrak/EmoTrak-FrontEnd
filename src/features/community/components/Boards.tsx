@@ -81,6 +81,10 @@ const Boards = () => {
       setSearchParams({ sort: paramSort, emo: emoNum });
     } else if (emoNum) {
       setSearchParams({ emo: emoNum });
+    } else if (paramSort) {
+      setSearchParams({ sort: paramSort });
+    } else {
+      setSearchParams({ ...searchParams });
     }
   }, [emoNum]);
 
