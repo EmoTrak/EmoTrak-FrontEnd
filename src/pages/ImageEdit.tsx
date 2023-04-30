@@ -45,11 +45,14 @@ const ImageEdit = () => {
     setInputValue,
   } = useInput(editItem);
 
-  const { editDiaryHandler, fileInputHandler, fileDropHandler, photo } =
-    useEdit({
-      inputValue,
-      dailyId,
-    });
+  const { editDiaryHandler, fileInputHandler, fileDropHandler, photo } = useEdit({
+    inputValue,
+    dailyId,
+  });
+
+  useEffect(() => {
+    return () => {};
+  }, [inputValue]);
 
   // 드래그앤 드랍
   const dragOverHandler = (event: React.DragEvent) => {
@@ -66,9 +69,7 @@ const ImageEdit = () => {
   };
 
   // 기존 이미지 state 설정
-  const [exPhoto, setExPhoto] = useState<string | undefined>(
-    targetItem?.imgUrl
-  );
+  const [exPhoto, setExPhoto] = useState<string | undefined>(targetItem?.imgUrl);
 
   // 별점
   const clicked = [false, false, false, false, false];
@@ -117,20 +118,14 @@ const ImageEdit = () => {
             {exPhoto ? (
               <St.PhotoPreview>
                 <St.PhotoPreviewImg src={`${targetItem?.imgUrl}`} />
-                <St.DeletePhotoButton
-                  type="button"
-                  onClick={deleteExistingPhotoHandler}
-                >
+                <St.DeletePhotoButton type="button" onClick={deleteExistingPhotoHandler}>
                   삭제
                 </St.DeletePhotoButton>
               </St.PhotoPreview>
             ) : validPhoto ? (
               <St.PhotoPreview>
                 <St.PhotoPreviewImg src={`${previewUrl}`} />
-                <St.DeletePhotoButton
-                  type="button"
-                  onClick={deletePhotoHandler}
-                >
+                <St.DeletePhotoButton type="button" onClick={deletePhotoHandler}>
                   삭제
                 </St.DeletePhotoButton>
               </St.PhotoPreview>

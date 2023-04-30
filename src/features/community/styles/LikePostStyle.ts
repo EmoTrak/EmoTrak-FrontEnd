@@ -23,6 +23,7 @@ export const LikeCount = styled.div`
 export const LikeText = styled.div`
   color: ${themeColor.main.chocomilk};
   font-size: 15px;
+  cursor: pointer;
   @media screen and (max-width: 400px) {
     display: none;
   }

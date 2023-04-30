@@ -10,12 +10,7 @@ import { useEdit } from "../features/detail/hooks/useEdit";
 import Canvas from "../features/post/components/Canvas";
 import PostInput from "../features/post/components/PostInput";
 import * as St from "../features/post/styles/DrawingStyle";
-import {
-  Label,
-  ScoreBox,
-  StarWrap,
-  SubmitBox,
-} from "../features/post/styles/ImageStyle";
+import { Label, ScoreBox, StarWrap, SubmitBox } from "../features/post/styles/ImageStyle";
 import StarScore from "../features/post/components/StarScore";
 import EmoScore from "../features/post/components/EmoScore";
 import { useWindowSize } from "../hooks/useWindowSize";
@@ -158,9 +153,7 @@ const DrawEdit = () => {
                 <EmoScore value={inputValue.emoId} action={clickEmojiHandler} />
                 <StarWrap>
                   <StarScore arr={editStar} action={clickStarHandler} />
-                  <p>
-                    {inputValue.star ? inputValue.star : "별점을 입력하세요"}
-                  </p>
+                  <p>{inputValue.star ? inputValue.star : "별점을 입력하세요"}</p>
                 </StarWrap>
               </ScoreBox>
               <PostInput action={onChangeHandler} value={inputValue} />
@@ -174,12 +167,7 @@ const DrawEdit = () => {
                   />
                 </Label>
 
-                <Button
-                  important
-                  size="large"
-                  type="submit"
-                  disabled={!validPicture}
-                >
+                <Button important size="large" type="submit" disabled={!validPicture}>
                   등록하기
                 </Button>
               </SubmitBox>

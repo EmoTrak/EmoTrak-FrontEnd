@@ -5,7 +5,7 @@ export const Container = styled.div`
   width: 100%;
   display: flex;
   position: relative;
-  justify-content: space-around;
+  justify-content: space-evenly;
   box-sizing: border-box;
   background-color: ${themeColor.main.white};
   min-height: 90vh;

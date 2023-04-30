@@ -77,7 +77,12 @@ export const useError = (error: AxiosError) => {
     const FORBIDDEN = new Map([["x-1001", () => alert("권한이 없습니다.")]]);
 
     const NOT_FOUND = new Map([
-      ["x-1001", () => alert("선택한 게시물을 찾을 수 없습니다.")],
+      [
+        "x-1001",
+        () => {
+          alert("선택한 게시물을 찾을 수 없습니다.");
+        },
+      ],
       ["x-1002", () => alert("선택한 댓글을 찾을 수 없습니다.")],
       ["x-1003", () => alert("찾을 수 없는 일기입니다.")],
       ["x-1004", () => alert("신고내역을 찾을 수 없습니다.")],

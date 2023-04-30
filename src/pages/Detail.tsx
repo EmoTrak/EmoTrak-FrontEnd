@@ -14,6 +14,8 @@ import EmotionIcons from "../components/Icon/EmoticonIcons";
 import { useGetDetail } from "../features/detail/hooks/useGetDetail";
 import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 import * as St from "../features/detail/styles/DetailStyle";
+import { Link } from "react-router-dom";
+import { COMMUNITY_DETAIL } from "../data/routes/urls";
 
 const Detail = () => {
   const params = useParams();
@@ -111,7 +113,13 @@ const Detail = () => {
             </St.EmoScore>
           </St.DetailEmoWrap>
           <St.SharedWrap>
-            <Flex row>{targetItem?.share ? "Shared" : "Not Shared"}</Flex>
+            <Flex row>
+              {targetItem?.share ? (
+                <Link to={`${COMMUNITY_DETAIL}/${targetItem.id}`}>"Shared"</Link>
+              ) : (
+                "Not Shared"
+              )}
+            </Flex>
           </St.SharedWrap>
           <St.DetailText>
             <St.DetailWrapper>{targetItem?.detail}</St.DetailWrapper>
