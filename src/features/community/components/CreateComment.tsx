@@ -3,8 +3,10 @@ import { CommentType, Idtype } from "../../../data/type/type";
 import Button from "../../../components/Button";
 import useAddComment from "../hooks/useAddComment";
 import * as St from "../styles/CreateCommentStyle";
+import { getCookie } from "../../../utils/cookies";
 
 const CreateComment = ({ id }: Idtype) => {
+  const refreshToken = getCookie("refreshToken");
   const [input, setInput] = useState<CommentType>({
     comment: "",
   });
@@ -27,10 +29,11 @@ const CreateComment = ({ id }: Idtype) => {
       <St.CommentInput
         value={input.comment}
         onChange={changeInputHandler}
-        placeholder="댓글을 남겨보세요!"
+        placeholder={refreshToken ? "댓글을 남겨보세요!" : "로그인 후 이용 가능합니다!"}
         spellCheck={false}
+        disabled={!refreshToken}
       />
-      <Button size="small">댓글작성</Button>
+      {refreshToken && <Button size="small">댓글작성</Button>}
     </St.CommentForm>
   );
 };

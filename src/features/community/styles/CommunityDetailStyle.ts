@@ -31,7 +31,7 @@ export const PostDetailWrapper = styled.div`
   width: 40vw;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   position: relative;
   margin-top: 50px;
   ${device.mobile} {
@@ -49,21 +49,24 @@ export const Img = styled.img`
 `;
 
 export const Emoticon = styled.div`
-  width: 23px;
+  width: 25px;
 `;
 
 export const EmotionalScore = styled.div`
-  font-size: 18px;
+  font-size: 20px;
+  white-space: nowrap;
+  padding-bottom: 2px;
+  border-bottom: 2px solid;
 `;
 
 export const EmotionStar = styled.div`
-  /* min-width: 100px; */
   display: flex;
   gap: 15px;
 `;
 
 export const PostContent = styled.div`
   width: 40vw;
+  min-height: 30vh;
   margin-top: 30px;
   margin-bottom: 30px;
   text-decoration: underline;
@@ -72,10 +75,13 @@ export const PostContent = styled.div`
   box-sizing: border-box;
   ${device.mobile} {
     width: 80%;
+    min-height: 10vh;
   }
 `;
 
 export const Nickname = styled.div`
-  color: ${themeColor.main.chocomilk};
-  font-size: 25px;
+  color: ${themeColor.main.coffemilk};
+  font-size: 20px;
+  white-space: nowrap;
+  margin: 10px 20px;
 `;
