@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { BsCaretDownFill } from "react-icons/bs";
-import { BiArrowToTop } from "react-icons/bi";
 import { COMMUNITY_PAGE } from "../../../data/routes/urls";
 import { ImageType } from "../../../data/type/type";
-import { scrollOnTop } from "../../../utils/scollOnTop";
 import useEmoSelect from "../hooks/useEmoSelect";
 import useInfinite from "../hooks/useInfinite";
 import EmotionIcons from "../../../components/Icon/EmoticonIcons";
@@ -129,9 +127,6 @@ const Boards = () => {
           </St.ImageBox>
         ))}
       </St.ImageContainer>
-      <St.ScrollOntop onClick={scrollOnTop}>
-        <BiArrowToTop />
-      </St.ScrollOntop>
     </St.Container>
   );
 };
