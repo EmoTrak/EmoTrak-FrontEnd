@@ -84,7 +84,7 @@ self.addEventListener("message", (event) => {
   }
 });
 
-const CACHE_NAME = "v2";
+const CACHE_NAME = "v3";
 
 self.addEventListener("install", function (e) {
   e.waitUntil(
@@ -122,3 +122,40 @@ self.addEventListener("activate", (event) => {
 });
 
 // Any other custom service worker logic can go here.
+
+self.addEventListener("push", function (event: PushEvent) {
+  event.waitUntil(
+    self.clients.matchAll().then((clientList: readonly Client[]) => {
+      const clients = [...clientList];
+      const focused = clients.some((client) => {
+        if (client instanceof WindowClient) {
+          return client.focused;
+        } else {
+          return false;
+        }
+      });
+
+      let notificationMessage: string;
+      if (focused) {
+        notificationMessage =
+          "오늘의 감정은 어땠나요? 다른 사람이 공유한 감정도 구경하러가요 !";
+      } else if (clientList.length > 0) {
+        notificationMessage =
+          "하루에 두 개의 감정일기를 쓸 수 있다는 사실을 아시나요? EmoTrak이 기다리고있어요 :)";
+      } else {
+        notificationMessage = "오늘도 EmoTrak에 일기를 남겨주셔서 감사해요!";
+      }
+
+      // Show a notification with title 'ServiceWorker Cookbook' and body depending
+      // on the state of the clients of the service worker (three different bodies:
+      // 1, the page is focused; 2, the page is still open but unfocused; 3, the page
+      // is closed).
+      return self.registration.showNotification("EmoTrak", {
+        body: notificationMessage,
+        lang: "ko",
+        icon: "/logo192.png",
+        vibrate: [500, 100, 500],
+      });
+    })
+  );
+});
