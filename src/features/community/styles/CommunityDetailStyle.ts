@@ -34,7 +34,9 @@ export const PostDetailWrapper = styled.div`
   position: relative;
   margin-top: 50px;
   ${device.mobile} {
-    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
     margin-top: 0px;
   }
 `;
@@ -69,8 +71,11 @@ export const PostContent = styled.pre`
   text-underline-position: under;
   text-decoration-color: ${themeColor.font};
   box-sizing: border-box;
+  white-space: pre-wrap;
   ${device.mobile} {
-    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%;
     min-height: 10vh;
   }
 `;

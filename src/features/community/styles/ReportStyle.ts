@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { themeColor } from "../../../utils/theme";
+import { device, themeColor } from "../../../utils/theme";
 
 export const Container = styled.div`
   width: 300px;
@@ -54,6 +54,9 @@ export const ReportIcon = styled.div`
   display: contents;
   color: ${themeColor.main.red};
   cursor: pointer;
+  ${device.mobile} {
+    font-size: 25px;
+  }
 `;
 
 export const ReportText = styled.span`

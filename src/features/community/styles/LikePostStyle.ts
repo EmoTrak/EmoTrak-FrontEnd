@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { themeColor } from "../../../utils/theme";
+import { device, themeColor } from "../../../utils/theme";
 
 export const LikeTrue = styled.div`
   color: ${themeColor.main.red};
@@ -18,4 +18,12 @@ export const LikeFalse = styled.div`
 export const LikeCount = styled.div`
   color: ${themeColor.main.chocomilk};
   font-size: 15px;
+`;
+
+export const LikeText = styled.div`
+  color: ${themeColor.main.chocomilk};
+  font-size: 15px;
+  @media screen and (max-width: 400px) {
+    display: none;
+  }
 `;
