@@ -73,7 +73,8 @@ export const DetailWrapper = styled.pre`
   padding: 10px;
   width: 90%;
   font-size: 25px;
-  line-height: 20px;
+  line-height: 28px;
+  white-space: pre-wrap;
 `;
 
 export const DefaultImage = styled.div`

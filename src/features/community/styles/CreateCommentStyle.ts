@@ -16,7 +16,7 @@ export const CommentInput = styled.textarea`
   width: 40vw;
   height: 80px;
   ${device.mobile} {
-    width: 80vw;
+    width: 95%;
     height: 60px;
     margin-top: 10px;
     margin-bottom: 10px;

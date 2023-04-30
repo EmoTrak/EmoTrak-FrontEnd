@@ -8,7 +8,7 @@ export const CommentBox = styled.div`
   width: 40vw;
   padding: 4px;
   ${device.mobile} {
-    width: 80vw;
+    width: 100%;
   }
 `;
 export const EditInput = styled.textarea`
@@ -30,12 +30,14 @@ export const Nicname = styled.div`
   color: ${themeColor.main.chocomilk};
   font-size: 15px;
 `;
-export const Comment = styled.div`
-  margin: 5px 0;
+export const Comment = styled.pre`
+  margin: 5px 10px 5px 0;
+  line-height: 20px;
+  white-space: pre-wrap;
 `;
 
 export const ReportBtn = styled.button`
-  font-size: 30px;
+  font-size: 20px;
   border: 0;
   background-color: transparent;
   color: ${themeColor.main.red};
