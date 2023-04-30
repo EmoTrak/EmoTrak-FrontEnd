@@ -19,7 +19,7 @@ export const useEdit = ({ inputValue, dailyId, canvasRef }: PostInput) => {
     },
     {
       onSuccess() {
-        queryClient.invalidateQueries([keys.GET_DETAIL]);
+        queryClient.invalidateQueries([keys.GET_DETAIL, keys.GET_BOARD]);
         navigate(`${DETAIL_PAGE}/${dailyId}`);
       },
       onError() {
@@ -43,9 +43,7 @@ export const useEdit = ({ inputValue, dailyId, canvasRef }: PostInput) => {
   };
 
   // 이미지 파일 업로드 함수
-  const fileInputHandler = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const fileInputHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.currentTarget;
     const files = (target.files as FileList)[0];
     const compressedImg = await compressImage(files, 5);

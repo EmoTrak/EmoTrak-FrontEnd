@@ -14,10 +14,10 @@ const useAddCommunityDetail = (page: number) => {
       const data = await user.get(`/boards/${dailyId}`, { params: { page } });
       return data.data.data;
     },
-    onError: (error: AxiosError<object>) => {
-      error?.response?.status === 404 && alert("삭제된 페이지입니다");
-      navigate(-1);
-    },
+    // onError: (error: AxiosError<object>) => {
+    //   error?.response?.status === 404 && alert("삭제된 페이지입니다");
+    //   navigate(-1);
+    // },
   });
 
   return { data, isError, status, remove };

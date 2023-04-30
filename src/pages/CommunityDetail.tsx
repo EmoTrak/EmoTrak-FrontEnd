@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { RiAlarmWarningFill } from "react-icons/ri";
 import { CommentData } from "../data/type/type";
-import { DRAW_EDIT_PAGE, IMAGE_EDIT_PAGE } from "../data/routes/urls";
+import { DETAIL_PAGE, DRAW_EDIT_PAGE, IMAGE_EDIT_PAGE } from "../data/routes/urls";
 import { getCookie } from "../utils/cookies";
 import { themeColor } from "../utils/theme";
 import { scrollOnTop } from "../utils/scollOnTop";
@@ -19,6 +19,8 @@ import PostDate from "../features/community/components/PostDate";
 import Report from "../features/community/components/Report";
 import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 import * as St from "../features/community/styles/CommunityDetailStyle";
+import { Link } from "react-router-dom";
+import { LikeText } from "../features/community/styles/LikePostStyle";
 
 const CommunityDetail = () => {
   const navigate = useNavigate();
@@ -47,19 +49,19 @@ const CommunityDetail = () => {
       </St.ImageWrapper>
 
       <St.PostDetailWrapper>
-        {data?.hasAuth && (
+        {/* {data?.hasAuth && (
           <Flex row>
             {data?.draw ? (
               <Button
                 size="x-small"
-                onClick={() => navigate(`${DRAW_EDIT_PAGE}/${data?.id}`)}
+                onClick={() => navigate(`${DRAW_EDIT_PAGE}/${data.id}`)}
               >
                 수정
               </Button>
             ) : (
               <Button
                 size="x-small"
-                onClick={() => navigate(`${IMAGE_EDIT_PAGE}/${data?.id}`)}
+                onClick={() => navigate(`${IMAGE_EDIT_PAGE}/${data.id}`)}
               >
                 수정
               </Button>
@@ -70,7 +72,7 @@ const CommunityDetail = () => {
               </Button>
             </DeleteConfirmModal>
           </Flex>
-        )}
+        )} */}
         <Flex ai="center" row gap={5} jc="center">
           <St.Emoticon>
             <EmotionIcons
@@ -110,6 +112,11 @@ const CommunityDetail = () => {
             <Report id={data?.id} uri="report">
               <RiAlarmWarningFill />
             </Report>
+          )}
+          {data?.hasAuth && (
+            <LikeText onClick={() => navigate(`${DETAIL_PAGE}/${data?.id}`)}>
+              내 일기장 보러가기
+            </LikeText>
           )}
         </Flex>
         <CreateComment id={data?.id} />
