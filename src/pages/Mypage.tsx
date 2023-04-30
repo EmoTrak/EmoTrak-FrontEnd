@@ -124,10 +124,7 @@ const Mypage = () => {
                 size="small"
                 disabled={!nicknameValidation}
                 onClick={() => changeNickname.mutate(info.nickname)}
-                style={{
-                  backgroundColor: themeColor.main.red,
-                  color: themeColor.main.white,
-                }}
+                important
               >
                 닉네임 변경
               </Button>
@@ -193,14 +190,7 @@ const Mypage = () => {
           </St.MyPageButtonBox>
         </InputList>
         <St.MyPageButtonBox>
-          <Button
-            size="small"
-            onClick={withdrawUserHandler}
-            style={{
-              backgroundColor: themeColor.main.red,
-              color: themeColor.main.white,
-            }}
-          >
+          <Button size="small" onClick={withdrawUserHandler} important>
             회원탈퇴
           </Button>
         </St.MyPageButtonBox>

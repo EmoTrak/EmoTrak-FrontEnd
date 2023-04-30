@@ -240,6 +240,7 @@ const SignupForm = () => {
         </InputList>
         <ButtonBox>
           <Button
+            important
             size="large"
             type="submit"
             disabled={!nicknameValidation || !emailConfirm || !doublePassword}
