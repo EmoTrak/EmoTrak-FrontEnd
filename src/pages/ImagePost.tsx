@@ -81,6 +81,7 @@ const ImagePost = () => {
   };
 
   const submitFormHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (valid.photo && valid.emoji && valid.star) {
       submitDiaryHandler(event);
     } else {
@@ -127,8 +128,6 @@ const ImagePost = () => {
       window.removeEventListener("beforeunload", preventClose);
     };
   }, [photo]);
-
-  console.log(inputValue.detail);
 
   return (
     <>

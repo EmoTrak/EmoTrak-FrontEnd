@@ -83,7 +83,7 @@ const DrawingPost = () => {
   };
 
   // 글작성 함수
-  const submitFormHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+  const submitFormHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (validPicture && validEmoji && validStar) {
       submitDiaryHandler(event);
