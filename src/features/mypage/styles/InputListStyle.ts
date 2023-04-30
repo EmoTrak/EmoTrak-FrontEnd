@@ -6,7 +6,7 @@ export const Aster = styled.span`
 `;
 
 export const ListWrapper = styled.div`
-  width: 40vw;
+  width: 42vw;
   display: flex;
   padding: 1rem 0px;
   border-bottom: 1px solid ${themeColor.main.gray};
@@ -24,6 +24,7 @@ export const ListWrapper = styled.div`
 
 export const ListTitle = styled.label`
   font-size: 18px;
+  width: 10vw;
   display: flex;
   justify-content: center;
   font-weight: 800;
