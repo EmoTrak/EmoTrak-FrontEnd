@@ -131,6 +131,12 @@ export const ImageBox = styled.div`
   :active {
     box-shadow: 2px 2px 5px -1px ${themeColor.main.chocomilk};
   }
+  ${device.tablet} {
+    height: 220px;
+  }
+  ${device.miniMobile} {
+    height: 140px;
+  }
 `;
 
 export const ScrollOntop = styled.button`

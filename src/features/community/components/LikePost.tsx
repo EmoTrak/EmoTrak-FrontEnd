@@ -34,7 +34,8 @@ const LikePost = ({ isLike, id, count }: LikeType) => {
           <RiHeart3Line />
         </St.LikeFalse>
       )}
-      <St.LikeCount>{like.count}명이 좋아합니다</St.LikeCount>
+      <St.LikeCount>{like.count}</St.LikeCount>
+      <St.LikeText>명이 좋아합니다</St.LikeText>
     </Flex>
   );
 };
