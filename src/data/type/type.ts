@@ -135,6 +135,7 @@ export interface LikeType extends Idtype {
 export interface StarProps extends ComponentPropsWithoutRef<"button"> {
   size?: string;
   color?: string;
+  score?: boolean;
 }
 
 export interface IProps {

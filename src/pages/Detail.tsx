@@ -95,12 +95,14 @@ const Detail = () => {
                       <Star
                         key={i}
                         size="30px"
+                        disabled
                         color={themeColor.palette.yellow}
                       />
                     ) : (
                       <Star
                         key={i}
                         size="30px"
+                        disabled
                         color={themeColor.main.oatmeal}
                       />
                     )
