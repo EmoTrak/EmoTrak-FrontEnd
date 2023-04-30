@@ -88,7 +88,9 @@ const CommunityDetail = () => {
               </Button>
             )}
             <DeleteConfirmModal itemId={data?.id}>
-              <Button size="x-small">삭제</Button>
+              <Button size="x-small" important>
+                삭제
+              </Button>
             </DeleteConfirmModal>
           </Flex>
         )}

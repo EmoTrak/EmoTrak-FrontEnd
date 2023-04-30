@@ -157,15 +157,7 @@ const DrawingPost = () => {
                   />
                 </Label>
 
-                <Button
-                  style={{
-                    backgroundColor: themeColor.main.pink,
-                    color: themeColor.main.white,
-                  }}
-                  size="large"
-                  type="submit"
-                  // disabled={!validPicture}
-                >
+                <Button important size="large" type="submit">
                   등록하기
                 </Button>
               </SubmitBox>
