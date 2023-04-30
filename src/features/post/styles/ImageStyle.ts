@@ -119,9 +119,7 @@ export const PhotoInput = styled.input`
 `;
 
 export const PhotoPreviewImg = styled.img`
-  width: 100%;
-  /* height: 100%; */
-  overflow-y: hidden;
+  height: 100%;
   border-radius: 30px;
   display: flex;
   position: relative;
@@ -137,9 +135,11 @@ export const PhotoPreview = styled.div`
   width: 45vw;
   margin-top: 40px;
   height: 600px;
-  position: relative;
   display: flex;
+  position: relative;
   justify-content: center;
+  align-items: center;
+  overflow: hidden;
   ${device.mobile} {
     width: 90vw;
     margin-top: 0px;
