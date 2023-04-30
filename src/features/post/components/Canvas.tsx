@@ -10,12 +10,13 @@ import PenTool from "./PenTool";
 import Palette from "./Palette";
 import * as St from "../styles/DrawingStyle";
 
-interface Test {
+interface CanvasProps {
   isCanvas: boolean;
   canvasRef: React.RefObject<HTMLCanvasElement>;
+  validation: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Canvas = ({ isCanvas, canvasRef }: Test) => {
+const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -106,8 +107,20 @@ const Canvas = ({ isCanvas, canvasRef }: Test) => {
   const mouseMoveHandler = useCallback(
     (event: MouseEvent) => {
       const mouseMove = new Map([
-        ["pen", () => paint(event)],
-        ["eraser", () => erase(event)],
+        [
+          "pen",
+          () => {
+            paint(event);
+            validation(false);
+          },
+        ],
+        [
+          "eraser",
+          () => {
+            erase(event);
+            validation(false);
+          },
+        ],
       ]);
       const mousefunc = mouseMove.get(mode);
 

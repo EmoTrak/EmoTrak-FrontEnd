@@ -81,6 +81,7 @@ const ImagePost = () => {
   };
 
   const submitFormHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (valid.photo && valid.emoji && valid.star) {
       submitDiaryHandler(event);
     } else {

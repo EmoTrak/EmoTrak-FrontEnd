@@ -120,11 +120,12 @@ const Detail = () => {
             <Button size="x-large" onClick={navigateEditHandler}>
               수정
             </Button>
-            <Button size="x-large" important>
-              <DeleteConfirmModal itemId={targetItem?.id}>
+
+            <DeleteConfirmModal itemId={targetItem?.id}>
+              <Button size="x-large" important>
                 삭제
-              </DeleteConfirmModal>
-            </Button>
+              </Button>
+            </DeleteConfirmModal>
           </St.DetailBtnWrap>
         </Flex>
       </St.Wrapper>
