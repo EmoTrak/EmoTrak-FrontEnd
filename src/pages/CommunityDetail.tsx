@@ -8,7 +8,6 @@ import { getCookie } from "../utils/cookies";
 import { themeColor } from "../utils/theme";
 import { scrollOnTop } from "../utils/scollOnTop";
 import { BackOfPage } from "../layouts/LayoutStyle";
-import { LikeText } from "../features/community/styles/LikePostStyle";
 import PageNation from "../components/PageNation";
 import Flex from "../components/Flex";
 import Star from "../components/Icon/Star";
@@ -116,9 +115,9 @@ const CommunityDetail = () => {
             </Report>
           )}
           {data?.hasAuth && (
-            <LikeText onClick={() => navigate(`${DETAIL_PAGE}/${data?.id}`)}>
+            <St.DiaryText onClick={() => navigate(`${DETAIL_PAGE}/${data?.id}`)}>
               내 일기장 보러가기
-            </LikeText>
+            </St.DiaryText>
           )}
         </Flex>
         <CreateComment id={data?.id} />

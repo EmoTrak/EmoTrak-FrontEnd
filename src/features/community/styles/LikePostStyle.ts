@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { device, themeColor } from "../../../utils/theme";
+import { themeColor } from "../../../utils/theme";
 
 export const LikeTrue = styled.div`
   color: ${themeColor.main.red};
