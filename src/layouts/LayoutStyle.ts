@@ -163,8 +163,11 @@ export const Footer = styled.ul`
   margin: 0;
   font-size: 13px;
   color: ${themeColor.main.gray};
+  gap: 5;
+  width: 100vw;
   div {
-    font-size: 25px;
+    font-size: 20px;
+    gap: 10px;
     a {
       color: gray;
       text-decoration: none;
@@ -185,7 +188,7 @@ export const Footer = styled.ul`
         margin: 5px 0 10px 0;
         text-decoration: none;
         color: ${themeColor.main.black};
-        font-size: 35px;
+        font-size: 25px;
         ${device.miniMobile} {
           font-size: 25px;
         }
