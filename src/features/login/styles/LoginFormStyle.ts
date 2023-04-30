@@ -6,9 +6,6 @@ export const LoginPageWrapper = styled.div`
   width: 100%;
   margin: 0 auto;
   height: 100%;
-  ${device.tablet} {
-    height: 100vh;
-  }
 `;
 export const FormWrapper = styled.div`
   position: relative;

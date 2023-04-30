@@ -26,7 +26,7 @@ export const ListTitle = styled.label`
   font-size: 18px;
   width: 10vw;
   display: flex;
-  justify-content: center;
+  margin-left: 30px;
   font-weight: 800;
   color: ${themeColor.main.chocomilk};
   ${device.tablet} {
