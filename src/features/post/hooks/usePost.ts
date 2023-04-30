@@ -64,9 +64,6 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
         queryClient.invalidateQueries([`${keys.GET_DETAIL}`, newItemId]);
         navigate(`/detail/${newItemId}`);
       },
-      onError() {
-        alert("입력한 내용을 확인해주세요!");
-      },
     }
   );
 
