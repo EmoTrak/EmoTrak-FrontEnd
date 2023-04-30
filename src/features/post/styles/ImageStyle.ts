@@ -57,9 +57,11 @@ export const ImageWrap = styled.div`
 `;
 export const StarWrap = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
   ${device.mobile} {
     margin-bottom: 20px;
-    gap: 40px;
+    gap: 35px;
   }
 `;
 export const PhotoInputBox = styled.li`
@@ -174,10 +176,6 @@ export const ScoreBox = styled.div`
     display: flex;
     flex-direction: column;
   }
-  ${device.mobile} {
-    display: flex;
-    flex-direction: column;
-  }
 `;
 
 export const TextArea = styled.textarea`
@@ -230,7 +228,7 @@ export const PhotoInputContainer = styled.div`
 `;
 
 export const Label = styled.label`
-  font-size: 1vw;
+  font-size: 20px;
   font-family: inherit;
   display: flex;
   justify-content: center;
@@ -238,6 +236,6 @@ export const Label = styled.label`
 
   ${device.mobile} {
     width: 50vw;
-    font-size: 25px;
+    font-size: 15px;
   }
 `;

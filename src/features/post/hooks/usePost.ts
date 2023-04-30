@@ -4,12 +4,13 @@ import user from "../../../lib/api/user";
 import { useNavigate } from "react-router-dom";
 import { keys } from "../../../data/queryKey/keys";
 import { PostInput } from "../../../data/type/type";
+import compressImage from "../../../utils/compressImage";
 
 export const usePost = ({ inputValue, canvasRef }: PostInput) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [picture, setPicture] = useState<Blob | null>(null);
-  const [photo, setPhoto] = useState<Blob | null>(null);
+  const [photo, setPhoto] = useState<File | null | undefined>(null);
 
   const savePictureHandler = () => {
     const canvas = canvasRef?.current;
@@ -25,18 +26,20 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
   };
 
   // 이미지 파일 업로드 함수
-  const fileInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const fileInputHandler = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const target = event.currentTarget;
     const files = (target.files as FileList)[0];
-    const imgBlob = new Blob([files], { type: "image/jpeg" });
-    setPhoto(imgBlob);
+    const compressedImg = await compressImage(files, 5);
+    setPhoto(compressedImg);
   };
 
   // 이미지 파일 드래그앤드랍 업로드 함수
-  const fileDropHandler = (event: React.DragEvent<HTMLLabelElement>) => {
+  const fileDropHandler = async (event: React.DragEvent<HTMLLabelElement>) => {
     const files = (event.dataTransfer.files as FileList)[0];
-    const imgBlob = new Blob([files], { type: "image/jpeg" });
-    setPhoto(imgBlob);
+    const compressedImg = await compressImage(files, 5);
+    setPhoto(compressedImg);
   };
 
   const postDiary = useMutation(
