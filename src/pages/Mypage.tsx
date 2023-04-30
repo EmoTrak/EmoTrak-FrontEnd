@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { IoIosArrowBack } from "react-icons/io";
 import { InfoType } from "../data/type/type";
+import { BackOfPage } from "../layouts/LayoutStyle";
 import { useAuth } from "../features/mypage/hooks/useAuth";
 import { usePasswordCheck } from "../features/signup/hooks/usePasswordCheck";
 import { useNicknameValidation } from "../features/signup/hooks/useNicknameValidation";
 import { useChangePassword } from "../features/mypage/hooks/useChangePassword";
 import { useChangeNickname } from "../features/mypage/hooks/useChangeNickname";
 import { useWithdrawal } from "../features/mypage/hooks/useWithdrawal";
+import { logout } from "../utils/logout";
 import Button from "../components/Button";
 import InputList from "../features/mypage/components/InputList";
 import * as St from "../features/mypage/styles/MypageStyle";
-import { logout } from "../utils/logout";
 
 const Mypage = () => {
   const { userInfo } = useAuth();
@@ -26,14 +28,11 @@ const Mypage = () => {
 
   const [regExpPassword, setRegExpPassword] = useState<boolean>(false);
 
-  const {
-    checkNickname,
-    validNickname,
-    setNicknameValidation,
-    nicknameValidation,
-  } = useNicknameValidation();
-  const { validPassword, checkPasswordHandler, doublePassword } =
-    usePasswordCheck(info.password);
+  const { checkNickname, validNickname, setNicknameValidation, nicknameValidation } =
+    useNicknameValidation();
+  const { validPassword, checkPasswordHandler, doublePassword } = usePasswordCheck(
+    info.password
+  );
 
   const { changePassword } = useChangePassword();
   const { changeNickname } = useChangeNickname();
@@ -88,17 +87,15 @@ const Mypage = () => {
 
   return (
     <St.MyPageWrapper>
+      <BackOfPage onClick={() => navigate(-1)}>
+        <IoIosArrowBack />
+      </BackOfPage>
       <St.MyPageContentWrapper>
         <St.MobileLogoutButton onClick={logoutUserHandler}>
           로그아웃
         </St.MobileLogoutButton>
         <InputList name="이메일">
-          <St.MyPageInput
-            type="text"
-            name="email"
-            value={info.email}
-            disabled
-          />
+          <St.MyPageInput type="text" name="email" value={info.email} disabled />
         </InputList>
         <InputList name="닉네임">
           <St.MyPageInput
@@ -111,9 +108,7 @@ const Mypage = () => {
           />
           <>
             {nicknameValidation ? (
-              <St.MyPageHelperText>
-                닉네임을 변경하시겠습니까?
-              </St.MyPageHelperText>
+              <St.MyPageHelperText>닉네임을 변경하시겠습니까?</St.MyPageHelperText>
             ) : (
               <St.MyPageHelperText important>
                 닉네임은 8글자 이하여야합니다.
@@ -131,10 +126,7 @@ const Mypage = () => {
                 닉네임 변경
               </Button>
             ) : (
-              <Button
-                size="small"
-                onClick={() => checkNicknameHandler(info.nickname)}
-              >
+              <Button size="small" onClick={() => checkNicknameHandler(info.nickname)}>
                 중복확인
               </Button>
             )}
@@ -181,13 +173,9 @@ const Mypage = () => {
                 />
               </St.MyPageLabel>
               {!info.rePassword ? (
-                <St.MyPageHelperText>
-                  비밀번호를 다시 입력해주세요.
-                </St.MyPageHelperText>
+                <St.MyPageHelperText>비밀번호를 다시 입력해주세요.</St.MyPageHelperText>
               ) : doublePassword ? (
-                <St.MyPageHelperText>
-                  비밀번호가 일치합니다.
-                </St.MyPageHelperText>
+                <St.MyPageHelperText>비밀번호가 일치합니다.</St.MyPageHelperText>
               ) : (
                 <St.MyPageHelperText important>
                   비밀번호가 일치하지 않습니다.
