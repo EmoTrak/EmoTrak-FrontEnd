@@ -24,10 +24,10 @@ const Detail = () => {
   const { targetItem, otherItem, contents } = useGetDetail(dailyId);
 
   const navigateEditHandler = () => {
-    if (targetItem?.draw === true) {
+    if (targetItem?.draw) {
       navigate(`${DRAW_EDIT_PAGE}/${targetItem?.id}`);
     }
-    if (targetItem?.draw === false) {
+    if (!targetItem?.draw) {
       navigate(`${IMAGE_EDIT_PAGE}/${targetItem?.id}`);
     }
   };
