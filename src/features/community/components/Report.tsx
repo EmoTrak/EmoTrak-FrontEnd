@@ -35,7 +35,11 @@ const Report = ({ children, id, uri }: PropsWithChildren & Partial<UriType>) => 
               }}
             >
               <span>사유</span>
-              <St.ReportInput value={reason} onChange={changeInputHandler} />
+              <St.ReportInput
+                value={reason}
+                onChange={changeInputHandler}
+                maxLength={255}
+              />
               <Sub.SubModalTrigger>
                 <Button type="submit">신고</Button>
               </Sub.SubModalTrigger>
@@ -49,20 +53,15 @@ const Report = ({ children, id, uri }: PropsWithChildren & Partial<UriType>) => 
                         <Button>취소</Button>
                       </UI.ModalTrigger>
                     </>
-                  ) : status === "success" ? (
-                    <>
-                      <St.Text>신고되었습니다</St.Text>
-                      <UI.ModalTrigger>
-                        <Button onClick={reset}>완료</Button>
-                      </UI.ModalTrigger>
-                    </>
                   ) : (
-                    <>
-                      <St.Text>신고 실패하였습니다</St.Text>
-                      <UI.ModalTrigger>
-                        <Button onClick={reset}>완료</Button>
-                      </UI.ModalTrigger>
-                    </>
+                    status === "error" && (
+                      <>
+                        <St.Text>신고 실패하였습니다</St.Text>
+                        <UI.ModalTrigger>
+                          <Button onClick={reset}>완료</Button>
+                        </UI.ModalTrigger>
+                      </>
+                    )
                   )}
                 </St.Container>
               </Sub.SubModalContent>

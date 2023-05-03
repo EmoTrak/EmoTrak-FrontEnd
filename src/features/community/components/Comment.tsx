@@ -79,7 +79,7 @@ const Comment = ({ item }: Partial<CommentProps>) => {
                 </St.ReportBtn>
               </Report>
             ) : (
-              <span>신고완료</span>
+              refreshToken && <span>신고완료</span>
             )}
             {typeof item?.createdAt === "string" && (
               <St.DateBox>
