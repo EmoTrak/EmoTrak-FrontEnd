@@ -155,26 +155,27 @@ export const PenSizeTool = styled.div`
   }
 `;
 
-export const PenButton = styled.button<{ color: string }>`
+export const PenButton = styled.button<{ color: string; mode: string }>`
   font-size: 27px;
   border: none;
   background-color: transparent;
   cursor: pointer;
-  color: ${({ color }) => color};
+  color: ${({ color, mode }) =>
+    mode === "eraser" ? `${themeColor.main.gray}` : color};
   ${device.mobile} {
     width: 20px;
     height: 20px;
   }
 `;
 
-export const EraserButton = styled.button<{ color: string }>`
+export const EraserButton = styled.button<{ mode: string }>`
   font-size: 30px;
   border: none;
   margin: 5px;
   background-color: transparent;
   cursor: pointer;
-  color: ${({ color }) =>
-    color === "eraser" ? themeColor.main.black : themeColor.main.gray};
+  color: ${({ mode }) =>
+    mode === "eraser" ? themeColor.main.black : themeColor.main.gray};
   ${device.mobile} {
     width: 20px;
     height: 20px;
