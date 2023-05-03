@@ -19,3 +19,6 @@ export const Wrapper = styled.div`
     width: 70vw;
   }
 `;
+export const ChartComment = styled.span`
+  line-height: 30px;
+`;

@@ -1,5 +1,6 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { device, themeColor } from "../../../utils/theme";
+import { IToggle } from "../../../data/type/type";
 
 export const ChartWrap = styled.div`
   display: flex;
@@ -39,48 +40,8 @@ export const EmoList = styled.div`
 export const CheckBoxWrapper = styled.div`
   position: relative;
   margin-top: 10px;
-`;
-
-export const CheckBoxLabel = styled.label`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 42px;
-  height: 26px;
-  border-radius: 15px;
-  background: ${themeColor.main.gray};
-  margin-top: 10px;
-  cursor: pointer;
-  &::after {
-    content: "";
-    display: block;
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    margin: 3px;
-    background: ${themeColor.main.white};
-    box-shadow: 1px 3px 3px 1px ${themeColor.main.black};
-    transition: 0.2s;
-  }
-`;
-
-export const CheckBox = styled.input`
-  opacity: 0;
-  z-index: 1;
-  border-radius: 15px;
-  width: 42px;
-  height: 26px;
-  &:checked + ${CheckBoxLabel} {
-    background: ${themeColor.main.chocomilk};
-    &::after {
-      content: "";
-      display: block;
-      border-radius: 50%;
-      width: 18px;
-      height: 18px;
-      margin-left: 21px;
-      transition: 0.2s;
-    }
+  h3 {
+    margin-top: 5px;
   }
 `;
 
@@ -101,4 +62,34 @@ export const MobileWrapper = styled.header`
     display: flex;
     overflow: hidden;
   }
+`;
+
+export const ToggleBtn = styled.button<IToggle>`
+  width: 65px;
+  height: 30px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  background-color: ${({ isActive }) =>
+    !isActive ? "none" : `${themeColor.main.chocomilk}`};
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.5s ease-in-out;
+`;
+export const Circle = styled.div<IToggle>`
+  background-color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  position: absolute;
+  left: 5%;
+  transition: all 0.5s ease-in-out;
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      transform: translate(35px, 0);
+      transition: all 0.5s ease-in-out;
+    `}
 `;

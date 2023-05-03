@@ -15,7 +15,9 @@ export interface DateType {
   date?: number;
   day?: number;
 }
-
+export interface IToggle {
+  isActive: boolean;
+}
 interface DataType {
   day: number;
   emoId: number;
