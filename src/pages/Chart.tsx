@@ -51,8 +51,10 @@ const Chart = () => {
 
         <St.MobileWrapper>
           <St.CheckBoxWrapper>
-            <St.CheckBox onClick={toggleChart} id="checkbox" type="checkbox" />
-            <St.CheckBoxLabel htmlFor="checkbox" />
+            <St.ToggleBtn onClick={toggleChart} isActive={isActive}>
+              <St.Circle isActive={isActive} />
+            </St.ToggleBtn>
+            <h3> {isActive ? "Pie" : "Bar"} Chart</h3>
           </St.CheckBoxWrapper>
           {isActive ? (
             <PieChart graphData={chartData} month={select.month} />
