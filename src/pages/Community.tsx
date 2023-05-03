@@ -16,7 +16,10 @@ const Community = () => {
 
   const [listOpen, setListOpen] = useState<boolean>(false);
   const [postData, setPostData] = useState<ImageType[]>([]);
-  const { data, fetchNextPage, hasNextPage } = useInfinite(paramSort, paramEmo);
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfinite(
+    paramSort,
+    paramEmo
+  );
 
   const clickSortListButton = (string: string) => {
     if (emoNum) {
@@ -55,6 +58,7 @@ const Community = () => {
       sessionStorage.removeItem("scrollPosition");
     }
   }
+
   useEffect(() => {
     if (data) {
       const newData = data.pages.reduce(
@@ -85,11 +89,22 @@ const Community = () => {
     }
   }, [emoNum]);
 
+  // if (isLoading) {
+  //   return <>로딩중..</>;
+  // }
+
   return (
     <St.Container>
       <St.SelectBar>
-        <St.SelectTitle onClick={() => setListOpen((pre: boolean): boolean => !pre)}>
-          {paramSort === "popular" ? "인기순" : "최신순"}
+        <St.SelectTitle
+          onClick={() => setListOpen((pre: boolean): boolean => !pre)}
+          sort={paramSort}
+        >
+          {paramSort === "popular"
+            ? "인기순"
+            : paramSort === "mine"
+            ? "내 게시글"
+            : "최신순"}
           <BsCaretDownFill />
           {listOpen && (
             <St.Sort>
@@ -99,24 +114,28 @@ const Community = () => {
               <St.SortListBtn onClick={() => clickSortListButton("popular")}>
                 인기순
               </St.SortListBtn>
+              <St.SortListBtn onClick={() => setSearchParams({ sort: "mine" })}>
+                내 게시글
+              </St.SortListBtn>
             </St.Sort>
           )}
         </St.SelectTitle>
 
         <St.ButtonBox>
-          {new Array(6).fill(null).map((_, i) => (
-            <St.StEmoButton
-              key={i}
-              onClick={() => clickEmojiHandler(i)}
-              isClick={emoSelect[i]}
-            >
-              <EmotionIcons
-                height="100%"
-                width="100%"
-                emotionTypes={`EMOTION_${i + 1}`}
-              />
-            </St.StEmoButton>
-          ))}
+          {paramSort !== "mine" &&
+            new Array(6).fill(null).map((_, i) => (
+              <St.StEmoButton
+                key={i}
+                onClick={() => clickEmojiHandler(i)}
+                isClick={emoSelect[i]}
+              >
+                <EmotionIcons
+                  height="100%"
+                  width="100%"
+                  emotionTypes={`EMOTION_${i + 1}`}
+                />
+              </St.StEmoButton>
+            ))}
         </St.ButtonBox>
       </St.SelectBar>
       <St.ImageContainer>
