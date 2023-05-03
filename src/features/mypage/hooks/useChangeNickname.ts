@@ -8,7 +8,7 @@ export const useChangeNickname = () => {
     },
     {
       onSuccess() {
-        alert("수정 완료");
+        window.confirm("정말 변경하시겠습니까?") && alert('수정완료');
       },
     }
   );

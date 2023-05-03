@@ -13,6 +13,7 @@ import { logout } from "../utils/logout";
 import Button from "../components/Button";
 import InputList from "../features/mypage/components/InputList";
 import * as St from "../features/mypage/styles/MypageStyle";
+import { useWindowSize } from "../hooks/useWindowSize";
 
 const Mypage = () => {
   const { userInfo } = useAuth();
@@ -47,7 +48,7 @@ const Mypage = () => {
       setNicknameValidation(false);
     }
   };
-  
+
   const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setInfo({ ...info, [name]: value });
@@ -76,6 +77,16 @@ const Mypage = () => {
     }
   };
 
+  const { resizeHandler, mobile, miniMobile } = useWindowSize();
+
+  useEffect(() => {
+    (mobile || miniMobile) && document.body.scrollIntoView();
+    window.addEventListener("resize", resizeHandler);
+    return () => {
+      window.removeEventListener("resize", resizeHandler);
+    };
+  }, []);
+
   useEffect(() => {
     if (userInfo) {
       setInfo({
@@ -93,14 +104,11 @@ const Mypage = () => {
         <IoIosArrowBack />
       </BackOfPage>
       <St.MyPageContentWrapper>
-        <St.MobileLogoutButton onClick={logoutUserHandler}>
-          로그아웃
-        </St.MobileLogoutButton>
         <InputList name="이메일">
           <St.MyPageInput
             type="text"
             name="email"
-            value={info.email}
+            value={info.email || ""}
             disabled
           />
         </InputList>
@@ -110,7 +118,7 @@ const Mypage = () => {
             name="nickname"
             spellCheck={false}
             maxLength={8}
-            value={info.nickname}
+            value={info.nickname || ""}
             onChange={changeInputHandler}
           />
           <>
@@ -213,6 +221,9 @@ const Mypage = () => {
           <Button size="small" onClick={withdrawUserHandler} important>
             회원탈퇴
           </Button>
+          {(mobile || miniMobile) && (
+            <Button  onClick={logoutUserHandler}>로그아웃</Button>
+          )}
         </St.MyPageButtonBox>
       </St.MyPageContentWrapper>
     </St.MyPageWrapper>
