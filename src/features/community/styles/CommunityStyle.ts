@@ -55,17 +55,18 @@ export const StEmoButton = styled.button<{ isClick: boolean }>`
   }
 `;
 
-export const SelectTitle = styled.div`
-  width: 60px;
+export const SelectTitle = styled.div<{ sort: string | null }>`
+  width: 80px;
   margin-left: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: relative;
   cursor: pointer;
+  word-break: keep-all;
   ${device.miniMobile} {
     margin-left: 10px;
-    width: 50px;
+    width: ${({ sort }) => (sort === "mine" ? "80px" : "50px")};
     font-size: 15px;
   }
 `;
@@ -78,10 +79,13 @@ export const Sort = styled.div`
   border-radius: 10px;
   z-index: 5;
   position: absolute;
-  top: 35px;
-  width: 60px;
-  left: -10px;
+  top: 40px;
+  width: 80px;
+  left: -20px;
   overflow: hidden;
+  ${device.miniMobile} {
+    top: 30px;
+  }
 `;
 
 export const SortListBtn = styled.button`
@@ -125,6 +129,7 @@ export const ImageBox = styled.div`
   overflow: hidden;
   cursor: pointer;
   border-radius: 10%;
+  position: relative;
   :hover {
     box-shadow: 2px 2px 5px 1px ${themeColor.main.chocomilk};
   }
@@ -155,4 +160,26 @@ export const ScrollOntop = styled.button`
   display: flex;
   align-items: center;
   cursor: pointer;
+`;
+
+export const HoverEmoticon = styled.div<{ openEmo: boolean }>`
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  bottom: 10px;
+  left: 15px;
+  display: ${({ openEmo }) => (openEmo ? "content" : "none")};
+`;
+
+export const HoverNickName = styled.div<{ openEmo: boolean }>`
+  position: absolute;
+  width: 55px;
+  height: 20px;
+  bottom: 12px;
+  right: 5px;
+  word-break: keep-all;
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: ${({ openEmo }) => (openEmo ? "content" : "none")};
 `;
