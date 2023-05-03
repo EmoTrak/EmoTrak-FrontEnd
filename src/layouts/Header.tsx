@@ -130,7 +130,7 @@ const Header = () => {
             <St.PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
               공유 페이지
             </St.PageButton>
-            <St.PageButton onClick={() => navigate("/")}>로그인</St.PageButton>
+            <St.PageButton onClick={() => navigate("/login")}>로그인</St.PageButton>
           </Flex>
         </St.NavWrapper>
       )}

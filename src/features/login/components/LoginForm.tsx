@@ -14,8 +14,11 @@ import Naver from "../../../assets/Social/Naver.svg";
 import Google from "../../../assets/Social/Google.svg";
 import * as St from "../styles/LoginFormStyle";
 import { MyPageInput } from "../../mypage/styles/MypageStyle";
+import { scrollOnTop } from "../../../utils/scollOnTop";
 
 const LoginForm = () => {
+  scrollOnTop();
+
   const navigate = useNavigate();
 
   const { loginInfo, submitFormHandler, changeInputHandler } = useLogin();
@@ -51,7 +54,12 @@ const LoginForm = () => {
         <Button circle size="circle" type="submit" form="login">
           로그인
         </Button>
-        <Button circle size="circle" type="button" onClick={() => navigate(SIGN_UP_PAGE)}>
+        <Button
+          circle
+          size="circle"
+          type="button"
+          onClick={() => navigate(SIGN_UP_PAGE)}
+        >
           회원가입
         </Button>
       </St.ButtonBox>

@@ -29,20 +29,14 @@ const RedirectGoogle = () => {
       setCookie("refreshToken", refresh, {
         path: "/",
         maxAge: 604800,
-        secure: true,
-        httpOnly: true,
       });
       setCookie("expire", expire, {
         path: "/",
         maxAge: 604800,
-        secure: true,
-        httpOnly: true,
       });
       setCookie("token", token, {
         path: "/",
         maxAge: 1740,
-        secure: true,
-        httpOnly: true,
       });
       navigate(HOME_PAGE);
     },
