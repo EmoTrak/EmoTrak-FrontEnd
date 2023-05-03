@@ -88,8 +88,20 @@ const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
   // useEffect + AddEventListener 대체 함수
   const mouseDownHandler = (event: MouseEvent) => {
     const mouseDown = new Map([
-      ["pen", () => startPaint(event)],
-      ["eraser", () => startErase(event)],
+      [
+        "pen",
+        () => {
+          startPaint(event);
+          setSelectPen(false);
+        },
+      ],
+      [
+        "eraser",
+        () => {
+          startErase(event);
+          setSelectPen(false);
+        },
+      ],
     ]);
     const mousefunc = mouseDown.get(mode);
 
@@ -235,13 +247,11 @@ const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
                   color={selectedColor}
                   selectedSize={selectedSize}
                   onSizeSelect={selectPenSizeHandler}
-                  setSelectPen={setSelectPen}
                 />
               </St.PenSizeTool>
               <Palette
                 selectedColor={selectedColor}
                 onColorSelect={selectColorHandler}
-                setSelectPen={setSelectPen}
               />
             </>
           ) : (
@@ -249,6 +259,7 @@ const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
               type="button"
               onClick={() => switchModeHandler("pen")}
               color={selectedColor}
+              mode={mode}
             >
               <FaPencilAlt />
             </St.PenButton>
@@ -257,7 +268,7 @@ const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
           <St.EraserButton
             type="button"
             onClick={() => switchModeHandler("eraser")}
-            color={mode}
+            mode={mode}
           >
             <BsFillEraserFill />
           </St.EraserButton>

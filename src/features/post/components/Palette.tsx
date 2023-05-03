@@ -2,11 +2,7 @@ import { PaletteProps } from "../../../data/type/type";
 import { themeColor } from "../../../utils/theme";
 import * as St from "../styles/PaletteStyle";
 
-const Palette = ({
-  selectedColor,
-  onColorSelect,
-  setSelectPen,
-}: PaletteProps) => {
+const Palette = ({ selectedColor, onColorSelect }: PaletteProps) => {
   const { yellow, red, purple, blue, sky, green } = themeColor.palette;
   const { black, white } = themeColor.main;
   const colorPalette = [yellow, red, purple, blue, sky, green, black, white];
@@ -25,7 +21,6 @@ const Palette = ({
           }}
           onClick={() => {
             onColorSelect(color);
-            setSelectPen(false);
           }}
         />
       ))}
