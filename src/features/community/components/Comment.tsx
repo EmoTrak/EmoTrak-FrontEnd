@@ -3,7 +3,7 @@ import { RiAlarmWarningFill } from "react-icons/ri";
 import { CommentProps } from "../../../data/type/type";
 import { getCookie } from "../../../utils/cookies";
 import { CommentInput } from "../styles/CreateCommentStyle";
-import { Text } from "../styles/ReportStyle";
+import { ReportText, Text } from "../styles/ReportStyle";
 import Button from "../../../components/Button";
 import LikeComment from "./LikeComment";
 import Report from "./Report";
@@ -34,6 +34,9 @@ const Comment = ({ item }: Partial<CommentProps>) => {
             maxLength={250}
             spellCheck={false}
           />
+          {editComment?.length === 250 && (
+            <ReportText>댓글은 250자까지 입력가능합니다</ReportText>
+          )}
           <div>
             <Button
               size="x-small"
