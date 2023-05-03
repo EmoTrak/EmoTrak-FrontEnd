@@ -84,5 +84,6 @@ export const MobileLogoutButton = styled.button`
     border-radius: 8px;
     padding: 5px 15px;
     cursor: pointer;
+    
   }
 `;
