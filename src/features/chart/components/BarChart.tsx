@@ -86,7 +86,7 @@ const BarChart = ({ graphData, month }: PropsData) => {
         />
       ) : (
         <St.ChartComment>
-          <h2>감정 점수가 부족합니다 ㅠ</h2>
+          <h2>감정 점수가 부족합니다😢</h2>
           <h2> 감정을 기록해주세요!</h2>
         </St.ChartComment>
       )}
@@ -95,4 +95,3 @@ const BarChart = ({ graphData, month }: PropsData) => {
 };
 
 export default BarChart;
-
