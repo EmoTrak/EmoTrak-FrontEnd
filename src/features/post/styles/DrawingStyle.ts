@@ -188,6 +188,9 @@ export const RebootButton = styled.button`
   border: none;
   cursor: pointer;
   color: ${themeColor.main.gray};
+  &:hover {
+    color: ${themeColor.main.black};
+  }
   ${device.mobile} {
     width: 20px;
     height: 20px;

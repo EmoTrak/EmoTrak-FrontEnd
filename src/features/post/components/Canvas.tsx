@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
-import { BsFillEraserFill } from "react-icons/bs";
-import { VscDebugRestart } from "react-icons/vsc";
+import { BsFillEraserFill, BsFillTrash3Fill } from "react-icons/bs";
 import { themeColor } from "../../../utils/theme";
 import { Coordinate } from "../../../data/type/type";
 import { usePen } from "../hooks/usePen";
@@ -263,7 +262,7 @@ const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
             <BsFillEraserFill />
           </St.EraserButton>
           <St.RebootButton type="button" onClick={clearCanvas}>
-            <VscDebugRestart />
+            <BsFillTrash3Fill />
           </St.RebootButton>
         </St.ToolBox>
       </St.DrawWrap>
