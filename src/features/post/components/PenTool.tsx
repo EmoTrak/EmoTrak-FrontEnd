@@ -3,7 +3,7 @@ import Flex from "../../../components/Flex";
 import { PenProps } from "../../../data/type/type";
 import * as St from "../styles/PenToolStyle";
 
-const PenTool = ({ color, onSizeSelect, setSelectPen }: PenProps) => {
+const PenTool = ({ color, onSizeSelect }: PenProps) => {
   const sizeList: number[] = [18, 13, 8, 3];
 
   return (
@@ -16,7 +16,6 @@ const PenTool = ({ color, onSizeSelect, setSelectPen }: PenProps) => {
             color={color}
             onClick={() => {
               onSizeSelect(size);
-              setSelectPen(false);
             }}
           ></St.ButtonBox>
         ))}

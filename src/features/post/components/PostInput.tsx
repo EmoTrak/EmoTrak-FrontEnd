@@ -12,6 +12,7 @@ const PostInput = ({ action, value }: Test) => {
       <TextArea
         name="detail"
         value={value?.detail}
+        placeholder="오늘의 감정은 어땠나요?"
         spellCheck={false}
         required
         maxLength={1500}

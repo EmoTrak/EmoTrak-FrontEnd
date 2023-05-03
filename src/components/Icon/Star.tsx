@@ -1,7 +1,7 @@
 import React from "react";
 import { ReactComponent as StarIcon } from "../../assets/emoticon/star.svg";
 import styled from "styled-components";
-import { device, themeColor } from "../../utils/theme";
+import { device } from "../../utils/theme";
 import { StarProps } from "../../data/type/type";
 
 const Star = ({ size, color, score, onClick }: StarProps) => {
@@ -23,18 +23,6 @@ const StStarButton = styled.button<StarProps>`
   background-color: transparent;
   border: 1px solid transparent;
   border-radius: 50%;
-
-  ${({ score }) => {
-    return score
-      ? `  cursor: pointer;
-      svg {
-    :hover {
-      fill: ${themeColor.palette.yellow};
-      stroke: ${themeColor.palette.yellow};
-    }
-  }`
-      : null;
-  }}
 
   ${device.mobile} {
     width: 5vw;
