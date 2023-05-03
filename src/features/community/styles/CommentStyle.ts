@@ -11,20 +11,6 @@ export const CommentBox = styled.div`
     width: 100%;
   }
 `;
-export const EditInput = styled.textarea`
-  width: 40vw;
-  height: 50px;
-  margin: 5px 0;
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  resize: none;
-  box-shadow: 0 0 10px ${themeColor.main.oatmeal};
-  :focus {
-    outline: none;
-    border-color: ${themeColor.main.oatmeal};
-  }
-`;
 
 export const Nicname = styled.div`
   color: ${themeColor.main.chocomilk};
@@ -54,4 +40,8 @@ export const DateBox = styled.div`
   display: flex;
   justify-content: center;
   font-size: 15px;
+`;
+
+export const EditAndDeleteBox = styled.div`
+  min-width: 108px;
 `;

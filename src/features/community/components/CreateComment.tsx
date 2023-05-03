@@ -4,6 +4,7 @@ import { getCookie } from "../../../utils/cookies";
 import Button from "../../../components/Button";
 import useAddComment from "../hooks/useAddComment";
 import * as St from "../styles/CreateCommentStyle";
+import { ReportText } from "../styles/ReportStyle";
 
 const CreateComment = ({ id }: Idtype) => {
   const refreshToken = getCookie("refreshToken");
@@ -33,7 +34,11 @@ const CreateComment = ({ id }: Idtype) => {
         placeholder={refreshToken ? "댓글을 남겨보세요!" : "로그인 후 이용 가능합니다!"}
         spellCheck={false}
         disabled={!refreshToken}
+        maxLength={250}
       />
+      {comment?.length === 250 && (
+        <ReportText>댓글은 250자까지 입력가능합니다</ReportText>
+      )}
       {refreshToken && <Button size="small">댓글작성</Button>}
     </St.CommentForm>
   );
