@@ -125,6 +125,7 @@ export const ImageBox = styled.div`
   overflow: hidden;
   cursor: pointer;
   border-radius: 10%;
+  position: relative;
   :hover {
     box-shadow: 2px 2px 5px 1px ${themeColor.main.chocomilk};
   }
@@ -155,4 +156,26 @@ export const ScrollOntop = styled.button`
   display: flex;
   align-items: center;
   cursor: pointer;
+`;
+
+export const HoverEmoticon = styled.div<{ openEmo: boolean }>`
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  bottom: 10px;
+  left: 15px;
+  display: ${({ openEmo }) => (openEmo ? "content" : "none")};
+`;
+
+export const HoverNickName = styled.div<{ openEmo: boolean }>`
+  position: absolute;
+  width: 55px;
+  height: 20px;
+  bottom: 12px;
+  right: 5px;
+  word-break: keep-all;
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: ${({ openEmo }) => (openEmo ? "content" : "none")};
 `;

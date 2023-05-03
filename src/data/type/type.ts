@@ -1,8 +1,4 @@
-import {
-  AxiosRequestConfig,
-  AxiosRequestHeaders,
-  AxiosResponseHeaders,
-} from "axios";
+import { AxiosRequestConfig, AxiosRequestHeaders, AxiosResponseHeaders } from "axios";
 import { ComponentPropsWithoutRef, PropsWithChildren } from "react";
 
 export interface Idtype {
@@ -32,6 +28,8 @@ export type DetailType = ImageType & DataType;
 
 export interface ImageType extends Idtype {
   imgUrl: string;
+  emoId: number;
+  nickname: string;
 }
 
 export interface InputValue extends DataType {
