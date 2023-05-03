@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import ApexCharts from "react-apexcharts";
 import { PropsData } from "../../../data/type/type";
 import { themeColor } from "../../../utils/theme";
-import * as St from "../styles/ChartStyle";
 import { useMatchData } from "../hooks/useMatchData";
+import * as St from "../styles/ChartStyle";
 
 const BarChart = ({ graphData, month }: PropsData) => {
   const { countArr, newChartCount, matchedData, setCountArr } = useMatchData({
@@ -26,7 +26,7 @@ const BarChart = ({ graphData, month }: PropsData) => {
           type="bar"
           series={[
             {
-              name: "count",
+              name: "Avg",
               data: countArr,
             },
           ]}
@@ -35,6 +35,7 @@ const BarChart = ({ graphData, month }: PropsData) => {
               show: false,
             },
             chart: {
+              height: 600,
               fontFamily: "inherit",
               toolbar: { show: false },
               zoom: {
@@ -52,12 +53,12 @@ const BarChart = ({ graphData, month }: PropsData) => {
             ],
             plotOptions: {
               bar: {
-                columnWidth: "50%",
+                columnWidth: "70%",
                 distributed: true,
               },
             },
             title: {
-              text: "한 달 감정 평균",
+              text: "한 달 감정 평균 점수",
               align: "center",
               style: {
                 fontSize: "20px",
@@ -84,7 +85,10 @@ const BarChart = ({ graphData, month }: PropsData) => {
           }}
         />
       ) : (
-        <h2>데이터가 없습니다!</h2>
+        <St.ChartComment>
+          <h2>감정 점수가 부족합니다😢</h2>
+          <h2> 감정을 기록해주세요!</h2>
+        </St.ChartComment>
       )}
     </St.Wrapper>
   );

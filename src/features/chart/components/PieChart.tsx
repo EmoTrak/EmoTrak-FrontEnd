@@ -63,7 +63,10 @@ function PieChart({ graphData, month }: PropsData) {
           }}
         />
       ) : (
-        <h2>데이터가 없습니다!</h2>
+        <St.ChartComment>
+          <h2>감정 빈도가 부족합니다😢</h2>
+          <h2> 감정을 기록해주세요!</h2>
+        </St.ChartComment>
       )}
     </St.Wrapper>
   );
