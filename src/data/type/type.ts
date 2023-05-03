@@ -233,7 +233,6 @@ export interface DeleteModalProps extends PropsWithChildren {
 export interface PaletteProps {
   selectedColor: string;
   onColorSelect(color: string): void;
-  setSelectPen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface LoginInfo {
@@ -273,7 +272,6 @@ export interface EmoButtonProps {
 export interface PenProps extends ColorType {
   selectedSize: number;
   onSizeSelect(size: number): void;
-  setSelectPen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export type ButtonSize = SizeType & ColorType;

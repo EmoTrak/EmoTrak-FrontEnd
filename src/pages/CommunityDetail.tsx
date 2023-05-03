@@ -8,6 +8,7 @@ import { getCookie } from "../utils/cookies";
 import { themeColor } from "../utils/theme";
 import { scrollOnTop } from "../utils/scollOnTop";
 import { BackOfPage } from "../layouts/LayoutStyle";
+import { useMeta } from "../hooks/useMeta";
 import PageNation from "../components/PageNation";
 import Flex from "../components/Flex";
 import Star from "../components/Icon/Star";
@@ -19,7 +20,6 @@ import useAddCommunityDetail from "../features/community/hooks/useAddCommunityDe
 import PostDate from "../features/community/components/PostDate";
 import Report from "../features/community/components/Report";
 import * as St from "../features/community/styles/CommunityDetailStyle";
-import { useMeta } from "../hooks/useMeta";
 
 const CommunityDetail = () => {
   const navigate = useNavigate();
@@ -27,8 +27,7 @@ const CommunityDetail = () => {
   const [page, setPage] = useState<number>(1);
   const { data, status, remove } = useAddCommunityDetail(page);
 
-  const { updateTitle, updateDescription, updateImage, defaultMeta } =
-    useMeta();
+  const { updateTitle, updateDescription, updateImage, defaultMeta } = useMeta();
 
   const dataJSON = JSON.stringify(data);
 
@@ -68,30 +67,6 @@ const CommunityDetail = () => {
       </St.ImageWrapper>
 
       <St.PostDetailWrapper>
-        {/* {data?.hasAuth && (
-          <Flex row>
-            {data?.draw ? (
-              <Button
-                size="x-small"
-                onClick={() => navigate(`${DRAW_EDIT_PAGE}/${data.id}`)}
-              >
-                수정
-              </Button>
-            ) : (
-              <Button
-                size="x-small"
-                onClick={() => navigate(`${IMAGE_EDIT_PAGE}/${data.id}`)}
-              >
-                수정
-              </Button>
-            )}
-            <DeleteConfirmModal itemId={data?.id}>
-              <Button size="x-small" important>
-                삭제
-              </Button>
-            </DeleteConfirmModal>
-          </Flex>
-        )} */}
         <Flex ai="center" row gap={5} jc="center">
           <St.Emoticon>
             <EmotionIcons
@@ -108,12 +83,7 @@ const CommunityDetail = () => {
                 i < data?.star ? (
                   <Star key={i} size="25px" color={themeColor.palette.yellow} />
                 ) : (
-                  <Star
-                    key={i}
-                    size="25px"
-                    color={themeColor.main.oatmeal}
-                    disabled
-                  />
+                  <Star key={i} size="25px" color={themeColor.main.oatmeal} disabled />
                 )
               )}
           </Flex>
@@ -125,11 +95,7 @@ const CommunityDetail = () => {
               {status === "success" && <PostDate date={data.date} />}
             </Flex>
             {status === "success" && (
-              <LikePost
-                isLike={data.hasLike}
-                id={data.id}
-                count={data.likesCnt}
-              />
+              <LikePost isLike={data.hasLike} id={data.id} count={data.likesCnt} />
             )}
           </Flex>
         </div>
@@ -142,9 +108,7 @@ const CommunityDetail = () => {
             </Report>
           )}
           {data?.hasAuth && (
-            <St.DiaryText
-              onClick={() => navigate(`${DETAIL_PAGE}/${data?.id}`)}
-            >
+            <St.DiaryText onClick={() => navigate(`${DETAIL_PAGE}/${data?.id}`)}>
               내 일기장 보러가기
             </St.DiaryText>
           )}

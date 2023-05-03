@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { RiAlarmWarningFill } from "react-icons/ri";
 import { CommentProps } from "../../../data/type/type";
 import { getCookie } from "../../../utils/cookies";
+import { CommentInput } from "../styles/CreateCommentStyle";
+import { ReportText, Text } from "../styles/ReportStyle";
 import Button from "../../../components/Button";
 import LikeComment from "./LikeComment";
 import Report from "./Report";
@@ -26,7 +28,15 @@ const Comment = ({ item }: Partial<CommentProps>) => {
     <St.CommentBox>
       {edit ? (
         <St.EditBox>
-          <St.EditInput value={editComment} onChange={changeInputHandler} />
+          <CommentInput
+            value={editComment}
+            onChange={changeInputHandler}
+            maxLength={250}
+            spellCheck={false}
+          />
+          {editComment?.length === 250 && (
+            <ReportText>댓글은 250자까지 입력가능합니다</ReportText>
+          )}
           <div>
             <Button
               size="x-small"
@@ -40,7 +50,13 @@ const Comment = ({ item }: Partial<CommentProps>) => {
             >
               수정완료
             </Button>
-            <Button size="x-small" onClick={() => edit && setEdit((pre) => !pre)}>
+            <Button
+              size="x-small"
+              onClick={() => {
+                edit && setEdit((pre) => !pre);
+                setEditComment(item?.comment);
+              }}
+            >
               취소
             </Button>
           </div>
@@ -55,23 +71,14 @@ const Comment = ({ item }: Partial<CommentProps>) => {
 
           <div>
             {item?.hasAuth ? (
-              <div>
-                <Button
-                  size="x-small"
-                  onClick={() =>
-                    edit
-                      ? updateComment(item?.id, {
-                          onSuccess: () => setEdit((pre) => !pre),
-                        })
-                      : setEdit((pre) => !pre)
-                  }
-                >
-                  {edit ? "수정완료" : "수정"}
+              <St.EditAndDeleteBox>
+                <Button size="x-small" onClick={() => setEdit((pre) => !pre)}>
+                  수정
                 </Button>
                 <Button size="x-small" onClick={() => deleteComment(item?.id)}>
                   삭제
                 </Button>
-              </div>
+              </St.EditAndDeleteBox>
             ) : refreshToken && !item?.hasReport ? (
               <Report id={item?.id} uri="comments/report">
                 <St.ReportBtn>
@@ -79,7 +86,7 @@ const Comment = ({ item }: Partial<CommentProps>) => {
                 </St.ReportBtn>
               </Report>
             ) : (
-              <span>신고완료</span>
+              refreshToken && <Text>신고완료</Text>
             )}
             {typeof item?.createdAt === "string" && (
               <St.DateBox>
