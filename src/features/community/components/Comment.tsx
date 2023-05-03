@@ -9,6 +9,7 @@ import PostDate from "./PostDate";
 import useDeleteComment from "../hooks/useDeleteComment";
 import useUpdateComment from "../hooks/useUpdateComment";
 import * as St from "../styles/CommentStyle";
+import { Text } from "../styles/ReportStyle";
 
 const Comment = ({ item }: Partial<CommentProps>) => {
   const [edit, setEdit] = useState<boolean>(false);
@@ -26,7 +27,12 @@ const Comment = ({ item }: Partial<CommentProps>) => {
     <St.CommentBox>
       {edit ? (
         <St.EditBox>
-          <St.EditInput value={editComment} onChange={changeInputHandler} />
+          <St.EditInput
+            value={editComment}
+            onChange={changeInputHandler}
+            maxLength={250}
+            spellCheck={false}
+          />
           <div>
             <Button
               size="x-small"
@@ -79,7 +85,7 @@ const Comment = ({ item }: Partial<CommentProps>) => {
                 </St.ReportBtn>
               </Report>
             ) : (
-              refreshToken && <span>신고완료</span>
+              refreshToken && <Text>신고완료</Text>
             )}
             {typeof item?.createdAt === "string" && (
               <St.DateBox>
