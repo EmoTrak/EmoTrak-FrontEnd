@@ -86,7 +86,7 @@ const ImagePost = () => {
       submitDiaryHandler(event);
     } else {
       event.preventDefault();
-      alert("내용을 모두 입력해주세요!");
+      alert("감정과 별점을 모두 선택해주세요!");
     }
   };
 

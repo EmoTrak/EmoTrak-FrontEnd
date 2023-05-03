@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import Star from "../../../components/Icon/Star";
 import { themeColor } from "../../../utils/theme";
 
@@ -8,8 +9,8 @@ interface Test {
 
 const StarScore = ({ arr, action }: Test) => {
   return (
-    <>
-      {[1, 2, 3, 4, 5].map((score) => (
+    <StarScoreBox>
+      {[5, 4, 3, 2, 1].map((score) => (
         <Star
           key={score}
           size="30"
@@ -20,8 +21,27 @@ const StarScore = ({ arr, action }: Test) => {
           onClick={() => action(score)}
         />
       ))}
-    </>
+    </StarScoreBox>
   );
 };
 
 export default StarScore;
+
+const StarScoreBox = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+
+  button {
+    cursor: pointer;
+
+    &:hover svg {
+      fill: ${themeColor.palette.yellow};
+      stroke: ${themeColor.palette.yellow};
+    }
+
+    &:hover ~ button svg {
+      fill: ${themeColor.palette.yellow};
+      stroke: ${themeColor.palette.yellow};
+    }
+  }
+`;

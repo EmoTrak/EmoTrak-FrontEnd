@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
-import { BsFillEraserFill } from "react-icons/bs";
-import { VscDebugRestart } from "react-icons/vsc";
+import { BsFillEraserFill, BsFillTrash3Fill } from "react-icons/bs";
 import { themeColor } from "../../../utils/theme";
 import { Coordinate } from "../../../data/type/type";
 import { usePen } from "../hooks/usePen";
@@ -89,8 +88,20 @@ const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
   // useEffect + AddEventListener 대체 함수
   const mouseDownHandler = (event: MouseEvent) => {
     const mouseDown = new Map([
-      ["pen", () => startPaint(event)],
-      ["eraser", () => startErase(event)],
+      [
+        "pen",
+        () => {
+          startPaint(event);
+          setSelectPen(false);
+        },
+      ],
+      [
+        "eraser",
+        () => {
+          startErase(event);
+          setSelectPen(false);
+        },
+      ],
     ]);
     const mousefunc = mouseDown.get(mode);
 
@@ -236,13 +247,11 @@ const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
                   color={selectedColor}
                   selectedSize={selectedSize}
                   onSizeSelect={selectPenSizeHandler}
-                  setSelectPen={setSelectPen}
                 />
               </St.PenSizeTool>
               <Palette
                 selectedColor={selectedColor}
                 onColorSelect={selectColorHandler}
-                setSelectPen={setSelectPen}
               />
             </>
           ) : (
@@ -250,6 +259,7 @@ const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
               type="button"
               onClick={() => switchModeHandler("pen")}
               color={selectedColor}
+              mode={mode}
             >
               <FaPencilAlt />
             </St.PenButton>
@@ -258,12 +268,12 @@ const Canvas = ({ isCanvas, canvasRef, validation }: CanvasProps) => {
           <St.EraserButton
             type="button"
             onClick={() => switchModeHandler("eraser")}
-            color={mode}
+            mode={mode}
           >
             <BsFillEraserFill />
           </St.EraserButton>
           <St.RebootButton type="button" onClick={clearCanvas}>
-            <VscDebugRestart />
+            <BsFillTrash3Fill />
           </St.RebootButton>
         </St.ToolBox>
       </St.DrawWrap>

@@ -22,10 +22,12 @@ export const Container = styled.div`
 
 export const Text = styled.div`
   padding-bottom: 10px;
+  word-break: keep-all;
 `;
 
 export const CloseBtn = styled.div`
   position: absolute;
+  cursor: pointer;
   top: 10px;
   right: 5px;
 `;
