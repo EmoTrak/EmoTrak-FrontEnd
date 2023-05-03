@@ -9,6 +9,7 @@ import {
   CHART_PAGE,
   COMMUNITY_PAGE,
   HOME_PAGE,
+  LOGIN_PAGE,
   MY_PAGE,
 } from "../data/routes/urls";
 import { getCookie } from "../utils/cookies";
@@ -68,7 +69,7 @@ const MobileMenubar = ({ action }: InstallProps) => {
                     <RiInstallLine />
                     <St.SelectText>설치</St.SelectText>
                   </St.SelectButton>
-                  <St.SelectButton onClick={() => navigate("/")}>
+                  <St.SelectButton onClick={() => navigate(LOGIN_PAGE)}>
                     <RiLoginBoxLine />
                     <St.SelectText>로그인</St.SelectText>
                   </St.SelectButton>
