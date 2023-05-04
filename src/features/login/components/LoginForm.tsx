@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import {
   GOOGLE_AUTH_URL,
+  HOME_PAGE,
   KAKAO_AUTH_URL,
   NAVER_AUTH_URL,
   SIGN_UP_PAGE,
@@ -14,8 +15,21 @@ import Naver from "../../../assets/Social/Naver.svg";
 import Google from "../../../assets/Social/Google.svg";
 import * as St from "../styles/LoginFormStyle";
 import { MyPageInput } from "../../mypage/styles/MypageStyle";
+import { scrollOnTop } from "../../../utils/scollOnTop";
+import { useEffect } from "react";
+import { getCookie } from "../../../utils/cookies";
 
 const LoginForm = () => {
+  const refreshToken = getCookie("refreshToken");
+  const nav = useNavigate();
+  scrollOnTop();
+
+  useEffect(() => {
+    if (refreshToken) {
+      nav(HOME_PAGE);
+    }
+  }, []);
+
   const navigate = useNavigate();
 
   const { loginInfo, submitFormHandler, changeInputHandler } = useLogin();
@@ -51,7 +65,12 @@ const LoginForm = () => {
         <Button circle size="circle" type="submit" form="login">
           로그인
         </Button>
-        <Button circle size="circle" type="button" onClick={() => navigate(SIGN_UP_PAGE)}>
+        <Button
+          circle
+          size="circle"
+          type="button"
+          onClick={() => navigate(SIGN_UP_PAGE)}
+        >
           회원가입
         </Button>
       </St.ButtonBox>

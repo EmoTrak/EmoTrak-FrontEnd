@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { HOME_PAGE } from "../data/routes/urls";
+import { HOME_PAGE, LOGIN_PAGE } from "../data/routes/urls";
 import { IPayload, RouterProps } from "../data/type/type";
 
 export const ProtectedRoute = ({
@@ -12,28 +12,19 @@ export const ProtectedRoute = ({
   AlreadyLogin,
   refreshToken,
 }: RouterProps) => {
-  const nav = useNavigate();
-  let payloadJson;
-  let payload!: IPayload;
-  const payloadB64 = (token || "").split(".")[1];
-  if (atob && payloadB64) {
-    payloadJson = atob(payloadB64);
-  }
-  if (payloadJson) {
-    payload = JSON.parse(payloadJson);
-  }
+  const navigate = useNavigate();
+  
   useEffect(() => {
-    if (payload?.auth && payload?.auth === "ADMIN") {
-    } else if (isAuthAdmin && !isAdminAuthenticated) {
+    if (isAuthAdmin && !isAdminAuthenticated) {
       alert("권한이없습니다.");
-      nav(`/`);
+      navigate(LOGIN_PAGE);
     }
     if (AlreadyLogin && refreshToken) {
-      nav(`${HOME_PAGE}`);
+      navigate(HOME_PAGE);
     }
     if (!isAuthenticated) {
       alert("로그인이 필요한 서비스 입니다.");
-      nav("/");
+      navigate(LOGIN_PAGE);
     }
   }, []);
 
