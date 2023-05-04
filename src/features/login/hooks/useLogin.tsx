@@ -35,6 +35,8 @@ export const useLogin = () => {
       setCookie("token", token, {
         path: "/",
         maxAge: 1740,
+        secure: true,
+        httpOnly: true,
       });
       setCookie("refreshToken", refresh, {
         path: "/",
@@ -43,6 +45,8 @@ export const useLogin = () => {
       setCookie("expire", expire, {
         path: "/",
         maxAge: 60480,
+        secure: true,
+        httpOnly: true,
       });
       navigate(HOME_PAGE);
     },

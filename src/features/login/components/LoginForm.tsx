@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import {
   GOOGLE_AUTH_URL,
+  HOME_PAGE,
   KAKAO_AUTH_URL,
   NAVER_AUTH_URL,
   SIGN_UP_PAGE,
@@ -15,9 +16,19 @@ import Google from "../../../assets/Social/Google.svg";
 import * as St from "../styles/LoginFormStyle";
 import { MyPageInput } from "../../mypage/styles/MypageStyle";
 import { scrollOnTop } from "../../../utils/scollOnTop";
+import { useEffect } from "react";
+import { getCookie } from "../../../utils/cookies";
 
 const LoginForm = () => {
+  const refreshToken = getCookie("refreshToken");
+  const nav = useNavigate();
   scrollOnTop();
+
+  useEffect(() => {
+    if (refreshToken) {
+      nav(HOME_PAGE);
+    }
+  }, []);
 
   const navigate = useNavigate();
 

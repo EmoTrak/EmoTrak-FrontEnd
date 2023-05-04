@@ -14,6 +14,7 @@ import Button from "../components/Button";
 import InputList from "../features/mypage/components/InputList";
 import * as St from "../features/mypage/styles/MypageStyle";
 import { useWindowSize } from "../hooks/useWindowSize";
+import { LOGIN_PAGE } from "../data/routes/urls";
 
 const Mypage = () => {
   const { userInfo } = useAuth();
@@ -73,7 +74,7 @@ const Mypage = () => {
   const logoutUserHandler = () => {
     if (window.confirm("로그아웃하시겠습니까")) {
       logout();
-      navigate("/");
+      navigate(LOGIN_PAGE);
     }
   };
 
@@ -222,7 +223,7 @@ const Mypage = () => {
             회원탈퇴
           </Button>
           {(mobile || miniMobile) && (
-            <Button  onClick={logoutUserHandler}>로그아웃</Button>
+            <Button onClick={logoutUserHandler}>로그아웃</Button>
           )}
         </St.MyPageButtonBox>
       </St.MyPageContentWrapper>

@@ -6,6 +6,7 @@ import {
   CHART_PAGE,
   COMMUNITY_PAGE,
   HOME_PAGE,
+  LOGIN_PAGE,
   MY_PAGE,
 } from "../data/routes/urls";
 import EmoTrak from "../assets/logo/EmoTrakLogo.webp";
@@ -108,7 +109,7 @@ const Header = () => {
             <St.PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
               공유 페이지
             </St.PageButton>
-            <St.PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
+            <St.PageButton onClick={() => navigate(HOME_PAGE)}>
               달력 페이지
             </St.PageButton>
             <St.PageButton onClick={() => navigate(CHART_PAGE)}>
@@ -130,7 +131,9 @@ const Header = () => {
             <St.PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
               공유 페이지
             </St.PageButton>
-            <St.PageButton onClick={() => navigate("/login")}>로그인</St.PageButton>
+            <St.PageButton onClick={() => navigate(LOGIN_PAGE)}>
+              로그인
+            </St.PageButton>
           </Flex>
         </St.NavWrapper>
       )}
