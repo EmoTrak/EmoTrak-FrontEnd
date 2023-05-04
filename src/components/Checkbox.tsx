@@ -18,7 +18,7 @@ const Checkbox = ({
         disabled={disabled}
         onChange={onChange}
       />
-      <StyledCheckBox checked={checked === true}>
+      <StyledCheckBox checked={checked}>
         <Icon viewBox="0 0 24 24">
           <polyline points="19 7 10 17 5 12" />
         </Icon>

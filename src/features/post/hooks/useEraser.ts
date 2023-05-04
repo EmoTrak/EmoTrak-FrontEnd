@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Coordinate } from "../../../data/type/type";
 
 export const useEraser = (
@@ -29,33 +29,30 @@ export const useEraser = (
     }
   };
 
-  const startErase = useCallback((event: MouseEvent) => {
+  const startErase = (event: MouseEvent) => {
     const coordinates = action(event);
     if (coordinates) {
       setIsErasing(true);
       setMouse(coordinates);
     }
-  }, []);
+  };
 
-  const erase = useCallback(
-    (event: MouseEvent) => {
-      event.preventDefault();
-      event.stopPropagation();
+  const erase = (event: MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
 
-      if (isErasing) {
-        const newMousePosition = action(event);
-        if (mouse && newMousePosition) {
-          eraseLine(mouse);
-          setMouse(newMousePosition);
-        }
+    if (isErasing) {
+      const newMousePosition = action(event);
+      if (mouse && newMousePosition) {
+        eraseLine(mouse);
+        setMouse(newMousePosition);
       }
-    },
-    [isErasing, mouse]
-  );
+    }
+  };
 
-  const exitErase = useCallback(() => {
+  const exitErase = () => {
     setIsErasing(false);
-  }, []);
+  };
 
   return { startErase, erase, exitErase, isErasing };
 };

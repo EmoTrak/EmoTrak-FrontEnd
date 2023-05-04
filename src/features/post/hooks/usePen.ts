@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Coordinate } from "../../../data/type/type";
 
 export const usePen = (
@@ -36,33 +36,30 @@ export const usePen = (
     }
   };
 
-  const startPaint = useCallback((event: MouseEvent) => {
+  const startPaint = (event: MouseEvent) => {
     const coordinates = action(event);
     if (coordinates) {
       setIsPainting(true);
       setMouse(coordinates);
     }
-  }, []);
+  };
 
-  const paint = useCallback(
-    (event: MouseEvent) => {
-      event.preventDefault();
-      event.stopPropagation();
+  const paint = (event: MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
 
-      if (isPainting) {
-        const newMousePosition = action(event);
-        if (mouse && newMousePosition) {
-          drawLine(mouse, newMousePosition, color);
-          setMouse(newMousePosition);
-        }
+    if (isPainting) {
+      const newMousePosition = action(event);
+      if (mouse && newMousePosition) {
+        drawLine(mouse, newMousePosition, color);
+        setMouse(newMousePosition);
       }
-    },
-    [isPainting, mouse]
-  );
+    }
+  };
 
-  const exitPaint = useCallback(() => {
+  const exitPaint = () => {
     setIsPainting(false);
-  }, []);
+  };
 
   return {
     startPaint,

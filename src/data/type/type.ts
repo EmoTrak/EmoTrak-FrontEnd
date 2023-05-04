@@ -1,4 +1,8 @@
-import { AxiosRequestConfig, AxiosRequestHeaders, AxiosResponseHeaders } from "axios";
+import {
+  AxiosRequestConfig,
+  AxiosRequestHeaders,
+  AxiosResponseHeaders,
+} from "axios";
 import { ComponentPropsWithoutRef, PropsWithChildren } from "react";
 
 export interface Idtype {
@@ -159,7 +163,7 @@ export interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
 }
 
 export interface CheckProps {
-  checked: boolean;
+  checked: boolean | undefined;
 }
 export interface PropsData {
   month: number;
@@ -190,12 +194,11 @@ export interface IPayload {
 
 export interface RouterProps extends PropsWithChildren {
   token: string;
-  isAuthenticated: boolean;
   pathname: string;
   isAdminAuthenticated?: string | boolean;
   isAuthAdmin: boolean;
-  AlreadyLogin: boolean;
-  refreshToken: string;
+  isLogin: boolean;
+  isPublic: boolean;
 }
 
 export type SignInfo = LoginInfo & { nickname: string; emailCheck: string };
