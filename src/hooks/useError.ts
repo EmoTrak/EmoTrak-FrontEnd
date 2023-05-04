@@ -51,14 +51,10 @@ export const useError = (error: AxiosError) => {
             setCookie("token", newToken, {
               path: "/",
               maxAge: 1740,
-              secure: true,
-              httpOnly: true,
             });
             setCookie("expire", newExpire, {
               path: "/",
               maxAge: 604800,
-              secure: true,
-              httpOnly: true,
             });
 
             return user.request(originalConfig);

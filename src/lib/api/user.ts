@@ -4,6 +4,7 @@ import axios, { InternalAxiosRequestConfig } from "axios";
 
 const user = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
+  withCredentials: true,
 });
 
 user.interceptors.request.use(
@@ -12,6 +13,7 @@ user.interceptors.request.use(
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
+
     return config;
   },
   function (error) {
