@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { MdOutlineArrowDropDownCircle } from "react-icons/md";
 import { DateType } from "../data/type/type";
@@ -10,6 +10,7 @@ import CalendarEmo from "../features/diary/components/CalendarEmo";
 import MiniCalendar from "../features/diary/components/MiniCalendar";
 import MonthSelect from "../features/diary/components/MonthSelect";
 import * as St from "../features/diary/styles/CalendarStyle";
+import { scrollOnTop } from "../utils/scollOnTop";
 
 const Home = () => {
   const [side, setSide] = useState(false);
@@ -51,6 +52,10 @@ const Home = () => {
   const thisMonth = (): void => {
     setSelect({ ...select, year: today.year, month: today.month });
   };
+
+  useEffect(() => {
+    scrollOnTop();
+  }, []);
 
   return (
     <St.Container>
