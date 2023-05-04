@@ -64,10 +64,7 @@ const Header = () => {
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
     return () => {
-      window.removeEventListener(
-        "beforeinstallprompt",
-        handleBeforeInstallPrompt
-      );
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     };
   }, []);
 
@@ -86,9 +83,7 @@ const Header = () => {
       {payload?.auth === "ADMIN" ? (
         <St.NavWrapper>
           <Flex row gap={10}>
-            <St.PageButton onClick={() => navigate(ADMIN)}>
-              관리자페이지
-            </St.PageButton>
+            <St.PageButton onClick={() => navigate(ADMIN)}>관리자페이지</St.PageButton>
             <St.PageButton onClick={() => navigate(COMMUNITY_PAGE)}>
               공유 페이지
             </St.PageButton>
@@ -96,9 +91,7 @@ const Header = () => {
             <St.PageButton onClick={() => navigate(CHART_PAGE)}>
               차트 페이지
             </St.PageButton>
-            <St.PageButton onClick={() => navigate(MY_PAGE)}>
-              마이페이지
-            </St.PageButton>
+            <St.PageButton onClick={() => navigate(MY_PAGE)}>마이페이지</St.PageButton>
             <St.PageButton onClick={logoutUserHandler}>로그아웃</St.PageButton>
           </Flex>
         </St.NavWrapper>
@@ -114,9 +107,7 @@ const Header = () => {
             <St.PageButton onClick={() => navigate(CHART_PAGE)}>
               차트 페이지
             </St.PageButton>
-            <St.PageButton onClick={() => navigate(MY_PAGE)}>
-              마이페이지
-            </St.PageButton>
+            <St.PageButton onClick={() => navigate(MY_PAGE)}>마이페이지</St.PageButton>
             <St.PageButton onClick={logoutUserHandler}>로그아웃</St.PageButton>
           </Flex>
         </St.NavWrapper>
