@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import {
@@ -15,6 +16,7 @@ import Star from "../components/Icon/Star";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
 import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 import * as St from "../features/detail/styles/DetailStyle";
+import { useSave } from "../features/detail/hooks/useSave";
 
 const Detail = () => {
   const params = useParams();
@@ -32,6 +34,10 @@ const Detail = () => {
     }
   };
 
+  const { openDownload, downloadPicture, setOpenDownload } = useSave(
+    targetItem,
+    dailyId
+  );
   return (
     <St.Container>
       <St.BackWrap>
@@ -46,6 +52,16 @@ const Detail = () => {
           ) : (
             <St.DefaultImage>이미지가 필요합니다</St.DefaultImage>
           )}
+          {targetItem?.draw && (
+            <Button
+              style={{ position: "absolute", bottom: "0" }}
+              size="small"
+              onClick={() => setOpenDownload(true)}
+            >
+              그림저장
+            </Button>
+          )}
+          {openDownload && downloadPicture()}
         </St.DetailImageBox>
       </St.CanvasWrap>
       <St.Wrapper>
@@ -115,7 +131,9 @@ const Detail = () => {
             <Flex row>
               {targetItem?.share ? (
                 <St.SharedText
-                  onClick={() => navigate(`${COMMUNITY_DETAIL}/${targetItem.id}`)}
+                  onClick={() =>
+                    navigate(`${COMMUNITY_DETAIL}/${targetItem.id}`)
+                  }
                 >
                   {">>"}댓글보러 갈래요{"<<"}
                 </St.SharedText>
