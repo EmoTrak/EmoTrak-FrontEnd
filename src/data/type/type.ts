@@ -209,8 +209,6 @@ export interface PostInput {
 export interface CookieOption {
   path: string;
   maxAge?: number;
-  secure?: boolean;
-  httpOnly?:boolean;
 }
 
 export interface Coordinate {
