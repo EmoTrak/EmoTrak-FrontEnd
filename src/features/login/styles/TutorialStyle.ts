@@ -322,6 +322,7 @@ export const PointP = styled.p`
 
 export const Calendar = styled.img<PositionProps>`
   width: 40vw;
+  height: auto;
   border: 8px solid #d9d9d9;
   border-radius: 3vh;
   margin: 0;
@@ -330,6 +331,7 @@ export const Calendar = styled.img<PositionProps>`
 
 export const Drawing = styled.img<PositionProps>`
   width: 40vw;
+  height: auto;
   border: 8px solid #d9d9d9;
   border-radius: 3vh;
   margin: 5vh;
@@ -337,6 +339,7 @@ export const Drawing = styled.img<PositionProps>`
 
 export const Graph = styled.img<PositionProps>`
   width: 40vw;
+  height: auto;
   border: 8px solid #d9d9d9;
   border-radius: 3vh;
   margin: 5vh;
