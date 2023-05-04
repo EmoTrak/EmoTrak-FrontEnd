@@ -1,6 +1,6 @@
-import { DateType } from "../../../data/type/type";
+import { DateType } from "../data/type/type";
 
-export const useDate = (year: number, month: number) => {
+export const getDate = (year: number, month: number) => {
   const lastDate: number = new Date(year, month, 0).getDate();
   const firstDay: number = new Date(year, month - 1, 1).getDay();
 

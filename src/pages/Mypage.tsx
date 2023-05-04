@@ -9,9 +9,9 @@ import { useNicknameValidation } from "../features/signup/hooks/useNicknameValid
 import { useChangePassword } from "../features/mypage/hooks/useChangePassword";
 import { useChangeNickname } from "../features/mypage/hooks/useChangeNickname";
 import { useWithdrawal } from "../features/mypage/hooks/useWithdrawal";
-import { logout } from "../utils/logout";
+import { logout } from "../hooks/logout";
 import Button from "../components/Button";
-import InputList from "../features/mypage/components/InputList";
+import InputList from "../components/InputList";
 import * as St from "../features/mypage/styles/MypageStyle";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { LOGIN_PAGE } from "../data/routes/urls";
@@ -138,7 +138,10 @@ const Mypage = () => {
               <Button
                 size="small"
                 disabled={!nicknameValidation}
-                onClick={() => changeNickname.mutate(info.nickname)}
+                onClick={() =>
+                  window.confirm("정말 변경하시겠습니까?") &&
+                  changeNickname.mutate(info.nickname)
+                }
                 important
               >
                 닉네임 변경

@@ -1,4 +1,3 @@
-import React from "react";
 import { ReactComponent as StarIcon } from "../../assets/emoticon/star.svg";
 import styled from "styled-components";
 import { device } from "../../utils/theme";

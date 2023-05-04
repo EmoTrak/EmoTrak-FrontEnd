@@ -16,10 +16,7 @@ const Community = () => {
 
   const [listOpen, setListOpen] = useState<boolean>(false);
   const [postData, setPostData] = useState<ImageType[]>([]);
-  const { data, fetchNextPage, hasNextPage, isLoading } = useInfinite(
-    paramSort,
-    paramEmo
-  );
+  const { data, fetchNextPage, hasNextPage } = useInfinite(paramSort, paramEmo);
 
   const clickSortListButton = (string: string) => {
     if (emoNum) {
@@ -29,8 +26,9 @@ const Community = () => {
     }
   };
 
+  // 스크롤 위치가 바닥에 닿았을때 다음 페이지 정보를 불러오는 함수
   const onScroll = () => {
-    let throttle = null;
+    let throttle;
 
     if (throttle) return;
     throttle = setTimeout(() => {
@@ -43,7 +41,6 @@ const Community = () => {
       throttle = false;
     }, 300);
   };
-  // 스크롤 위치가 바닥에 닿았을때 다음 페이지 정보를 불러오는 함수
 
   // 스크롤 현재 위치를 저장
   function saveScrollPosition() {
@@ -94,10 +91,6 @@ const Community = () => {
       setSearchParams({ ...searchParams });
     }
   }, [emoNum]);
-
-  // if (isLoading) {
-  //   return <>로딩중..</>;
-  // }
 
   return (
     <St.Container>

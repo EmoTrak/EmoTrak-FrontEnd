@@ -8,7 +8,6 @@ import { getCookie } from "../utils/cookies";
 import { themeColor } from "../utils/theme";
 import { scrollOnTop } from "../utils/scollOnTop";
 import { BackOfPage } from "../layouts/LayoutStyle";
-import { useMeta } from "../hooks/useMeta";
 import PageNation from "../components/PageNation";
 import Flex from "../components/Flex";
 import Star from "../components/Icon/Star";
@@ -26,22 +25,6 @@ const CommunityDetail = () => {
   const refreshToken = getCookie("refreshToken");
   const [page, setPage] = useState<number>(1);
   const { data, status, remove } = useAddCommunityDetail(page);
-
-  const { updateTitle, updateDescription, updateImage, defaultMeta } = useMeta();
-
-  const dataJSON = JSON.stringify(data);
-
-  useEffect(() => {
-    const title = `EmoTrak : Community`;
-    const image = `${data?.imgUrl}`;
-    const description = `${data?.detail}`;
-    updateTitle(title);
-    updateImage(image);
-    updateDescription(description);
-    return () => {
-      defaultMeta();
-    };
-  }, [dataJSON]);
 
   useEffect(() => {
     scrollOnTop();
@@ -83,7 +66,12 @@ const CommunityDetail = () => {
                 i < data?.star ? (
                   <Star key={i} size="25px" color={themeColor.palette.yellow} />
                 ) : (
-                  <Star key={i} size="25px" color={themeColor.main.oatmeal} disabled />
+                  <Star
+                    key={i}
+                    size="25px"
+                    color={themeColor.main.oatmeal}
+                    disabled
+                  />
                 )
               )}
           </Flex>
@@ -95,7 +83,11 @@ const CommunityDetail = () => {
               {status === "success" && <PostDate date={data.date} />}
             </Flex>
             {status === "success" && (
-              <LikePost isLike={data.hasLike} id={data.id} count={data.likesCnt} />
+              <LikePost
+                isLike={data.hasLike}
+                id={data.id}
+                count={data.likesCnt}
+              />
             )}
           </Flex>
         </div>
@@ -108,7 +100,9 @@ const CommunityDetail = () => {
             </Report>
           )}
           {data?.hasAuth && (
-            <St.DiaryText onClick={() => navigate(`${DETAIL_PAGE}/${data?.id}`)}>
+            <St.DiaryText
+              onClick={() => navigate(`${DETAIL_PAGE}/${data?.id}`)}
+            >
               내 일기장 보러가기
             </St.DiaryText>
           )}

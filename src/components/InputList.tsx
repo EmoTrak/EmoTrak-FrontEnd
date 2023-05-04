@@ -1,5 +1,5 @@
-import { InputListProps } from "../../../data/type/type";
-import * as St from "../styles/InputListStyle";
+import { InputListProps } from "../data/type/type";
+import * as St from "../features/mypage/styles/InputListStyle";
 
 function InputList({ name, children }: InputListProps) {
   return (

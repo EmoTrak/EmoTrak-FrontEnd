@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { RiAlarmWarningFill } from "react-icons/ri";
 import { CommentProps } from "../../../data/type/type";
 import { getCookie } from "../../../utils/cookies";
@@ -15,7 +15,9 @@ import * as St from "../styles/CommentStyle";
 const Comment = ({ item }: Partial<CommentProps>) => {
   const [edit, setEdit] = useState<boolean>(false);
   const refreshToken = getCookie("refreshToken");
-  const [editComment, setEditComment] = useState<string | undefined>(item?.comment);
+  const [editComment, setEditComment] = useState<string | undefined>(
+    item?.comment
+  );
 
   const changeInputHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEditComment(e.target.value);
@@ -66,7 +68,11 @@ const Comment = ({ item }: Partial<CommentProps>) => {
           <div>
             <St.Nicname> {item?.nickname}</St.Nicname>
             <St.Comment>{item?.comment}</St.Comment>
-            <LikeComment isLike={item?.hasLike} id={item?.id} count={item?.likesCnt} />
+            <LikeComment
+              isLike={item?.hasLike}
+              id={item?.id}
+              count={item?.likesCnt}
+            />
           </div>
 
           <div>

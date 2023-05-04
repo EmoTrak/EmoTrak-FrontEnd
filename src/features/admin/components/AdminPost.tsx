@@ -8,7 +8,7 @@ import useAdminPost from "../hooks/useAdminPost";
 import PageNation from "../../../components/PageNation";
 import { IAdminData } from "../../../data/type/type";
 import * as St from "../styles/AdminStyle";
-import Error from "../../../components/Error";
+import Error from "../../../components/ServerError";
 
 const AdminPost = () => {
   const nav = useNavigate();

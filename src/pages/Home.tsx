@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { MdOutlineArrowDropDownCircle } from "react-icons/md";
 import { DateType } from "../data/type/type";
-import { useDate } from "../features/diary/hooks/useDate";
+import { getDate } from "../utils/getDate";
 import { useGetDiary } from "../features/diary/hooks/useGetDiary";
 import Button from "../components/Button";
 import Sidebar from "../features/diary/components/Sidebar";
@@ -11,15 +11,10 @@ import MiniCalendar from "../features/diary/components/MiniCalendar";
 import MonthSelect from "../features/diary/components/MonthSelect";
 import * as St from "../features/diary/styles/CalendarStyle";
 import { scrollOnTop } from "../utils/scollOnTop";
+import { today } from "../utils/today";
 
 const Home = () => {
   const [side, setSide] = useState(false);
-  const today: DateType = {
-    year: new Date().getFullYear(),
-    month: new Date().getMonth() + 1,
-    date: new Date().getDate(),
-    day: new Date().getDay(),
-  };
 
   // 날짜 선택
   const [select, setSelect] = useState<DateType>({
@@ -28,28 +23,28 @@ const Home = () => {
     date: today.date,
   });
 
-  const { firstDay, date } = useDate(select.year, select.month);
+  const { firstDay, date } = getDate(select.year, select.month);
   const { diary } = useGetDiary(select.year, select.month);
 
   //해당 날짜의 값 가져오는 함수
-  const clickDayBtn = (day: number): void => {
+  const clickDayBtn = (day: number) => {
     setSide(true);
     setSelect({ ...select, date: day });
   };
 
-  const prevMonth = (): void => {
+  const prevMonth = () => {
     select.month === 1
       ? setSelect({ ...select, month: 12, year: select.year - 1 })
       : setSelect({ ...select, month: select.month - 1 });
   };
 
-  const nextMonth = (): void => {
+  const nextMonth = () => {
     select.month === 12
       ? setSelect({ ...select, month: 1, year: select.year + 1 })
       : setSelect({ ...select, month: select.month + 1 });
   };
 
-  const thisMonth = (): void => {
+  const thisMonth = () => {
     setSelect({ ...select, year: today.year, month: today.month });
   };
 
@@ -61,8 +56,16 @@ const Home = () => {
     <St.Container>
       {!side && (
         <St.MiniCalendarWrap>
-          <MiniCalendar year={select.year} month={select.month - 1} onClick={prevMonth} />
-          <MiniCalendar year={select.year} month={select.month + 1} onClick={nextMonth} />
+          <MiniCalendar
+            year={select.year}
+            month={select.month - 1}
+            onClick={prevMonth}
+          />
+          <MiniCalendar
+            year={select.year}
+            month={select.month + 1}
+            onClick={nextMonth}
+          />
         </St.MiniCalendarWrap>
       )}
       <St.CalendarBox>
@@ -135,7 +138,9 @@ const Home = () => {
         </St.DiaryDay>
       </St.CalendarBox>
 
-      {side && <Sidebar side={side} setSide={setSide} data={diary} diaryDay={select} />}
+      {side && (
+        <Sidebar side={side} setSide={setSide} data={diary} diaryDay={select} />
+      )}
     </St.Container>
   );
 };
