@@ -96,10 +96,12 @@ export const DetailImageBox = styled.div`
   width: 50vw;
   height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
   margin-top: 50px;
+  gap: 50px;
   ${device.mobile} {
     width: 100vw;
     height: 100%;
