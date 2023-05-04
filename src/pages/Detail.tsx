@@ -27,11 +27,11 @@ const Detail = () => {
 
   const { targetItem, otherItem, contents } = useGetDetail(dailyId);
 
-  useEffect(() => {
-    if (!refreshToken) {
-      navigate("/");
-    }
-  });
+  // useEffect(() => {
+  //   if (!refreshToken) {
+  //     navigate("/");
+  //   }
+  // });
 
   const navigateEditHandler = () => {
     if (targetItem?.draw) {

@@ -1,5 +1,5 @@
 import { getCookie } from "../../utils/cookies";
-import { error } from "../../utils/error";
+import { errorHandler } from "../../utils/error";
 import axios, { InternalAxiosRequestConfig } from "axios";
 
 const user = axios.create({
@@ -26,7 +26,7 @@ user.interceptors.response.use(
     return response;
   },
   function (error) {
-    error(error);
+    errorHandler(error);
     return Promise.reject(error);
   }
 );
