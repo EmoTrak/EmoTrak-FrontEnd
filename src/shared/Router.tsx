@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { IPayload } from "../data/type/type";
 import { getCookie } from "../utils/cookies";
-import { ProtectedRoute } from "./ProtectedRouter";
+import { ProtectedRoute } from "./ProtectedRoute";
 import Layout from "../layouts/Layout";
 import Loading from "../components/Loading";
 import * as PAGE from "../data/routes/urls";

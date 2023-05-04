@@ -4,7 +4,7 @@ import user from "../lib/api/user";
 import { logout } from "../hooks/logout";
 import { AxiosError } from "../data/type/type";
 
-export const error = (error: AxiosError) => {
+export const errorHandler = (error: AxiosError) => {
   const originalConfig = error.config;
   const statusCode: number = error?.response?.data.statusCode;
   const errorCode: string = error?.response?.data.errorCode;
