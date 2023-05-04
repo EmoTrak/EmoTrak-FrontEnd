@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import * as URL from "../data/routes/urls";
 import { getCookie } from "../utils/cookies";
@@ -15,14 +15,8 @@ import Google from "../assets/Social/Google.svg";
 
 const Login = () => {
   scrollOnTop();
-  const refreshToken = getCookie("refreshToken");
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (refreshToken) {
-      navigate(URL.HOME_PAGE);
-    }
-  }, []);
+  const navigate = useNavigate();
 
   const { loginInfo, submitFormHandler, changeInputHandler } = useLogin();
 
