@@ -19,6 +19,7 @@ import RedirectNaver from "../pages/RedirectNaver";
 import RedirectGoogle from "../pages/RedirectGoogle";
 import Admin from "../pages/Admin";
 import ImageEdit from "../pages/ImageEdit";
+import Guide from "../pages/Guide";
 
 const AdminPost = lazy(
   () =>
@@ -63,6 +64,13 @@ const Router = () => {
   const pages = [
     {
       pathname: "/",
+      element: <Guide />,
+      isPublic: true,
+      isLogin: true || false,
+      isAuthAdmin: false,
+    },
+    {
+      pathname: PAGE.LOGIN_PAGE,
       element: <Login />,
       isPublic: true,
       isLogin: false,

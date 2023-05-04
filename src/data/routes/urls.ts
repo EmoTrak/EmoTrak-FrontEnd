@@ -16,6 +16,7 @@ export const ADMIN = "/admin";
 export const ADMIN_POST = "/adminpost";
 export const ADMIN_COMMENT = "/admincomment";
 export const PRIVACY_POLICY = "/privacy-policy";
+export const LOGIN_PAGE = "/login";
 
 // 카카오 소셜로그인 관련
 const KAKAO_REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;

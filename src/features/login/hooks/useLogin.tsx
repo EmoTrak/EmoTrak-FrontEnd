@@ -32,9 +32,18 @@ export const useLogin = () => {
 
       const token = info.split(" ")[1];
 
-      setCookie("token", token, { path: "/", maxAge: 1740 });
-      setCookie("refreshToken", refresh, { path: "/", maxAge: 604800 });
-      setCookie("expire", expire, { path: "/", maxAge: 604800 });
+      setCookie("token", token, {
+        path: "/",
+        maxAge: 1740,
+      });
+      setCookie("refreshToken", refresh, {
+        path: "/",
+        maxAge: 604800,
+      });
+      setCookie("expire", expire, {
+        path: "/",
+        maxAge: 60480,
+      });
       navigate(HOME_PAGE);
     },
   });

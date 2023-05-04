@@ -55,7 +55,7 @@ export const SelectBtn = styled.button`
 export const CalendarBox = styled.div`
   margin-left: auto;
   margin-right: auto;
-  max-width: 850px;
+  width: 850px;
   height: 110vh;
   ${device.tablet} {
     width: 95vw;
@@ -65,7 +65,6 @@ export const CalendarBox = styled.div`
   }
   ${device.miniMobile} {
     height: 70vh;
-    margin-left: 3px;
   }
 `;
 

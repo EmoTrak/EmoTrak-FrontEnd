@@ -15,8 +15,11 @@ import {
   FormTitle,
   FormWrapper,
 } from "../../login/styles/LoginFormStyle";
+import { LOGIN_PAGE } from "../../../data/routes/urls";
+import { scrollOnTop } from "../../../utils/scollOnTop";
 
 const SignupForm = () => {
+  scrollOnTop();
   const navigate = useNavigate();
   const [signInfo, setSignInfo] = useState<InfoType & SignInfo>({
     email: "",
@@ -103,7 +106,7 @@ const SignupForm = () => {
   useEffect(() => {
     const preventGoBack = () => {
       if (window.confirm("페이지를 나가시겠습니까?")) {
-        navigate("/");
+        navigate(LOGIN_PAGE);
       } else {
         window.history.pushState(null, "", window.location.href);
       }
