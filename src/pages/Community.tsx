@@ -29,15 +29,21 @@ const Community = () => {
     }
   };
 
-  // 스크롤 위치가 바닥에 닿았을때 다음 페이지 정보를 불러오는 함수
   const onScroll = () => {
-    const { scrollTop, offsetHeight } = document.documentElement;
-    if (hasNextPage && window.innerHeight + scrollTop + 400 >= offsetHeight) {
-      fetchNextPage({ cancelRefetch: false });
+    let throttle = null;
+
+    if (throttle) return;
+    throttle = setTimeout(() => {
+      const { scrollTop, offsetHeight } = document.documentElement;
+      if (hasNextPage && window.innerHeight + scrollTop + 400 >= offsetHeight) {
+        fetchNextPage({ cancelRefetch: false });
+        saveScrollPosition();
+      }
       saveScrollPosition();
-    }
-    saveScrollPosition();
+      throttle = false;
+    }, 300);
   };
+  // 스크롤 위치가 바닥에 닿았을때 다음 페이지 정보를 불러오는 함수
 
   // 스크롤 현재 위치를 저장
   function saveScrollPosition() {
