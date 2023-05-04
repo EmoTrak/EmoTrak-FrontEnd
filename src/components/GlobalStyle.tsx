@@ -15,6 +15,7 @@ const GlobalStyle = createGlobalStyle`
     src: url('/fonts/KyoboHand.woff') format('woff');
     font-weight: normal;
     font-style: normal;
+    font-display: swap;
 }
   @font-face {
   font-family: "yg-jalnan";
@@ -22,6 +23,7 @@ const GlobalStyle = createGlobalStyle`
   format("woff");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
   }
 
   @font-face {
@@ -30,6 +32,7 @@ const GlobalStyle = createGlobalStyle`
   format("woff");
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 `;
 export default GlobalStyle;
