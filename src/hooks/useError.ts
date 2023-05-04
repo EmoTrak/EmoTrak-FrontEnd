@@ -48,9 +48,18 @@ export const useError = (error: AxiosError) => {
             const newInfo = data.headers["authorization"];
             const newExpire = data.headers["access-token-expire-time"];
             const newToken = newInfo.split(" ")[1];
-            // logout();
-            setCookie("token", newToken, { path: "/", maxAge: 1740 });
-            setCookie("expire", newExpire, { path: "/", maxAge: 604800 });
+            setCookie("token", newToken, {
+              path: "/",
+              maxAge: 1740,
+              secure: true,
+              httpOnly: true,
+            });
+            setCookie("expire", newExpire, {
+              path: "/",
+              maxAge: 604800,
+              secure: true,
+              httpOnly: true,
+            });
 
             return user.request(originalConfig);
           }

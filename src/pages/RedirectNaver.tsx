@@ -28,9 +28,22 @@ const RedirectNaver = () => {
       const refresh = data.headers["refresh-token"];
       const expire = data.headers["access-token-expire-time"];
       const token = info[1];
-      setCookie("refreshToken", refresh, { path: "/", maxAge: 604800 });
-      setCookie("expire", expire, { path: "/", maxAge: 604800 });
-      setCookie("token", token, { path: "/", maxAge: 1740 });
+      setCookie("refreshToken", refresh, {
+        path: "/",
+        maxAge: 604800,
+      });
+      setCookie("expire", expire, {
+        path: "/",
+        maxAge: 604800,
+        secure: true,
+        httpOnly: true,
+      });
+      setCookie("token", token, {
+        path: "/",
+        maxAge: 1740,
+        secure: true,
+        httpOnly: true,
+      });
       navigate(HOME_PAGE);
     },
   });
