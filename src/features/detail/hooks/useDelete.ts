@@ -7,21 +7,16 @@ import user from "../../../lib/api/user";
 export const useDelete = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const deletePost = useMutation({
+  const { mutate: deletePost } = useMutation({
     mutationFn: async (id: number) => {
       await user.delete(`/daily/${id}`);
     },
+    onSuccess: () => {
+      navigate(HOME_PAGE);
+      queryClient.invalidateQueries({
+        queryKey: [keys.GET_BOARD, null, null],
+      });
+    },
   });
-
-  const deletePostHandler = (id: number) => {
-    deletePost.mutate(id, {
-      onSuccess: () => {
-        navigate(HOME_PAGE);
-        queryClient.invalidateQueries({
-          queryKey: [keys.GET_BOARD],
-        });
-      },
-    });
-  };
-  return { deletePostHandler };
+  return { deletePost };
 };

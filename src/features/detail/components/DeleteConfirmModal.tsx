@@ -5,7 +5,7 @@ import { useDelete } from "../hooks/useDelete";
 import * as St from "../styles/DeleteConfirmModalStyle";
 
 const DeleteConfirmModal = ({ children, itemId }: DeleteModalProps) => {
-  const { deletePostHandler } = useDelete();
+  const { deletePost } = useDelete();
 
   return (
     <UI.Modalroot>
@@ -25,9 +25,7 @@ const DeleteConfirmModal = ({ children, itemId }: DeleteModalProps) => {
             <St.ClickBtn>아니오 </St.ClickBtn>
           </UI.ModalClose>
 
-          <St.ClickBtn onClick={() => deletePostHandler(itemId)}>
-            삭제하기
-          </St.ClickBtn>
+          <St.ClickBtn onClick={() => deletePost(itemId)}>삭제하기</St.ClickBtn>
         </St.PostContent>
       </UI.ModalContent>
     </UI.Modalroot>
