@@ -7,7 +7,12 @@ import Flex from "../components/Flex";
 import { usePost } from "../features/post/hooks/usePost";
 import { useInput } from "../features/post/hooks/useInput";
 import * as St from "../features/post/styles/DrawingStyle";
-import { StarWrap, Label, ScoreBox, SubmitBox } from "../features/post/styles/ImageStyle";
+import {
+  StarWrap,
+  Label,
+  ScoreBox,
+  SubmitBox,
+} from "../features/post/styles/ImageStyle";
 import Canvas from "../features/post/components/Canvas";
 import PostInput from "../features/post/components/PostInput";
 import StarScore from "../features/post/components/StarScore";
@@ -59,7 +64,13 @@ const DrawingPost = () => {
   };
 
   // 별점
-  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
+  const [clicked, setClicked] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
   const clickStarHandler = (score: number): void => {
     setClicked(clicked.map((_, i) => i < score));
     scoreStarHandler(score);
@@ -127,7 +138,10 @@ const DrawingPost = () => {
           <Flex row>
             <St.DrawingPostWrap>
               <ScoreBox>
-                <EmoScore value={inputValue.emoId} action={changeEmojiHandler} />
+                <EmoScore
+                  value={inputValue.emoId}
+                  action={changeEmojiHandler}
+                />
                 <StarWrap>
                   <StarScore arr={clicked} action={clickStarHandler} />
                   <p>{inputValue.star ? inputValue.star : "별점"}</p>

@@ -1,8 +1,7 @@
-import { FC } from "react";
 import { getEmotionIcon } from "./getEmoticonIcon";
 import { IProps } from "../../data/type/type";
 
-const EmotionIcons: FC<IProps> = ({ emotionTypes, height, width }) => {
+const EmotionIcons = ({ emotionTypes, height, width }: IProps) => {
   return (
     <img
       height={height}

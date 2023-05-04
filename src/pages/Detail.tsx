@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import {
@@ -17,19 +16,27 @@ import EmotionIcons from "../components/Icon/EmoticonIcons";
 import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 import * as St from "../features/detail/styles/DetailStyle";
 import { useSave } from "../features/detail/hooks/useSave";
+import { getCookie } from "../utils/cookies";
+import { useEffect } from "react";
 
 const Detail = () => {
   const params = useParams();
   const dailyId: number = Number(params.id);
   const navigate = useNavigate();
+  const refreshToken = getCookie("refreshToken");
 
   const { targetItem, otherItem, contents } = useGetDetail(dailyId);
+
+  useEffect(() => {
+    if (!refreshToken) {
+      navigate("/");
+    }
+  });
 
   const navigateEditHandler = () => {
     if (targetItem?.draw) {
       navigate(`${DRAW_EDIT_PAGE}/${targetItem?.id}`);
-    }
-    if (!targetItem?.draw) {
+    } else {
       navigate(`${IMAGE_EDIT_PAGE}/${targetItem?.id}`);
     }
   };

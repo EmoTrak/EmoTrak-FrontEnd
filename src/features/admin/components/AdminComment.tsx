@@ -9,7 +9,7 @@ import useAdminComment from "../hooks/useAdminComment";
 import useAdminPost from "../hooks/useAdminPost";
 import PageNation from "../../../components/PageNation";
 import * as St from "../styles/AdminStyle";
-import Error from "../../../components/Error";
+import Error from "../../../components/ServerError";
 
 const AdminComment = () => {
   const [page, setPage] = useState<number>(1);

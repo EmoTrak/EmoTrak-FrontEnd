@@ -1,12 +1,12 @@
 import { InputValue } from "../../../data/type/type";
 import { TextArea } from "../styles/ImageStyle";
 
-interface Test {
+interface IPostInput {
   action: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   value: InputValue;
 }
 
-const PostInput = ({ action, value }: Test) => {
+const PostInput = ({ action, value }: IPostInput) => {
   return (
     <label>
       <TextArea

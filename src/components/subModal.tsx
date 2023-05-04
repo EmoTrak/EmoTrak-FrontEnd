@@ -1,10 +1,5 @@
-import React, {
-  PropsWithChildren,
-  createContext,
-  useContext,
-  useState,
-} from "react";
-import { BooleanType, Position } from "../data/type/type";
+import { PropsWithChildren, createContext, useContext, useState } from "react";
+import { BooleanType } from "../data/type/type";
 import styled from "styled-components";
 import { themeColor } from "../utils/theme";
 

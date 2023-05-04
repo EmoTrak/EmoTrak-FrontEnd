@@ -17,9 +17,20 @@ export const Nicname = styled.div`
   font-size: 15px;
 `;
 export const Comment = styled.pre`
+  width: 32vw;
   margin: 5px 10px 5px 0;
   line-height: 20px;
   white-space: pre-wrap;
+  word-wrap: break-word;
+  ${device.tablet} {
+    width: 28vw;
+  }
+  ${device.mobile} {
+    width: 70vw;
+  }
+  ${device.miniMobile} {
+    width: 60vw;
+  }
 `;
 
 export const ReportBtn = styled.button`
