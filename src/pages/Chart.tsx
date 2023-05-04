@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import BarChart from "../features/chart/components/BarChart";
 import PieChart from "../features/chart/components/PieChart";
 import Flex from "../components/Flex";
@@ -6,7 +7,6 @@ import useChartData from "../features/chart/hooks/useChartData";
 import { scrollOnTop } from "../utils/scollOnTop";
 import MonthSelect from "../features/diary/components/MonthSelect";
 import { MdOutlineArrowDropDownCircle } from "react-icons/md";
-import { useState } from "react";
 import * as St from "../features/chart/styles/ChartPageStyle";
 import { today } from "../utils/today";
 import { DateType } from "../data/type/type";
@@ -16,8 +16,11 @@ import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 
 const Chart = () => {
-  scrollOnTop();
   const navigate = useNavigate();
+  useEffect(() => {
+    scrollOnTop();
+  }, []);
+
   const [select, setSelect] = useState<DateType>({
     year: today.year,
     month: today.month,

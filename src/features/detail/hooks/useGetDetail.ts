@@ -12,8 +12,9 @@ export const useGetDetail = (dailyId: number) => {
   const year = data?.data.data.year;
   const month = data?.data.data.month;
   const contents = data?.data.data.contents;
-  const targetItem = contents?.filter((item: DetailType) => item.id === dailyId)[0];
-  const otherItem = contents?.filter((item: DetailType) => item.id !== dailyId)[0];
+
+  const targetItem = contents?.find((item: DetailType) => item.id === dailyId);
+  const otherItem = contents?.find((item: DetailType) => item.id !== dailyId);
 
   return { targetItem, otherItem, isError, contents, year, month };
 };

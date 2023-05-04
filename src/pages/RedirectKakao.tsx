@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { keys } from "../data/queryKey/keys";
 import { HOME_PAGE } from "../data/routes/urls";
 import Loading from "../components/Loading";
-import Error from "../components/Error";
+import Error from "../components/ServerError";
 import user from "../lib/api/user";
 
 const RedirectKakao = () => {

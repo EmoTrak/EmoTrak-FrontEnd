@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { removeCookie } from "../../../utils/cookies";
+import { LOGIN_PAGE } from "../../../data/routes/urls";
 import { keys } from "../../../data/queryKey/keys";
 import user from "../../../lib/api/user";
+import { removeCookie } from "../../../utils/cookies";
 
 export const useWithdrawal = () => {
   const queryClient = useQueryClient();
@@ -18,7 +19,7 @@ export const useWithdrawal = () => {
       removeCookie("token", { path: "/" });
       removeCookie("refreshToken", { path: "/" });
       removeCookie("expire", { path: "/" });
-      navigate("/");
+      navigate(LOGIN_PAGE);
     },
   });
 
