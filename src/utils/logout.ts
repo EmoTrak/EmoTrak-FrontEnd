@@ -1,4 +1,4 @@
-import { removeCookie } from "../utils/cookies";
+import { removeCookie } from "./cookies";
 
 export const logout = () => {
   removeCookie("token", { path: "/" });

@@ -1,7 +1,7 @@
 // import { useNavigate } from "react-router-dom";
 import { getCookie, setCookie } from "./cookies";
 import user from "../lib/api/user";
-import { logout } from "../hooks/logout";
+import { logout } from "./logout";
 import { AxiosError } from "../data/type/type";
 
 export const errorHandler = (error: AxiosError) => {
