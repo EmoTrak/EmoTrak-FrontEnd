@@ -5,10 +5,14 @@ import { useReport } from "../hooks/useReport";
 import Button from "../../../components/Button";
 import * as UI from "../../../components/Modal";
 import * as St from "../styles/ReportStyle";
-import * as Sub from "../../../components/subModal";
+import * as Sub from "../../../components/SubModal";
 import Flex from "../../../components/Flex";
 
-const Report = ({ children, id, uri }: PropsWithChildren & Partial<UriType>) => {
+const Report = ({
+  children,
+  id,
+  uri,
+}: PropsWithChildren & Partial<UriType>) => {
   const { reason, changeInputHandler, mutate, status, reset } = useReport(uri);
 
   return (
