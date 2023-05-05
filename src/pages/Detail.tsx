@@ -16,22 +16,13 @@ import EmotionIcons from "../components/Icon/EmoticonIcons";
 import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 import * as St from "../features/detail/styles/DetailStyle";
 import { useSave } from "../features/detail/hooks/useSave";
-import { getCookie } from "../utils/cookies";
-import { useEffect } from "react";
 
 const Detail = () => {
   const params = useParams();
   const dailyId: number = Number(params.id);
   const navigate = useNavigate();
-  const refreshToken = getCookie("refreshToken");
 
   const { targetItem, otherItem, contents } = useGetDetail(dailyId);
-
-  // useEffect(() => {
-  //   if (!refreshToken) {
-  //     navigate("/");
-  //   }
-  // });
 
   const navigateEditHandler = () => {
     if (targetItem?.draw) {
@@ -41,10 +32,7 @@ const Detail = () => {
     }
   };
 
-  const { openDownload, downloadPicture, setOpenDownload } = useSave(
-    targetItem,
-    dailyId
-  );
+  const { openDownload, downloadPicture, setOpenDownload } = useSave(targetItem, dailyId);
   return (
     <St.Container>
       <St.BackWrap>
@@ -138,9 +126,7 @@ const Detail = () => {
             <Flex row>
               {targetItem?.share ? (
                 <St.SharedText
-                  onClick={() =>
-                    navigate(`${COMMUNITY_DETAIL}/${targetItem.id}`)
-                  }
+                  onClick={() => navigate(`${COMMUNITY_DETAIL}/${targetItem.id}`)}
                 >
                   {">>"}댓글보러 갈래요{"<<"}
                 </St.SharedText>

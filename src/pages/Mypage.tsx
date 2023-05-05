@@ -9,7 +9,7 @@ import { useNicknameValidation } from "../features/signup/hooks/useNicknameValid
 import { useChangePassword } from "../features/mypage/hooks/useChangePassword";
 import { useChangeNickname } from "../features/mypage/hooks/useChangeNickname";
 import { useWithdrawal } from "../features/mypage/hooks/useWithdrawal";
-import { logout } from "../hooks/logout";
+import { logout } from "../utils/logout";
 import Button from "../components/Button";
 import InputList from "../components/InputList";
 import * as St from "../features/mypage/styles/MypageStyle";
