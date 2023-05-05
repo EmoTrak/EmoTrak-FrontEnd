@@ -57,8 +57,7 @@ registerRoute(
 // precache, in this case same-origin .png requests like those from in public/
 registerRoute(
   // Add in any other file extensions or routing criteria as needed.
-  ({ url }) =>
-    url.origin === self.location.origin && url.pathname.endsWith(".webp"),
+  ({ url }) => url.origin === self.location.origin && url.pathname.endsWith(".webp"),
   // Customize this strategy as needed, e.g., by changing to CacheFirst.
   new StaleWhileRevalidate({
     cacheName: "images",
@@ -129,17 +128,17 @@ self.addEventListener("push", function (event: PushEvent) {
     // 사용자에게 알림 권한 요청
     Notification.requestPermission().then((permission) => {
       if (permission === "granted") {
-        console.log("알림 권한이 허용되었습니다.");
+        // console.log("알림 권한이 허용되었습니다.");
         // 알림 표시 코드를 여기에 추가
       } else {
-        console.log("알림 권한이 거부되었습니다.");
+        // console.log("알림 권한이 거부되었습니다.");
       }
     });
   } else if (Notification.permission === "granted") {
-    console.log("알림 권한이 이미 허용되어 있습니다.");
+    // console.log("알림 권한이 이미 허용되어 있습니다.");
     // 알림 표시 코드를 여기에 추가
   } else {
-    console.log("알림 권한이 거부되어 있습니다.");
+    // console.log("알림 권한이 거부되어 있습니다.");
   }
   event.waitUntil(
     self.clients.matchAll().then((clientList: readonly Client[]) => {
