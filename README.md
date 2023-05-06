@@ -1,5 +1,5 @@
 # EmoTrak - FrontEnd
-## ✨ 프로젝트 소개 🔮
+ ## ✨ 프로젝트 소개 🔮
 
 - 오늘 나의 기분은 어땠을까? 나의 감정을 털어놓을 곳 Emotion Tracking Diary, EmoTrak[이모트랙] 입니다.
 
