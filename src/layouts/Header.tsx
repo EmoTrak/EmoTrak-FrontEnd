@@ -14,7 +14,7 @@ import MobileMenubar from "./MobileMenubar";
 import * as St from "../layouts/LayoutStyle";
 import { useEffect, useState } from "react";
 import { RiInstallLine } from "react-icons/ri";
-import { logout } from "../hooks/logout";
+import { logout } from "../utils/logout";
 
 const Header = () => {
   const navigate = useNavigate();
