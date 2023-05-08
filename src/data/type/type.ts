@@ -195,7 +195,7 @@ export interface IPayload {
 export interface RouterProps extends PropsWithChildren {
   token: string;
   pathname: string;
-  isAdminAuthenticated?: string | boolean;
+  admin?: string;
   isAuthAdmin: boolean;
   isLogin: boolean;
   isPublic: boolean;

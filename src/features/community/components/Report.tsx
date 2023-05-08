@@ -10,7 +10,9 @@ import {
   SubModalContent,
   SubModalTrigger,
   SubModalroot,
-} from "../../../components/subModal";
+
+} from "../../../components/SubModal";
+
 
 const Report = ({ children, id, uri }: PropsWithChildren & Partial<UriType>) => {
   const { reason, changeInputHandler, mutate, status, reset } = useReport(uri);
