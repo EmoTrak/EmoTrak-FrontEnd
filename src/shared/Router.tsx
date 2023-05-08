@@ -210,8 +210,6 @@ const Router = () => {
           <Routes>
             {pages.map((page) => {
               const isAuthAdmin = page.isAuthAdmin;
-              const isAdminAuthenticated =
-                page.isAuthAdmin && payload?.auth && payload?.auth === "ADMIN";
 
               return (
                 <Route
@@ -221,7 +219,7 @@ const Router = () => {
                     <ProtectedRoute
                       token={token}
                       pathname={page.pathname}
-                      isAdminAuthenticated={isAdminAuthenticated}
+                      admin={payload?.auth}
                       isAuthAdmin={isAuthAdmin}
                       isLogin={page.isLogin}
                       isPublic={page.isPublic}
