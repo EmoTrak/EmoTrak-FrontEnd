@@ -5,7 +5,7 @@ import { RouterProps } from "../data/type/type";
 import { getCookie } from "../utils/cookies";
 
 export const ProtectedRoute = ({
-  isAdminAuthenticated,
+  admin,
   isAuthAdmin,
   children,
   isLogin,
@@ -17,11 +17,16 @@ export const ProtectedRoute = ({
   const pathname = location.pathname;
 
   useEffect(() => {
-    if (isAuthAdmin && !isAdminAuthenticated) {
+    if (isAuthAdmin && admin === "ADMIN") {
+      navigate(pathname);
+    } else if (isAuthAdmin && admin !== "ADMIN") {
       alert("권한이없습니다.");
       navigate(LOGIN_PAGE);
     } else if (isPublic) {
-      if ((refreshToken && pathname === LOGIN_PAGE) || pathname === SIGN_UP_PAGE) {
+      if (
+        refreshToken &&
+        (pathname === LOGIN_PAGE || pathname === SIGN_UP_PAGE)
+      ) {
         navigate(HOME_PAGE);
       } else {
         navigate(pathname);
@@ -30,12 +35,11 @@ export const ProtectedRoute = ({
       alert("로그인이 필요한 서비스 입니다.");
       navigate(LOGIN_PAGE);
     } else if (!isLogin && !refreshToken) {
-      alert("d");
       navigate(LOGIN_PAGE);
     }
 
     return () => {};
-  }, [refreshToken, pathname]);
+  }, [refreshToken, pathname, admin]);
 
   return <>{children}</>;
 };
