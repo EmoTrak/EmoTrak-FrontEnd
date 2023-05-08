@@ -17,6 +17,7 @@ export const ProtectedRoute = ({
   const pathname = location.pathname;
 
   useEffect(() => {
+
     if (isAuthAdmin && admin === "ADMIN") {
       navigate(pathname);
     } else if (isAuthAdmin && admin !== "ADMIN") {
@@ -27,6 +28,7 @@ export const ProtectedRoute = ({
         refreshToken &&
         (pathname === LOGIN_PAGE || pathname === SIGN_UP_PAGE)
       ) {
+
         navigate(HOME_PAGE);
       } else {
         navigate(pathname);
