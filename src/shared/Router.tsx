@@ -19,7 +19,10 @@ import RedirectNaver from "../pages/RedirectNaver";
 import RedirectGoogle from "../pages/RedirectGoogle";
 import Admin from "../pages/Admin";
 import ImageEdit from "../pages/ImageEdit";
-import Guide from "../pages/Guide";
+
+const Guide = lazy(
+  () => import(/* webpackChunkName: "guide" */ "../pages/Guide")
+);
 
 const AdminPost = lazy(
   () =>
