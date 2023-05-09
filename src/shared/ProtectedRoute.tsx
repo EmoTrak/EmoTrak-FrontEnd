@@ -1,11 +1,10 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { HOME_PAGE, LOGIN_PAGE, SIGN_UP_PAGE } from "../data/routes/urls";
-import { RouterProps } from "../data/type/type";
+import { IPayload, RouterProps } from "../data/type/type";
 import { getCookie } from "../utils/cookies";
 
 export const ProtectedRoute = ({
-  admin,
   isAuthAdmin,
   children,
   isLogin,
@@ -16,8 +15,19 @@ export const ProtectedRoute = ({
   const location = useLocation();
   const pathname = location.pathname;
 
-  useEffect(() => {
+  const token = getCookie("token");
+  let payloadJson;
+  let payload!: IPayload;
+  const payloadB64 = (token || "").split(".")[1];
+  if (atob && payloadB64) {
+    payloadJson = atob(payloadB64);
+  }
+  if (payloadJson) {
+    payload = JSON.parse(payloadJson);
+  }
+  const admin = payload?.auth;
 
+  useEffect(() => {
     if (isAuthAdmin && admin === "ADMIN") {
       navigate(pathname);
     } else if (isAuthAdmin && admin !== "ADMIN") {
@@ -28,7 +38,6 @@ export const ProtectedRoute = ({
         refreshToken &&
         (pathname === LOGIN_PAGE || pathname === SIGN_UP_PAGE)
       ) {
-
         navigate(HOME_PAGE);
       } else {
         navigate(pathname);
@@ -41,7 +50,7 @@ export const ProtectedRoute = ({
     }
 
     return () => {};
-  }, [refreshToken, pathname, admin]);
+  }, [refreshToken, pathname, token]);
 
   return <>{children}</>;
 };

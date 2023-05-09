@@ -1,7 +1,5 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { IPayload } from "../data/type/type";
-import { getCookie } from "../utils/cookies";
 import { ProtectedRoute } from "./ProtectedRoute";
 import Layout from "../layouts/Layout";
 import Loading from "../components/Loading";
@@ -53,16 +51,6 @@ const Home = lazy(
 );
 
 const Router = () => {
-  const token = getCookie("token");
-  let payloadJson;
-  let payload!: IPayload;
-  const payloadB64 = (token || "").split(".")[1];
-  if (atob && payloadB64) {
-    payloadJson = atob(payloadB64);
-  }
-  if (payloadJson) {
-    payload = JSON.parse(payloadJson);
-  }
   const pages = [
     {
       pathname: "/",
@@ -212,18 +200,14 @@ const Router = () => {
         <Suspense fallback={<Loading />}>
           <Routes>
             {pages.map((page) => {
-              const isAuthAdmin = page.isAuthAdmin;
-
               return (
                 <Route
                   key={page.pathname}
                   path={page.pathname}
                   element={
                     <ProtectedRoute
-                      token={token}
                       pathname={page.pathname}
-                      admin={payload?.auth}
-                      isAuthAdmin={isAuthAdmin}
+                      isAuthAdmin={page.isAuthAdmin}
                       isLogin={page.isLogin}
                       isPublic={page.isPublic}
                     >
