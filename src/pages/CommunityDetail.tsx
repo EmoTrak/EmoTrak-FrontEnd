@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { RiAlarmWarningFill } from "react-icons/ri";
 import { IoIosArrowBack } from "react-icons/io";
 import { CommentData } from "../data/type/type";
-import { DETAIL_PAGE } from "../data/routes/urls";
+import { COMMUNITY_PAGE, DETAIL_PAGE } from "../data/routes/urls";
 import { getCookie } from "../utils/cookies";
 import { themeColor } from "../utils/theme";
 import { scrollOnTop } from "../utils/scollOnTop";
@@ -35,7 +35,7 @@ const CommunityDetail = () => {
 
   return (
     <St.Container>
-      <BackOfPage onClick={() => navigate(-1)}>
+      <BackOfPage onClick={() => navigate(COMMUNITY_PAGE)}>
         <IoIosArrowBack />
       </BackOfPage>
       <St.ImageWrapper>
@@ -66,12 +66,7 @@ const CommunityDetail = () => {
                 i < data?.star ? (
                   <Star key={i} size="25px" color={themeColor.palette.yellow} />
                 ) : (
-                  <Star
-                    key={i}
-                    size="25px"
-                    color={themeColor.main.oatmeal}
-                    disabled
-                  />
+                  <Star key={i} size="25px" color={themeColor.main.oatmeal} disabled />
                 )
               )}
           </Flex>
@@ -83,11 +78,7 @@ const CommunityDetail = () => {
               {status === "success" && <PostDate date={data.date} />}
             </Flex>
             {status === "success" && (
-              <LikePost
-                isLike={data.hasLike}
-                id={data.id}
-                count={data.likesCnt}
-              />
+              <LikePost isLike={data.hasLike} id={data.id} count={data.likesCnt} />
             )}
           </Flex>
         </div>
@@ -100,9 +91,7 @@ const CommunityDetail = () => {
             </Report>
           )}
           {data?.hasAuth && (
-            <St.DiaryText
-              onClick={() => navigate(`${DETAIL_PAGE}/${data?.id}`)}
-            >
+            <St.DiaryText onClick={() => navigate(`${DETAIL_PAGE}/${data?.id}`)}>
               내 일기장 보러가기
             </St.DiaryText>
           )}
