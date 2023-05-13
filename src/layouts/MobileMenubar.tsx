@@ -3,7 +3,7 @@ import { BsCalendarHeart } from "react-icons/bs";
 import { VscGraph } from "react-icons/vsc";
 import { MdContentPaste } from "react-icons/md";
 import { BsPersonFillGear } from "react-icons/bs";
-import { RiInstallLine, RiLoginBoxLine } from "react-icons/ri";
+import { RiLoginBoxLine } from "react-icons/ri";
 import { GoThreeBars } from "react-icons/go";
 import {
   CHART_PAGE,
@@ -16,11 +16,7 @@ import { getCookie } from "../utils/cookies";
 import * as UI from "../components/Modal";
 import * as St from "../layouts/LayoutStyle";
 
-interface InstallProps {
-  action: () => void;
-}
-
-const MobileMenubar = ({ action }: InstallProps) => {
+const MobileMenubar = () => {
   const navigate = useNavigate();
   const refreshToken = getCookie("refreshToken");
 
@@ -64,10 +60,6 @@ const MobileMenubar = ({ action }: InstallProps) => {
                   <St.SelectButton onClick={() => navigate(COMMUNITY_PAGE)}>
                     <MdContentPaste />
                     <St.SelectText>공유</St.SelectText>
-                  </St.SelectButton>
-                  <St.SelectButton onClick={action}>
-                    <RiInstallLine />
-                    <St.SelectText>설치</St.SelectText>
                   </St.SelectButton>
                   <St.SelectButton onClick={() => navigate(LOGIN_PAGE)}>
                     <RiLoginBoxLine />
