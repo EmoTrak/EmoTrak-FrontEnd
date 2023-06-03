@@ -16,10 +16,7 @@ const Community = () => {
 
   const [listOpen, setListOpen] = useState<boolean>(false);
   const [postData, setPostData] = useState<ImageType[]>([]);
-  const { data, fetchNextPage, hasNextPage, isLoading } = useInfinite(
-    paramSort,
-    paramEmo
-  );
+  const { data, fetchNextPage, hasNextPage } = useInfinite(paramSort, paramEmo);
 
   const clickSortListButton = (string: string) => {
     if (emoNum) {
@@ -29,27 +26,33 @@ const Community = () => {
     }
   };
 
+  let throttle: NodeJS.Timeout | null;
   // 스크롤 위치가 바닥에 닿았을때 다음 페이지 정보를 불러오는 함수
   const onScroll = () => {
-    const { scrollTop, offsetHeight } = document.documentElement;
-    if (hasNextPage && window.innerHeight + scrollTop + 400 >= offsetHeight) {
-      fetchNextPage({ cancelRefetch: false });
-      saveScrollPosition();
+    if (!throttle) {
+      throttle = setTimeout(() => {
+        const { scrollTop, offsetHeight } = document.documentElement;
+        if (hasNextPage && window.innerHeight + scrollTop >= offsetHeight * 0.8) {
+          fetchNextPage();
+          saveScrollPosition();
+        }
+        saveScrollPosition();
+        throttle = null;
+      }, 300);
     }
-    saveScrollPosition();
   };
 
   // 스크롤 현재 위치를 저장
-  function saveScrollPosition() {
+  const saveScrollPosition = () => {
     if (document.scrollingElement) {
       sessionStorage.setItem(
         "scrollPosition",
         document.documentElement.scrollTop.toString()
       );
     }
-  }
+  };
   // 직전에 저장한 스크롤 위치가 있다면 그 위치로 이동
-  function restoreScrollPosition() {
+  const restoreScrollPosition = () => {
     const scrollPosition = sessionStorage.getItem("scrollPosition");
     if (scrollPosition) {
       setTimeout(() => {
@@ -57,7 +60,7 @@ const Community = () => {
       }, 70);
       sessionStorage.removeItem("scrollPosition");
     }
-  }
+  };
 
   useEffect(() => {
     if (data) {
@@ -74,6 +77,9 @@ const Community = () => {
     restoreScrollPosition();
     return () => {
       window.removeEventListener("scroll", onScroll);
+      if (throttle) {
+        clearTimeout(throttle);
+      }
     };
   }, [hasNextPage]);
 
@@ -88,10 +94,6 @@ const Community = () => {
       setSearchParams({ ...searchParams });
     }
   }, [emoNum]);
-
-  // if (isLoading) {
-  //   return <>로딩중..</>;
-  // }
 
   return (
     <St.Container>
