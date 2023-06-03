@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
-import LoginForm from "../../../features/login/components/LoginForm";
 import Calender from "../../../assets/tutorial/5_Calender.webp";
 import Canvas from "../../../assets/tutorial/5_Canvas.webp";
 import Graph_1 from "../../../assets/tutorial/5_Graph_1.webp";
 import Graph_2 from "../../../assets/tutorial/5_Graph_2.webp";
 import * as St from "../styles/LandingStyle";
 import Flex from "../../../components/Flex";
+import Login from "../../../pages/Login";
 
 const Landing = () => {
   const [index, setIndex] = useState<number>(0);
@@ -61,7 +61,7 @@ const Landing = () => {
               <IoIosArrowBack />
             </St.PrevBtn>
           )}
-          <Flex jc="center"ai="center" gap={40}>
+          <Flex jc="center" ai="center" gap={40}>
             <St.BannerImg src={images[index]} alt="landing image" />
             <St.LoginButton onClick={directLogin}>Skip</St.LoginButton>
           </Flex>
@@ -70,7 +70,7 @@ const Landing = () => {
           </St.NextBtn>
         </St.Banner>
       ) : (
-        <St.Banner index={index}>{index === 4 && <LoginForm />}</St.Banner>
+        <St.Banner index={index}>{index === 4 && <Login />}</St.Banner>
       )}
     </St.Slider>
   );

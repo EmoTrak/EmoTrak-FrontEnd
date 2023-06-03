@@ -6,24 +6,13 @@ import * as St from "../layouts/LayoutStyle";
 import Flex from "../components/Flex";
 
 const Footer = () => {
-  const nav = useNavigate();
-  const date = new Date();
+  const navigate = useNavigate();
 
   return (
     <St.Wrap>
       <St.Footer>
         <Flex row jc="center" ai="center">
           <div>
-            <a
-              href="https://forms.gle/aSwMDRszmgb2Mzbo7"
-              target="_blank"
-              rel="noreferrer"
-            >
-              만족도 조사
-            </a>
-          </div>
-          <div>
-            {" "}
             <a
               href="https://github.com/EmoTrak"
               target="_blank"
@@ -46,7 +35,7 @@ const Footer = () => {
         <div
           style={{ marginBottom: "15px", marginTop: "5px" }}
           onClick={() => {
-            nav(PRIVACY_POLICY);
+            navigate(PRIVACY_POLICY);
           }}
         >
           개인정보 처리방침 Privacy Policy
@@ -56,7 +45,7 @@ const Footer = () => {
           <div>윤지현(FE) 양인서(FE) 박승우(FE)</div>
           <div> 이 진(BE) 홍다정(BE) 서영석(BE) 박문주(BE)</div>
           이수정(DE)
-          <div>©{date.getFullYear()} TEAM EMOTRAK. ALL RIGHTS RESERVED</div>
+          <div>©2023 TEAM EMOTRAK. ALL RIGHTS RESERVED</div>
         </Flex>
       </St.Footer>
     </St.Wrap>

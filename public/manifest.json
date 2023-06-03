@@ -20,22 +20,5 @@
       "sizes": "512x512",
       "purpose": "any maskable"
     }
-  ],
-  "splash_pages": {
-    "generated": {
-      "name": "",
-      "short_name": "",
-      "background_color": "#ffffff",
-      "icons": [
-        {
-          "src": "/splash.webp",
-          "type": "image/webp"
-        }
-      ]
-    }
-  },
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  ]
 }

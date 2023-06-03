@@ -3,12 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { RiAlarmWarningFill } from "react-icons/ri";
 import { IoIosArrowBack } from "react-icons/io";
 import { CommentData } from "../data/type/type";
-import { DETAIL_PAGE } from "../data/routes/urls";
+import { COMMUNITY_PAGE, DETAIL_PAGE } from "../data/routes/urls";
 import { getCookie } from "../utils/cookies";
 import { themeColor } from "../utils/theme";
 import { scrollOnTop } from "../utils/scollOnTop";
 import { BackOfPage } from "../layouts/LayoutStyle";
-import { useMeta } from "../hooks/useMeta";
 import PageNation from "../components/PageNation";
 import Flex from "../components/Flex";
 import Star from "../components/Icon/Star";
@@ -27,22 +26,6 @@ const CommunityDetail = () => {
   const [page, setPage] = useState<number>(1);
   const { data, status, remove } = useAddCommunityDetail(page);
 
-  const { updateTitle, updateDescription, updateImage, defaultMeta } = useMeta();
-
-  const dataJSON = JSON.stringify(data);
-
-  useEffect(() => {
-    const title = `EmoTrak : Community`;
-    const image = `${data?.imgUrl}`;
-    const description = `${data?.detail}`;
-    updateTitle(title);
-    updateImage(image);
-    updateDescription(description);
-    return () => {
-      defaultMeta();
-    };
-  }, [dataJSON]);
-
   useEffect(() => {
     scrollOnTop();
     return () => {
@@ -52,7 +35,7 @@ const CommunityDetail = () => {
 
   return (
     <St.Container>
-      <BackOfPage onClick={() => navigate(-1)}>
+      <BackOfPage onClick={() => navigate(COMMUNITY_PAGE)}>
         <IoIosArrowBack />
       </BackOfPage>
       <St.ImageWrapper>

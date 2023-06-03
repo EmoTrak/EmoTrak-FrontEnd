@@ -1,9 +1,10 @@
 import { getCookie } from "../../utils/cookies";
-import { useError } from "../../hooks/useError";
+import { errorHandler } from "../../utils/error";
 import axios, { InternalAxiosRequestConfig } from "axios";
 
 const user = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
+  withCredentials: true,
 });
 
 user.interceptors.request.use(
@@ -12,6 +13,7 @@ user.interceptors.request.use(
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
+
     return config;
   },
   function (error) {
@@ -24,7 +26,7 @@ user.interceptors.response.use(
     return response;
   },
   function (error) {
-    useError(error);
+    errorHandler(error);
     return Promise.reject(error);
   }
 );

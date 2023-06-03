@@ -7,7 +7,7 @@ export const useChangePassword = () => {
       await user.patch(`/users/password`, { password });
     },
     onSuccess() {
-      alert("수정 완료");
+      alert("수정되었습니다.");
     },
   });
 

@@ -61,7 +61,7 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
           queryKey: [keys.GET_BOARD],
         });
         const newItemId = data.data.data.id;
-        queryClient.invalidateQueries([`${keys.GET_DETAIL}`, newItemId]);
+        queryClient.invalidateQueries([keys.GET_DETAIL, newItemId]);
         navigate(`/detail/${newItemId}`);
       },
     }
@@ -70,22 +70,17 @@ export const usePost = ({ inputValue, canvasRef }: PostInput) => {
   const submitDiaryHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData();
-    const dto = new Blob([JSON.stringify(inputValue)], {
+    const contents = new Blob([JSON.stringify(inputValue)], {
       type: "application/json",
     });
     if (picture) {
       formData.append("image", picture);
-      formData.append("contents", dto);
-
-      postDiary.mutate(formData);
     }
-
     if (photo) {
       formData.append("image", photo);
-      formData.append("contents", dto);
-
-      postDiary.mutate(formData);
     }
+    formData.append("contents", contents);
+    postDiary.mutate(formData);
   };
 
   return {

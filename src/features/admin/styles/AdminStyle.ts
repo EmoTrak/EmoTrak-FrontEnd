@@ -31,15 +31,3 @@ export const BackBtn = styled.button`
     background-color: ${themeColor.main.gray};
   }
 `;
-
-export const AdminBtn = styled.button`
-  margin-top: 10px;
-  border-radius: 5px;
-  border: 1px solid lightgray;
-  background-color: transparent;
-  height: 50px;
-  cursor: pointer;
-  &:hover {
-    background-color: ${themeColor.main.gray};
-  }
-`;

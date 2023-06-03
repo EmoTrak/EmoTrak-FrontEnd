@@ -5,8 +5,12 @@ import { useReport } from "../hooks/useReport";
 import Button from "../../../components/Button";
 import * as UI from "../../../components/Modal";
 import * as St from "../styles/ReportStyle";
-import * as Sub from "../../../components/subModal";
 import Flex from "../../../components/Flex";
+import {
+  SubModalContent,
+  SubModalTrigger,
+  SubModalroot,
+} from "../../../components/SubModal";
 
 const Report = ({ children, id, uri }: PropsWithChildren & Partial<UriType>) => {
   const { reason, changeInputHandler, mutate, status, reset } = useReport(uri);
@@ -27,7 +31,7 @@ const Report = ({ children, id, uri }: PropsWithChildren & Partial<UriType>) => 
               <IoMdClose />
             </UI.ModalClose>
           </St.CloseBtn>
-          <Sub.SubModalroot>
+          <SubModalroot>
             <St.Text>신고하기</St.Text>
             <St.ReportForm
               onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
@@ -40,10 +44,10 @@ const Report = ({ children, id, uri }: PropsWithChildren & Partial<UriType>) => 
                 onChange={changeInputHandler}
                 maxLength={255}
               />
-              <Sub.SubModalTrigger>
+              <SubModalTrigger>
                 <Button type="submit">신고</Button>
-              </Sub.SubModalTrigger>
-              <Sub.SubModalContent>
+              </SubModalTrigger>
+              <SubModalContent>
                 <St.Container style={{ top: 0 }}>
                   {status === "idle" ? (
                     <>
@@ -64,9 +68,9 @@ const Report = ({ children, id, uri }: PropsWithChildren & Partial<UriType>) => 
                     )
                   )}
                 </St.Container>
-              </Sub.SubModalContent>
+              </SubModalContent>
             </St.ReportForm>
-          </Sub.SubModalroot>
+          </SubModalroot>
         </St.Container>
       </UI.ModalContent>
     </UI.Modalroot>

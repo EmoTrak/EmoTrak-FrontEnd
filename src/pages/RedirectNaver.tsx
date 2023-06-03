@@ -1,11 +1,11 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import guest from "../lib/api/guest";
 import { useQuery } from "@tanstack/react-query";
 import { setCookie } from "../utils/cookies";
 import { keys } from "../data/queryKey/keys";
 import { HOME_PAGE } from "../data/routes/urls";
 import Loading from "../components/Loading";
-import Error from "../components/Error";
+import Error from "../components/ServerError";
+import user from "../lib/api/user";
 
 const RedirectNaver = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const RedirectNaver = () => {
   const authNaverCode = useQuery({
     queryKey: [keys.GET_NAVER_LOGIN],
     queryFn: async () => {
-      const data = await guest.get(
+      const data = await user.get(
         `/naver/callback?code=${code}&state=${state}`
       );
       return data;
@@ -28,9 +28,18 @@ const RedirectNaver = () => {
       const refresh = data.headers["refresh-token"];
       const expire = data.headers["access-token-expire-time"];
       const token = info[1];
-      setCookie("refreshToken", refresh, { path: "/", maxAge: 604800 });
-      setCookie("expire", expire, { path: "/", maxAge: 604800 });
-      setCookie("token", token, { path: "/", maxAge: 1740 });
+      setCookie("refreshToken", refresh, {
+        path: "/",
+        maxAge: 604800,
+      });
+      setCookie("expire", expire, {
+        path: "/",
+        maxAge: 604800,
+      });
+      setCookie("token", token, {
+        path: "/",
+        maxAge: 1740,
+      });
       navigate(HOME_PAGE);
     },
   });

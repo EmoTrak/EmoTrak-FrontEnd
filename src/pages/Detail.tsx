@@ -15,6 +15,7 @@ import Star from "../components/Icon/Star";
 import EmotionIcons from "../components/Icon/EmoticonIcons";
 import DeleteConfirmModal from "../features/detail/components/DeleteConfirmModal";
 import * as St from "../features/detail/styles/DetailStyle";
+import { useSave } from "../features/detail/hooks/useSave";
 
 const Detail = () => {
   const params = useParams();
@@ -26,12 +27,12 @@ const Detail = () => {
   const navigateEditHandler = () => {
     if (targetItem?.draw) {
       navigate(`${DRAW_EDIT_PAGE}/${targetItem?.id}`);
-    }
-    if (!targetItem?.draw) {
+    } else {
       navigate(`${IMAGE_EDIT_PAGE}/${targetItem?.id}`);
     }
   };
 
+  const { openDownload, downloadPicture, setOpenDownload } = useSave(targetItem, dailyId);
   return (
     <St.Container>
       <St.BackWrap>
@@ -46,6 +47,16 @@ const Detail = () => {
           ) : (
             <St.DefaultImage>이미지가 필요합니다</St.DefaultImage>
           )}
+          {targetItem?.draw && (
+            <Button
+              style={{ position: "absolute", bottom: "0" }}
+              size="small"
+              onClick={() => setOpenDownload(true)}
+            >
+              그림저장
+            </Button>
+          )}
+          {openDownload && downloadPicture()}
         </St.DetailImageBox>
       </St.CanvasWrap>
       <St.Wrapper>

@@ -1,8 +1,8 @@
 import { lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { getCookie } from "../utils/cookies";
-import { ProtectedRoute } from "./ProtectedRouter";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { IPayload } from "../data/type/type";
+import { getCookie } from "../utils/cookies";
+import { ProtectedRoute } from "./ProtectedRoute";
 import Layout from "../layouts/Layout";
 import Loading from "../components/Loading";
 import * as PAGE from "../data/routes/urls";
@@ -19,6 +19,10 @@ import RedirectNaver from "../pages/RedirectNaver";
 import RedirectGoogle from "../pages/RedirectGoogle";
 import Admin from "../pages/Admin";
 import ImageEdit from "../pages/ImageEdit";
+
+const Guide = lazy(
+  () => import(/* webpackChunkName: "guide" */ "../pages/Guide")
+);
 
 const AdminPost = lazy(
   () =>
@@ -50,7 +54,6 @@ const Home = lazy(
 
 const Router = () => {
   const token = getCookie("token");
-  const refreshToken = getCookie("refreshToken");
   let payloadJson;
   let payload!: IPayload;
   const payloadB64 = (token || "").split(".")[1];
@@ -63,6 +66,13 @@ const Router = () => {
   const pages = [
     {
       pathname: "/",
+      element: <Guide />,
+      isPublic: true,
+      isLogin: false,
+      isAuthAdmin: false,
+    },
+    {
+      pathname: PAGE.LOGIN_PAGE,
       element: <Login />,
       isPublic: true,
       isLogin: false,
@@ -142,14 +152,14 @@ const Router = () => {
       pathname: PAGE.COMMUNITY_PAGE,
       element: <Community />,
       isPublic: true,
-      isLogin: true,
+      isLogin: false,
       isAuthAdmin: false,
     },
     {
       pathname: `${PAGE.COMMUNITY_DETAIL}/:id`,
       element: <CommunityDetail />,
       isPublic: true,
-      isLogin: true,
+      isLogin: false,
       isAuthAdmin: false,
     },
     {
@@ -202,18 +212,7 @@ const Router = () => {
         <Suspense fallback={<Loading />}>
           <Routes>
             {pages.map((page) => {
-              const isAuthenticated = page.isPublic || refreshToken;
               const isAuthAdmin = page.isAuthAdmin;
-
-              const isAdminAuthenticated =
-                page.isAuthAdmin === true &&
-                payload?.auth !== undefined &&
-                payload?.auth === "ADMIN";
-
-              const AlreadyLogin =
-                page.isPublic === true &&
-                page.isLogin === false &&
-                page.isAuthAdmin === false;
 
               return (
                 <Route
@@ -222,12 +221,11 @@ const Router = () => {
                   element={
                     <ProtectedRoute
                       token={token}
-                      refreshToken={refreshToken}
                       pathname={page.pathname}
-                      isAuthenticated={isAuthenticated}
-                      isAdminAuthenticated={isAdminAuthenticated}
+                      admin={payload?.auth}
                       isAuthAdmin={isAuthAdmin}
-                      AlreadyLogin={AlreadyLogin}
+                      isLogin={page.isLogin}
+                      isPublic={page.isPublic}
                     >
                       {page.element}
                     </ProtectedRoute>
@@ -235,17 +233,12 @@ const Router = () => {
                 />
               );
             })}
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </Suspense>
       </Layout>
     </BrowserRouter>
   );
 };
-
-function delayForDemo(promise: Promise<{ default: React.ComponentType<any> }>) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, 2000);
-  }).then(() => promise);
-}
 
 export default Router;

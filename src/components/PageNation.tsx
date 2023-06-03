@@ -1,9 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { themeColor } from "../utils/theme";
 import styled from "styled-components";
 import * as Icon from "react-icons/md";
-import { themeColor } from "../utils/theme";
 
-const PageNation = (props: any) => {
+interface IPageNation {
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  totalCount: number;
+  size: number;
+}
+
+const PageNation = (props: IPageNation) => {
   const { page, setPage, totalCount, size } = props;
 
   const [pageArr, setPageArr] = useState([1, 2, 3, 4, 5]);
@@ -17,53 +24,55 @@ const PageNation = (props: any) => {
     } else if (page === 1 || page === 2) {
       setPageArr([1, 2, 3, 4, 5]);
     } else if (page === lastPage - 1 || page === lastPage) {
-      setPageArr([lastPage - 4, lastPage - 3, lastPage - 2, lastPage - 1, lastPage]);
+      setPageArr([
+        lastPage - 4,
+        lastPage - 3,
+        lastPage - 2,
+        lastPage - 1,
+        lastPage,
+      ]);
     } else {
       setPageArr([page - 2, page - 1, page, page + 1, page + 2]);
     }
   }, [page]);
 
   return (
-    <>
-      <Container>
-        {page !== 1 && page !== 2 && page !== 3 && (
+    <Container>
+      {page !== 1 && page !== 2 && page !== 3 && (
+        <>
+          <ArrowBtn onClick={() => setPage(1)}>
+            <Icon.MdKeyboardDoubleArrowLeft />
+          </ArrowBtn>
+          <ArrowBtn onClick={() => setPage(page - 1)}>
+            <Icon.MdKeyboardArrowLeft />
+          </ArrowBtn>
+        </>
+      )}
+      {lastPage !== 1 &&
+        pageArr.map((item) => (
+          <PageBtn
+            onClick={() => setPage(item)}
+            key={item}
+            currentPage={item === page}
+            disabled={item === page}
+          >
+            {item}
+          </PageBtn>
+        ))}
+      {lastPage > 5 &&
+        page !== lastPage &&
+        page !== lastPage - 1 &&
+        page !== lastPage - 2 && (
           <>
-            <ArrowBtn onClick={() => setPage(1)}>
-              <Icon.MdKeyboardDoubleArrowLeft />
+            <ArrowBtn onClick={() => setPage(page + 1)}>
+              <Icon.MdKeyboardArrowRight />
             </ArrowBtn>
-            <ArrowBtn onClick={() => setPage(page - 1)}>
-              <Icon.MdKeyboardArrowLeft />
+            <ArrowBtn onClick={() => setPage(lastPage)}>
+              <Icon.MdKeyboardDoubleArrowRight />
             </ArrowBtn>
           </>
         )}
-
-        {/* 마지막 페이지가 1이 아닐때 페이지 수를 보여주는 로직 */}
-        {lastPage !== 1 &&
-          pageArr.map((item) => (
-            <PageBtn
-              onClick={() => setPage(item)}
-              key={item}
-              currentPage={item === page}
-              disabled={item === page}
-            >
-              {item}
-            </PageBtn>
-          ))}
-        {lastPage > 5 &&
-          page !== lastPage &&
-          page !== lastPage - 1 &&
-          page !== lastPage - 2 && (
-            <>
-              <ArrowBtn onClick={() => setPage(page + 1)}>
-                <Icon.MdKeyboardArrowRight />
-              </ArrowBtn>
-              <ArrowBtn onClick={() => setPage(lastPage)}>
-                <Icon.MdKeyboardDoubleArrowRight />
-              </ArrowBtn>
-            </>
-          )}
-      </Container>
-    </>
+    </Container>
   );
 };
 const Container = styled.div`
@@ -88,7 +97,8 @@ const PageBtn = styled.button<{ currentPage: boolean }>`
     props.currentPage ? themeColor.main.black : themeColor.main.black};
   font-weight: ${(props) => props.currentPage && 800};
   &:hover {
-    background-color: ${(props) => !props.currentPage && themeColor.main.coffemilk};
+    background-color: ${(props) =>
+      !props.currentPage && themeColor.main.coffemilk};
     color: ${(props) => !props.currentPage && themeColor.main.white};
     font-weight: 800;
   }

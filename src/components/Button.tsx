@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import { themeColor } from "../utils/theme";
 import { ButtonProps } from "../data/type/type";
+import Flex from "./Flex";
 
 const Button = ({
   children,
@@ -12,9 +13,9 @@ const Button = ({
   return (
     <StButton size={size} icon={icon} important={important} {...restProps}>
       {icon ? (
-        <ButtonInner>
+        <Flex jc="center" ai="center" gap={7}>
           <>{children}</>
-        </ButtonInner>
+        </Flex>
       ) : (
         <>{children}</>
       )}
@@ -86,15 +87,6 @@ const StButton = styled.button<ButtonProps>`
     font-weight: 800;
     text-shadow: 0.5px 0.5px 0.5px grey;
   }
-`;
-
-const ButtonInner = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  border: none;
-  background: transparent;
 `;
 
 export default Button;
