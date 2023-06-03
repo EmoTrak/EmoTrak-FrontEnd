@@ -26,33 +26,33 @@ const Community = () => {
     }
   };
 
+  let throttle: NodeJS.Timeout | null;
   // 스크롤 위치가 바닥에 닿았을때 다음 페이지 정보를 불러오는 함수
   const onScroll = () => {
-    let throttle;
-
-    if (throttle) return;
-    throttle = setTimeout(() => {
-      const { scrollTop, offsetHeight } = document.documentElement;
-      if (hasNextPage && window.innerHeight + scrollTop + 400 >= offsetHeight) {
-        fetchNextPage({ cancelRefetch: false });
+    if (!throttle) {
+      throttle = setTimeout(() => {
+        const { scrollTop, offsetHeight } = document.documentElement;
+        if (hasNextPage && window.innerHeight + scrollTop >= offsetHeight * 0.8) {
+          fetchNextPage();
+          saveScrollPosition();
+        }
         saveScrollPosition();
-      }
-      saveScrollPosition();
-      throttle = false;
-    }, 300);
+        throttle = null;
+      }, 300);
+    }
   };
 
   // 스크롤 현재 위치를 저장
-  function saveScrollPosition() {
+  const saveScrollPosition = () => {
     if (document.scrollingElement) {
       sessionStorage.setItem(
         "scrollPosition",
         document.documentElement.scrollTop.toString()
       );
     }
-  }
+  };
   // 직전에 저장한 스크롤 위치가 있다면 그 위치로 이동
-  function restoreScrollPosition() {
+  const restoreScrollPosition = () => {
     const scrollPosition = sessionStorage.getItem("scrollPosition");
     if (scrollPosition) {
       setTimeout(() => {
@@ -60,7 +60,7 @@ const Community = () => {
       }, 70);
       sessionStorage.removeItem("scrollPosition");
     }
-  }
+  };
 
   useEffect(() => {
     if (data) {
@@ -77,6 +77,9 @@ const Community = () => {
     restoreScrollPosition();
     return () => {
       window.removeEventListener("scroll", onScroll);
+      if (throttle) {
+        clearTimeout(throttle);
+      }
     };
   }, [hasNextPage]);
 
