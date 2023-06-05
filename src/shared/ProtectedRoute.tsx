@@ -23,13 +23,8 @@ export const ProtectedRoute = ({
       alert("권한이없습니다.");
       navigate(LOGIN_PAGE);
     } else if (isPublic) {
-      if (
-        refreshToken &&
-        (pathname === LOGIN_PAGE || pathname === SIGN_UP_PAGE)
-      ) {
+      if (refreshToken && (pathname === LOGIN_PAGE || pathname === SIGN_UP_PAGE)) {
         navigate(HOME_PAGE);
-      } else {
-        navigate(pathname);
       }
     } else if (isLogin && !refreshToken) {
       alert("로그인이 필요한 서비스 입니다.");
